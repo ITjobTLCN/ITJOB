@@ -1,0 +1,11 @@
+/* login page */
+.box-login {
+	/* border: 5px solid red; */
+	background-color: #fff;
+	border-radius: 5px; 
+}
+
+/* User page */
+.error {
+	color: #90001B;
+}
