@@ -3,7 +3,7 @@
 		<div class="wrapper">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu123">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu123">
 						<span class="sr-only">Toggle navigation</span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
@@ -12,18 +12,18 @@
 					<a class="logo" href="#"><img src="assets/img/logo.png" class="logo" alt="" titl=""/></a>
 					<a href="#" class="hamburger"></a>
 				</div>
-				<div class="collapse navbar-collapse" id="menu123">
+				<div class="collapse navbar-collapse menu123" id="menu-info">
 					<ul id="menu-header" class="nav navbar-nav navbar-right">
 						<li><a href="#">All Jobs</a></li>
 						<li><a href="{{route('companies')}}">Company Reviews</a></li>
 						<li><a href="#">Post Job</a></li>
 						@if(Auth::check())
-						<li class="dropdown dropdown-user">
-							<a href="{{route('login')}}" class="login_btn dropdown-toggle" data-toggle="dropdown">{{Auth::user()->name}} <span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">My Account</a></li>
-								<li><a href="#">Apply Jobs</a></li>
-								<li><a href="#">Log out</a></li>
+						<li>
+							<a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar"><img class="user-avatar" src="https://graph.facebook.com/v2.3/963134213828239/picture?" alt="Picture?"></div></a> 
+							<ul class="sub-menu-info">
+								<li><a href="{{route('profile')}}"><i class="fa fa-user" aria-hidden="true"></i>  My Account</a></li>
+								<li><a href="#"><i class="fa fa-check-square-o" aria-hidden="true" style="color: green;"></i>  Apply Jobs</a></li>
+								<li><a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i>  Log out</a></li>
 							</ul>
 						</li>
 						@else
@@ -32,6 +32,7 @@
 						<li><a href="{{route('lienhe')}}">Contact</a></li>
 					</ul>
 				</div>
+				<div class="clearfix"></div>
 			</div>
 		</div>
 	</nav>

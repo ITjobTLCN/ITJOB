@@ -56,10 +56,20 @@ Route::get('dang-xuat',[
 	'as'=>'logout',
 	'uses'=>'UsersController@logout'
 ]);
-//city
-Route::get('listcity',[
-	'as'=>'listcity',
-	'uses'=>'PageController@getListCity'
+//profile candidate
+Route::get('profile',[
+	'as'=>'profile',
+	'uses'=>'PageController@getProfile'
+]);
+//add
+Route::post('add',[
+	'as'=>'add',
+	'uses'=>'PageController@editEmail'
+]);
+//editProfile
+Route::post('editProfile',[
+	'as'=>'editProfile',
+	'uses'=>'PageController@editProfile'
 ]);
 
 

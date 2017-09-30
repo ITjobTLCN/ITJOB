@@ -50,124 +50,126 @@ ITJob - Top Job IT For You
 </div>
 @stop
 @section('body.content')
-<section class="listings">
-	<div class="wrapper">
-		<h1>Top Employees</h1>
-		<ul class="properties_list">
-			<li>
-				<a href="#">
-					<img src="assets/img/property_1.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$2500</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#" >Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>4 Jobs - <span class="address-companies">Ho Chi Minh</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_2.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$1000</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_3.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$500</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_1.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$2500</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_2.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$1000</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_3.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$500</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_1.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$2500</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_2.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$1000</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
-				</div>
-			</li>
-			<li>
-				<a href="#">
-					<img src="assets/img/property_3.jpg" alt="" title="" class="property_img"/>
-				</a>
-				<span class="price">$500</span>
-				<div class="property_details text-center">
-					<h1>
-						<a href="#">Fuisque dictum tortor at purus libero</a>
-					</h1>
-					<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
-				</div>
-			</li>
-		</ul>
-		<div class="more_listing">
-			<a href="#" class="more_listing_btn">View More Listings</a>
+<div class="container">
+	<section class="listings">
+		<div class="wrapper">
+			<h1>Top Employees</h1>
+			<ul class="properties_list">
+				<li>
+					<a href="#">
+						<img src="assets/img/property_1.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$2500</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#" >Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>4 Jobs - <span class="address-companies">Ho Chi Minh</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_2.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$1000</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_3.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$500</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_1.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$2500</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_2.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$1000</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_3.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$500</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_1.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$2500</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_2.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$1000</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>4 Jobs - <span class="address-conpanies">Ho Chi Minh</span></h2>
+					</div>
+				</li>
+				<li>
+					<a href="#">
+						<img src="assets/img/property_3.jpg" alt="" title="" class="property_img"/>
+					</a>
+					<span class="price">$500</span>
+					<div class="property_details text-center">
+						<h1>
+							<a href="#">Fuisque dictum tortor at purus libero</a>
+						</h1>
+						<h2>2 kitchens, 2 bed, 2 bath... <span class="property_size">(288ftsq)</span></h2>
+					</div>
+				</li>
+			</ul>
+			<div class="more_listing">
+				<a href="#" class="more_listing_btn">View More Listings</a>
+			</div>
 		</div>
-	</div>
-</section>	<!--  end listing section  -->
+	</section>	<!--  end listing section  -->
+</div>
 @stop
 @section('footer.js')
 <script src="assets/controller/UsersController.js"></script>

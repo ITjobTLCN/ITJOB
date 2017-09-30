@@ -26,6 +26,20 @@ class TableUsersSeeder extends Seeder
                 'role_id'=>1,
                 'created_at'=>new DateTime()
         	],
+            [
+                'name'=>'kelvin',
+                'email'=>'tranthanhphong1608@gmail.com',
+                'password'=>bcrypt('123456'),
+                'role_id'=>2,
+                'created_at'=>new DateTime()
+            ],
+            [
+                'name'=>'phong',
+                'email'=>'company@gmail.com',
+                'password'=>bcrypt('123456'),
+                'role_id'=>3,
+                'created_at'=>new DateTime()
+            ],
         ]);
     }
 }

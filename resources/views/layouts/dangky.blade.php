@@ -3,6 +3,7 @@
 Đăng ký tài khoản	
 @stop
 @section('body.content')
+<div class="container">
 <div class="wrapper">
 	<div class="form-login well well-lg">
 		<div class="row">
@@ -40,5 +41,6 @@
 		<div class="col-md-3"></div>
 		</div>
 	</div>
+</div>
 </div>
 @stop

@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Users;
 use Auth;
+use Illuminate\Support\MessageBag;
 class UsersController extends Controller
 {
-	public function _construct()
+	 public function _construct()
     {
     	$this->middleware('auth');
     }
@@ -30,7 +31,17 @@ class UsersController extends Controller
   		$password=$req->password;
 
   		if(Auth::attempt(['email'=>$email,'password'=>$password])){
-  			return redirect()->intended('admin/index');
-  		}
+        $role_id=Auth::user()->role_id;
+        if($role_id==1){
+  			 return redirect()->intended('admin/index');
+        }else if($role_id==2){
+            return redirect()->route('/');
+        }else{
+
+        }
+  		}else{
+        $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không']); 
+        return redirect()->back()->withInput()->withErrors($errors);
+      }
     }
 }

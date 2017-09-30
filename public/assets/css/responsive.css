@@ -10,13 +10,14 @@
     
 
     */
-a{
-    color: #000;
-}
-a:hover{
-    text-decoration: none;
-    color: #000;
-}
+    a{
+        color: #000;
+        font-size: 15px;
+    }
+    a:hover{
+        text-decoration: none;
+        color: #000;
+    }
     /*  Fonts  */
     @font-face {
         font-family: 'lato-bold';
@@ -49,10 +50,6 @@ a:hover{
         url('../fonts/p22_corinthia.svg#P22Corinthia') format('svg');
         font-weight: normal;
         font-style: normal;
-    }
-
-    .text-center{
-        text-align: center;
     }
     /*  General CSS  */
     body{
@@ -89,7 +86,10 @@ a:hover{
     .clearfix {  
         *zoom: 1;  
     }
-
+#error{
+    margin-top: 10px;
+    color: red;
+}
     /*  Header Section  */
 
     header{
@@ -179,81 +179,144 @@ a:hover{
         background: #9cb2d6;
         color: #1c3655;
     }
-   li.dropdown-user:hover a{
-    color: #000 !important;
-   }
-   li.dropdown-user ul{
-    margin-top: 5px !important;
-   }
-.dropdown-user >ul>li:hover a{
-    color: #fff !important;
-    background-color: #f0101a !important;
+
+  #menu-info ul
+  {
+      list-style:none;
+  }
+  #menu-info ul li
+  {
+     /* float:left;*/
+      position:relative;
+  }
+  #menu-info ul li a
+  {
+      display:block;
+      white-space:pre;
+      font-size: 16px
+  }
+  #menu-info ul>li>ul>li{
+    border-bottom: 1px solid #9b9ea0;
+  }
+  #menu-info ul>li>ul>li>a{
+    padding: 10px 20px;
+    color: #000;
+  }
+  #menu-info ul>li>ul>li>a:hover{
+    background: #fff;
+    color: #000;
+    border-top:none;
+  }
+  #menu-info ul>li>a:hover
+  {
+      color:#000;
+      border-top: 1px #f0101a solid;
+  }
+  .sub-menu-info {
+    width: 180px;
+    top: 100%;
+    left:0;
+    z-index:1000;
+    display: none;
+    position: absolute;
+    background: #221F25;
 }
-    .search-group ul>li{
-        list-style: none;
-    }
-    .search-group ul>li input{
-        width: 100%;
-    }
-    /*  Hero Section  */
-
-    .hero{
-        width: 100%;
-        height: 400px;
-        position: relative;
-        background: url('../img/background.jpg') no-repeat;
-        background-size: cover;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-    }
-
-    .hero .caption{
-        width: 100%;
+/*avatar user*/
+.sign-in-user-avatar{
+    height: 100%;
+    display: inline-block;
+    width: 50px;
+    margin-top: -45px;
+    margin-bottom: -20px;
+}
+.sign-in-user-avatar .user-avatar{
         position: absolute;
-        top: 50%;
-        margin-top: -105px;
-        z-index: 10;
-    }
+    margin-top: -40px;
+    margin-left: 10px;
+        display: inline-block;
+    border-radius: 100%;
+    -webkit-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    max-height: 40px;
+    max-width: 30px;
+}
+div#menu-info ul li:hover .sub-menu-info
+{
+  display:block;
+}
+#menu-info li {
+ position: relative;
+}
+#menu-info ul ul li
+{
+  float:none;
+  border-right:none;
+}
+.search-group ul>li{
+    list-style: none;
+}
+.search-group ul>li input{
+    width: 100%;
+}
+/*  Hero Section  */
 
-    .hero .caption h2{
-        color: #fff;
-        font-size: 20px;
-        font-weight: lighter;
-        position: relative;
-        display: block;
-        margin-left: 15px;
-    }
+.hero{
+    width: 100%;
+    height: 400px;
+    position: relative;
+    background: url('../img/background.jpg') no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
 
-    .hero .caption h3{
-        color: #fff;
-        font-family: "lato-regular", Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        margin: -15px 0 0 25px;
-        left: 1px;
-    }
-    .hero .main-menu {
-        width: 100%;
-        position: absolute;
-        top: 75%;
-        z-index: 10;
-    }
-    .main-menu nav>ul>li{
-        float: left;
-        padding: 7px 12px;
-    }
-    .main-menu nav>ul>li:hover{
-        background: #fff;
-        transition: 0.3s;
-    }
-    .main-menu nav>ul>li>a{
-        font-size: 16px;
-        color: #fff;
-    }
-    .main-menu nav>ul>li:hover a{
-        color: #000;
-        text-decoration: none;
-    }
+.hero .caption{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    margin-top: -105px;
+    z-index: 10;
+}
+
+.hero .caption h2{
+    color: #fff;
+    font-size: 20px;
+    font-weight: lighter;
+    position: relative;
+    display: block;
+    margin-left: 15px;
+}
+
+.hero .caption h3{
+    color: #fff;
+    font-family: "lato-regular", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    margin: -15px 0 0 25px;
+    left: 1px;
+}
+.hero .main-menu {
+    width: 100%;
+    position: absolute;
+    top: 75%;
+    z-index: 10;
+}
+.main-menu nav>ul>li{
+    float: left;
+    padding: 7px 12px;
+}
+.main-menu nav>ul>li:hover{
+    background: #fff;
+    transition: 0.3s;
+}
+.main-menu nav>ul>li>a{
+    font-size: 16px;
+    color: #fff;
+}
+.main-menu nav>ul>li:hover a{
+    color: #000;
+    text-decoration: none;
+}
 
 
 
@@ -265,49 +328,49 @@ a:hover{
 
 
 
-    /*  Search Section  */
-    .search{
-        width: 100%;
-        height: 100px;
-        background: #bfd9f2;
-        position: relative;
-    }
+/*  Search Section  */
+.search{
+    width: 100%;
+    height: 100px;
+    background: #bfd9f2;
+    position: relative;
+}
 
-    .search #search{
-        display: block;
-        width: 90.90909090909091%;
-        height: 100px;
-        float: left;
-        border: 0;
-        outline: none;
-        margin: 0;
-        padding: 0;
-        background: #bfd9f2;
-        color: #ffffff;
-        font-family: "lato-regular", Helvetica, Arial, sans-serif;
-        font-size: 20px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        line-height: 22px;
-    }
+.search #search{
+    display: block;
+    width: 90.90909090909091%;
+    height: 100px;
+    float: left;
+    border: 0;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    background: #bfd9f2;
+    color: #ffffff;
+    font-family: "lato-regular", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 22px;
+}
 
-    .search #search::-webkit-input-placeholder{
-     color: #95badf;
- }
+.search #search::-webkit-input-placeholder{
+ color: #95badf;
+}
 
- .search #search:-moz-placeholder{ 
-     color: #95badf;  
- }
+.search #search:-moz-placeholder{ 
+ color: #95badf;  
+}
 
- .search #search::-moz-placeholder{ 
-     color: #95badf;  
- }
+.search #search::-moz-placeholder{ 
+ color: #95badf;  
+}
 
- .search #search:-ms-input-placeholder{  
-     color: #95badf;  
- } 
+.search #search:-ms-input-placeholder{  
+ color: #95badf;  
+} 
 
- .search #submit_search{
+.search #submit_search{
     display: none;
 }
 
@@ -854,7 +917,7 @@ footer .copyrights a.ph_link{
     font-weight: 500
 }
 .login_content h4{
-        margin-top: 10px;
+    margin-top: 10px;
     margin-bottom: 15px;
 }
 .login_content .btn-login{
@@ -872,9 +935,30 @@ footer .copyrights a.ph_link{
 
 
 
+/*contact page*/
 
+/*profile page*/
+.breadcrumb{
+    float: right;
+    background-color: #e9e9e9;
+    border-radius: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.breadcrumb li  a:hover{
+    color: #f0101a;
 
-
+}
+.avatar_profile img{
+    border-radius: 100%;
+    width: 300px;
+}
+.title-profile h2{
+    font-size: 40px;
+}
+.wrapper-profile{
+    padding-bottom: 30px;
+}
 /*  responsive css */
 
 
@@ -1023,7 +1107,14 @@ footer .copyrights a.ph_link{
     header nav ul li:last-child{
         border: 0;
     }
-
+    .sub-menu-info{
+        position: relative !important;
+        z-index: 100 !important;
+    }
+    .navbar-default .navbar-collapse, .navbar-default .navbar-form{
+        position: relative !important;
+        z-index: 10 !important;
+    }
     .listings ul.properties_list li{
         width: 46.36363636363636%;
         margin: 0 7.272727272727273% 7.272727272727273% 0;
@@ -1108,6 +1199,9 @@ footer .copyrights a.ph_link{
     .search-widget{
         margin: 20px auto 20px;
     }
+    .navbar-collapse{
+        padding-right: 0px !important;
+    }
 }
 
 
@@ -1122,7 +1216,9 @@ footer .copyrights a.ph_link{
     .hero .caption h3{
         font-size: 16px;
     }
-
+.navbar-collapse{
+        padding-right: 0px !important;
+    }
     .search #search{
         width: 83%;
     }

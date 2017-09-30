@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use DB;
 use App\Cities;
 class PageController extends Controller
 {
@@ -23,5 +24,20 @@ class PageController extends Controller
     {
         $table=Cities::get();
         return $table;
+    }
+    public function getProfile()
+    {
+        return view('layouts.profile');
+    }
+    public function editEmail(Request $req)
+    {
+        $user=new User();
+        $user=User::where('id',$req->id)->update(['email'=>$req->newEmail]);
+        return "them thanh cong";
+    }
+    public function editProfile(Request $req)
+    {
+        $user=new User();
+        $user=User::where('id',$req->id)->update(['name'=>$req->name,'describe'=>$req->desc]);
     }
 }

@@ -3,6 +3,7 @@
 Đăng nhập
 @stop
 @section('body.content')
+<div class="container">
 <div class="wrapper">
 	<div class="form-login well well-lg">
 		<div class="row">
@@ -22,18 +23,31 @@
 			<hr>
 			<div class="login_content text-center">
 				<h4>Đăng nhập bằng tài khoản ITJob</h4>
+				@if($errors->has('errorLogin'))
+				<div class="alert alert-danger">
+					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					{{$errors->first('errorLogin')}}
+				</div>
+				@endif
 				<form action="{{route('login')}}" method="POST" role="form" name="frmLogin">
 					<div class="form-group">
 						<input type="email" class="form-control" name="email" id="" placeholder="Email" ng-model="email" required>
-						<span ng-show="frmLogin.email.$error.required">Vui lòng nhập email</span>
-						<span ng-show="frmLogin.email.$error.email">Email không đúng định dạng</span>
+						<div id="error">
+							<span style="color:red" ng-cloak ng-show="(frmLogin.email.$dirty && frmLogin.email.$invalid)">
+								<span ng-show="frmLogin.email.$error.required">Please enter a email.</span>
+								<span ng-show="frmLogin.email.$error.email">Please enter a valid email address.</span>
+							</span>
+						</div>
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" name="password" id="" placeholder="Password" ng-model="password" ng-required="true" minlength="6" max="10">
-						<span ng-show="frmLogin.password.$error.max">lon qua</span>
-						<span ng-show="frmLogin.password.$error.required">Vui lòng nhập password</span>
-						
-						<span ng-show="frmLogin.password.$error.minlength">nho qua</span>
+						<input type="password" class="form-control" name="password" id="" placeholder="Password" ng-model="password" ng-required="true" minlength="6" max="30">
+						<div id="error">
+							<span style="color:red" ng-cloak ng-show="(frmLogin.password.$dirty && frmLogin.password.$invalid)">
+								<span ng-show="frmLogin.password.$error.minlength">Your password must be at least 6 characters long.</span>
+								<span ng-show="frmLogin.password.$error.required">Please enter a password.</span>
+								<span ng-show="frmLogin.password.$error.max">Your password must not greater than 30 characters long.</span>
+							</span>
+						</div>
 					</div>
 					<button type="submit" class="btn btn-primary btn-login" ng-disabled="frmLogin.$invalid">Đăng nhập</button>
 					{{ csrf_field() }}
@@ -47,6 +61,7 @@
 		<div class="col-md-3"></div>
 		</div>
 	</div>
+</div>
 </div>
 @stop
 @section('footer.js')

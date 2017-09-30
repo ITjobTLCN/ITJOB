@@ -22,7 +22,6 @@ class checkAdmin
         if(Auth::check() && Auth::user()->role_id==1){
             return $next($request);
         } 
-
         return redirect()->guest('dang-nhap');
     }
 }

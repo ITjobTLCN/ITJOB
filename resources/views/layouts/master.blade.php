@@ -17,15 +17,16 @@
 	      width: 100%;
 	      z-index: 9999 !important;
 	  }
+	  [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+      	display: none !important;
+    }
 	</style>
 </head>
 <body>
 	@include('partials.header')
 	@yield('header.caption')
 	<div class="main">
-		<div class="container">
-			@yield('body.content')
-		</div>
+		@yield('body.content')
 	</div>
 	@include('partials.footer')
 	<script type="text/javascript" src="assets/js/jquery.js"></script>
