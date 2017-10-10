@@ -14,8 +14,8 @@
 				</div>
 				<div class="collapse navbar-collapse menu123" id="menu-info">
 					<ul id="menu-header" class="nav navbar-nav navbar-right">
-						<li><a href="#">All Jobs</a></li>
-						<li><a href="{{route('companies')}}">Company Reviews</a></li>
+						<li><a href="{{route('alljobs')}}">All Jobs</a></li>
+						<li><a href="{{route('searchCompanies')}}">Company Reviews</a></li>
 						<li><a href="#">Post Job</a></li>
 						@if(Auth::check())
 						<li>

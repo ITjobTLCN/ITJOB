@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Users;
+use App\User;
 use Auth;
 use Illuminate\Support\MessageBag;
 class UsersController extends Controller
@@ -24,6 +24,36 @@ class UsersController extends Controller
     public function getRegister()
     {
     	return view('layouts.dangky');
+    }
+    public function getProfile()
+    {
+      return view('layouts.profile');
+    }
+    public function getProfileUser()
+    {
+      if(Auth::check()){
+          return $user=Auth::user();
+      }
+    }
+    public function editEmail(Request $req)
+    {
+        if(Auth::check()){
+            $user=new User();
+            $id=Auth::user()->id;
+            $email=$req->newEmail;
+            $user=User::where('id',$id)->update(['email'=>$email]);
+            // return "them thanh cong";
+        }
+        
+    }
+    public function editProfile(Request $req)
+    {
+        if(Auth::check()){
+            $user=User::findOrFail(Auth::user()->id);
+            $user->name=$req->name;
+            $user->describe=$req->describe;
+            $user->save();
+        }
     }
     public function postLogin(Request $req)
     {

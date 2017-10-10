@@ -76,4 +76,5 @@
 			</div>
 		</div>
 	</div>
+	<a href="#0" class="cd-top" data-toggle="tooltip" data-placement="top" title="Back to top">Top</a>
 	</footer><!--  end footer  -->

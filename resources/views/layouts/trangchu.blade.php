@@ -34,15 +34,8 @@ ITJob - Top Job IT For You
 	<div class="main-menu">
 		<div class="wrapper">
 			<nav>
-				<ul class="hidden-xs">
-					<li><a href="#">Tester</a></li>
-					<li><a href="#">Java</a></li>
-					<li><a href="#">PHP</a></li>
-					<li><a href="#">Android</a></li>
-					<li><a href="#">.NET</a></li>
-					<li><a href="#">iOS</a></li>
-					<li><a href="#">Business Analyst</a></li>
-					<li><a href="#">QA QC</a></li>
+				<ul class="hidden-xs" ng-controller="SkillsController">
+					<li ng-repeat="skill in skills"><a href="#"><% skill.name %></a></li>
 				</ul>
 			</nav>
 		</div>
@@ -53,7 +46,9 @@ ITJob - Top Job IT For You
 <div class="container">
 	<section class="listings">
 		<div class="wrapper">
-			<h1>Top Employees</h1>
+			<div class="title">
+				<h1>Top Employees</h1>
+			</div>
 			<ul class="properties_list">
 				<li>
 					<a href="#">
@@ -174,6 +169,7 @@ ITJob - Top Job IT For You
 @section('footer.js')
 <script src="assets/controller/UsersController.js"></script>
 <script src="assets/controller/CityController.js"></script>
+<script src="assets/controller/SkillsController.js"></script>
 <script>
 </script>
 @stop
