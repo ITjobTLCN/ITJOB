@@ -4,6 +4,32 @@ ITJob - Top Job IT For You
 @stop
 @section('header.caption')
 <div class="hero">
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<!-- Indicators -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1"></li>
+		</ol>
+
+		<!-- Wrapper for slides -->
+		<div class="carousel-inner">
+			<div class="item active">
+				<img src="assets/img/banner-1.jpg" alt="Chania">
+				<div class="carousel-caption">
+					<h3>Los Angeles</h3>
+					<p>LA is always so much fun!</p>
+				</div>
+			</div>
+
+			<div class="item">
+				<img src="assets/img/banner-2.jpg" alt="Chicago">
+				<div class="carousel-caption">
+					<h3>Chicago</h3>
+					<p>Thank you, Chicago!</p>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="caption">
 		<div class="search-widget wrapper clearfix">
 			<div class="row">
@@ -35,7 +61,7 @@ ITJob - Top Job IT For You
 		<div class="wrapper">
 			<nav>
 				<ul class="hidden-xs" ng-controller="SkillsController">
-					<li ng-repeat="skill in skills"><a href="#"><% skill.name %></a></li>
+					<li ng-repeat="skill in skills"><a href="it-job/search-job/<% skill.alias %>"><% skill.name %></a></li>
 				</ul>
 			</nav>
 		</div>

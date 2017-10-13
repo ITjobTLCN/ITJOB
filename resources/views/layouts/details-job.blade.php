@@ -1,0 +1,1 @@
+day la chi tiet cong viec {{$id}}

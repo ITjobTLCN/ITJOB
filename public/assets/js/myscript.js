@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	$('#result-search-company').hide();
+	$('#result-search-job').hide();
+
 	$('#company_name').keyup(function(){
 		var key=$(this).val();
 		$.ajaxSetup({
@@ -71,7 +73,11 @@ $(document).ready(function(){
 			url:'search-job',
 			data:{'key':key},
 			success:function(data){
-				console.log(data);
+				$('#result-search-job').show();
+				$('ul.search-job').show().html(data);		
+				if(key==""){
+					$('#result-search-job').hide();
+				}
 			}
 		});
 	});

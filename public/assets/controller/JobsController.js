@@ -21,21 +21,6 @@ app.controller('JobsController', function($scope,$http){
       },function(error){
             console.log(error, 'can not get data.');
       });
-      //skills
-      $scope.init=function(job_id){
-            var job_id=job_id;
-            $http({
-                  type:'get',
-                  url:'skill-by-job-id',
-                  params:{'job_id':job_id}
-            }).then(function(response){
-                  console.log(response.data);
-                  $scope.skillofJob=response.data;
-            },function(error){
-                  console.log(error, 'can not get data.');
-            });
-      };
-
       //filter job by locations and skills
 	var i=0;
 	var j=0;

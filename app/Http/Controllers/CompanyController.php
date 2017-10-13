@@ -21,18 +21,18 @@ class CompanyController extends Controller
     public function searchCompany(Request $req){
     	$key=$req->key;
     	$output="";
+        $companies=Employers::where('name','like','%'.$key.'%')->get();
+        $allcompanies=Employers::select('id','name','alias')->take(8)->get();
     	if($key==""){
-    		$output="";
-    		return Response($output);
-    	}
-    	$companies=Employers::where('name','like','%'.$key.'%')->get();
-    	if($companies){
-    		foreach ($companies as $key => $com) {
+            foreach ($allcompanies as $key => $com) {
+                $output.='<li><a href="companies/'.$com->alias.'">'.$com->name.'</a></li>';
+            }
+    	}else{
+    	   foreach ($companies as $key => $com) {
     			$output.='<li><a href="companies/'.$com->alias.'">'.$com->name.'</a></li>';
     		}
-			return Response($output);
     	}
-
+        return Response($output);
     }
     public function getMoreHirring(Request $req){
        $count=$req->count1;

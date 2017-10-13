@@ -86,6 +86,12 @@ Route::get('search-company',[
 	'as'=>'search-company',
 	'uses'=>'CompanyController@searchCompany'
 ]);
+//search company default
+
+Route::get('search-company',[
+	'as'=>'search-company',
+	'uses'=>'CompanyController@searchCompany'
+]);
 //get employers by id
 Route::group(['prefix'=>'companies'],function(){
 	Route::get('/',['as'=>'companies','uses'=>'CompanyController@getIndex']);
@@ -102,19 +108,14 @@ Route::get('more-most-followed-companies',[
 	'as'=>'more-hiring-companies',
 	'uses'=>'CompanyController@getMoreMostFollowed'
 ]);
-//all jobs
-Route::get('all-jobs',[
-	'as'=>'alljobs',
-	'uses'=>'JobsController@getIndex'
-]);
 //get attribute filter
 Route::get('all-attribute-filter',[
 	'as'=>'all-attribute-filter',
 	'uses'=>'JobsController@getAttributeFilter'
 ]);
 Route::get('filter-job',[
-'as'=>'filter-job',
-'uses'=>'JobsController@FilterJob'
+	'as'=>'filter-job',
+	'uses'=>'JobsController@FilterJob'
 ]);
 //search jobs
 Route::get('search-job',[
@@ -134,5 +135,11 @@ Route::get('skill-by-job-id',[
 	'as'=>'skill-by-job-id',
 	'uses'=>'JobsController@getSkillByJobId'
 ]);
+//jobs
+Route::group(['prefix'=>'it-job'],function(){
+	Route::get('/',['as'=>'alljobs','uses'=>'JobsController@getIndex']);
+	Route::get('/search-job/{alias}',['as'=>'seachjob','uses'=>'JobsController@getListJobSearch']);
+	Route::get('/{alias}-{id}',['as'=>'detailjob','uses'=>'JobsController@getDetailsJob']);
+});
 
 

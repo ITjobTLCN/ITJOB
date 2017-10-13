@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 	<link rel="stylesheet" href="assets/font-awesome/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<style>
 		.affix {
 	      top:0;
@@ -22,6 +23,8 @@
 	  [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
       	display: none !important;
     }
+
+
 	</style>
 </head>
 <body>
@@ -29,10 +32,15 @@
 	@yield('header.caption')
 	<div class="main">
 		@yield('body.content')
-
+		<div id="mySidenav" class="sidenav" style="display: none">
+		  <a href="#" id="facebook"><span>Facebook</span>  <img src="assets/img/facebook.png" alt=""></a>
+		  <a href="#" id="twitter"><span>Twitter</span> <img src="assets/img/twitter.png" alt=""></a>
+		  <a href="#" id="google"><span>Google</span> <img src="assets/img/google-plus.png" alt=""></a>
+		  <a href="#" id="linkedin"><span>LinkedIn</span> <img src="assets/img/linkedin.png" alt=""></a>
+		</div>
 	</div>
 	@include('partials.footer')
-	
+
 	<script type="text/javascript" src="assets/js/jquery.js"></script>
 	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="assets/js/main.js"></script>
@@ -40,5 +48,24 @@
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/back-to-top.js"></script>
 	@yield('footer.js')
+    <script>
+    	$(function() {
+    		var offsettop=200;
+    		$(window).scroll(function(){
+    			if($(window).scrollTop() > offsettop){
+    				$('#mySidenav').css({
+    					'position':'fixed',
+    					'display':'block',
+    					'top':'-300px'
+    				});
+    			}else{
+    				$('#mySidenav').css({
+
+    					'display':'none'
+    				});
+    			}
+    		});
+    	});
+    </script>
 </body>
 </html>
