@@ -71,32 +71,37 @@ Route::post('editProfile',[
 	'as'=>'editProfile',
 	'uses'=>'UsersController@editProfile'
 ]);
-//list city
+//list cities
 Route::get('list-city',[
 	'as'=>'listcity',
-	'uses'=>'PageController@getListCity'
+	'uses'=>'PageController@getAllCities'
 ]);
 //list skills
 Route::get('list-skill',[
 	'as'=>'listskill',
 	'uses'=>'PageController@getAllSkills'
 ]);
-//search company
-Route::get('search-company',[
-	'as'=>'search-company',
-	'uses'=>'CompanyController@searchCompany'
-]);
 //search company default
-
-Route::get('search-company',[
-	'as'=>'search-company',
+Route::get('search-companies',[
+	'as'=>'search-companies',
 	'uses'=>'CompanyController@searchCompany'
 ]);
 //get employers by id
 Route::group(['prefix'=>'companies'],function(){
-	Route::get('/',['as'=>'companies','uses'=>'CompanyController@getIndex']);
-	Route::get('/search-company',['as'=>'searchCompanies','uses'=>'CompanyController@getCompaniesReview']);
+	Route::get('',['as'=>'companies','uses'=>'CompanyController@getIndex']);
+	Route::get('all-jobs-company',['as'=>'AllJobCompany','uses'=>'CompanyController@getListJobCompany']);
+	Route::get('list-skill',['as'=>'listskill','uses'=>'PageController@getAllSkills']);
+	Route::get('get-more-job',['as'=>'get-more-job','uses'=>'CompanyController@getMoreJob']);
+	
+	Route::get('search-companies',['as'=>'searchCompanies','uses'=>'CompanyController@getCompaniesReview']);
+	Route::get('search-companies-by-name',['as'=>'searchCompaniesbyname','uses'=>'CompanyController@searchCompaniesByName']);	
+	//count follow of companies
+	Route::get('count-follow-com',['as'=>'countFollowCompany','uses'=>'CompanyController@countFollowCompany']);
+	//click to follow conpany
+	Route::get('follow-company',['as'=>'followCompany','uses'=>'CompanyController@followCompany']);
+	//get details company
 	Route::get('{alias}',['as'=>'getEmployers','uses'=>'CompanyController@getDetailsCompanies']);
+	
 });
 //get more hiring companies
 Route::get('more-hiring-companies',[
@@ -125,11 +130,6 @@ Route::get('search-job',[
 Route::get('demo',function(){
 	return view('layouts.demo');
 });
-//load list job default
-Route::get('list-job-lastest',[
-	'as'=>'jobLastest',
-	'uses'=>'JobsController@getListJobLastest'
-]);
 //get skills by job_id
 Route::get('skill-by-job-id',[
 	'as'=>'skill-by-job-id',
@@ -137,9 +137,30 @@ Route::get('skill-by-job-id',[
 ]);
 //jobs
 Route::group(['prefix'=>'it-job'],function(){
-	Route::get('/',['as'=>'alljobs','uses'=>'JobsController@getIndex']);
-	Route::get('/search-job/{alias}',['as'=>'seachjob','uses'=>'JobsController@getListJobSearch']);
-	Route::get('/{alias}-{id}',['as'=>'detailjob','uses'=>'JobsController@getDetailsJob']);
+	Route::get('tat-ca-viec-lam',['as'=>'alljobs','uses'=>'JobsController@getIndex']);
+	Route::get('viec-lam-o-{city}',['as'=>'seachjobByCity','uses'=>'JobsController@getListJobByCity']);
+	Route::get('{alias}',['as'=>'seachjob1opt','uses'=>'JobsController@getListJobBySkill']);
+
+	Route::get('{alias}/tai-{city}',['as'=>'seachjob','uses'=>'JobsController@getListJobSearch']);
+	Route::get('{alias}/{id}',['as'=>'detailjob','uses'=>'JobsController@getDetailsJob']);
 });
+Route::get('follow-job',['as'=>'follow-job','uses'=>'JobsController@followJob']);
+//search job by name and city
+Route::get('list-job-search',[
+	'as'=>'list-job-search',
+	'uses'=>'JobsController@getJobsBySearch'
+]);
+//get current user
+Route::get('get-current-user',[
+	'as'=>'get-current-user',
+	'uses'=>'UsersController@getCurrentUser'
+]);
+//get job followed of user
+Route::get('check-job-followed',[
+	'as'=>'check-job-followed',
+	'uses'=>'JobsController@getJobFollowed'
+]);
+
+
 
 

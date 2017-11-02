@@ -8,185 +8,261 @@ use App\Skills;
 use App\Employers;
 use App\Jobs;
 use App\Skill_job;
+use App\Follows;
 use DB;
 use View;
 use Session;
+use Cache;
+use Auth;
+use DateTime;
 class JobsController extends Controller
 {
     public function getIndex(){
-        $countjob=Jobs::count();
-    	return view('layouts.alljobs',compact('countjob'));
-    }
-    public function getAttributeFilter(){
-    	$locations=Cities::all();
-    	$skills = Skills::all();
-    	return response()->json(['locations'=>$locations,'skills'=>$skills]);
-    }
-    public function FilterJob(Request $req){
-        $output=[];
-        $id=[];
-        $j=0;
-        $k=0;
-        $result="";
-        for ($i=0; $i <count($req->info_city) ; $i++) { 
-            $job=Jobs::where('city_id',$req->info_city[$i])->get();
-            if(count($job)==0){
-                continue;
-            }
-            else{
-                for($i=0; $i <count($job) ; $i++){
-                    $output[$j]=$job[$i];
-                    $j++; 
-                }         
-            }
-        }
-        for ($i=0; $i <count($req->info_skill) ; $i++) { 
-            $job=DB::table('jobs')->join('skill_job','jobs.id','=','skill_job.job_id')->where('skill_job.skill_id',$req->info_skill[$i])->select('jobs.*')->get();
-            if(count($job)==0){
-                continue;
-            }else{
-                for($i=0; $i <count($job) ; $i++){
-                    $output[$j]=$job[$i];
-                    $j++;
-                }
-            }
-        }
-        $collection=collect($output);
-        $jobs = $collection->unique('id');
-        if(count($jobs)==0){
-            $temp=Session::get('listJobLastest');
-            foreach ($temp as $key => $tem) {
-                $result.='<div class="job-item">
-                                <div class="row">
-                                    <div class="col-xs-3 col-md-3 col-lg-2">
-                                        <div class="logo job-search__logo">
-                                            <a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8">
-                                        <div class="job-item-info">
-                                            <h3 class="bold-red">
-                                                <a href="it-job/'.$tem->alias.'-'.$tem->id.'" class="job-title" target="_blank">'.$tem->name.'</a>
-                                            </h3>
-                                            <div class="company text-clip">
-                                                <span class="job-search__company">'.$tem->en.' </span>
-                                                <span class="separator">|</span>
-                                                <span class="job-search__location">'.$tem->cn.'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-1 col-md-1 col-lg-2">
-                                        <span data-toggle="tooltip" data-placement="left" title="Follow"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                                    </div>
-                                </div>
-                            </div>';
-
-            }
+        Cache::forget('listJobSearch');
+        $minutes = 60;//Thời gian hết hạn
+        if(Cache::has('listJobLastest')){
+            $listJobLastest=Cache::get('listJobLastest');
         }else{
-            foreach ($jobs as $key => $job) {
-                $location=Cities::where('id',$job->city_id)->value('name');
-                $companies=Employers::where('id',$job->employer_id)->value('name');
-                $skills=DB::table('skills')->join('skill_job','skills.id','=','skill_job.skill_id')->where('skill_job.job_id',$job->id)->select('skills.name','skills.id')->get();
-                
-                $result.='<div class="job-item">
-                                <div class="row">
-                                    <div class="col-xs-3 col-md-3 col-lg-2">
-                                        <div class="logo job-search__logo">
-                                            <a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-8 col-md-8 col-lg-8">
-                                        <div class="job-item-info">
-                                            <h3 class="bold-red">
-                                                <a href="it-job/'.$job->alias.'-'.$job->id.'" class="job-title" target="_blank">'.$job->name.'</a>
-                                            </h3>
-                                            <div class="company text-clip">
-                                                <span class="job-search__company">'.$companies.' </span>
-                                                <span class="separator">|</span>
-                                                <span class="job-search__location">'.$location.'</span>
-                                            </div>
-                                            <div class="tag-list">';
-                    foreach ($skills as $key => $skill) {
-                        $skill_name=$skill->name; 
-                        $result.='<a href="" class="job__skill"><span>'.$skill_name.'</span></a>';
-                    }
-                 $result.='</div></div>
-                        </div><div class="col-xs-1 col-md-1 col-lg-2">
-                            <span data-toggle="tooltip" data-placement="left" title="Follow"><i class="fa fa-heart-o" aria-hidden="true"></i></span>
-                        </div>
-                    </div>
-                </div>';
-            }
+            $listJobLastest = Cache::remember('listJobLastest',$minutes,function(){
+                return DB::table('jobs as j')->select('j.*','c.name as cn','e.name as en')
+                                    ->join('cities as c','j.city_id','=','c.id')
+                                    ->join('employers as e','j.employer_id','=','e.id')
+                                    ->orderBy('j.id','desc')
+                                    ->offset(0)->take(20)->get();
+            });
         }
-       return Response($result);
-    }
-    public function getSearchJob(Request $req){
-        $key=$req->key;
-        $output="";
-        if($key!=""){
-            $jobs=Jobs::select('id','name','alias')->where('name','like','%'.$key.'%')->get();
-            $companies=Employers::select('id','name','alias')->where('name','like','%'.$key.'%')->get();
-            $skills=Skills::select('id','name','alias')->where('name','like','%'.$key.'%')->get();
-            if(count($companies)==0){
-                foreach ($skills as $key => $sk) {
-                    $output.='<li><a href="it-job/search-job/'.$sk->alias.'">'.$sk->name.'</a></li>';
-                }
-            }else if(count($skills)==0){
-                foreach ($companies as $key => $com) {
-                    $output.='<li><a href="it-job/search-job/'.$com->alias.'">'.$com->name.'</a></li>';
-                }
-            }
-            else{
-                foreach ($companies as $key => $com) {
-                    foreach ($skills as $key => $sk) {
-                        $output.='<li><a href="it-job/search-job/'.$sk->alias.'">'.$sk->name.'</a></li>';
-                    }
-                    $output.='<li><a href="it-job/search-job/'.$com->alias.'">'.$com->name.'</a></li>';
-                }
-            }
+        if(Cache::has('countjob')){
+            $countjob=Cache::get('countjob');
+        }else{
+            $countjob=Cache::remember('countjob',$minutes,function(){
+                return Jobs::count();
+            });
+        }
+        if(Cache::has('listLocation')){
+            $cities=Cache::get('listLocation');
         }else{
             
         }
-        return $output;
+    	return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
     }
-    public function getListJobLastest(){
-        $listJobLastest=DB::table('jobs as j')->join('cities as c','j.city_id','=','c.id')
-                                ->join('employers as e','j.employer_id','=','e.id')
-                                ->orderBy('j.id','desc')
-                                ->select('j.*','c.name as cn','e.name as en')
-                                ->get();
-        Session::put('listJobLastest',$listJobLastest);
-        return $listJobLastest;
-    }
-    public function getSkillByJobId(Request $req){
-        $job_id=$req->job_id;
-        // $skills=Skill_job::where('job_id',$job_id)->get();
-        $skills=DB::table('skills')->join('skill_job','skills.id','=','skill_job.skill_id')->where('skill_job.job_id',$job_id)->select('skills.name','skills.id')->get();
-        return $skills;
-    }
-    public function getListJobSearch(Request $req){
-        $alias=$req->alias;
-
-        $listByCompanyName=Employers::where('alias',$alias)->get();
-        $skill_id=Skills::where('alias',$alias)->value('id');
-        $listBySkillName=DB::table('jobs as j')
-                            ->select('j.*','e.name as en','c.name as cn')
-                        ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
-                                $join->on('j.id','=','a.job_id');
-                            })->join('employers as e','j.employer_id','=','e.id')
-                                ->join('cities as c','j.city_id','=','c.id')->get();
-        if(count($listByCompanyName)==0){
-            Session::flash('listBySkillName', $listBySkillName);
-            $countjobSkillName=count($listBySkillName).' '.Skills::where('id',$skill_id)->value('name');
-            return view('layouts.alljobs',compact('countjobSkillName'));
-        }else{
-            return view('layouts.details-companies',compact('listByCompanyName'));
-        }
-    }
+    //return to detail-job page
     public function getDetailsJob(Request $req){
         $id=$req->id;
         return view('layouts.details-job',compact('id'));
+    }
+    //get list skills and locations to filter jobs
+    public function getAttributeFilter(){
+    	$locations=Cache::get('listLocation');
+        $skills=Cache::get('listSkill');
+    	return response()->json(['locations'=>$locations,'skills'=>$skills]);
+    }
+    //filter job by skills and locations
+    public function FilterJob(Request $req){
+        $output=array();
+        $result="";
+        $info_skill=$req->info_skill;
+        $info_city=$req->info_city;
+
+        if(count($info_city)!=0){
+
+            foreach ($info_city as $key => $ifc) {
+                $job=Jobs::select('id','name','alias','job_description','city_id','employer_id')->where('city_id',$ifc)->get();
+                if(count($job)!=0){
+                    foreach ($job as $key => $jo) {
+                        $output[]=$jo;
+                    }   
+                }
+            }
+        }else if(count($info_skill) !=0){
+            foreach ($info_skill as $key => $ifs) {
+                $job=DB::table('jobs as j')
+                        ->select('j.*')
+                        ->join(DB::raw('(Select job_id from skill_job where skill_id='.$ifs.') a'),function($join){
+                                            $join->on('j.id','=','a.job_id');
+                                        })->get();
+                if(count($job)!=0){
+                    foreach ($job as $key => $jo) {
+                       $output[]=$jo;
+                    }
+                }
+            }
+        }else{
+            $listJobLastest=Cache::get('listJobSearch', Cache::get('listJobLastest'));
+            foreach ($listJobLastest as $key => $tmp) {
+                $output[]=$tmp;
+            }
+        }
+        foreach ($output as $key => $job) {
+            $location=Cities::where('id',$job->city_id)->value('name');
+            $companies=Employers::where('id',$job->employer_id)->value('name');
+            $skills=DB::table('skills')->join('skill_job','skills.id','=','skill_job.skill_id')->where('skill_job.job_id',$job->id)->select('skills.name','skills.id')->get();
+            $result.='<div class="job-item">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="logo job-search__logo">
+                                        <a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                    <div class="job-item-info">
+                                        <h3 class="bold-red">
+                                            <a href="it-job/'.$job->alias.'/'.$job->id.'" class="job-title" target="_blank">'.$job->name.'</a>
+                                        </h3>
+                                        <div class="company text-clip">
+                                            <span class="job-search__company">'.$companies.' </span>
+                                            <span class="separator">|</span>
+                                            <span class="job-search__location">'.$location.'</span>
+                                        </div>
+                                        <div class="tag-list">';
+                foreach ($skills as $key => $skill) {
+                    $skill_name=$skill->name; 
+                    $result.='<a href="" class="job__skill"><span>'.$skill_name.'</span></a>';
+                }
+                $result.='</div></div></div><div class="col-xs-1 col-sm-2 col-md-2 col-lg-2">';
+                if(Auth::check()){
+                    $result.='<div class="follow'.$job->id.'" id="followJob" job_id="'.$job->id.'" emp_id="'.$job->employer_id.'">';
+                    if($this->getJobFollowed($job->id)){
+                        $result.='<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>';
+                    }else{
+                        $result.='<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>';
+                    }
+                }else{
+                    $result.='<i class="fa fa-heart-o" aria-hidden="true" rel="popover"></i>';
+                }
+                $result.='</div></div></div></div>';
+        }
+       return Response($result);
+    }
+    //get name and alias companies or skills to search job
+    public function getSearchJob(Request $req){
+        $key =$req->search;
+        $output=array();
+        if($key!=""){
+            $companies=Employers::select('id','name','alias')->where('name','like','%'.$key.'%')->get();
+            $skills=Skills::select('id','name','alias')->where('name','like','%'.$key.'%')->get();
+            foreach ($skills as $key => $sk) {
+                $output[]=array("job_name"=>$sk->name,"job_alias"=>$sk->alias);
+            }
+            foreach ($companies as $key => $com) {
+                $output[]=array("job_name"=>$com->name,"job_alias"=>$com->alias);
+            }   
+        }else{
+            $output[]="";
+        }
+        return response()->json($output);
+    }
+    //get list job by location
+    public function getListJobBySkill(Request $req){
+        $name=$req->alias;
+        $skill_id=Skills::where('name',$name)->value('id');
+        if($skill_id){
+            $listJobLastest=DB::table('jobs as j')
+                                ->select('j.*','e.name as en','c.name as cn')
+                                ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
+                                    $join->on('j.id','=','a.job_id');})
+                                ->join('employers as e','j.employer_id','=','e.id')
+                                ->join('cities as c','j.city_id','=','c.id')->get();
+            Session::flash('skillname',$name);
+            $countjob=count($listJobLastest);
+            $cities=$this->getCities();
+            Cache::put('listJobSearch', $listJobLastest, 60);
+            return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
+            
+        }
+        return redirect()->route('getEmployers',$name);
+    }
+    //get list job full option
+    public function getListJobSearch(Request $req){
+        $skill_id=Skills::where('name',$req->alias)->value('id');
+        $city=Cities::select('id','name')->where('alias',$req->city)->first();
+        if($skill_id){
+            $listJobLastest=DB::table('jobs as j')
+                ->select('j.*','e.name as en','c.name as cn')
+                ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
+                    $join->on('j.id','=','a.job_id');})
+                ->where('j.city_id',$city->id)
+                ->join('employers as e','j.employer_id','=','e.id')
+                ->join('cities as c','j.city_id','=','c.id')->get();
+                Session::flash('skillname',$req->alias);
+                Session::flash('city',$city->name);
+                $countjob=count($listJobLastest);
+                $cities=$this->getCities();
+                Cache::put('listJobSearch', $listJobLastest, 60);
+                return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
+        }
+        return redirect()->route('getEmployers',Employers::where('name',$req->alias)->value('alias'));  
+    }
+    //redirect to the others route with every edition 
+    public function getJobsBySearch(Request $req){
+        $keysearch=$req->keysearch;
+        $city_id=Cities::where('name',$req->nametp)->value('id');
+        $city=Cities::where('id',$city_id)->value('alias');
+        if($keysearch==""){
+            if($city_id==""){
+                return redirect()->route('alljobs');
+            }else{
+                return redirect()->route('seachjobByCity',$city);
+            }
+        }else{
+            if($city_id==""){
+                return redirect()->route('seachjob1opt',$keysearch);
+            }else{
+                return redirect()->route('seachjob',[$keysearch,$city]);
+            }
+        }       
+    }
+    //get list job by location
+    public function getListJobByCity(Request $req){
+        $city=Cities::select('id','name')->where('alias',$req->city)->first();
+        $listJobLastest=DB::table('jobs as j')
+                            ->select('j.*','e.name as en','a.name as cn')
+                            ->join(DB::raw('(Select id,name from cities where id='.$city->id.') a'),function($join){
+                                $join->on('j.city_id','=','a.id');})
+                            ->join('employers as e','j.employer_id','=','e.id')
+                            ->get();
+        $countjob=count($listJobLastest);
+        Session::flash('city',$city->name);
+        $cities=$this->getCities();
+        Cache::put('listJobSearch', $listJobLastest, 60);
+        return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
+    }
+    public function getCities(){
+        if(Cache::has('listLocation')){
+            $cities=Cache::get('listLocation','none');
+        }else{
+            $cities=Cities::get();
+        }
+        return $cities;
+    }
+    public function followJob(Request $req){
+        $job_id=$req->job_id;
+        $com_id=$req->com_id;
+        $user_id=Auth::user()->id;
+        
+        $follow=Follows::where('user_id',$user_id)
+                        ->where('job_id',$job_id)->first();
+        if($follow){
+            $follow=Follows::find($follow->id);
+            $follow->delete();
+            return "delete";
+        }else{
+            $table=new Follows();
+            $table->emp_id=$com_id;
+            $table->user_id=$user_id;
+            $table->job_id=$job_id;
+            $table->save();
+            $table->created_at=new DateTime();
+            return "add";
+        }
+    }
+    public function getJobFollowed($job_id){
+        $follow=Follows::where('job_id',$job_id)
+                        ->where('user_id',Auth::user()->id)
+                        ->first();
+        if($follow){
+            return true;
+        }
+        return false;
     }
 }

@@ -55,23 +55,29 @@ class UsersController extends Controller
             $user->save();
         }
     }
-    public function postLogin(Request $req)
-    {
+    public function postLogin(Request $req){
   		$email = $req->email;
   		$password=$req->password;
 
   		if(Auth::attempt(['email'=>$email,'password'=>$password])){
-        $role_id=Auth::user()->role_id;
-        if($role_id==1){
-  			 return redirect()->intended('admin/index');
-        }else if($role_id==2){
-            return redirect()->route('/');
-        }else{
-
-        }
+            $role_id=Auth::user()->role_id;
+            if($role_id==1){
+      			 return redirect()->intended('admin/index');
+            }else if($role_id==2){
+                return redirect()->back();
+            }else{
+                
+            }
   		}else{
-        $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không']); 
-        return redirect()->back()->withInput()->withErrors($errors);
-      }
+            $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không']); 
+            return redirect()->back()->withInput()->withErrors($errors);
+        }
+    }
+    public function getCurrentUser()
+    {
+        if(Auth::check()){
+            $user=Auth::user();
+        }
+        return $user;
     }
 }

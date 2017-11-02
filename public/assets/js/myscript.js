@@ -1,28 +1,6 @@
 $(document).ready(function(){
-	$('#result-search-company').hide();
-	$('#result-search-job').hide();
-
-	$('#company_name').keyup(function(){
-		var key=$(this).val();
-		$.ajaxSetup({
-		    headers: {
-		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		    }
-		});
-		$.ajax({
-			type:'get',
-			url:'search-company',
-			data:{
-				'key':key,
-			},
-			success : function(data){
-				$('#result-search-company').show();
-				$('ul.search-company').show().html(data);		
-				if(key==""){
-					$('#result-search-company').hide();
-				}
-			}
-		});
+	$('.list-job-hiring .fa-arrow-up').css({
+			'display':'none',
 	});
 	var count1=0;
 	var count2=0;
@@ -41,7 +19,6 @@ $(document).ready(function(){
 			success:function(data){
 				$('.more-hiring').append(data);
 			}
-
 		});
 	});
 	//see more most followed companies
@@ -61,24 +38,48 @@ $(document).ready(function(){
 			}
 		});
 	});
-	$('#keyword-skill').keyup(function(){
-		var key=$(this).val();
+	$('#up-down').click(function(){
+		$("i", this).toggleClass("fa fa-arrow-up fa fa-arrow-down");
+	});
+	$dem=0;
+	$('#see-more-job-company').click(function(){
+		$dem+=6;
+		$com_id=$('#company_id').val();
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
 		$.ajax({
-			type: 'get',
-			url:'search-job',
-			data:{'key':key},
+			type:'get',
+			url:'get-more-job',
+			data:{'dem':$dem,'com_id':$com_id},
 			success:function(data){
-				$('#result-search-job').show();
-				$('ul.search-job').show().html(data);		
-				if(key==""){
-					$('#result-search-job').hide();
-				}
+				alert(data);
 			}
 		});
 	});
+	$('.clear-all-filter-att').click(function(){
+		$('.list-filter-att').css({
+            'display':'none'
+        });
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+        info_skill=[];
+        info_city=[];
+		$.ajax({
+			type:'get',
+			url:'filter-job',
+			data:{
+				'info_skill':"",'info_city':"",
+			},
+			success : function(data){
+				$('.jb-search__result').html(data);
+			}
+		});
+	});
+	
 });

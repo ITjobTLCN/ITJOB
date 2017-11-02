@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Đăng nhập
+Login | ITJob
 @stop
 @section('body.content')
 <div class="container">
@@ -65,8 +65,6 @@
 </div>
 @stop
 @section('footer.js')
-
-<script src="assets/js/app.js"></script>
 <script src="assets/controller/UsersController.js"></script>
 <script>
 </script>

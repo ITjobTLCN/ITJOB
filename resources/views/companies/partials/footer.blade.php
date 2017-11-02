@@ -35,10 +35,10 @@
                         <div class="col-md-6">
                             <h5>Connect Us</h5>
                             <div class="social-networks">
-                                <a href="#" class="twitter"><img src="assets/img/facebook.png" alt=""></a>
-                                <a href="#" class="google"><img src="assets/img/twitter.png" alt=""></a>
-                                <a href="#" class="google"><img src="assets/img/google-plus.png" alt=""></a>
-                                <a href="#" class="google"><img src="assets/img/linkedin.png" alt=""></a>
+                                <a href="#" class="twitter"><img src="{{asset('assets/img/facebook.png')}}" alt=""></a>
+                                <a href="#" class="google"><img src="{{asset('assets/img/twitter.png')}}"" alt=""></a>
+                                <a href="#" class="google"><img src="{{asset('assets/img/google-plus.png')}}"" alt=""></a>
+                                <a href="#" class="google"><img src="{{asset('assets/img/linkedin.png')}}"" alt=""></a>
                             </div>
                         </div>
         			</div>
