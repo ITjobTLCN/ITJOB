@@ -364,7 +364,7 @@ class HomeController extends Controller
     }
    
     public function getRegister(){
-        return view('home.register');
+        return view('layouts.register');
     }
     public function postRegister(Request $request){
         $validator  = Validator::make($request->all(),[
