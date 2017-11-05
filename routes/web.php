@@ -164,3 +164,8 @@ Route::get('check-job-followed',[
 
 
 
+/*Dat - Login*/
+	//login-Register-Loggout
+Route::get('login',['as'=>'getlogin','uses'=>'HomeController@getLogin']);
+Route::post('login',['as'=>'postlogin','uses'=>'HomeController@postLogin']);
+/*END Dat - Login*/
