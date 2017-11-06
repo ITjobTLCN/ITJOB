@@ -7,7 +7,6 @@
     - Listings
     - Footer
     - Responsive CSS
-    
 
     */
 .affix {
@@ -777,6 +776,21 @@ ul.search-job li {
         text-align: center;
     }
 }
+@media (max-width: 1000px) {
+    .logo-company{
+        width: 140px !important;
+        height: 140px !important;
+    }
+    .name-info{
+        padding: 10px 10px !important;
+    }
+    .name-info #name-company{
+        font-size: 25px !important;
+    }
+    .location span{
+        font-size: 14px;
+    }
+}
 @media (max-width: 800px) {
     .carousel-caption{
         display: none;
@@ -915,6 +929,7 @@ ul.search-job li {
     .name-info{
         text-align: center;
     }
+    
 }
 @media (max-width: 770px) {
     .hero .caption {
@@ -946,12 +961,11 @@ ul.search-job li {
     #main-job-list{
         margin-left: 5px;
     }
+    .action_companies a{
+        width: 50% !important;
+    }
 }
 @media (max-width: 700px) {
-    /*.hero {
-        background: grey;
-        height: 500px;
-    }*/
     #myFooter #maps iframe{
         display: none;
     }
@@ -986,6 +1000,9 @@ ul.search-job li {
     }
     #job-list .job-item .fa-heart-o{
         font-size: 25px !important;
+    }
+    .action_companies a{
+        width: 50% !important;
     }
 }
 @media (max-width: 500px) {
@@ -1087,6 +1104,9 @@ ul.search-job li {
     .header.smaller nav{
         height: 30px !important;
     }
+    .action_companies a{
+        width: 70% !important;
+    }
 }
 /*back to top button*/
 
@@ -1150,8 +1170,12 @@ ul.search-job li {
         right: 20px;
         bottom: 20px;
     }
+
 }
 @media (min-width: 1024px) {
+    .name-info{
+        padding: 10px 35px !important;
+    }
     .cd-top {
         height: 50px;
         width: 50px;
@@ -1515,7 +1539,7 @@ span.separator {
     max-height: 150px;
 }
 .name-info{
-    padding: 10px 20px;
+    padding: 10px 10px;
 }
 .name-info #name-company{
     font-size: 30px;
@@ -1536,17 +1560,7 @@ span.separator {
 .name-info .see-maps a:hover h3{
     color: #23527c;
 }
-.followed{
-    padding: 59px 26px;
-}
-.followed a:hover{
-    text-decoration: underline;
-}
-.followed a{
-    width: 100%;
-    background: #23527c !important;
-    border-color: #23527c !important;
-}
+
 /*reviews-companies section*/
 .reviews-companies{
     border: 1px solid #d3d6db;
@@ -1827,8 +1841,37 @@ a:visited {
 .companies-item span i.fa-heart-o:hover{
     color: #e4163a;
 }
+/*follow companies*/
+.action_companies{
+    text-align: center;
+    padding: 59px 26px;
+}
+.action_companies a{
+    width: 100%;
+}
+.add_review{
+    margin-bottom: 10px;
+}
+.followed a:hover{
+    color: #23527c;
+    text-decoration: underline;
+    border: 2px solid #23527c;
+}
+.followed a{
+    color: #23527c;
+    background: #fff !important;
+    border: 2px solid #23527c;
+}
 .followed .popover{
     width: 200px !important;
+}
+.followed i{
+    display: none;
+}
+.followed #unfollowed{
+    color: #fff;
+    background: #29487d !important;
+    border-color: #29487d !important;
 }
 .popover{
     width: 200px !important;

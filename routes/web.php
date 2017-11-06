@@ -94,9 +94,7 @@ Route::group(['prefix'=>'companies'],function(){
 	Route::get('get-more-job',['as'=>'get-more-job','uses'=>'CompanyController@getMoreJob']);
 	
 	Route::get('search-companies',['as'=>'searchCompanies','uses'=>'CompanyController@getCompaniesReview']);
-	Route::get('search-companies-by-name',['as'=>'searchCompaniesbyname','uses'=>'CompanyController@searchCompaniesByName']);	
-	//count follow of companies
-	Route::get('count-follow-com',['as'=>'countFollowCompany','uses'=>'CompanyController@countFollowCompany']);
+	Route::get('search-companies-by-name',['as'=>'searchCompaniesbyname','uses'=>'CompanyController@searchCompaniesByName']);
 	//click to follow conpany
 	Route::get('follow-company',['as'=>'followCompany','uses'=>'CompanyController@followCompany']);
 	//get details company

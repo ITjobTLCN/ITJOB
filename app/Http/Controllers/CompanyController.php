@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Employers;
 use App\Jobs;
-use App\Follows;
+use App\Follow_companies;
 use DB;
-use Redirect;
+use Auth;
+use DateTime;
 class CompanyController extends Controller
 {
     public function getIndex(){
@@ -28,7 +29,13 @@ class CompanyController extends Controller
                     ->join(DB::raw('(select id from jobs where employer_id='.$company['id'].') as a'),function($join){
                         $join->on('sj.job_id','=','a.id');})
                     ->join('skills as s','sj.skill_id','=','s.id')->get();
-        return view('layouts.details-companies',compact('company','skills','jobs'));
+        if(Auth::check()){
+            $follow=Follow_companies::where('comp_id',$company['id'])
+                                        ->where('user_id',Auth::user()->id)
+                                        ->first();
+            return view('layouts.details-companies',compact('company','skills','jobs','follow'));
+        }
+        return view('layouts.details-companies',compact('company','skills','jobs')); 
     }
     public function getCompaniesReview(){
         $comHirring=Employers::orderBy('id','desc')->offset(0)->take(6)->get();
@@ -120,17 +127,33 @@ class CompanyController extends Controller
         $alias=Employers::where('name',$com_name)->value('alias');
         return redirect()->route('getEmployers',$alias);
     }
-    //count follow of company
-    public function countFollowCompany(Request $req){
-        $emp_id=$req->emp_id;
-       return Employers::where('id',$emp_id)->value('follow');
-    }
     public function followCompany(Request $req){
-       $emp_id=$req->emp_id;
-       $company=Employers::find($emp_id);
-       $curr=$company->follow;
-       $company->follow=$curr+1;
-       $company->save();
-       return $company->follow;
+        $output="";
+        $emp_id=$req->emp_id;
+        $temp=Follow_companies::where('comp_id',$emp_id)->where('user_id',Auth::user()->id)->first();
+        
+        $company=Employers::find($emp_id);
+        if($temp){
+            $curr=$company->follow;
+            $company->follow=$curr-1;
+            $company->save();
+            $temp=Follow_companies::where('comp_id',$emp_id)->where('user_id',Auth::user()->id)->delete();
+            $output.="<a class='btn btn-default'>Follow ($company->follow) <i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i></a>";
+        }else{
+            $curr=$company->follow;
+            $company->follow=$curr+1;
+            $company->save();
+            $temp=new Follow_companies();
+            $temp->user_id=Auth::user()->id;
+            $temp->comp_id=$emp_id;
+            $temp->created_at=new DateTime();
+            $temp->save();
+            $output.="<a class='btn btn-default' id='unfollowed'>Following <i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i></a>";
+        }
+        return $output;
+    }
+    public function hasFollow($value='')
+    {
+        # code...
     }
  }

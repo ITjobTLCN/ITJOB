@@ -8,7 +8,7 @@ use App\Skills;
 use App\Employers;
 use App\Jobs;
 use App\Skill_job;
-use App\Follows;
+use App\Follow_jobs;
 use DB;
 use View;
 use Session;
@@ -240,15 +240,14 @@ class JobsController extends Controller
         $com_id=$req->com_id;
         $user_id=Auth::user()->id;
         
-        $follow=Follows::where('user_id',$user_id)
+        $follow=Follow_jobs::where('user_id',$user_id)
                         ->where('job_id',$job_id)->first();
         if($follow){
-            $follow=Follows::find($follow->id);
+            $follow=Follow_jobs::find($follow->id);
             $follow->delete();
             return "delete";
         }else{
-            $table=new Follows();
-            $table->emp_id=$com_id;
+            $table=new Follow_jobs();
             $table->user_id=$user_id;
             $table->job_id=$job_id;
             $table->save();
@@ -257,7 +256,7 @@ class JobsController extends Controller
         }
     }
     public function getJobFollowed($job_id){
-        $follow=Follows::where('job_id',$job_id)
+        $follow=Follow_jobs::where('job_id',$job_id)
                         ->where('user_id',Auth::user()->id)
                         ->first();
         if($follow){

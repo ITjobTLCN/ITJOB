@@ -11,16 +11,7 @@
 	<link rel="stylesheet" href="{{asset('assets/bootstrap/css/bootstrap-theme.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/responsive.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/reset.css')}}">
-	<style>
-		.affix {
-	      top:0;
-	      width: 100%;
-	      z-index: 9999 !important;
-	  }
-	  [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
-      	display: none !important;
-    }
-	</style>
+	<link rel="stylesheet" type="text/css" href="{{asset('assets/font-awesome/css/font-awesome.min.css')}}">
 </head>
 <body data-spy="scroll" data-target="#myNav">
 	@include('companies.partials.header')
