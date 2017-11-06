@@ -16,12 +16,13 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-        // if (Auth::guest()) {
-        //     return redirect()->guest('login');
-        // }
-        if(Auth::check() && Auth::user()->role_id==1){
-            return $next($request);
-        } 
-        return redirect()->guest('dang-nhap');
+        if(Auth::check()){
+            if(Auth::user()->role_id==2){
+                return $next($request);
+            }
+            Auth::logout();
+            return redirect()->route('getlogin')->with(['message'=>'You are not Admin']);
+        }
+        return redirect()->route('getlogin');
     }
 }
