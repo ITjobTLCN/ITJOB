@@ -72,11 +72,4 @@ class UsersController extends Controller
             return redirect()->back()->withInput()->withErrors($errors);
         }
     }
-    public function getCurrentUser()
-    {
-        if(Auth::check()){
-            $user=Auth::user();
-        }
-        return $user;
-    }
 }

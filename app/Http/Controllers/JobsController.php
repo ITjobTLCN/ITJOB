@@ -243,8 +243,9 @@ class JobsController extends Controller
         $follow=Follow_jobs::where('user_id',$user_id)
                         ->where('job_id',$job_id)->first();
         if($follow){
-            $follow=Follow_jobs::find($follow->id);
-            $follow->delete();
+            $follow=Follow_jobs::where('user_id',$user_id)
+                        ->where('job_id',$job_id)->delete();
+            // $follow->delete();
             return "delete";
         }else{
             $table=new Follow_jobs();

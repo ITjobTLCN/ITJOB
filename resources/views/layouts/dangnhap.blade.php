@@ -4,11 +4,10 @@ Login | ITJob
 @stop
 @section('body.content')
 <div class="container">
-<div class="wrapper">
 	<div class="form-login well well-lg">
 		<div class="row">
-			<div class="col-md-3"></div>
-		<div class="col-md-6">
+			<div class="col-md-3 hidden-xs"></div>
+		<div class="col-md-6 col-xs-12">
 			<div class="login_header">
 				<div class="title">
 					<h1 class="text-center">Đăng nhập</h1>
@@ -16,8 +15,8 @@ Login | ITJob
 				</div>
 				<div class="social text-center">
 
-					<button class="btn btn-primary"><i class="fa fa-fw fa-facebook"></i> Facebook</button>
-					<button class="btn btn-danger"><i class="fa fa-fw fa-google"></i> Google</button>
+					<a class="btn btn-primary" href="{{route('loginProvider','facebook')}}"><i class="fa fa-fw fa-facebook"></i>Sign in with Facebook</a>
+					<a class="btn btn-danger" href="{{route('loginProvider','google')}}"><i class="fa fa-fw fa-google"></i>Sign in with Google</a>
 				</div>
 			</div>
 			<hr>
@@ -58,10 +57,9 @@ Login | ITJob
 				<h4>Bạn chưa có tài khoản? <a href="{{route('register')}}" style="color: #337ab7">Đăng ký ngay</a></h4>
 			</div>
 		</div>
-		<div class="col-md-3"></div>
+		<div class="col-md-3 hidden-xs"></div>
 		</div>
 	</div>
-</div>
 </div>
 @stop
 @section('footer.js')

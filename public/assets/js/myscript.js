@@ -119,4 +119,28 @@ $(document).ready(function(){
 			$(this).text("Following");
 		});
 	});
+	//add star review companies
+	var cStar=1;
+	$('#add-star').click(function(){
+		if(cStar<5){
+			cStar++;
+			$('#cStar').val(cStar);
+			$('.star-review').append('<a href="" id="star'+cStar+'"><i class="fa fa-star" aria-hidden="true"></i></a>');
+		}else{
+			$(this).css({
+				'disabled':'disabled',
+			});
+		}
+	});
+	$('#sub-star').click(function(){
+		if(cStar>1){
+			$('a#star'+cStar).remove();
+			cStar--;
+			$('#cStar').val(cStar);
+		}else{
+			$(this).css({
+				'disabled':'disabled',
+			});
+		}
+	})
 });

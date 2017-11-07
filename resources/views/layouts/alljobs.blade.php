@@ -27,7 +27,7 @@ Search for all it Jobs in Vietnam
 									</ul>
 								</div>
 							</div>
-							<div id="skills" class="facet" >
+							<div id="skills" class="facet" ng-controller="SkillsController">
 								<h5 data-toggle="collapse" data-target="#list-skills">skills</h5>
 								<div id="list-skills" class="collapse in">
 									<ul>
@@ -114,6 +114,7 @@ Search for all it Jobs in Vietnam
 @section('footer.js')
 <script src="assets/controller/UsersController.js"></script>
 <script src="assets/controller/JobsController.js"></script>
+
 <script src="assets/js/aboutjob.js"></script>
 <script src="assets/js/typeahead.js"></script>
 <script src="assets/js/typeahead-autocomplete-job.js"></script>

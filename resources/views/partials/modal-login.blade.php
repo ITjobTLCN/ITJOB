@@ -14,8 +14,8 @@
 								<h4 class="text-center">Đăng nhập hoặc đăng ký thành viên nhanh bằng tài khoản</h4>
 							</div>
 							<div class="social text-center">
-								<button class="btn btn-primary"><i class="fa fa-fw fa-facebook"></i> Facebook</button>
-								<button class="btn btn-danger"><i class="fa fa-fw fa-google"></i> Google</button>
+								<a type="button" href="{{route('loginProvider','facebook')}}" class="btn btn-primary"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+								<a type="button" href="{{route('loginProvider','google')}}" class="btn btn-danger"><i class="fa fa-fw fa-google"></i> Google</a>
 							</div>
 						</div>
 					</h5>

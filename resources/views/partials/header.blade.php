@@ -19,7 +19,7 @@
                         <li><a href="">Post Job</a></li>
                         @if(Auth::check())
                         <li>
-                            <a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar"><img class="user-avatar" src="assets/img/avatar.jpg" alt="Picture?"></div></a> 
+                            <a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar"><img class="user-avatar" src="{{Auth::user()->image}}" alt="Avatar"></div></a> 
                             <ul class="sub-menu-info">
                                 <li><a href="{{route('profile')}}"><i class="fa fa-user" aria-hidden="true"></i>  My Account</a></li>
                                 <li><a href="#"><i class="fa fa-check-square-o" aria-hidden="true" style="color: green;"></i>  Apply Jobs</a></li>

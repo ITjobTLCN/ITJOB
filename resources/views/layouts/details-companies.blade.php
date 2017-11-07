@@ -33,7 +33,11 @@
 				<div class="col-md-3 col-sm-4 col-xs-12">
 					<div class="action_companies">
 						<div class="add_review">
-							<a class="btn btn-danger">Add Review</a>
+						@if(Auth::check())
+						<a href="{{route('reviewCompany',$company->alias)}}" class="btn btn-danger">Add Review</a>
+						@else
+						<a href="#" class="btn btn-danger" data-toggle="modal" data-target="#loginModal">Add Review</a>
+						@endif
 						</div>
 						
 						@if(Auth::check())

@@ -17,7 +17,7 @@ app.directive('bsPopover', function() {
         element.find("a[rel=popover]").popover({ 
             trigger: "manual" , 
             html: true, 
-            placement: "bottom",
+            placement: "left",
             content: '<span class=".pop-content"> You must <a href="#" data-toggle="modal" data-target="#loginModal">Login </a>to do this</span>',
             animation:false})
         .on("mouseenter", function () {

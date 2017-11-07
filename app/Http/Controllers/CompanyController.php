@@ -152,8 +152,8 @@ class CompanyController extends Controller
         }
         return $output;
     }
-    public function hasFollow($value='')
-    {
-        # code...
+    public function getReviewCompanies($alias){
+        $company=Employers::where('alias',$alias)->first();
+        return view('layouts.review',compact('company'));
     }
  }

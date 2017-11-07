@@ -34,4 +34,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Employers','company_id','id');
     }
+    public function socialProviders()
+    {
+        return $this->hasMany(SocialProvider::class);
+    }
 }
