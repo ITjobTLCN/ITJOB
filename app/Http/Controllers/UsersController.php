@@ -8,8 +8,7 @@ use Auth;
 use Illuminate\Support\MessageBag;
 class UsersController extends Controller
 {
-	 public function _construct()
-    {
+	public function _construct(){
     	$this->middleware('auth');
     }
     public function getLogin()
@@ -72,12 +71,5 @@ class UsersController extends Controller
             $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không']); 
             return redirect()->back()->withInput()->withErrors($errors);
         }
-    }
-    public function getCurrentUser()
-    {
-        if(Auth::check()){
-            $user=Auth::user();
-        }
-        return $user;
     }
 }

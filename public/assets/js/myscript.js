@@ -81,5 +81,66 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
+	$('.followed').click(function(){
+		var emp_id=$('#emp_id').val();
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+		$.ajax({
+			type:'get',
+			url:'follow-company',
+			data:{
+				emp_id:emp_id,
+			},
+			success : function(data){
+				$('.followed i').css({
+					'display':'inline-block'
+				});
+				$('.followed').html(data);
+			}
+		});
+	});
+	$('#unfollowed').mouseover(function(){
+			$(this).text("Unfollow");
+		});
+	$('#unfollowed').mouseleave(function(){
+		$(this).text("Following");
+	});	
+	$(document).ajaxComplete(function(){
+		$('.followed i').css({
+			'display':'none'
+		});
+		$('#unfollowed').mouseover(function(){
+			$(this).text("Unfollow");
+		});
+		$('#unfollowed').mouseleave(function(){
+			$(this).text("Following");
+		});
+	});
+	//add star review companies
+	var cStar=1;
+	$('#add-star').click(function(){
+		if(cStar<5){
+			cStar++;
+			$('#cStar').val(cStar);
+			$('.star-review').append('<a href="" id="star'+cStar+'"><i class="fa fa-star" aria-hidden="true"></i></a>');
+		}else{
+			$(this).css({
+				'disabled':'disabled',
+			});
+		}
+	});
+	$('#sub-star').click(function(){
+		if(cStar>1){
+			$('a#star'+cStar).remove();
+			cStar--;
+			$('#cStar').val(cStar);
+		}else{
+			$(this).css({
+				'disabled':'disabled',
+			});
+		}
+	})
 });

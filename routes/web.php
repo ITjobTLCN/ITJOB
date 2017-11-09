@@ -94,13 +94,13 @@ Route::group(['prefix'=>'companies'],function(){
 	Route::get('get-more-job',['as'=>'get-more-job','uses'=>'CompanyController@getMoreJob']);
 	
 	Route::get('search-companies',['as'=>'searchCompanies','uses'=>'CompanyController@getCompaniesReview']);
-	Route::get('search-companies-by-name',['as'=>'searchCompaniesbyname','uses'=>'CompanyController@searchCompaniesByName']);	
-	//count follow of companies
-	Route::get('count-follow-com',['as'=>'countFollowCompany','uses'=>'CompanyController@countFollowCompany']);
+	Route::get('search-companies-by-name',['as'=>'searchCompaniesbyname','uses'=>'CompanyController@searchCompaniesByName']);
 	//click to follow conpany
 	Route::get('follow-company',['as'=>'followCompany','uses'=>'CompanyController@followCompany']);
 	//get details company
 	Route::get('{alias}',['as'=>'getEmployers','uses'=>'CompanyController@getDetailsCompanies']);
+	//review
+	Route::get('{alias}/review',['as'=>'reviewCompany','uses'=>'CompanyController@getReviewCompanies']);
 	
 });
 //get more hiring companies
@@ -161,13 +161,18 @@ Route::get('check-job-followed',[
 	'uses'=>'JobsController@getJobFollowed'
 ]);
 
-
-
-
 /*Dat - Login*/
 	//login-Register-Loggout
 Route::get('login',['as'=>'getlogin','uses'=>'HomeController@getLogin']);
 Route::post('login',['as'=>'postlogin','uses'=>'HomeController@postLogin']);
 Route::get('register',['as'=>'getregister','uses'=>'HomeController@getRegister']);
 Route::post('register',['as'=>'postregister','uses'=>'HomeController@postRegister']);
+
 /*END Dat - Login*/	
+
+
+//login with facebook
+Route::get('login/{provider}',['as'=>'loginProvider','uses'=>'AuthController@redirectToProvider']);
+Route::get('login/{provider}/callback', 'AuthController@handleProviderCallback');
+
+

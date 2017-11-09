@@ -4,7 +4,7 @@ Reviews of top companies on ITJob
 @stop
 @section('body.content')
 <div class="search-companies">
-	<div class="wrapper">
+	<div class="container">
 		<div class="row">
 			<ol class="breadcrumb">
 				<li><a href="{{route('/')}}">Home</a></li>
@@ -33,7 +33,7 @@ Reviews of top companies on ITJob
 	<div class="clearfix"></div>
 </div>
 <div class="list-companies">
-	<div class="companies-hiring-now wrapper container">
+	<div class="companies-hiring-now container">
 		<div class="title">
 			<h1>Companies hiring now</h3>
 			<h3>This is list companies that is most concerned</h2>
@@ -41,7 +41,7 @@ Reviews of top companies on ITJob
 		<div class="list-companies clearfix">
 			@foreach($comHirring as $ch)
 			<div class="col-md-4">
-				<a href="{{route('getEmployers',$ch->alias)}}" class="company">
+				<a href="{{route('getEmployers',$ch->alias)}}" class="company" target="_blank">
 					<div class="company_banner">
 						<img src="assets/img/property_1.jpg" alt="Cover-photo" class="img-responsive image" title="" class="property_img"/>
 					</div>
@@ -71,7 +71,7 @@ Reviews of top companies on ITJob
 		<a href="" id="see-more-hiring">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 	</div>
 	<div class="seperate"></div>
-	<div class="most-followed-companies wrapper container">
+	<div class="most-followed-companies container">
 		<div class="title">
 			<h1>Most followed companies</h3>
 			<h3>This is list companies that is the most followed</h2>

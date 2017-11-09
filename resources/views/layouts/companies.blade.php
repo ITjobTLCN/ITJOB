@@ -4,7 +4,7 @@
 @stop
 @section('body.content')
 <div class="search-companies">
-    <div class="wrapper">
+    <div class="container">
         <div class="row">
             <ol class="breadcrumb">
                 <li><a href="{{route('/')}}">Home</a>
@@ -33,7 +33,7 @@
     <div class="clearfix"></div>
 </div>
 <div class="container">
-    <div class="wrapper companies">
+    <div class="companies">
         <div class="row">
             <div class="col-md-8" id="list-companies">
                 <div class="num-companies">

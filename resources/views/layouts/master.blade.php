@@ -13,13 +13,14 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/responsive.css">
 	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 	@include('partials.header')
 	@yield('header.caption')
 	<div class="main">
 		@yield('body.content')
-		@include('partials.social')
+			@include('partials.social')
 	</div>
 	@include('partials.footer')
 	@include('partials.js')
