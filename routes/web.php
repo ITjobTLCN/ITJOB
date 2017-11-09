@@ -170,4 +170,4 @@ Route::get('login',['as'=>'getlogin','uses'=>'HomeController@getLogin']);
 Route::post('login',['as'=>'postlogin','uses'=>'HomeController@postLogin']);
 Route::get('register',['as'=>'getregister','uses'=>'HomeController@getRegister']);
 Route::post('register',['as'=>'postregister','uses'=>'HomeController@postRegister']);
-/*END Dat - Login*/
+/*END Dat - Login*/	
