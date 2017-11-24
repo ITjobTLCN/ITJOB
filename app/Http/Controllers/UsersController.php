@@ -59,9 +59,9 @@ class UsersController extends Controller
 
   		if(Auth::attempt(['email'=>$email,'password'=>$password])){
             $role_id=Auth::user()->role_id;
-            if($role_id==1){
-      			 return redirect()->intended('admin/index');
-            }else if($role_id==2){
+            if($role_id==2){
+      			 return redirect()->intended('admin/dashboard');
+            }else if($role_id==1){
                 return redirect()->back();
             }else{
                 

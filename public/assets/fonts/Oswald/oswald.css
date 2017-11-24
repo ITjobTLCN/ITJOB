@@ -1,0 +1,6 @@
+﻿@font-face {
+  font-family: 'Oswald';
+  font-style: regular;
+  font-weight: 400;
+  src: local('Oswald'), local('Oswald'),url(../../fonts/Oswald/Oswald-Regular.ttf) format('truetype');
+}

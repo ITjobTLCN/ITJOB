@@ -8,10 +8,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{route('admin-index')}}">SB Admin</a>
+                <a class="navbar-brand" href="#">IT Job Admin</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
+                <li>
+                    <div id="txtName">Xin chào: <span>@if(Auth::check()){{Auth::user()->name}}@endif</span></div>
+                </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu message-dropdown">
@@ -97,9 +100,7 @@
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-                    @if(Auth::check())
-                        {{Auth::user()->name}}
-                    @endif
+                
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -113,7 +114,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="{{route('logout')}}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                            <a href="{{route('getlogout')}}"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>

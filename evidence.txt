@@ -1,0 +1,8 @@
+##################   Any change need to be record here   ##################
+
+0. Let's go
+1. 24/11/2017--4:44PM
+	a. Thay đổi view admin
+	b. Thêm thư viện Excel - thêm vào app/config
+	c. thay đổi chuyển hướng khi đăng nhập role admin:  từ 1->2
+	d. thêm thư mục angularjs trong public/assets lưu file controller và mudule angularjs
