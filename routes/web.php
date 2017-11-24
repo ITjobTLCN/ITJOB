@@ -175,7 +175,7 @@ Route::post('register',['as'=>'postregister','uses'=>'HomeController@postRegiste
 Route::get('login/{provider}',['as'=>'loginProvider','uses'=>'AuthController@redirectToProvider']);
 Route::get('login/{provider}/callback', 'AuthController@handleProviderCallback');
 
-<<<<<<< HEAD
+
 Route::get('see-more-reviews',[
 	'as'=>'seeMoreReview',
 	'uses'=>'CompanyController@seeMoreReviews'
@@ -184,11 +184,4 @@ Route::get('/demo',function(){
 	return view('layouts.demo');
 });
 
-
-
-
-
-
-=======
->>>>>>> 9dae33592e083942ed055ed82821447769e10c33
 

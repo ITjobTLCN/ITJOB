@@ -2,7 +2,7 @@ $(document).ready(function(){
     function init() {
         window.addEventListener('scroll', function(e){
             var distanceY = window.pageYOffset || document.documentElement.scrollTop,
-                shrinkOn = 100,
+                shrinkOn = 200,
                 header = document.querySelector(".header");
             if (distanceY > shrinkOn) {
                 classie.add(header,"smaller");

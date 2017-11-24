@@ -72,7 +72,7 @@ ITJob - Top Job IT For You
 </div>
 @stop
 @section('body.content')
-<div class="container">
+<div class="main-listings">
 	<section class="listings">
 		<div class="title">
 			<h1>Top Employees</h1>
@@ -192,6 +192,7 @@ ITJob - Top Job IT For You
 		</div>
 	</section>	<!--  end listing section  -->
 </div>
+@include('partials.advertiment')
 @stop
 @section('footer.js')
 <script src="assets/js/typeahead.js"></script>

@@ -101,11 +101,20 @@ h6 {
     color: red;
 }
 @colorWhite:#fff;
+@mainColor:#373a48;
 /*  Header Section  */
-
+.horizontal-navbar{
+    margin-bottom: 0;
+    height: 60px;
+}
 .header {
     height: 60px;
     background: @colorWhite;
+    .navbar-header{
+        margin-right: 20px;
+        margin-left: 20px;
+        padding-top: 10px;
+    }
     .navbar{
         height: 60px;
         margin-bottom: 0px !important;
@@ -117,8 +126,6 @@ h6 {
     border-color: @colorWhite !important;
 }
 a.logo img {
-    margin-top: 6px;
-    float: left;
     width: 130px;
     height: 40px;
     vertical-align: middle;
@@ -183,29 +190,16 @@ ul#menu-header>li{
     list-style: none;
     li{
         position: relative;
+        height: 60px;
         a{
+            color: #555;
             display: block;
-            white-space: pre;
-            font-size: 18px;
-            font-weight: 500;
+            font-size: 15px;
             &:hover{
-                color: #000;
+                color: #e24b30;
                 border-top: 1px #f0101a solid;
             }
         }
-        // >ul >li{
-        //     border-bottom: 1px solid #9b9ea0;
-        //     >a{
-        //         padding: 10px 20px;
-        //         color: #000;
-        //         &:hover{
-        //             background: #fff;
-        //             color: #000;
-        //             border-top: none;
-        //         }
-        //     }
-            
-        // }
     }
 }
 .sub-menu-info {
@@ -588,10 +582,13 @@ div#menu-info ul li:hover .sub-menu-info {
 #myFooter {
     background-color: #373a48;
     color: white;
+    .footer-top{
+        margin-bottom: 10px;
+    }
     .footer-copyright {
         background-color: #383737;
-        padding-top: 3px;
-        padding-bottom: 3px;
+        padding: 3px;
+        font-size: 15px;
         text-align: center;
         p{
             margin: 10px;
@@ -1059,6 +1056,7 @@ div#menu-info ul li:hover .sub-menu-info {
     }
     .header.smaller nav{
         height: 30px !important;
+        background-color: @mainColor !important;
     }
     .action_companies a{
         width: 70% !important;
@@ -1417,20 +1415,22 @@ span.separator {
     display: inline-block;
     float: right; 
 }*/
-.header.smaller {
-
-    height: 30px;
-}
+// .header.smaller {
+    
+//     height: 30px;
+// }
 .header.smaller a.logo img {
     width: 100px;
     height: 30px;
     line-height: 75px;
-    font-size: 30px;
 }
 .header.smaller nav{
+    background-color: @mainColor !important;
+    border-color: @mainColor !important;
     height: 30px;
 }
 .header.smaller nav a {
+    color: @colorWhite !important;
     line-height: 18px;
 }
 /* =Footer

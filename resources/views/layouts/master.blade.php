@@ -19,10 +19,11 @@
 <body>
 	@include('partials.header')
 	@yield('header.caption')
-	<div class="main">
+	<div class="main container">
 		@yield('body.content')
-			@include('partials.social')
+		
 	</div>
+	@include('partials.social')
 	@include('partials.footer')
 	@include('partials.js')
 	@yield('footer.js')
