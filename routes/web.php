@@ -167,12 +167,15 @@ Route::get('login',['as'=>'getlogin','uses'=>'HomeController@getLogin']);
 Route::post('login',['as'=>'postlogin','uses'=>'HomeController@postLogin']);
 Route::get('register',['as'=>'getregister','uses'=>'HomeController@getRegister']);
 Route::post('register',['as'=>'postregister','uses'=>'HomeController@postRegister']);
-/*END Dat - Login*/
+
+/*END Dat - Login*/	
+
 
 //login with social
 Route::get('login/{provider}',['as'=>'loginProvider','uses'=>'AuthController@redirectToProvider']);
 Route::get('login/{provider}/callback', 'AuthController@handleProviderCallback');
 
+<<<<<<< HEAD
 Route::get('see-more-reviews',[
 	'as'=>'seeMoreReview',
 	'uses'=>'CompanyController@seeMoreReviews'
@@ -186,4 +189,6 @@ Route::get('/demo',function(){
 
 
 
+=======
+>>>>>>> 9dae33592e083942ed055ed82821447769e10c33
 
