@@ -1,5 +1,5 @@
 <div class="header">
-    <nav class="navbar navbar-default" role="navigation" data-spy="affix" data-offset-top="2">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" >
             <div class="container">
                 <div class="container-fluid">
                 <div class="navbar-header">
@@ -14,6 +14,7 @@
                 </div>
                 <div class="collapse navbar-collapse menu123" id="menu-info">
                     <ul id="menu-header" class="nav navbar-nav navbar-right">
+                        <li><a href="{{route('/')}}">Home</a></li>
                         <li><a href="{{route('alljobs')}}">All Jobs</a></li>
                         <li><a href="{{route('searchCompanies')}}">Company</a></li>
                         <li><a href="">Post Job</a></li>
@@ -37,3 +38,4 @@
             </div>
     </nav>
 </div>
+

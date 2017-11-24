@@ -45,10 +45,7 @@ Search for all it Jobs in Vietnam
 							<div class="job-search__top-nav">
 								<div class="row">
 									<div class="col-xs-12 col-md-6 col-lg-12">
-										<h2>@if(Session::has('countjob'))
-											{{Session::has('countjob')}}
-											@else {{count($listJobLastest)}} IT Jobs for you </h2>
-											 @endif
+										<h2>{{$countjob}} IT Jobs for you </h2>
 									</div>
 									<div class="col-xs-12 col-md-6 col-lg-5"></div>
 								</div>
@@ -78,7 +75,7 @@ Search for all it Jobs in Vietnam
 												<h3><% job.job_description %></h3>
 											</div>
 											<div class="company text-clip">
-												<span class="salary-job"><a href="{{route('login')}}">Đăng nhập để xem lương</a></span>
+												<span class="salary-job"><a data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a></span>
 												<span class="separator">|</span>
 												<span class="">Hôm nay</span>
 											</div>
@@ -87,7 +84,7 @@ Search for all it Jobs in Vietnam
 									</div>
 									<div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">
 										@if(Auth::check())
-										<div class="follow{{$ljlt->id}}" id="followJob" emp_id="{{$ljlt->employer_id}}" job_id="{{$ljlt->id}}">
+										<div class="follow{{$ljlt->id}}" id="followJob" emp_id="{{$ljlt->emp_id}}" job_id="{{$ljlt->id}}">
 											@if(app(App\Http\Controllers\JobsController::class)->getJobFollowed($ljlt->id)==1)
 												<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>
 											@else

@@ -42,8 +42,7 @@ class UsersController extends Controller
             $email=$req->newEmail;
             $user=User::where('id',$id)->update(['email'=>$email]);
             // return "them thanh cong";
-        }
-        
+        } 
     }
     public function editProfile(Request $req)
     {

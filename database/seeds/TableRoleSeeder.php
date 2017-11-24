@@ -27,6 +27,11 @@ class TableRoleSeeder extends Seeder
 	        	'detail'=>'Công ty',
 	        	'created_at'=>new DateTime()
         	],
+            [
+                'name'=>'employee',
+                'detail'=>'Nhân viên',
+                'created_at'=>new DateTime()
+            ],
         ]);
     }
 }

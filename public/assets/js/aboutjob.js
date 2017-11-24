@@ -30,7 +30,7 @@ $(document).ready(function(){
  			trigger: "manual" , 
             html: true, 
             placement: "bottom",
-            content: '<span>You must <a href="" data-toggle="modal" data-target="#loginModal">Login </a>to do this</span>',
+            content: '<span>You must <a href="#" data-toggle="modal" data-target="#loginModal">Login </a>to do this</span>',
             animation:false
  		})
  		.on("mouseenter", function () {

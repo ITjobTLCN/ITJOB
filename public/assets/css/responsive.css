@@ -1583,6 +1583,9 @@ span.separator {
     text-align: center;
     font-size: 30px;
 }
+.header-section span{
+    font-size: 20px;
+}
 .about-company .paragraph{
     font-size: 16px;
     line-height: 1.7em;
@@ -1918,40 +1921,114 @@ a:visited {
 }
 .review-form label{
     font-size: 20px;
-    padding: 12px 0;
+    padding: 5px 0;
 }
-.review-form .recommend-to-friend .recommend.yes.active i{
+.review-form .error{
+    color: red;
+    font-size: 15px;
+}
+.recommend-to-friend i{
     cursor: pointer;
     font-size: 40px !important;
-    color: blue;
-}
-.review-form .recommend-to-friend .recommend.yes.active span:hover{
-    color: blue;
-}
-.review-form .recommend-to-friend .recommend.no span:hover{
-    color: red;
-}
-.review-form .recommend-to-friend .recommend.no i{
-    cursor: pointer;
-    font-size: 40px !important;
-    color: red;
 }
 .review-form button{
     font-size: 20px;
 }
 /*star review companies*/
-.br-widget .star-review{
+.rating-stars-box a{
+    background: #00c4ff;
+    color: #fff;
+    border-radius: 5px;
+}
+.rating-stars-box i{
+    font-size: 12px !important;
+    color: #fff;
+    margin-left: 4px;
+}
+.star-review{
     display: inline-flex;
 }
-.br-widget .star-review a{
+.star-review a{
     background: #00c4ff;
-    padding: 5px 5px;
+    padding: 10px 7px;
     color: #fff;
-    border-radius: 4px;
+    border-radius: 100%;
     margin-right: 5px;
     margin-left: 5px;
 }
-.br-widget .star-review i{
+.star-review i{
     color: #fff;
     margin-left: 3px;
 }
+.result{
+    margin-top: 15px;
+}
+.fa-times{
+    color: red !important;
+}
+/*list review companies*/
+.rating-companies{
+    border: 1px solid #d3d6db;
+    margin-top: 10px;
+    background: #fff;
+}
+.rating-companies #ratings{
+    padding: 10px 20px;
+}
+.details-review {
+    padding: 20px 10px;
+
+}
+#list-review .content-of-review .date{
+    color: grey;
+    padding: 10px 0;
+    font-size: 13px;
+}
+#list-review .content-of-review h3{
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+#list-review .content-of-review .short-title{
+    font-size: 23px;
+    color: #333;
+    line-height: 1.5em;
+    word-wrap: break-word;
+}
+#list-review .content-of-review .content{
+    word-wrap: break-word;
+    margin-left: 10px;
+}
+#list-review .content-of-review:not(:last-child){
+    border-bottom: 1px solid lightgrey;
+}
+#list-review .content-of-review .yes i{
+    color: #4267b2;
+}
+.content-of-review .recommend{
+    padding-left: 15px;
+    font-size: 14px;
+    color: grey;
+}
+.content-of-review .recommend i{
+    color: #4267b2;
+}
+#list-review .see-more{
+    margin-top: 10px;
+    text-align: center;
+}
+#list-review .see-more a{
+
+}
+.company-rating-info__chart-recommend .recommend{
+    padding-left: 10px;
+}
+.company-rating-info__chart-recommend .chart span{
+    font-weight: bold !important;
+}
+.company-ratings__star-point{
+    font-size: 25px;
+}
+
+

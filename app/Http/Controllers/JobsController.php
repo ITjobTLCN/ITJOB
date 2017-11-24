@@ -18,31 +18,22 @@ use DateTime;
 class JobsController extends Controller
 {
     public function getIndex(){
-        Cache::forget('listJobSearch');
         $minutes = 60;//Thời gian hết hạn
-        if(Cache::has('listJobLastest')){
-            $listJobLastest=Cache::get('listJobLastest');
-        }else{
-            $listJobLastest = Cache::remember('listJobLastest',$minutes,function(){
-                return DB::table('jobs as j')->select('j.*','c.name as cn','e.name as en')
-                                    ->join('cities as c','j.city_id','=','c.id')
-                                    ->join('employers as e','j.employer_id','=','e.id')
-                                    ->orderBy('j.id','desc')
-                                    ->offset(0)->take(20)->get();
-            });
-        }
-        if(Cache::has('countjob')){
-            $countjob=Cache::get('countjob');
-        }else{
-            $countjob=Cache::remember('countjob',$minutes,function(){
-                return Jobs::count();
-            });
-        }
-        if(Cache::has('listLocation')){
-            $cities=Cache::get('listLocation');
-        }else{
-            
-        }
+        $listJobLastest = Cache::remember('listJobLastest',$minutes,function(){
+            return DB::table('jobs as j')->select('j.*','c.name as cn','e.name as en')
+                                ->join('cities as c','j.city_id','=','c.id')
+                                ->join('employers as e','j.emp_id','=','e.id')
+                                ->orderBy('j.id','desc')
+                                ->offset(0)->take(20)->get();
+        });
+        $countjob=Cache::remember('countjob',$minutes,function(){
+            return Jobs::count();
+        });
+
+        $cities=Cache::remember('listLocation', $minutes, function() {
+            return Cities::all();
+        });
+
     	return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
     }
     //return to detail-job page
@@ -66,7 +57,7 @@ class JobsController extends Controller
         if(count($info_city)!=0){
 
             foreach ($info_city as $key => $ifc) {
-                $job=Jobs::select('id','name','alias','job_description','city_id','employer_id')->where('city_id',$ifc)->get();
+                $job=Jobs::select('id','name','alias','description','city_id','emp_id')->where('city_id',$ifc)->get();
                 if(count($job)!=0){
                     foreach ($job as $key => $jo) {
                         $output[]=$jo;
@@ -94,7 +85,7 @@ class JobsController extends Controller
         }
         foreach ($output as $key => $job) {
             $location=Cities::where('id',$job->city_id)->value('name');
-            $companies=Employers::where('id',$job->employer_id)->value('name');
+            $companies=Employers::where('id',$job->emp_id)->value('name');
             $skills=DB::table('skills')->join('skill_job','skills.id','=','skill_job.skill_id')->where('skill_job.job_id',$job->id)->select('skills.name','skills.id')->get();
             $result.='<div class="job-item">
                             <div class="row">
@@ -114,6 +105,14 @@ class JobsController extends Controller
                                             <span class="separator">|</span>
                                             <span class="job-search__location">'.$location.'</span>
                                         </div>
+                                        <div class="description-job">
+                                                <h3>'.$job->description.'</h3>
+                                            </div>
+                                            <div class="company text-clip">
+                                                <span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a></span>
+                                                <span class="separator">|</span>
+                                                <span class="">Hôm nay</span>
+                                            </div>
                                         <div class="tag-list">';
                 foreach ($skills as $key => $skill) {
                     $skill_name=$skill->name; 
@@ -121,7 +120,7 @@ class JobsController extends Controller
                 }
                 $result.='</div></div></div><div class="col-xs-1 col-sm-2 col-md-2 col-lg-2">';
                 if(Auth::check()){
-                    $result.='<div class="follow'.$job->id.'" id="followJob" job_id="'.$job->id.'" emp_id="'.$job->employer_id.'">';
+                    $result.='<div class="follow'.$job->id.'" id="followJob" job_id="'.$job->id.'" emp_id="'.$job->emp_id.'">';
                     if($this->getJobFollowed($job->id)){
                         $result.='<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>';
                     }else{
@@ -161,7 +160,7 @@ class JobsController extends Controller
                                 ->select('j.*','e.name as en','c.name as cn')
                                 ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
                                     $join->on('j.id','=','a.job_id');})
-                                ->join('employers as e','j.employer_id','=','e.id')
+                                ->join('employers as e','j.emp_id','=','e.id')
                                 ->join('cities as c','j.city_id','=','c.id')->get();
             Session::flash('skillname',$name);
             $countjob=count($listJobLastest);
@@ -182,7 +181,7 @@ class JobsController extends Controller
                 ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
                     $join->on('j.id','=','a.job_id');})
                 ->where('j.city_id',$city->id)
-                ->join('employers as e','j.employer_id','=','e.id')
+                ->join('employers as e','j.emp_id','=','e.id')
                 ->join('cities as c','j.city_id','=','c.id')->get();
                 Session::flash('skillname',$req->alias);
                 Session::flash('city',$city->name);
@@ -219,7 +218,7 @@ class JobsController extends Controller
                             ->select('j.*','e.name as en','a.name as cn')
                             ->join(DB::raw('(Select id,name from cities where id='.$city->id.') a'),function($join){
                                 $join->on('j.city_id','=','a.id');})
-                            ->join('employers as e','j.employer_id','=','e.id')
+                            ->join('employers as e','j.emp_id','=','e.id')
                             ->get();
         $countjob=count($listJobLastest);
         Session::flash('city',$city->name);

@@ -97,11 +97,14 @@ Route::group(['prefix'=>'companies'],function(){
 	Route::get('search-companies-by-name',['as'=>'searchCompaniesbyname','uses'=>'CompanyController@searchCompaniesByName']);
 	//click to follow conpany
 	Route::get('follow-company',['as'=>'followCompany','uses'=>'CompanyController@followCompany']);
+	
+	//submit review companies
+	Route::post('review',['as'=>'submitReviewCompany','uses'=>'CompanyController@postReviewCompanies']);
 	//get details company
 	Route::get('{alias}',['as'=>'getEmployers','uses'=>'CompanyController@getDetailsCompanies']);
 	//review
-	Route::get('{alias}/review',['as'=>'reviewCompany','uses'=>'CompanyController@getReviewCompanies']);
-	
+	Route::get('{alias}/review',['as'=>'reviewCompany','uses'=>'CompanyController@getReviewCompanies'])->middleware('auth');
+	Route::post('{alias}/review',['as'=>'reviewCompany','uses'=>'CompanyController@postReviewCompanies'])->middleware('auth');
 });
 //get more hiring companies
 Route::get('more-hiring-companies',[
@@ -127,9 +130,6 @@ Route::get('search-job',[
 	'as'=>'seach-job',
 	'uses'=>'JobsController@getSearchJob'
 ]);
-Route::get('demo',function(){
-	return view('layouts.demo');
-});
 //get skills by job_id
 Route::get('skill-by-job-id',[
 	'as'=>'skill-by-job-id',
@@ -169,7 +169,21 @@ Route::get('register',['as'=>'getregister','uses'=>'HomeController@getRegister']
 Route::post('register',['as'=>'postregister','uses'=>'HomeController@postRegister']);
 /*END Dat - Login*/
 
-//login with facebook
+//login with social
 Route::get('login/{provider}',['as'=>'loginProvider','uses'=>'AuthController@redirectToProvider']);
 Route::get('login/{provider}/callback', 'AuthController@handleProviderCallback');
+
+Route::get('see-more-reviews',[
+	'as'=>'seeMoreReview',
+	'uses'=>'CompanyController@seeMoreReviews'
+])->middleware('auth');
+Route::get('/demo',function(){
+	return view('layouts.demo');
+});
+
+
+
+
+
+
 

@@ -18,13 +18,13 @@ class TableEmployerSeeder extends Seeder
         		'address'=>'Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Hồ Chí Minh'
         	],
         	[
-        		'name'=>'dasdsa',
-        		'alias'=>'global-cyber-soft',
+        		'name'=>'FPT Software',
+        		'alias'=>'fpt-software',
         		'address'=>'Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Hồ Chí Minh'
         	],
         	[
-        		'name'=>'hjuyrr',
-        		'alias'=>'global-cyber-soft',
+        		'name'=>'VNG Corporation',
+        		'alias'=>'vng-corporation',
         		'address'=>'Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Hồ Chí Minh'
         	]
 

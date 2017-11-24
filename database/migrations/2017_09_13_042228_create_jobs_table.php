@@ -18,14 +18,19 @@ class CreateJobsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('alias');
-            $table->string('detail');
-            $table->string('job_description');
-            $table->string('require');
-            $table->string('treatment');
-            $table->integer('status')->default(1);
+            $table->string('salary')->nullable();
+            $table->text('description')->nullable();
+            $table->text('require')->nullable();
+            $table->text('treatment')->nullable();
+            $table->integer('quantity')->nullable();
             $table->integer('user_id')->unsigned();
-            $table->integer('employer_id')->unsigned();
+            $table->integer('emp_id')->unsigned();
             $table->integer('city_id')->unsigned();
+            $table->integer('follow')->default(0);
+            $table->integer('status')->default(1);
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('emp_id')->references('id')->on('employers');
+            $table->foreign('city_id')->references('id')->on('cities');
             $table->timestamps();
         });
     }

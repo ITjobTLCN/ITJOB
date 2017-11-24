@@ -6,6 +6,7 @@ app.controller('JobsController', function($scope,$http){
 		$scope.myCountry = {
 			    selected:{}
 			};
+            $scope.hoten="Tran Thanh Phong";
 		$scope.cities=response.data.locations;
 		$scope.skills=response.data.skills;
 	},function(error){

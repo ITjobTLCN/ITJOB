@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Jobs extends Model
 {
      protected $table='jobs';
-
+     protected $fillable=[
+          "name","alias","user_id","emp_id","city_id"
+     ];
      public function CV()
      {
      	return $this->belongsToMany('App\CV','applies','job_id','cv_id');

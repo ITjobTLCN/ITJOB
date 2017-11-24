@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Employers;
 use App\Jobs;
-use App\Follow_companies;
+use App\Follow_employers;
+use App\Reviews;
 use DB;
 use Auth;
 use DateTime;
@@ -18,24 +19,25 @@ class CompanyController extends Controller
     public function getMoreJob(Request $req){
         $dem=$req->dem;
         $com_id=$req->com_id;
-        $jobs=Jobs::where('employer_id',$com_id)->offset($dem)->take(10)->get();
+        $jobs=Jobs::where('emp_id',$com_id)->offset($dem)->take(10)->get();
         return $dem;
     }
     public function getDetailsCompanies(Request $req){
         $company=Employers::where('alias',$req->alias)->first();
-        $jobs=Jobs::where('employer_id',$company['id'])->offset(0)->take(10)->get();
+        $jobs=Jobs::where('emp_id',$company['id'])->offset(0)->take(10)->get();
         $skills=DB::table('skill_job as sj')
                     ->select('s.*')->distinct()
-                    ->join(DB::raw('(select id from jobs where employer_id='.$company['id'].') as a'),function($join){
+                    ->join(DB::raw('(select id from jobs where emp_id='.$company['id'].') as a'),function($join){
                         $join->on('sj.job_id','=','a.id');})
                     ->join('skills as s','sj.skill_id','=','s.id')->get();
+        $reviews=Reviews::where('emp_id',$company['id'])->offset(0)->take(5)->get();
         if(Auth::check()){
-            $follow=Follow_companies::where('comp_id',$company['id'])
+            $follow=Follow_employers::where('emp_id',$company['id'])
                                         ->where('user_id',Auth::user()->id)
                                         ->first();
-            return view('layouts.details-companies',compact('company','skills','jobs','follow'));
+            return view('layouts.details-companies',compact('company','skills','jobs','follow','reviews'));
         }
-        return view('layouts.details-companies',compact('company','skills','jobs')); 
+        return view('layouts.details-companies',compact('company','skills','jobs','reviews')); 
     }
     public function getCompaniesReview(){
         $comHirring=Employers::orderBy('id','desc')->offset(0)->take(6)->get();
@@ -130,22 +132,22 @@ class CompanyController extends Controller
     public function followCompany(Request $req){
         $output="";
         $emp_id=$req->emp_id;
-        $temp=Follow_companies::where('comp_id',$emp_id)->where('user_id',Auth::user()->id)->first();
+        $temp=Follow_employers::where('emp_id',$emp_id)->where('user_id',Auth::user()->id)->first();
         
         $company=Employers::find($emp_id);
         if($temp){
             $curr=$company->follow;
             $company->follow=$curr-1;
             $company->save();
-            $temp=Follow_companies::where('comp_id',$emp_id)->where('user_id',Auth::user()->id)->delete();
+            $temp=Follow_employers::where('emp_id',$emp_id)->where('user_id',Auth::user()->id)->delete();
             $output.="<a class='btn btn-default'>Follow ($company->follow) <i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i></a>";
         }else{
             $curr=$company->follow;
             $company->follow=$curr+1;
             $company->save();
-            $temp=new Follow_companies();
+            $temp=new Follow_employers();
             $temp->user_id=Auth::user()->id;
-            $temp->comp_id=$emp_id;
+            $temp->emp_id=$emp_id;
             $temp->created_at=new DateTime();
             $temp->save();
             $output.="<a class='btn btn-default' id='unfollowed'>Following <i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i></a>";
@@ -155,5 +157,67 @@ class CompanyController extends Controller
     public function getReviewCompanies($alias){
         $company=Employers::where('alias',$alias)->first();
         return view('layouts.review',compact('company'));
+    }
+    public function postReviewCompanies(Request $req){
+        //get value from form
+        $title=$req->title;
+        $like=$req->like;
+        $unlike=$req->unlike;
+        $rating=$req->cStar;
+        $suggest=$req->suggest;
+        $recommend=$req->recommend;
+        $emp_id=$req->emp_id;
+        //create a review
+        $table=new Reviews();
+        $table->rating=$rating;
+        $table->title=$title;
+        $table->like=$like;
+        $table->unlike=$unlike;
+        $table->suggests=$suggest;
+        $table->user_id=Auth::id();
+        $table->emp_id=$emp_id;
+        $table->recommend=$recommend;
+        $table->save();
+        return redirect()->back()->with('message','Cảm ơn bài đánh giá của bạn');
+    }
+    public function seeMoreReviews(Request $req){
+        $output="";
+        $reviews=Reviews::where('emp_id',$req->emp_id)->offset($req->cReview)->take(10)->get();
+        foreach ($reviews as $key => $rv) {
+            $output.='<div class="content-of-review">
+                        <div class="short-summary">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3 class="short-title">'.$rv->title.'</h3>
+                                    <div class="stars-and-recommend">
+                                        <span class="rating-stars-box">';
+                                            for($i=0;$i < $rv->rating;$i++){
+                                                $output.='<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a> ';
+                                            }
+            $output.='</span>';
+            if($rv->recommend==1){
+                $output.='<span class="recommend"><i class="fa fa-thumbs-o-up"></i> Recommend</span>';
+            }else{
+                $output.='<span class="recommend"><i class="fa fa-thumbs-o-down"></i>UnRecommend</span>';
+            }
+            $output.='</div>
+            <div class="date">'.$rv->created_at->format('d-M Y').'</div>
+        </div></div></div>
+        <div class="details-review">
+            <div class="what-you-liked">
+                <h3>Điều tôi thích</h3>
+                <div class="content paragraph">
+                    <p>'.$rv->like.'</p>
+                </div>
+            </div>
+            <div class="feedback">
+                <h3>Đề nghị cải thiện</h3>
+                <div class="content paragraph">
+                    <p>'.$rv->suggests.'</p>
+                </div>
+            </div>
+        </div></div>';                                          
+        }
+        return $output;
     }
  }

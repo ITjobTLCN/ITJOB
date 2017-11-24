@@ -14,7 +14,7 @@ class AddFollowTableEmployers extends Migration
     public function up()
     {
         Schema::table('employers', function (Blueprint $table) {
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->integer('follow')->default(0);
         });
     }

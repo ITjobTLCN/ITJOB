@@ -13,17 +13,17 @@ class TableCitySeeder extends Seeder
         DB::table('cities')->insert([
         	[
         		'name'=>'Hồ Chí Minh',
-        		'alias'=>'Ho-Chi-Minh',
+        		'alias'=>'ho-chi-minh',
         		'created_at'=>new DateTime()
         	],
         	[
         		'name'=>'Hà Nội',
-        		'alias'=>'Ha-Noi',
+        		'alias'=>'ha-noi',
         		'created_at'=>new DateTime()
         	],
         	[
         		'name'=>'Đà Nẵng',
-        		'alias'=>'Da-Nang',
+        		'alias'=>'da-nang',
         		'created_at'=>new DateTime()
         	],
         ]);

@@ -11,8 +11,7 @@ class CreateEmployersTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
+    public function up(){
         //
         Schema::create('employers',function(Blueprint $table){
             $table->increments('id');

@@ -15,8 +15,12 @@ class UpdateTableEmployers extends Migration
     {
         Schema::table('employers', function (Blueprint $table) {
             $table->string('address')->nullable()->change();
-            $table->string('image')->nullable()->change();
+            $table->string('logo')->nullable();
+            $table->string('cover')->nullable();
             $table->string('phone')->nullable()->change();
+            $table->string('schedule')->nullable();
+            $table->integer('overtime')->default(0);
+            $table->string('website');
         });
     }
 

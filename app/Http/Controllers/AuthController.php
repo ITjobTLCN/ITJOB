@@ -30,22 +30,25 @@ class AuthController extends Controller
         }catch(Exception $e){
             return redirect('/');
         }
-    //checks if we have logged provider
+        //checks if we have logged provider
         $socialProvider=SocialProvider::where('provider_id',$socialUser->getId())->first();
         if(!$socialProvider){
-            //create a new user and provider
-            $user=new User();
-            $user->email=$socialUser->getEmail();
-            $user->name=$socialUser->getName();
-            $user->image=$socialUser->getAvatar();
-            $user->role_id='2';
-            $user->save();
-            //create a new social provider
+            $user=User::where('email',$socialUser->getEmail())->first();
+            if(!$user){
+                 //create a new user and provider
+                $user=new User();
+                $user->email=$socialUser->getEmail();
+                $user->name=$socialUser->getName();
+                $user->image=$socialUser->getAvatar();
+                $user->role_id='2';
+                $user->save();
+            }
+            //create a new social provider 
             $socialProvider=new SocialProvider();
             $socialProvider->user_id=$user->id;
             $socialProvider->provider_id=$socialUser->getId();
             $socialProvider->provider=$provider;
-            $socialProvider->save();
+            $socialProvider->save(); 
         }else{
             $user=$socialProvider->user;
         }

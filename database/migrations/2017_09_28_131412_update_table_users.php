@@ -14,11 +14,12 @@ class UpdateTableUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('describe')->nullable();
+            $table->text('describe')->nullable();
+            $table->string('cv')->nullable();
             $table->integer('status')->default(1);
             $table->string('image')->nullable();
             $table->integer('role_id')->unsigned();
-            $table->integer('company_id')->unsigned()->default(0);
+            $table->integer('emp_id')->unsigned()->default(0);
         });
     }
 

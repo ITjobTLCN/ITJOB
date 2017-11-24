@@ -21,7 +21,7 @@
 				<input class="form-control dropdown-toggle" id="nametp" name="nametp" placeholder="City" data-toggle="dropdown">
 				@endif
 				<ul class="dropdown-menu">
-					@foreach(Cache::get('listLocation') as $c)
+					@foreach($cities as $c)
 						<li><p id="loca">{{$c->name}}</p></li>
 					@endforeach
 				</ul>

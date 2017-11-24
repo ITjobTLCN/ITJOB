@@ -12,11 +12,11 @@
             </div>
             <div class="collapse navbar-collapse menu123" id="menu-info">
                 <ul id="menu-header" class="nav navbar-nav navbar-left">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#reviews">Reviews</a></li>
-                    <li><a href="#hiring-now">Hiring now</a></li>
-                    <li><a href="{{route('lienhe')}}">Benifits</a></li>
-                    <li><a href="{{route('lienhe')}}">People</a></li>
+                    <li><a href="#home" class="slide-section">Home</a></li>
+                    <li><a href="#reviews" class="slide-section">Reviews</a></li>
+                    <li><a href="#hiring-now" class="slide-section">Hiring now</a></li>
+                    <li><a href="#" class="slide-section">Benifits</a></li>
+                    <li><a href="#" class="slide-section">People</a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>

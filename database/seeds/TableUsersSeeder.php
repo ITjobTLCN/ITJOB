@@ -30,7 +30,7 @@ class TableUsersSeeder extends Seeder
                 'name'=>'kelvin',
                 'email'=>'tranthanhphong1608@gmail.com',
                 'password'=>bcrypt('123456'),
-                'role_id'=>2,
+                'role_id'=>4,
                 'created_at'=>new DateTime()
             ],
             [
