@@ -1,24 +1,32 @@
 <div class="header">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" >
-            <div class="container">
-                <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu123">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="logo" href="{{route('/')}}"><img src="assets/img/logo.png" class="logo" alt="" titl=""/></a>
-                    <a href="#" class="hamburger"></a>
-                </div>
-                <div class="collapse navbar-collapse menu123" id="menu-info">
-                    <ul id="menu-header" class="nav navbar-nav navbar-right">
-                        <li><a href="{{route('/')}}">Home</a></li>
-                        <li><a href="{{route('alljobs')}}">All Jobs</a></li>
-                        <li><a href="{{route('searchCompanies')}}">Company</a></li>
-                        <li><a href="">Post Job</a></li>
-                        @if(Auth::check())
+    <!-- Static navbar -->
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+      <a class="navbar-brand" href="{{route('/')}}"><img src="assets/img/logo.png" alt="" height="40px"></a>
+    </div>
+
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul id="menu-header" class="nav navbar-nav">
+                    <li><a href="{{route('/')}}">Home</a>
+                    </li>
+                    <li><a href="{{route('alljobs')}}">All Jobs</a>
+                    </li>
+                    <li><a href="{{route('searchCompanies')}}">Company</a>
+                    </li>
+
+                    <li><a href="{{route('lienhe')}}">Contact</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="search hidden-xs"><a href="{{route('alljobs')}}""><i class="fa fa-search"></i></a></li>
+                     @if(Auth::check())
                         <li>
                             <a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar"><img class="user-avatar" src="{{Auth::user()->image}}" alt="Avatar"></div></a> 
                             <ul class="sub-menu-info">
@@ -28,14 +36,54 @@
                             </ul>
                         </li>
                         @else
-                        <li><a href="{{route('login')}}" class="login_btn">Sign In</a></li>
+                    <li class="sign-in text-center"><a href="{{route('login')}}">Sign In</a>
                         @endif
-                        <li><a href="{{route('lienhe')}}">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            </div>
-    </nav>
-</div>
+                    </li>
+                    <li class="employer_site text-center"><a href="#">
+                        Post Job
+                    </a>
+                    </li>
+                </ul>
 
+    </div>
+    <!--/.nav-collapse -->
+  </div>
+  <!--/.container-fluid -->
+</nav>
+    {{-- <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="assets/img/logo.png" alt="" height="40px">
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul id="menu-header" class="nav navbar-nav">
+                    <li><a href="{{route('/')}}">Home</a>
+                    </li>
+                    <li><a href="{{route('alljobs')}}">All Jobs</a>
+                    </li>
+                    <li><a href="{{route('searchCompanies')}}">Company</a>
+                    </li>
+
+                    <li><a href="{{route('lienhe')}}">Contact</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="sign-in"><a href="#">Sign In</a>
+                    </li>
+                    <li class="employer_site"><a href="#">
+                        <strong>Employers</strong>
+                        <br>
+                        <span>Post Job to Find Talents</span>
+                    </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> --}}
+</div>

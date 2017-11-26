@@ -18,7 +18,7 @@ Reviews of top companies on ITJob
 				<h3>Discover about companies and choose the best place to work for you.</h3>
 			</div>
 			<div class="search-widget clearfix">
-				<form class="form-inline search-companies" role="form" method="get" action="{{route('searchCompaniesbyname')}}">
+				<form class="form-inline" role="form" method="get" action="{{route('searchCompaniesbyname')}}">
 					<div class="form-group col-sm-10 col-md-10 keyword-search">
 						<i class="fa fa-search" aria-hidden="true"></i>
 						<input type="text" name="company_name" id="company_name" class="typeahead form-control"  placeholder="Enter Company name">
@@ -40,7 +40,7 @@ Reviews of top companies on ITJob
 		</div>
 		<div class="list-companies clearfix">
 			@foreach($comHirring as $ch)
-			<div class="col-md-4">
+			<div class="col-md-4 col-sm-4 col-lg-4">
 				<a href="{{route('getEmployers',$ch->alias)}}" class="company" target="_blank">
 					<div class="company_banner">
 						<img src="assets/img/property_1.jpg" alt="Cover-photo" class="img-responsive image" title="" class="property_img"/>

@@ -1,4 +1,4 @@
-<div class="search-widget clearfix">
+<div class="search-widget container clearfix">
 	<div class="row">
 		<h2>Find your dream jobs. Be success!</h2>
 	</div>

@@ -7,6 +7,7 @@ use App\User;
 use DB;
 use App\Cities;
 use App\Skills;
+use App\Employers;
 use Auth;
 use Cache;
 class PageController extends Controller
@@ -21,6 +22,7 @@ class PageController extends Controller
                 return Cities::all();  
             });
         }
+        
 		return view('layouts.trangchu',compact('cities'));
 	}
     //get page contact
