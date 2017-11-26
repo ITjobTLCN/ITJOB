@@ -52,7 +52,7 @@
 		$('#btn-export').click(function(){
 			var selected_type = $('#type').val();
 			// alert(selected_type);
-			window.location.href = 'export/'+selected_type;
+			window.location.href = 'admin/export/'+selected_type;
 		})
 	</script>
 @endsection

@@ -6,3 +6,7 @@
 	b. Thêm thư viện Excel - thêm vào app/config
 	c. thay đổi chuyển hướng khi đăng nhập role admin:  từ 1->2
 	d. thêm thư mục angularjs trong public/assets lưu file controller và mudule angularjs
+
+2. 
+	a. Update admin--->import-export file excel
+	b. Tạo migrate: them cột city_id vao bảng employers
