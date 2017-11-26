@@ -77,6 +77,11 @@ Route::get('search-companies',[
 	'as'=>'search-companies',
 	'uses'=>'CompanyController@searchCompany'
 ]);
+//get jobs of company by ajax
+Route::get('list-jobs-company',[
+	'as'=>'list-jobs-company',
+	'uses'=>'CompanyController@getJobsCompany'
+]);
 //get employers by id
 Route::group(['prefix'=>'companies'],function(){
 	Route::get('',['as'=>'companies','uses'=>'CompanyController@getIndex']);

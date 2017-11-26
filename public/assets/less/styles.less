@@ -1412,6 +1412,15 @@ div#navbar ul li:hover .sub-menu-info {
 .detail-companies{
     margin-top: @margin-top;
     background: #eee;
+    .salary-job{
+        cursor: pointer;
+    }
+    .loading{
+        margin-top: 10px;
+        i{
+            font-size: 35px !important;
+        }
+    }
 }
 .header-companies{
     .navbar-default{
@@ -1421,21 +1430,18 @@ div#navbar ul li:hover .sub-menu-info {
     }
     #menu-info{
         ul{
-        .active{
-            background: #f99c4d !important;
-            a{
-                color: #fff !important; 
-            }
-        }
-        li{
-            a{
-                font-weight: 600;
-            }
-            &:hover{
+            li.active{
                 background: #f99c4d !important;
             }
+            li{
+                a{
+                    font-weight: 600;
+                }
+                &:hover{
+                    background: #f99c4d !important;
+                }
+            }
         }
-    }
     }
     
 }
@@ -1645,12 +1651,12 @@ display: inline-block;
 #list-job-content img{
     width: 100px;
 }
-.load-more-job{
+.load-more{
     width: 100%;
     text-align: center;
     padding: 20px 0;
 }
-.load-more-job a{
+.load-more a{
     display: inline-block;
     width: 100%;
     max-width: 150px;
@@ -1663,7 +1669,7 @@ display: inline-block;
     cursor: pointer;
     transition: background-color 0.5s ease;
 }
-.load-more-job a:hover{
+.load-more a:hover{
     background-color: #373a48;
     border-color: #fff;
     color: #fff;

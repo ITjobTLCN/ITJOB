@@ -127,7 +127,6 @@
 														<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
 														@endfor
 													</span>
-													<div class="clearfix"></div>
 													@if($rv->recommend==1)
                                                     <span class="recommend"><i class="fa fa-thumbs-o-up"></i> Recommend</span>
                                                     @else
@@ -155,8 +154,8 @@
                                 </div>
                                 @endforeach
                             	</div>
-                                <div class="see-more">
-                                    <a href="" class="btn btn-danger" id="see-more__reviews">See more...</a>
+                                <div class="load-more">
+                                    <a href="" id="see-more__reviews">See more...</a>
                                 </div>
                             </div>
                         </div>
@@ -173,7 +172,7 @@
 											<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
 										</div>
 									</span>
-                                    <span class="company-ratings__star-point">4.0</span>
+                                    <span class="company-ratings__star-point">{{number_format($company->rating,1)}}</span>
                                     <hr class="divider">
                                     <table class="company-rating-info__chart-recommend clearfix">
                                         <tbody>
@@ -207,37 +206,12 @@
                     <input type="hidden" value="{{$company->id}}" id="company_id"> {{--
                     <p id="show-jobs">click me</p> --}}
                     <div class="title">
-                        <a data-toggle="collapse" id="up-down" href="#list-job-content">{{count($jobs)}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
+                        <a data-toggle="collapse" id="up-down" href="#list-job-content">{{$jobs}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
                     </div>
                     <div id="list-job-content" class="panel-collapse collapse">
-                        @foreach($jobs as $job)
-                        <div class="job-item">
-                            <div class="job-item-info">
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
-                                        <h3>
-	                                        <a href="" class="job-title" target="_blank">{{$job->name}}</a>
-	                                    </h3>
-                                        <ul>
-                                            <li><i class="fa fa-calendar" aria-hidden="true"></i> {{$job->created_at}}</li>
-                                            <li><i class="fa fa-calendar" aria-hidden="true"></i> {{$job->created_at}}</li>
-                                            <li><i class="fa fa-money" aria-hidden="true"></i> Login to see salary</li>
-                                            <li></li>
-                                        </ul>
-                                        <div class="company text-clip">
-                                            {{-- <span class="job-search__company">'.$tem->en.' </span>
-                                            <span class="separator">|</span>
-                                            <span class="job-search__location">'.$tem->cn.'</span> --}}
-                                        </div>
-                                    </div>
-                                    <div class="hidden-xs col-sm-2 col-md-2 col-lg-2 view-detail">
-                                        <a href="" target="_blank">Detail</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                        <div class="load-more-job">
+                        <div class="result-job-company"></div>
+                        <div class="loading text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
+                        <div class="load-more">
                             <a href="" id="see-more-job-company">See more</a>
                         </div>
                     </div>
@@ -245,6 +219,7 @@
                 </div>
             </div>
             <!-- End row -->
+            @include('partials.modal-login')
         </section>
     </div>
 </div>

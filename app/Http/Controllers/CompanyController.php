@@ -22,9 +22,37 @@ class CompanyController extends Controller
         $jobs=Jobs::where('emp_id',$com_id)->offset($dem)->take(10)->get();
         return $dem;
     }
+    public function getJobsCompany(Request $req){
+        $output="";
+        $jobs=Jobs::where('emp_id',$req->emp_id)->offset($req->dem)->take(10)->get();
+        foreach ($jobs as $key => $job) {
+           $output.='<div class="job-item">
+                    <div class="job-item-info">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
+                                <h3>
+                                    <a href="" class="job-title" target="_blank">'.$job->name.'</a>
+                                </h3>
+                                <ul>
+                                    <li><i class="fa fa-calendar" aria-hidden="true"></i>'.$job->created_at->format('d-M Y').'</li>
+                                    <li><a href="" class="salary-job"><i class="fa fa-money " aria-hidden="true"></i> Login to see salary</a></li>
+                                    <li></li>
+                                </ul>
+                                <div class="company text-clip">
+                                </div>
+                            </div>
+                            <div class="hidden-xs col-sm-2 col-md-2 col-lg-2 view-detail">
+                                <a href="" target="_blank">Detail</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+        }
+        return $output;
+    }
     public function getDetailsCompanies(Request $req){
         $company=Employers::where('alias',$req->alias)->first();
-        $jobs=Jobs::where('emp_id',$company['id'])->offset(0)->take(10)->get();
+        $jobs=Jobs::count();
         $skills=DB::table('skill_job as sj')
                     ->select('s.*')->distinct()
                     ->join(DB::raw('(select id from jobs where emp_id='.$company['id'].') as a'),function($join){
@@ -178,6 +206,8 @@ class CompanyController extends Controller
         $table->emp_id=$emp_id;
         $table->recommend=$recommend;
         $table->save();
+        //update rating of company
+        Employers::where('id',$req->emp_id)->update(['rating'=>Reviews::where('emp_id',$emp_id)->avg('rating')]);
         return redirect()->back()->with('message','Cảm ơn bài đánh giá của bạn');
     }
     public function seeMoreReviews(Request $req){
