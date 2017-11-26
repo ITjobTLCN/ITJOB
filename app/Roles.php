@@ -16,4 +16,7 @@ class Roles extends Model
    {
    		return $this->hasMany('App\User','role_id','id');
    }
+
+   //To export data using Excel
+   protected $fillable=['name','detail'];
 }
