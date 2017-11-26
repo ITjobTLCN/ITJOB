@@ -1,5 +1,5 @@
-<div class="header-companies ">
-    <nav class="navbar navbar-default" role="navigation" data-spy="affix" data-offset-top="2" id="myNav">
+<div class="header-companies" >
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="container-fluid">
             <div class="navbar-header">

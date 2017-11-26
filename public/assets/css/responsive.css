@@ -9,6 +9,25 @@
     - Responsive CSS
 
     */
+    .navbar-default {
+  height: 60px;
+  margin-bottom: 0
+}
+.navbar-toggle{
+    padding: 8px 10px;
+    margin: 0 auto;
+}
+.navbar-default .navbar-nav > li > a,
+.navbar-brand {
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 60px;
+}
+.navbar-header{
+        margin-right: 20px;
+        margin-left: 10px;
+        padding-top: 10px;
+    }
 .affix {
           top:0;
           width: 100%;

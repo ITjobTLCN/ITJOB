@@ -42,13 +42,13 @@
             <div class="col-md-3">
                 <h5>Connect Us</h5>
                 <div class="social-networks">
-                    <a href="#" class="twitter"><img src="assets/img/facebook.png" alt="">
+                    <a href="#" class="facebook" title="Facebook"><img src="assets/img/facebook.png" alt="">
                     </a>
-                    <a href="#" class="google"><img src="assets/img/twitter.png" alt="">
+                    <a href="#" class="twitter" title="Twitter"><img src="assets/img/twitter.png" alt="">
                     </a>
-                    <a href="#" class="google"><img src="assets/img/google-plus.png" alt="">
+                    <a href="#" class="google" title="Google"><img src="assets/img/google-plus.png" alt="">
                     </a>
-                    <a href="#" class="google"><img src="assets/img/linkedin.png" alt="">
+                    <a href="#" class="linkedin" title="Linkedin"><img src="assets/img/linkedin.png" alt="">
                     </a>
                 </div>
             </div>
@@ -60,5 +60,5 @@
         <p>2017 Copyright © K.P. </p>
         <p>1 Vo Van Ngan Strees, Binh Tho Ward, Thu Duc District, Ho Chi Minh City, Vietnam</p>
     </div>
-    <a href="#0" class="cd-top" data-toggle="tooltip" data-placement="top" title="Back to top">Top</a>
+    <a href="#0" class="cd-top" title="Back to top">Top</a>
 </footer>

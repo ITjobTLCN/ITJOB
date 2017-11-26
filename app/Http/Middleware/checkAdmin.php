@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
+use Redirect;
 
 class checkAdmin
 {
@@ -16,13 +17,10 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check()){
-            if(Auth::user()->role_id==2){
-                return $next($request);
-            }
-            Auth::logout();
-            return redirect()->route('getlogin')->with(['message'=>'You are not Admin']);
+        if(Auth::check() && Auth::user()->role_id==2){//is Admin
+            return $next($request);
+        }else{
+            return Redirect::back()->with('error_code', 1);  
         }
-        return redirect()->route('getlogin');
     }
 }

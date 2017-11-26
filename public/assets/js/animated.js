@@ -1,13 +1,16 @@
+
 $(document).ready(function(){
     
     $(function() {
-        var offsettop=200;
+        var offsettop=317;
+        
         $(window).scroll(function(){
-            if($(window).scrollTop() > offsettop){
+            var main=$('.main').outerHeight();
+            if($(window).scrollTop() > offsettop && $(window).scrollTop() < main){
                 $('#mySidenav').css({
                     'position':'fixed',
                     'display':'block',
-                    'top':'-300px'
+                    'top':'-200px'
                 });
             }else{
                 $('#mySidenav').css({

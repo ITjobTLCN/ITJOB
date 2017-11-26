@@ -37,16 +37,7 @@ Route::get('dang-ky',[
 	'as'=>'register',
 	'uses'=>'UsersController@getRegister'
 ]);
-//admin
-Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
-	Route::get('index',['as'=>'admin-index','uses'=>'AdminController@getIndex']);
-	Route::get('user',['as'=>'admin-user','uses'=>'AdminController@getUser']);
-	Route::get('listUser',['as'=>'admin-listuser','uses'=>'AdminController@getListUser']);
-	Route::post('addUser',['as'=>'admin-adduser','uses' =>'AdminController@postAddUser']);
-	Route::get('getUser/{id}',['as'=>'admin-getuserid','uses' =>'AdminController@getUserId']);
-	Route::post('editUser/{id}',['as'=>'admin-edituserid','uses' =>'AdminController@postEditUser']);
-	Route::get('delUser/{id}',['as'=>'admin-deluserid','uses' =>'AdminController@getDelUser']);
-});
+
 //logout
 Route::get('dang-xuat',[
 	'as'=>'logout',
@@ -161,14 +152,6 @@ Route::get('check-job-followed',[
 	'uses'=>'JobsController@getJobFollowed'
 ]);
 
-/*Dat - Login*/
-	//login-Register-Loggout
-Route::get('login',['as'=>'getlogin','uses'=>'HomeController@getLogin']);
-Route::post('login',['as'=>'postlogin','uses'=>'HomeController@postLogin']);
-Route::get('register',['as'=>'getregister','uses'=>'HomeController@getRegister']);
-Route::post('register',['as'=>'postregister','uses'=>'HomeController@postRegister']);
-
-/*END Dat - Login*/	
 
 
 //login with social
@@ -185,3 +168,45 @@ Route::get('/demo',function(){
 });
 
 
+/**------------------DAT ROUTER-------------------------
+*----------------CHANGE YOUR LIFE-----------------------
+*/
+	/*-----IMPORT-EXPORT DATABASE BY EXCEL--------------
+	|---I'm using Laravel-Excel  on --------------------
+	|----https://github.com/Maatwebsite/Laravel-Excel---
+	*/
+Route::get('/import',function(){
+	return view('admin.import');
+});
+	
+Route::get('login',['as'=>'getlogin',function(){
+	return redirect()->route('login');
+}]);
+Route::get('logout',['as'=>'getlogout','uses'=>'HomeController@getLogOut']);
+
+Route::post('nglogin',['as'=>'ngpostlogin','uses'=>'HomeController@ngPostLogin']);
+
+	/**--------------ADMIN ROUTE--------------------*/
+Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
+	Route::get('users',['as'=>'getadminusers','uses'=>'AdminController@getListUsers']);
+	Route::get('dashboard',['as'=>'getadmindashboard','uses'=>'AdminController@getDashBoard']);
+	Route::post('import',['as'=>'postimport','uses'=>'AdminController@postImport']);
+	Route::get('export/{type}',['as'=>'getexport','uses'=>'AdminController@getExport']);
+
+		/*angular-using*/
+	Route::get('ngusers',['as'=>'nggetusers','uses'=>'AdminController@ngGetUsers']);
+	Route::get('nguser/{id}',['as'=>'nggetuser','uses'=>'AdminController@ngGetUser']);
+	Route::get('ngroles',['as'=>'nggetroles','uses'=>'AdminController@ngGetRoles']);
+	Route::post('ngcreateuser',['as'=>'ngpostcreateuser','uses'=>'AdminController@ngPostCreateUser']);
+	Route::post('ngedituser/{id}',['as'=>'ngpostedituser','uses'=>'AdminController@ngPostEditUser']);
+	Route::get('ngdeleteuser/{id}',['as'=>'nggetdeleteuser','uses'=>'AdminController@ngGetDeleteUser']);
+
+
+	/*admin dashboard  --- output: json*/
+	Route::get('ngnumber',['as'=>'nggetnumber','uses'=>'AdminController@ngGetNumber']);
+});
+	/**--------------END ADMIN ROUTE--------------------*/
+
+
+
+/*-----------------END DAT ROUTER----------------------*/	

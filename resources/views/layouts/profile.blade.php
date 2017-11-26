@@ -4,7 +4,7 @@ Thông tin cá nhân | ITJob
 @stop
 @section('body.content')
 <div class="manager-account">
-	<div class="wrapper">
+	<div class="container">
 		<div class="row">
 		<ol class="breadcrumb">
 			<li><a href="{{route('/')}}">Home</a></li>
@@ -98,10 +98,7 @@ Thông tin cá nhân | ITJob
 	<div class="clearfix"></div>
 	</div>
 	
-</div>
-<div class="wrapper">
-	
-</div>
+</div>	
 @stop
 @section('footer.js')
 <script src="assets/controller/UsersController.js"></script>

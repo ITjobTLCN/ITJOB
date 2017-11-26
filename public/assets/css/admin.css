@@ -1,11 +1,43 @@
-/* login page */
-.box-login {
-	/* border: 5px solid red; */
-	background-color: #fff;
-	border-radius: 5px; 
+body{
+	font-family: 'Oswald', sans-serif;
 }
+.navbar-ex1-collapse .side-nav a{color:white;}
+#txtName{color:white; padding:15px;}
+#page-wrapper .container{width: unset;}
+.table-title-admin{padding:6px 18px;font-size:28px;color:#125262;}
+.table-input-search{width: 300px !important;padding:0px 20px;}
+.para-title-admin{ background-color: #B7CDCE; padding: 6px;font-size: 15px; margin: 6px 0px; }
+.btn-create-admin{float:right;  margin:6px 18px; display: inline-flex;}
+.label-form-horizontal{ padding-top: 3.5px; }
+.errors{color:red;}
+.table-angular th{  cursor:pointer;}
+.table-angular tfoot>tr>td{text-align: center;}
+.sort-icon{font-size: 9px;margin-left: 5px;}
+#btnchangepassword{margin-bottom:10px;}
+dir-pagination-controls.ng-isolate-scope .pagination{margin:0 !important;}
+.label-show-items{display: flex;}
+.label-show-items select{margin: 0 6px;}
+.label-show-items span{padding:5px;}
 
-/* User page */
-.error {
-	color: #90001B;
+.title-admin{font-size:36px; color: #125262; margin:40px 0 20px; padding-bottom: 9px;border-bottom: 1px solid #939393;}
+.title-panel{font-size:25px;}
+.title-panel-number{font-size:60px;font-weight:bold;}
+
+.table-admin tr{font-size:20px;}
+.table-admin th,.table-admin td{padding:10px !important;}
+.table-admin th{width:100px; text-align: right;}
+.table-admin ul{list-style-type:none;}
+
+select#select-admin-panel{width:150px;}
+
+@media only screen and (min-width: 375px) and (max-width: 767px){
+	.table-input-search{width: unset;}
+	.table-input-create{width: unset;}
+	.btn-create-admin{float:unset; margin:auto;}
+	/* .form-group{text-align: center !important;} */
+}
+@media (min-width: 768px){
+	#page-wrapper {
+	    padding: 10px 50px !important;
+	}
 }

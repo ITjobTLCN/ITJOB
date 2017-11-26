@@ -3,8 +3,7 @@
 Search for all it Jobs in Vietnam
 @stop
 @section('body.content')	
-<div class="all-jobs">
-	<div class="container all-jobs" ng-controller="JobsController">
+	<div class="all-jobs" ng-controller="JobsController">
 		@include('partials.search-job')
 		<div id="job-search" class="job-search">
 			<div class="container-fluid">
@@ -40,7 +39,7 @@ Search for all it Jobs in Vietnam
 						</div>
 						<div class="clearfix"></div>
 					</div>
-					<div id="main-job-list" class="col-sm-9 col-md-9 col-lg-10">
+					<div id="main-job-list" class="col-sm-7 col-md-7 col-lg-8">
 						<div class="box m-b-none">
 							<div class="job-search__top-nav">
 								<div class="row">
@@ -86,9 +85,9 @@ Search for all it Jobs in Vietnam
 										@if(Auth::check())
 										<div class="follow{{$ljlt->id}}" id="followJob" emp_id="{{$ljlt->emp_id}}" job_id="{{$ljlt->id}}">
 											@if(app(App\Http\Controllers\JobsController::class)->getJobFollowed($ljlt->id)==1)
-												<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>
+												<i class="fa fa-heart" aria-hidden="true" title="UnFollow"></i>
 											@else
-											<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>
+											<i class="fa fa-heart-o" aria-hidden="true" title="Follow"></i>
 											@endif
 										</div>
 										@else
@@ -101,12 +100,18 @@ Search for all it Jobs in Vietnam
 							@include('partials.modal-login')
 						</div>
 					</div>
+					<div id="right-column" class="hidden-xs hidden-sm col-md-2 col-lg-2">
+						<div class="box m-b-none">
+							<div class="job-search__adver">
+								
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-</div>
+
 @stop
 @section('footer.js')
 <script src="assets/controller/UsersController.js"></script>
