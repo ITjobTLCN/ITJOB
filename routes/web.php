@@ -171,7 +171,11 @@ Route::get('see-more-reviews',[
 Route::get('/demo',function(){
 	return view('layouts.demo');
 });
-
+//get list skills of job by job_id
+Route::get('list-skill-jobs',[
+	'as'=>'getListSkillJob',
+	'uses'=>'JobsController@getListSkillJob'
+]);
 
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------

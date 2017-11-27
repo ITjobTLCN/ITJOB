@@ -59,7 +59,7 @@ Reviews of top companies on ITJob
 							<i class="fa fa-star" aria-hidden="true"></i>
 							<span class="company_start_rate"> {{$ch->rating}}</span>
 							<span class="company_city">
-								Ho Chi Minh
+								{{$ch->cn}}
 							</span>
 						</div>
 					</div>
@@ -97,7 +97,7 @@ Reviews of top companies on ITJob
 							<i class="fa fa-star" aria-hidden="true"></i>
 							<span class="company_start_rate"> {{$cf->rating}}</span>
 							<span class="company_city">
-								Ho Chi Minh
+								{{$cf->cn}}
 							</span>
 						</div>
 					</div>

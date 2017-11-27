@@ -68,8 +68,16 @@ class CompanyController extends Controller
         return view('layouts.details-companies',compact('company','skills','jobs','reviews')); 
     }
     public function getCompaniesReview(){
-        $comHirring=Employers::orderBy('id','desc')->offset(0)->take(6)->get();
-        $comFollow=Employers::orderBy('follow','desc')->offset(0)->take(6)->get();
+        $comHirring=DB::table('cities as c')
+                        ->select('a.id','a.alias','a.description','a.name','a.rating','a.logo','a.cover','c.name as cn')
+                        ->join(DB::raw('(select * from employers order by id desc limit 0,6) as a'),function($join){
+                            $join->on('c.id','=','a.city_id');
+                        })->get();
+        $comFollow=DB::table('cities as c')
+                        ->select('a.id','a.alias','a.description','a.name','a.rating','a.logo','a.cover','c.name as cn')
+                        ->join(DB::raw('(select * from employers order by follow desc limit 0,6) as a'),function($join){
+                            $join->on('c.id','=','a.city_id');
+                        })->get();
         return view('layouts.companies-reviews',compact('comHirring','comFollow'));
     }
     public function searchCompany(Request $req){
@@ -168,7 +176,7 @@ class CompanyController extends Controller
             $company->follow=$curr-1;
             $company->save();
             $temp=Follow_employers::where('emp_id',$emp_id)->where('user_id',Auth::user()->id)->delete();
-            $output.="<a class='btn btn-default'>Follow ($company->follow) <i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i></a>";
+            $output.='<a class="btn btn-default">Follow ('.$company->follow.')<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
         }else{
             $curr=$company->follow;
             $company->follow=$curr+1;
@@ -178,7 +186,7 @@ class CompanyController extends Controller
             $temp->emp_id=$emp_id;
             $temp->created_at=new DateTime();
             $temp->save();
-            $output.="<a class='btn btn-default' id='unfollowed'>Following <i class='fa fa-spinner fa-pulse fa-3x fa-fw'></i></a>";
+            $output.='<a class="btn btn-default" id="unfollowed">Following <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
         }
         return $output;
     }

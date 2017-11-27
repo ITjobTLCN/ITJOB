@@ -1,5 +1,7 @@
 $(document).ready(function(){
-
+	$('.followed i').css({
+		'display':'none',
+	});
 	$('.list-job-hiring .fa-arrow-up').css({
 		'display':'none',
 	});
@@ -57,10 +59,15 @@ $(document).ready(function(){
 			}
 		});
 	});
-
+	$('#openLoginModal').click(function(e){
+        $('#loginModal').modal();
+    });
 	//flowed companies
 	$('.followed').click(function(){
 		var emp_id=$('#emp_id').val();
+		$('.followed i').css({
+			'display':'inline-block',
+		});
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -73,9 +80,7 @@ $(document).ready(function(){
 				emp_id:emp_id,
 			},
 			success : function(data){
-				$('.followed i').css({
-					'display':'inline-block'
-				});
+				
 				$('.followed').html(data);
 			}
 		});
@@ -114,10 +119,14 @@ $(document).ready(function(){
 		});
 		e.preventDefault();
 	});
+	
 });
 $(document).ajaxComplete(function(){
 	$('.loading').css({
-			'display':'none',
+		'display':'none',
+	});
+	$('.followed i').css({
+		'display':'none',
 	});
 	$('.salary-job').click(function(e){
 		$('#loginModal').modal();

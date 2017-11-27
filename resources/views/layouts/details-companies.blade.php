@@ -39,22 +39,21 @@
                             </div>
 
                             @if(Auth::check())
-                            <input type="hidden" value={{$company->id}} id="emp_id"> @if($follow)
-                            <div class="followed">
-                                <a class="btn btn-default" id="unfollowed">Following <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
-                            </div>
+                                <input type="hidden" value={{$company->id}} id="emp_id"> 
+                                <div class="followed">
+                                    @if($follow)
+                                        <a class="btn btn-default" id="unfollowed">Following <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
+                                    @else
+                                        <a class="btn btn-default">Follow ({{$company->follow}})<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
+                                    @endif 
+                                </div>
                             @else
-                            <div class="followed">
-                                <a class="btn btn-default">Follow ({{$company->follow}})<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
-                            </div>
-                            @endif @else
-                            <div class="followed" bs-popover>
-                                <a class="btn btn-default" rel="popover">Follow ({{$company->follow}}) <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
-
-                            </div>
+                            <a class="btn btn-default" id="openLoginModal">Follow ({{$company->follow}})</a>
 
                         </div>
-                        @include('partials.modal-login') @endif
+                        @include('partials.modal-login')
+                        @endif
+                        
                     </div>
                 </div>
             </div>
@@ -88,6 +87,7 @@
                             </div>
                         </div>
                     </div>
+                    @if(count($skills)!=0)
                     <div id="skills">
                         <h2 class="title">All Our Tag Skills</h2>
                         <ul>
@@ -98,7 +98,7 @@
                             @endforeach
                         </ul>
                     </div>
-
+                    @endif
                 </div>
 
             </div>
@@ -106,8 +106,11 @@
         </section>
         <section class="rating-companies">
             <div id="ratings">
+                
                 <div class="header-section">
+                    @if(count($reviews)!=0)
                     <h1>Ratings <span>(Có {{count($reviews)}} bài đánh giá)</span></h1>
+                    
                     <span class="under-line"></span>
                 </div>
                 <div class="row main-rating">
@@ -154,9 +157,11 @@
                                 </div>
                                 @endforeach
                             	</div>
+                                @if(count($reviews)>=10)
                                 <div class="load-more">
                                     <a href="" id="see-more__reviews">See more...</a>
                                 </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -188,12 +193,14 @@
                                         <a href="/companies/kms-technology/review">See all ratings and reviews</a>
                                         <i class="fa fa-caret-right"></i>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                <h1>Ratings <span>(Có 0 bài đánh giá)</span></h1>
+                @endif
             </div>
         </section>
         <section class="hiring-now-companies">

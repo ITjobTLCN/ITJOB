@@ -40,7 +40,7 @@ class AuthController extends Controller
                 $user->email=$socialUser->getEmail();
                 $user->name=$socialUser->getName();
                 $user->image=$socialUser->getAvatar();
-                $user->role_id='2';
+                $user->role_id='1';
                 $user->save();
             }
             //create a new social provider 
@@ -53,6 +53,7 @@ class AuthController extends Controller
             $user=$socialProvider->user;
         }
         auth()->login($user);
-        return redirect('/');
+        return redirect()->back();
+        
     }
 }

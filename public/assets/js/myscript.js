@@ -43,28 +43,7 @@ $(document).ready(function(){
 	});
 	
 	
-	$('.clear-all-filter-att').click(function(){
-		$('.list-filter-att').css({
-            'display':'none'
-        });
-		$.ajaxSetup({
-		    headers: {
-		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		    }
-		});
-        info_skill=[];
-        info_city=[];
-		$.ajax({
-			type:'get',
-			url:'filter-job',
-			data:{
-				'info_skill':"",'info_city':"",
-			},
-			success : function(data){
-				$('.jb-search__result').html(data);
-			}
-		});
-	});
+	
 	
 	
 	//add star reviews companies

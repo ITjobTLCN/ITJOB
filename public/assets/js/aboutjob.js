@@ -1,8 +1,12 @@
 $(document).ready(function(){
+      //xóa toàn bộ tag dùng để filter job
 	$('p#loca').click(function(){
 		$loca=$(this).text();
 		$('#nametp').val($loca);
 	});
+      $('i#openLoginModal').click(function(e){
+            $('#loginModal').modal();
+      });
       $(document).on('click','div#followJob',function(){
             var job_id=$(this).attr('job_id');
             var emp_id=$(this).attr('emp_id');
@@ -26,27 +30,10 @@ $(document).ready(function(){
             });
       });
 	$(document).ajaxComplete(function() {
- 		$("[rel=popover]").popover({ 
- 			trigger: "manual" , 
-            html: true, 
-            placement: "bottom",
-            content: '<span>You must <a href="#" data-toggle="modal" data-target="#loginModal">Login </a>to do this</span>',
-            animation:false
- 		})
- 		.on("mouseenter", function () {
-            var _this = this;
-            $(this).popover("show");
-            $(".popover").on("mouseleave", function () {
-                  $(_this).popover('hide');
+            $('i#openLoginModal').click(function(e){
+                  $('#loginModal').modal();
+                  e.preventDefault();
             });
-      }).on("mouseleave", function () {
-            var _this = this;
-            setTimeout(function () {
-                  if (!$(".popover:hover").length) {
-                        $(_this).popover("hide");
-                  }
-            }, 100);
+ 	
       });
-	});
-	
 });

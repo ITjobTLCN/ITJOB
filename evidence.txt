@@ -11,3 +11,8 @@
 	a. Update admin--->import-export file excel
 	b. Tạo migrate: them cột city_id vao bảng employers
 	c. cải tiến giao diện trang chủ
+
+3. 27/11/2017
+	a. Thêm giao diện chi tiết công việc
+	b. Xóa tất cả các tiêu chí đang filter
+	c. thay đổi giao diện search-job

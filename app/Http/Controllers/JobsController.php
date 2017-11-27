@@ -9,6 +9,7 @@ use App\Employers;
 use App\Jobs;
 use App\Skill_job;
 use App\Follow_jobs;
+use App\Reviews;
 use DB;
 use View;
 use Session;
@@ -38,8 +39,12 @@ class JobsController extends Controller
     }
     //return to detail-job page
     public function getDetailsJob(Request $req){
-        $id=$req->id;
-        return view('layouts.details-job',compact('id'));
+        $jobs=DB::table('employers as e')
+                    ->select('a.*','e.name as en','e.alias as el','e.image','e.address','e.description as ed')
+                    ->join(DB::raw('(select * from jobs where id ='.$req->id.') as a'),function($join){
+                        $join->on('e.id','=','a.emp_id');
+                    })->get();
+        return view('layouts.details-job',compact('jobs'));
     }
     //get list skills and locations to filter jobs
     public function getAttributeFilter(){
@@ -100,7 +105,7 @@ class JobsController extends Controller
                                         <h3 class="bold-red">
                                             <a href="it-job/'.$job->alias.'/'.$job->id.'" class="job-title" target="_blank">'.$job->name.'</a>
                                         </h3>
-                                        <div class="company text-clip">
+                                        <div class="company">
                                             <span class="job-search__company">'.$companies.' </span>
                                             <span class="separator">|</span>
                                             <span class="job-search__location">'.$location.'</span>
@@ -127,11 +132,11 @@ class JobsController extends Controller
                         $result.='<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>';
                     }
                 }else{
-                    $result.='<i class="fa fa-heart-o" aria-hidden="true" rel="popover"></i>';
+                    $result.='<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal"></i>';
                 }
                 $result.='</div></div></div></div>';
         }
-       return Response($result);
+       return Response([$result,count($output)]);
     }
     //get name and alias companies or skills to search job
     public function getSearchJob(Request $req){
@@ -263,5 +268,13 @@ class JobsController extends Controller
             return true;
         }
         return false;
+    }
+    public function getListSkillJob(Request $req){
+        $skills=DB::table('skills as s')
+                    ->select('s.id','s.name','s.alias')
+                    ->join(DB::raw('(select skill_id from skill_job where job_id='.$req->job_id.') as a'),function($join){
+                        $join->on('s.id','=','a.skill_id');
+                    })->get();
+        return $skills;
     }
 }
