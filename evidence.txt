@@ -14,3 +14,5 @@
 3. 27/11/2017 3h14m PM
 	Dat:
 	a. Tao view Admin Employer - Thêm xóa sửa các employer
+	b. Mirgration tao bảng Registration: để cho master và assistant đăng ký
+	c. COnfirm/deny employer when employer register a emmployer

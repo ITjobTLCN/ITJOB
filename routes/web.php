@@ -211,6 +211,10 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('ngemp/{id}',['as'=>'nggetemp','uses'=>'AdminController@ngGetEmp']);
 	Route::post('ngcreateemp',['as'=>'ngpostcreateemp','uses'=>'AdminController@ngPostCreateEmp']);
 	Route::post('ngeditemp/{id}',['as'=>'ngposteditemp','uses'=>'AdminController@ngPostEditEmp']);
+	Route::get('ngdeleteemp/{id}',['as'=>'nggetdeleteemp','uses'=>'AdminController@ngGetDeleteEmp']);
+	Route::get('ngconfirmemp/{id}',['as'=>'nggetconfirmemp','uses'=>'AdminController@ngGetConfirmEmp']);
+	Route::get('ngdenyemp/{id}',['as'=>'nggetdenyemp','uses'=>'AdminController@ngGetDenyEmp']);
+
 });
 	/**--------------END ADMIN ROUTE--------------------*/
 

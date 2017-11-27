@@ -3,6 +3,8 @@ app.controller('EmpController',function($scope,$http){
 		console.log(response);
 		$scope.emps = response.data.emps;
 		$scope.cities = response.data.cities;
+		$scope.regis = response.data.regis;
+		// $scope.name = response.data.name;
 	},function(error){
 		alert('ERROR');
 	});
@@ -76,7 +78,46 @@ app.controller('EmpController',function($scope,$http){
 
 	}
 	$scope.delete =function(id){
-
+		if(confirm('Are you sure delete?')){
+			$http.get('admin/ngdeleteemp/'+id).then(function(response){
+				if(response.data.status==true){
+					alert(response.data.message);
+					$scope.emps = response.data.emps;
+				}else{
+					alert(response.data.message);
+				}
+			},function(error){
+				alert('ERROR')
+			});
+		}
+	}
+	$scope.confirm = function(id){
+		if(confirm('Are you sure confirm?')){
+			$http.get('admin/ngconfirmemp/'+id).then(function(response){
+				if(response.data.status==true){
+					alert(response.data.message);
+					$scope.emps = response.data.emps;
+				}else{
+					alert(response.data.message);
+				}
+			},function(error){
+				alert('ERROR')
+			});
+		}	
+	}
+	$scope.deny = function(id){
+		if(confirm('Are you sure deny this employer?')){
+			$http.get('admin/ngdenyemp/'+id).then(function(response){
+				if(response.data.status==true){
+					alert(response.data.message);
+					$scope.emps = response.data.emps;
+				}else{
+					alert(response.data.message);
+				}
+			},function(error){
+				alert('ERROR')
+			});
+		}	
 	}
 
 	/*sort-num of raw in table*/
@@ -84,5 +125,17 @@ app.controller('EmpController',function($scope,$http){
 	$scope.sort = function(type){
 		$scope.sortType = type;
 		$scope.sortReverse = !$scope.sortReverse;
+	}
+	/*filter table with status*/
+	$scope.flagStatus = false;
+	$scope.filterStatus = 0;
+	$scope.filter = function(type){
+		if($scope.filterStatus != type){
+			$scope.filterStatus = type;
+			$scope.flagStatus = true;
+		}else{
+			$scope.flagStatus = !$scope.flagStatus;
+		}
+		
 	}
 });

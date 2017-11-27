@@ -30,6 +30,9 @@ dir-pagination-controls.ng-isolate-scope .pagination{margin:0 !important;}
 
 select#select-admin-panel{width:150px;}
 
+tr#content-table-admin span.label{font-weight: unset;}
+
+
 @media only screen and (min-width: 375px) and (max-width: 767px){
 	.table-input-search{width: unset;}
 	.table-input-create{width: unset;}

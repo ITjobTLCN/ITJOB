@@ -7,6 +7,7 @@ use App\User;
 use App\Roles;
 use App\Employers;
 use App\Cities;
+use App\Registration;
 use Excel;
 use Illuminate\Support\Facades\Input;
 use DateTime;
@@ -257,17 +258,18 @@ class AdminController extends Controller
     * Number of masters and assistants, CRUD - sort search limit
     * Number of posts - total -current - expire - waiting POSTs
     */
-
+        /*CRUD Employer*/
     public function ngGetEmps(){
         $emps = Employers::get();
         $cities = Cities::get();
-        return response()->json(['emps'=>$emps,'cities'=>$cities]);
+
+        $regis = Registration::join('users','registration.user_id','=','users.id')->select('users.*','registration.*')->get();
+        return response()->json(['emps'=>$emps,'cities'=>$cities,'regis'=>$regis]);
     }
     public function ngGetEmp($id){
         $emp = Employers::findOrFail($id);
         return response()->json(['emp'=>$emp]);
     }
-    //add-edit
     public function ngPostCreateEmp(Request $request){
         try{
             $emp = new Employers();
@@ -298,9 +300,7 @@ class AdminController extends Controller
             $emp->website = $request->website;
             $emp->status = $request->status;
             $emp->phone = $request->phone;
-
             $emp->save();
-
             //get all data and send to update table
             $emps = Employers::all();
             return response()->json(['status'=>true,'message'=>'Edit Successfully','emps'=>$emps]);
@@ -308,6 +308,60 @@ class AdminController extends Controller
             return response()->json(['status'=>false,'message'=>'Edit failed']);
         }
     }
+    public function ngGetDeleteEmp($id){
+        try{
+            $emp = Employers::findOrFail($id);
+            $emp->delete();
 
+            $emps = Employers::all();
+            return response()->json(['status'=>true,'message'=>'Delete Successfully','emps'=>$emps]);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Delete failed']);
+        }
+    }
+        /*END CRUD Employer*/
+
+        /*CONFIRM/DENY pending Employer*/
+    public function ngGetConfirmEmp($id){
+        try{
+            $emp = Employers::findOrFail($id);
+
+            //with master
+            $regis = Registration::where('emp_id',$emp->id)->where('status',0)->first();
+            $user = User::findOrFail($regis->user_id);
+            //
+            $regis->status = 1;
+            $regis->save();
+            $emp->status = 1;
+            $emp->save();
+            $user->role_id = 3;
+            $user->emp_id = $emp->id;
+            $user->save();
+
+            $emps = Employers::all();
+            return response()->json(['status'=>true,'message'=>'Confirm Successfully','emps'=>$emps]);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Confirm failed']);
+        }
+    }
+    public function ngGetDenyEmp($id){
+        try{
+            $emp = Employers::findOrFail($id);
+
+            //with master
+            $regis = Registration::where('emp_id',$emp->id)->where('status',0)->first();
+            //
+            $regis->status = 2;
+            $regis->save();
+            $emp->status = 2;
+            $emp->save();
+
+            $emps = Employers::all();
+            return response()->json(['status'=>true,'message'=>'Deny Successfully','emps'=>$emps]);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Deny failed']);
+        }
+    }
+        /*END CONFIRM/DENY pending Employer*/
     /*----------------END EMPLOYERS-------------------*/
 }

@@ -32,31 +32,33 @@
 						<th ng-click="sort('name')" style="width: 10%">Name
 							<span ng-show="sortType=='name'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
 						</th>
-						<th ng-click="sort('address')" style="width: 25%">Address
+						<th ng-click="sort('address')" style="width: 20%">Address
 							<span ng-show="sortType=='address'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
 						</th>
 						<th ng-click="sort('website')" style="width: 10%">Website
 							<span ng-show="sortType=='website'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
 						</th>
-						<th ng-click="sort('personel')" style="width: 10%">Personel
-							<span ng-show="sortType=='personel'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
+						<th ng-click="sort('master')" style="width: 15%">Master
+							<span ng-show="sortType=='master'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
 						</th>
-						<th ng-click="sort('post')" style="width: 10%">No. Posts
-							<span ng-show="sortType=='post'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
-						</th>
+						
 						<th ng-click="sort('created_at')" style="width: 10%">Created Date
 							<span ng-show="sortType=='created_at'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
 						</th>
-						<th ng-click="sort('updated_at')" style="width: 10%">Last Updated
-							<span ng-show="sortType=='updated_at'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
+
+						<th style="width: 15%">Status
+							<span ng-show="sortType=='status'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
+							<div>
+								<span ng-click="filter(1)" class="label label-success"><i class="fa fa-filter"></i></span>
+								<span ng-click="filter(0)" class="label label-warning"><i class="fa fa-filter"></i></span>
+								<span ng-click="filter(2)" class="label label-danger"><i class="fa fa-filter"></i></span>
+							</div>
 						</th>
-						<th ng-click="sort('lastlogin')" style="width: 10%">Last Login
-							<span ng-show="sortType=='lastlogin'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReverse,'glyphicon-chevron-up':!sortReverse}"></span>
-						</th>
+						<th style="width: 15%">Quick Confirm</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr dir-paginate="emp in emps|orderBy:sortType:sortReverse|filter:search|itemsPerPage:showitems" >
+					<tr dir-paginate="emp in emps|orderBy:sortType:sortReverse|filter:search|filter: (flagStatus || '') && {status:filterStatus}|itemsPerPage:showitems" id="content-table-admin">
 						<td><%emp.id%></td>
 						<td>
 							<span><%emp.name%></span>
@@ -67,11 +69,22 @@
 						</td>
 						<td><%emp.address%></td>
 						<td><%emp.website%></td>
-						<td>xxx</td>
-						<td>xxx</td>
+						<td ">
+							<span ng-repeat="reg in regis" ng-if="(emp.id==reg.emp_id) && (reg.status==0||reg.status==1||reg.status==2)"><%reg.name%></span>
+						</td>
+						
 						<td><%emp.created_at%></td>
-						<td><%emp.updated_at%></td>
-						<td>2017-2-2 12:2:01</td>
+						<td>
+							<span ng-show="emp.status==1" class="label label-success">Approved</span>
+							<span ng-show="emp.status==0" class="label label-warning">Pending</span>
+							<span ng-show="emp.status==2" class="label label-danger">Denied</span>
+						</td>
+						<td>
+							<span ng-if="emp.status==0">
+								<button ng-click="confirm(emp.id)" class="btn btn-sm btn-success">Confirm</button>
+								<button ng-click="deny(emp.id)" class="btn btn-sm btn-danger">Deny</button>
+							</span>
+						</td>
 					</tr>
 				</tbody>
 				<tfoot>
@@ -150,8 +163,9 @@
 							<label for="status" class="control-label col-md-1 label-form-horizontal">Status: </label>
 							<div class="col-md-6">
 								<select name="status" class="form-control" id="status" ng-model="emp.status" required>
-									<option value="1" ng-selected="emp.status===1">Active</option>
-									<option value="0" ng-selected="emp.status===0">Non-active</option>
+									<option value="1" ng-selected="emp.status===1">Approved</option>
+									<option value="0" ng-selected="emp.status===0">Pending</option>
+									<option value="2" ng-selected="emp.status===2">Denied</option>
 								</select>
 								<span class="errors" ng-show="(frmCreate.status.$error.required)">
 									Choose status

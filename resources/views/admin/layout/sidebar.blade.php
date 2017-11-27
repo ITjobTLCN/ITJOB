@@ -8,7 +8,7 @@
                         <a href="{{route('getadminusers')}}"><i class="fa fa-fw fa-bar-chart-o"></i> Manage Account</a>
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-fw fa-table"></i> Employer Profile</a>
+                        <a href="{{route('getadminemps')}}"><i class="fa fa-fw fa-table"></i> Manage Employer</a>
                     </li>
                     <li>
                         <a href="forms.html"><i class="fa fa-fw fa-edit"></i> Notification</a>
