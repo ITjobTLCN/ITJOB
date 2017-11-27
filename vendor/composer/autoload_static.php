@@ -430,6 +430,7 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         'Cron\\MonthField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/MonthField.php',
         'Cron\\YearField' => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron/YearField.php',
         'DatUpdateEmployersAddCityidTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_26_134127_dat_update_employers_add_cityid_table.php',
+        'DatUpdateEmployersTableUpdateNullableImageAndWebsite' => __DIR__ . '/../..' . '/database/migrations/2017_11_26_174900_dat_update_employers_table_update_nullable_image_and_website.php',
         'DatUpdateJobsAddDateexpireTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_24_152908_dat_update_jobs_add_dateexpire_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'DeepCopy\\DeepCopy' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',

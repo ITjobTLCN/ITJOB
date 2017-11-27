@@ -51,6 +51,7 @@
     <script src="assets/angularjs/module/dirPagination.js"></script>
     <script src="assets/angularjs/app.js"></script>
     <script src="assets/angularjs/controller/UsersController.js"></script>
+    <script src="assets/angularjs/controller/EmpController.js"></script>
     <script src="assets/angularjs/controller/LoginController.js"></script>
     <script src="assets/angularjs/controller/DashBoardController.js"></script>
 

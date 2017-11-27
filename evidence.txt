@@ -12,7 +12,12 @@
 	b. Tạo migrate: them cột city_id vao bảng employers
 	c. cải tiến giao diện trang chủ
 
-3. 27/11/2017
+3. 27/11/2017 3h14m PM
+	Dat:
+	a. Tao view Admin Employer - Thêm xóa sửa các employer
+
+4. 27/11/2017
+Phong:
 	a. Thêm giao diện chi tiết công việc
 	b. Xóa tất cả các tiêu chí đang filter
 	c. thay đổi giao diện search-job

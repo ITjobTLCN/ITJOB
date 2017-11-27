@@ -198,6 +198,7 @@ Route::post('nglogin',['as'=>'ngpostlogin','uses'=>'HomeController@ngPostLogin']
 	/**--------------ADMIN ROUTE--------------------*/
 Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('users',['as'=>'getadminusers','uses'=>'AdminController@getListUsers']);
+	Route::get('emps',['as'=>'getadminemps','uses'=>'AdminController@getListEmps']);
 	Route::get('dashboard',['as'=>'getadmindashboard','uses'=>'AdminController@getDashBoard']);
 	Route::post('import',['as'=>'postimport','uses'=>'AdminController@postImport']);
 	Route::get('export/{type}',['as'=>'getexport','uses'=>'AdminController@getExport']);
@@ -213,6 +214,12 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 
 	/*admin dashboard  --- output: json*/
 	Route::get('ngnumber',['as'=>'nggetnumber','uses'=>'AdminController@ngGetNumber']);
+
+	/*admin employers  --- output: json*/
+	Route::get('ngemps',['as'=>'nggetemps','uses'=>'AdminController@ngGetEmps']);
+	Route::get('ngemp/{id}',['as'=>'nggetemp','uses'=>'AdminController@ngGetEmp']);
+	Route::post('ngcreateemp',['as'=>'ngpostcreateemp','uses'=>'AdminController@ngPostCreateEmp']);
+	Route::post('ngeditemp/{id}',['as'=>'ngposteditemp','uses'=>'AdminController@ngPostEditEmp']);
 });
 	/**--------------END ADMIN ROUTE--------------------*/
 

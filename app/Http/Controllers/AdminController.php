@@ -5,12 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Roles;
+use App\Employers;
+use App\Cities;
 use Excel;
 use Illuminate\Support\Facades\Input;
 use DateTime;
 
 class AdminController extends Controller
 {
+     /*Function change from name to alias and remove Vietnamese*/
+    function stripAccents($str) {
+        return strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+    }
+    public function changToAlias($str){
+        $str =   str_replace('?', '',strtolower($str));
+        return  str_replace(' ', '-',strtolower($str));
+    }
+    
     /*Import and export*/
      public function postImport(){
         try{
@@ -111,8 +122,9 @@ class AdminController extends Controller
             });
         })->export('xlsx');
     }
-
     /*END Database Import-Export*/
+
+
 
 
     /*
@@ -121,9 +133,10 @@ class AdminController extends Controller
     |       -----Create - Read - Update - Delete------
     */
 
+       /*-------Page loading by Laravel-------*/
     public function getDashBoard(){return view('admin.dashboard');}
     public function getListUsers(){return view('admin.users');}
-
+    public function getListEmps(){return view('admin.employers');}
     /*
     |-------Angular using --------
     */
@@ -235,4 +248,66 @@ class AdminController extends Controller
             'countmasters'=>$countmasters,'countassistants'=>$countassistants]);
     }
     /*----------------END DASHBOARD------------------*/
+
+
+        /**---------------EMPLOYERS----------------------
+    * A some function in Employer, used in EmpController.js
+    * function: confirm/deny waiting employer
+    * list employer - CRUD - sort search limit  
+    * Number of masters and assistants, CRUD - sort search limit
+    * Number of posts - total -current - expire - waiting POSTs
+    */
+
+    public function ngGetEmps(){
+        $emps = Employers::get();
+        $cities = Cities::get();
+        return response()->json(['emps'=>$emps,'cities'=>$cities]);
+    }
+    public function ngGetEmp($id){
+        $emp = Employers::findOrFail($id);
+        return response()->json(['emp'=>$emp]);
+    }
+    //add-edit
+    public function ngPostCreateEmp(Request $request){
+        try{
+            $emp = new Employers();
+            $emp->name = $request->name;
+            $emp->alias = $this->changToAlias($this->stripAccents($request->name));
+            $emp->city_id = $request->city_id;
+            $emp->address = $request->address;
+            $emp->website = $request->website;
+            $emp->status = $request->status;
+            $emp->phone = $request->phone;
+
+            $emp->save();
+
+            //get all data and send to update table
+            $emps = Employers::all();
+            return response()->json(['status'=>true,'message'=>'Create Successfully','emps'=>$emps]);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Create failed','req'=>$request->all()]);
+        }
+    }
+    public function ngPostEditEmp(Request $request,$id){
+        try{
+            $emp = Employers::findOrFail($id);
+            $emp->name = $request->name;
+            $emp->alias = $this->changToAlias($this->stripAccents($request->name));
+            $emp->city_id = $request->city_id;
+            $emp->address = $request->address;
+            $emp->website = $request->website;
+            $emp->status = $request->status;
+            $emp->phone = $request->phone;
+
+            $emp->save();
+
+            //get all data and send to update table
+            $emps = Employers::all();
+            return response()->json(['status'=>true,'message'=>'Edit Successfully','emps'=>$emps]);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Edit failed']);
+        }
+    }
+
+    /*----------------END EMPLOYERS-------------------*/
 }
