@@ -4,7 +4,44 @@ Search for all it Jobs in Vietnam
 @stop
 @section('body.content')	
 	<div class="all-jobs" ng-controller="JobsController">
-		@include('partials.search-job')
+		<div class="search-widget clearfix">
+	<div id="serach-widget ">
+			<div class="bg-blue container">
+				<div class="row">
+		<h2>Find your dream jobs. Be success!</h2>
+	</div>
+	<div class="row" id="search-form">
+		<form class="form-inline" role="form" method="get" action="{{route('list-job-search')}}">
+			<div class="form-group col-sm-6 col-md-6 col-lg-7 keyword-search">
+				<i class="fa fa-search" aria-hidden="true"></i>
+				<input type="hidden" name="idtp" ng-model="idtp">
+				@if(Session::has('skillname'))
+				<input type="text" id="keyword" name="keysearch" class="typeahead form-control" value="{{Session::get('skillname')}}" placeholder="Keyword skill (Java, iOS,...),..">
+				@else
+				<input type="text" id="keyword" name="keysearch" class="typeahead form-control" placeholder="Keyword skill (Java, iOS,...),..">
+				@endif
+			</div>
+			<div class="form-group col-sm-3 col-md-3 col-lg-3 location-search">
+				<i class="fa fa-map-marker" aria-hidden="true"></i>
+				@if(Session::has('city'))
+				<input class="form-control dropdown-toggle" id="nametp" name="nametp" placeholder="City" data-toggle="dropdown" value="{{Session::get('city')}}">
+				@else
+				<input class="form-control dropdown-toggle" id="nametp" name="nametp" placeholder="City" data-toggle="dropdown">
+				@endif
+				<ul class="dropdown-menu">
+					@foreach($cities as $c)
+						<li><p id="loca">{{$c->name}}</p></li>
+					@endforeach
+				</ul>
+			</div>
+			<div class="form-group col-sm-3 col-md-3 col-lg-2">
+				<input type="submit" class="btn btn-default btn-search" value="Search" >
+			</div>
+		</form>
+	</div>
+			</div>
+	</div>
+</div>
 		<div id="job-search" class="job-search">
 			<div class="container-fluid">
 				<div class="row">
@@ -13,7 +50,7 @@ Search for all it Jobs in Vietnam
 							<h2>Filter by</h2>
 							<div class="list-filter-att clearfix">
 								<div class="edition-filter clearfix"></div>
-								<a href="" ><div class="clear-all-filter-att" ng-click="clearall()">Xóa</div></a>
+								<a href="" ><div class="clear-all-filter-att" ng-click="clearAll()">Xóa</div></a>
 							</div>
 
 							<div id="locations" class="facet">
@@ -21,17 +58,17 @@ Search for all it Jobs in Vietnam
 								<div id="list-locations" class="collapse in">
 									<ul>
 										<li ng-repeat="city in cities">
-											<input type="checkbox" ng-true-value="'<%city.name%>'" ng-false-value="''" ng-click="toggleSelection($event,'cities',city.id,city.name,city.alias)" ng-checked="checkedl"><span><%city.name%></span>
+											<input type="checkbox" ng-click="toggleSelection($event,'cities',city.id,city.name,city.alias)" ng-model="city.selected"><span><%city.name%></span>
 										</li>
 									</ul>
 								</div>
 							</div>
-							<div id="skills" class="facet" ng-controller="SkillsController">
+							<div id="skills" class="facet">
 								<h5 data-toggle="collapse" data-target="#list-skills">skills</h5>
 								<div id="list-skills" class="collapse in">
 									<ul>
 										<li ng-repeat="skill in skills">
-											<input type="checkbox" ng-true-value="'<%skill.name%>'" ng-false-value="''" ng-checked="checkeds" ng-click=" toggleSelection($event,'skills',skill.id,skill.name,skill.alias)"><span><%skill.name%></span>
+											<input type="checkbox" ng-click=" toggleSelection($event,'skills',skill.id,skill.name,skill.alias)" ng-model="skill.selected"><span><%skill.name%></span>
 										</li>
 									</ul>
 								</div>
@@ -44,7 +81,7 @@ Search for all it Jobs in Vietnam
 							<div class="job-search__top-nav">
 								<div class="row">
 									<div class="col-xs-12 col-md-6 col-lg-12">
-										<h2>{{$countjob}} IT Jobs for you </h2>
+										<h2 ><span class="countjob">{{$countjob}}</span> IT Jobs for you </h2>
 									</div>
 									<div class="col-xs-12 col-md-6 col-lg-5"></div>
 								</div>
@@ -52,7 +89,7 @@ Search for all it Jobs in Vietnam
 						</div>
 						<div id="job-list" class="jb-search__result">
 							@foreach($listJobLastest as $ljlt)
-							<div class="job-item" bs-popover>
+							<div class="job-item">
 								<div class="row" >
 									<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 										<div class="logo job-search__logo jb-search__result">
@@ -65,7 +102,7 @@ Search for all it Jobs in Vietnam
 											<h3 class="bold-red">
 												<a href="{{route('detailjob',[$ljlt->alias,$ljlt->id])}}" class="job-title" target="_blank">{{$ljlt->name}}</a>
 											</h3>
-											<div class="company text-clip">
+											<div class="company">
 												<span class="job-search__company">{{$ljlt->en}}</span>
 												<span class="separator">|</span>
 												<span class="job-search__location">{{$ljlt->cn}}</span>
@@ -74,9 +111,15 @@ Search for all it Jobs in Vietnam
 												<h3><% job.job_description %></h3>
 											</div>
 											<div class="company text-clip">
-												<span class="salary-job"><a data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a></span>
+												<span class="salary-job">
+												@if(Auth::check())
+												{{$ljlt->salary}}
+												@else
+												<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
+												@endif
+												</span>
 												<span class="separator">|</span>
-												<span class="">Hôm nay</span>
+												<span class="">{{date('d-m-Y', strtotime($ljlt->created_at))}}</span>
 											</div>
 										</div>
 										<div class="clearfix"></div>
@@ -91,14 +134,15 @@ Search for all it Jobs in Vietnam
 											@endif
 										</div>
 										@else
-										<i class="fa fa-heart-o" aria-hidden="true" rel="popover"></i>
+										<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal"></i>
 										@endif
 									</div>
 								</div>	
 							</div>
 							@endforeach
-							@include('partials.modal-login')
+							
 						</div>
+						
 					</div>
 					<div id="right-column" class="hidden-xs hidden-sm col-md-2 col-lg-2">
 						<div class="box m-b-none">
@@ -107,6 +151,7 @@ Search for all it Jobs in Vietnam
 							</div>
 						</div>
 					</div>
+					@include('partials.modal-login')
 				</div>
 			</div>
 		</div>

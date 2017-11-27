@@ -77,6 +77,11 @@ Route::get('search-companies',[
 	'as'=>'search-companies',
 	'uses'=>'CompanyController@searchCompany'
 ]);
+//get jobs of company by ajax
+Route::get('list-jobs-company',[
+	'as'=>'list-jobs-company',
+	'uses'=>'CompanyController@getJobsCompany'
+]);
 //get employers by id
 Route::group(['prefix'=>'companies'],function(){
 	Route::get('',['as'=>'companies','uses'=>'CompanyController@getIndex']);
@@ -166,7 +171,11 @@ Route::get('see-more-reviews',[
 Route::get('/demo',function(){
 	return view('layouts.demo');
 });
-
+//get list skills of job by job_id
+Route::get('list-skill-jobs',[
+	'as'=>'getListSkillJob',
+	'uses'=>'JobsController@getListSkillJob'
+]);
 
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------

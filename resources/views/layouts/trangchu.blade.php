@@ -108,7 +108,7 @@ ITJob - Top Job IT For You
 												<li>
 													<a target="_blank" href="https://topdev.vn/detail-jobs/software-development-5791" title="Software Development (Project Manager)">
 											            <span class="job-title">
-											            	<strong class="text-clip">Software Development (Project Manager)</strong>
+											            	<strong class="text-clip">Software Development</strong>
 											            <em class="text-clip">LG Việt Nam</em></span>
 										 			</a>
 												</li>

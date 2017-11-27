@@ -22,6 +22,7 @@ app.controller('JobsController', function($scope,$http){
       // how to check if checkbox is selected or not
             var name = name;
             if(event.target.checked){
+                  dem++;
             	if(t=="cities"){
             		id_city[i]=id;
             		i++;
@@ -29,8 +30,7 @@ app.controller('JobsController', function($scope,$http){
             		id_skill[j]=id;
             		j++;
             	}
-            	$('.edition-filter').append('<p id='+alias+'>'+name+'<br></p>');
-            	dem++;
+            	$('.edition-filter').append('<span id='+alias+'>'+name+'<br></span>');
                   $('.clear-all-filter-att').css({
                         'display':'block'
                   });
@@ -39,7 +39,6 @@ app.controller('JobsController', function($scope,$http){
                   });
             }else{
             	if(t=="cities"){
-                        $scope.checkedl=false;
             		for(var k=0;k<id_city.length;k++){
             			if(id_city[k]==id){
             				var removeItem = id;
@@ -49,7 +48,6 @@ app.controller('JobsController', function($scope,$http){
             			}
             		}
             	}else{
-                        $scope.checkeds=false;
             		for(var l=0;l<id_skill.length;l++){
             			if(id_skill[l]==id){
             				var removeItem = id;
@@ -60,7 +58,7 @@ app.controller('JobsController', function($scope,$http){
             		}
             	}
             	$('#'+alias).find("br").remove();
-            	$('p#'+alias).remove();
+            	$('span#'+alias).remove();
             	dem--;
             }
             if(dem==0){
@@ -86,18 +84,22 @@ app.controller('JobsController', function($scope,$http){
 				'info_skill':id_skill,'info_city':id_city,
 			},
 			success : function(data){
-				$('.jb-search__result').html(data);
+      			$('.jb-search__result').html(data[0]);
+                        $('.countjob').show().text(data[1]);
 			}
 		});
       };
-      $scope.clearall=function(){
-            id_city=[];
-            id_skill=[];
-            dem=0;
-            $scope.checkedl=!$scope.checkedl;
-            $scope.checkeds=!$scope.checkeds;
-            $('.list-filter-att').hide();
+      $scope.clearAll=function(){
+            angular.forEach($scope.skills, function(skill_id){
+                  skill_id.selected=false;
+            });
+            angular.forEach($scope.cities, function(city_id){
+                  city_id.selected=false;
+            });
             $('.edition-filter').empty();
+            $('.list-filter-att').css({
+                  'display':'none',
+            });
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -107,11 +109,11 @@ app.controller('JobsController', function($scope,$http){
                   type:'get',
                   url:'filter-job',
                   data:{
-                        'info_skill':id_skill,'info_city':id_city,
+                        'info_skill':"",'info_city':"",
                   },
                   success : function(data){
-                        console.log(data);
-                        $('.jb-search__result').html(data);
+                        $('.jb-search__result').html(data[0]);
+                        $('.countjob').show().text(data[1]);
                   }
             });
       }
@@ -128,29 +130,6 @@ app.controller('JobsController', function($scope,$http){
                   console.log(error,'can not get data');
             });
       };
-});
-app.directive('bsPopover', function() {
-    return function(scope, element, attrs) {
-        element.find("i[rel=popover]").popover({ 
-            trigger: "manual" , 
-            html: true, 
-            placement: "bottom",
-            content: '<span class=".pop-content"> You must <a href="#" data-toggle="modal" data-target="#loginModal">Login </a>to do this</span>',
-            animation:false})
-        .on("mouseenter", function () {
-            var _this = this;
-            $(this).popover("show");
-            $(".popover").on("mouseleave", function () {
-                  $(_this).popover('hide');
-            });
-      }).on("mouseleave", function () {
-            var _this = this;
-            setTimeout(function () {
-                  if (!$(".popover:hover").length) {
-                        $(_this).popover("hide");
-                  }
-            }, 100);
-      });
-    };
+      
 });
 

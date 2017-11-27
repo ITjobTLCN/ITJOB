@@ -15,7 +15,7 @@ class DatUpdateEmployersAddCityidTable extends Migration
     {
         Schema::table('employers', function (Blueprint $table) {
             //
-            $table->integer('city_id')->unsigned()->nullable();
+            $table->integer('city_id')->unsigned();
             $table->foreign('city_id')->references('id')->on('cities');
         });
     }

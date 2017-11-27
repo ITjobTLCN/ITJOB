@@ -1,15 +1,47 @@
 $(document).ready(function(){
-
+	$('.followed i').css({
+		'display':'none',
+	});
 	$('.list-job-hiring .fa-arrow-up').css({
 		'display':'none',
 	});
+	$('.loading').css({
+		'display':'none',
+	});
+	var dem=0;
 	$('#up-down').click(function(){
 		$("i", this).toggleClass("fa fa-arrow-up fa fa-arrow-down");
+		$('.loading').css({
+			'display':'block',
+		});
+		dem++;
+		if(dem>0){
+			$.ajaxSetup({
+			    headers: {
+			        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			    }
+			});
+			$.ajax({
+				type:'get',
+				url:'list-jobs-company',
+				cache:true,
+				data:{
+					'dem':0,
+					'emp_id':$('#company_id').val(),
+				},
+				success:function(data){
+					$('.result-job-company').html(data);
+				}
+			});
+		}
 	});
 	//see-more jobs in company
-	var dem=0;
+	var dems=0;
 	$('#see-more-job-company').click(function(){
-		dem+=6;
+		$('.loading').css({
+			'display':'block',
+		});
+		dems+=10;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -17,20 +49,25 @@ $(document).ready(function(){
 		});
 		$.ajax({
 			type:'get',
-			url:'get-more-job',
+			url:'list-jobs-company',
 			data:{
-				'dem':dem,
-				'com_id':$('#company_id').val()
+				'dem':dems,
+				'emp_id':$('#company_id').val()
 			},
 			success:function(data){
-				alert(data);
+				$('.result-job-company').append(data);
 			}
 		});
 	});
-
+	$('#openLoginModal').click(function(e){
+        $('#loginModal').modal();
+    });
 	//flowed companies
 	$('.followed').click(function(){
 		var emp_id=$('#emp_id').val();
+		$('.followed i').css({
+			'display':'inline-block',
+		});
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43,9 +80,7 @@ $(document).ready(function(){
 				emp_id:emp_id,
 			},
 			success : function(data){
-				$('.followed i').css({
-					'display':'inline-block'
-				});
+				
 				$('.followed').html(data);
 			}
 		});
@@ -82,6 +117,19 @@ $(document).ready(function(){
 				$('.result-reviews').append(data);
 			}
 		});
+		e.preventDefault();
+	});
+	
+});
+$(document).ajaxComplete(function(){
+	$('.loading').css({
+		'display':'none',
+	});
+	$('.followed i').css({
+		'display':'none',
+	});
+	$('.salary-job').click(function(e){
+		$('#loginModal').modal();
 		e.preventDefault();
 	});
 });

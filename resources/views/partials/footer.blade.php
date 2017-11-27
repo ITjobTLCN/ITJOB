@@ -1,7 +1,7 @@
 <footer id="myFooter">
     <div class="container footer-top">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-3 col-xs-6">
                 <h5>Get started</h5>
                 <ul class="tag">
                     <li class="active"><a href="{{route("/")}}">Home</a>
@@ -18,17 +18,17 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-3 col-xs-6">
                 <h5>Find Jobs</h5>
                 <ul ng-controller="SkillsController" class="tag">
                     <li ng-repeat="skill in skills">
-                        <a href="it-job/search-job/<% skill.alias %>">
+                        <a href="it-job/<% skill.alias %>">
                             <% skill.name %>
                         </a>
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <h5>Legal</h5>
                 <ul class="tag">
                     <li><a href="#">Terms of Service</a>
@@ -39,7 +39,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-3 col-xs-12">
                 <h5>Connect Us</h5>
                 <div class="social-networks">
                     <a href="#" class="facebook" title="Facebook"><img src="assets/img/facebook.png" alt="">
