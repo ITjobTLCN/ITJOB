@@ -76,6 +76,7 @@ return array(
     'Cron\\MonthField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/MonthField.php',
     'Cron\\YearField' => $vendorDir . '/mtdowling/cron-expression/src/Cron/YearField.php',
     'DatUpdateEmployersAddCityidTable' => $baseDir . '/database/migrations/2017_11_26_134127_dat_update_employers_add_cityid_table.php',
+    'DatUpdateEmployersTableUpdateNullableImageAndWebsite' => $baseDir . '/database/migrations/2017_11_26_174900_dat_update_employers_table_update_nullable_image_and_website.php',
     'DatUpdateJobsAddDateexpireTable' => $baseDir . '/database/migrations/2017_11_24_152908_dat_update_jobs_add_dateexpire_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',

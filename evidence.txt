@@ -11,3 +11,6 @@
 	a. Update admin--->import-export file excel
 	b. Tạo migrate: them cột city_id vao bảng employers
 	c. cải tiến giao diện trang chủ
+3. 27/11/2017 3h14m PM
+	Dat:
+	a. Tao view Admin Employer - Thêm xóa sửa các employer
