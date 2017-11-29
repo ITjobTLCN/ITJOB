@@ -24,3 +24,12 @@ Phong:
 	c. thay đổi giao diện search-job
 Dat: 
 	a. COnfirm/deny employer khi user đăng ký 1 employer (confirm -> master);
+
+5. 29/11/2017
+Dat:
+	a. Thêm thông báo khi truy cập vao` trang nha` tuyển dụng không hợp lệ. 
+	b. Them module pagination để sử dụng paginate vào app.js và master!
+	c. Them trang employer advance -  dang chinh sua khoang 65% roi.
+		*Luu y': Bảng Skill_employer nhưng mà CSDL là skill_employers!!!
+
+

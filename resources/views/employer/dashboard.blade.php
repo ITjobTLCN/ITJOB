@@ -1,11 +1,8 @@
-@extends('admin.layout.master')
-@section('content')
-	<div class="container" ng-controller="DashBoardController">
-		<div class="row">
-			<div class="col">
-				<div  class="title-admin">DashBoard</div>	
-			</div>
-		</div>
+@extends('employer.master')
+@section('emptitle')
+Manage Basic
+@endsection
+@section('empcontent')
 		<div class="row">
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-primary">
@@ -30,7 +27,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
-                <div class="panel panel-green">
+                <div class="panel panel-success">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -52,7 +49,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
-                <div class="panel panel-yellow">
+                <div class="panel panel-warning">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -74,7 +71,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
-                <div class="panel panel-red">
+                <div class="panel panel-danger">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
@@ -96,96 +93,4 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-        	<div class="col-md-6">
-        		<div class="panel panel-warning">
-        			<div class="panel-heading text-center">
-        				<i class="fa fa-users fa-2x"></i>
-        				<span class="title-panel">Users</span>
-        				<div class="title-panel-number"><%countallusers%></div>
-        			</div>
-        			<div class="panel-body">
-        				<table class="table table-condensed table-admin">
-        					<tbody>
-        						<tr>
-        							<td>Admin</td>
-        							<th><%countadmins%></th>
-        						</tr>
-        						<tr>
-        							<td>User</td>
-        							<th><%countusers%></th>
-        						</tr>
-        						<tr>
-        							<td>Employer
-										<ul>
-											<li class="small-num">Master</li>
-											<li class="small-num">Assistant</li>
-										</ul>
-        							</td>
-        							<th><%countemployers%>
-										<ul>
-											<li class="small-num"><%countmasters%></li>
-											<li class="small-num"><%countassistants%></li>
-										</ul>
-        							</th>
-        						</tr>
-        					</tbody>
-        				</table>
-        				<div>
-        					<label class="label-show-items">
-        						<span>Show by</span> 
-								<select name="" id="select-admin-panel" class="form-control">
-									<option value="" selected>All</option>
-									<option value="" >Day</option>
-									<option value="" >Week</option>
-									<option value="" >Month</option>
-									<option value="" >Year</option>
-								</select>
-							</label>
-        				</div>
-        			</div>
-        		</div>
-        	</div>
-            <div class="col-md-6">
-                <div class="panel panel-success">
-                    <div class="panel-heading text-center">
-                        <i class="fa fa-user-secret fa-2x"></i>
-                        <span class="title-panel">Employers</span>
-                        <div class="title-panel-number"><%countemps%></div>
-                    </div>
-                    <div class="panel-body">
-                        <table class="table table-condensed table-admin">
-                            <tbody>
-                                <tr>
-                                    <td>Actived</td>
-                                    <th><%countapprovedemps%></th>
-                                </tr>
-                                <tr>
-                                    <td>Pending</td>
-                                    <th><%countpendingemps%></th>
-                                </tr>
-                                <tr>
-                                   <td>Denied</td>
-                                   <th><%countdeniedemps%></th>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div>
-                            <label class="label-show-items">
-                                <span>Show by</span> 
-                                <select name="" id="select-admin-panel" class="form-control">
-                                    <option value="" selected>All</option>
-                                    <option value="" >Day</option>
-                                    <option value="" >Week</option>
-                                    <option value="" >Month</option>
-                                    <option value="" >Year</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-	</div>
-
 @endsection

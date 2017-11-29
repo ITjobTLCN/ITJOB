@@ -212,10 +212,10 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('ngdeleteuser/{id}',['as'=>'nggetdeleteuser','uses'=>'AdminController@ngGetDeleteUser']);
 
 
-	/*admin dashboard  --- output: json*/
+		/*admin dashboard  --- output: json*/
 	Route::get('ngnumber',['as'=>'nggetnumber','uses'=>'AdminController@ngGetNumber']);
 
-	/*admin employers  --- output: json*/
+		/*admin employers  --- output: json*/
 	Route::get('ngemps',['as'=>'nggetemps','uses'=>'AdminController@ngGetEmps']);
 	Route::get('ngemp/{id}',['as'=>'nggetemp','uses'=>'AdminController@ngGetEmp']);
 	Route::post('ngcreateemp',['as'=>'ngpostcreateemp','uses'=>'AdminController@ngPostCreateEmp']);
@@ -226,7 +226,15 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 
 });
 	/**--------------END ADMIN ROUTE--------------------*/
+Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
+	Route::get('/',['as'=>'getemp','uses'=>'EmpController@getIndex']);
+	Route::get('advance',['as'=>'getempadvance','uses'=>'EmpController@getAdvance']);
 
+		/*employer manage  --- output: json*/
+	Route::get('ngadvance/{id}',['as'=>'nggetadvance','uses'=>'EmpController@ngGetAdvance']);
+	Route::get('ngconfirmass/{id}/{user_id}',['as'=>'nggetconfirmass','uses'=>'EmpController@ngGetConfirmAss']);
+	Route::get('ngdenyass/{id}/{user_id}',['as'=>'nggetdenyass','uses'=>'EmpController@ngGetDenyAss']);
+});
 
 
 /*-----------------END DAT ROUTER----------------------*/	

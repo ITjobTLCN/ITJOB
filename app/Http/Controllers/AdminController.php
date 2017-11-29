@@ -244,9 +244,16 @@ class AdminController extends Controller
         $countmasters = User::where('status',1)->where('role_id',3)->count();
         $countassistants = User::where('status',1)->where('role_id',4)->count();
 
+        $countemps = Employers::count();
+        $countpendingemps = Employers::where('status',0)->count();
+        $countapprovedemps = Employers::where('status',1)->count();
+        $countdeniedemps = Employers::where('status',2)->count();
+
         return response()->json(['status'=>true,'countallusers'=>$countallusers,'countadmins'=>$countadmins,
-            'countusers'=>$countusers,'countemployers'=>$countemployers,
-            'countmasters'=>$countmasters,'countassistants'=>$countassistants]);
+            'countusers'=>$countusers,'countemployers'=>$countemployers,'countmasters'=>$countmasters,
+            'countassistants'=>$countassistants,
+            'countemps'=>$countemps, 'countpendingemps'=>$countpendingemps,
+            'countapprovedemps'=>$countapprovedemps,'countdeniedemps' => $countdeniedemps]);
     }
     /*----------------END DASHBOARD------------------*/
 
