@@ -3,15 +3,23 @@ app.controller('EmpMngController',function($http,$scope){
 	$scope.load = function(id){
 		$scope.empid = id;
 		$scope.editable = false;
+		$scope.selection = [];
 		console.log($scope.empid);
 
 		$http.get('emp/ngadvance/'+$scope.empid).then(function(response){
 			console.log(response.data);
 			$scope.assis = response.data.assis;
 			$scope.emp = response.data.emp;
-			$scope.skills = response.data.skills;
+			$scope.myskills = response.data.myskills;
 			$scope.mycity = response.data.city;
 			$scope.cities = response.data.cities;
+			$scope.skills = response.data.skills;
+
+			//add skill selection 
+			$scope.myskills.forEach(function(value){
+				$scope.selection.push({id:value.id,name:value.name});
+			});
+			console.log($scope.selection);
 		},function(error){
 			alert('ERROR');
 		});
@@ -74,7 +82,40 @@ app.controller('EmpMngController',function($http,$scope){
 			$scope.load($scope.empid);
 		}
 	}
-	/*-----------------End Enable Edit Infomation for Employer------------------*/
+
+	/*-------------------toggle add/ remove skills-------------------------------*/
+
+	$scope.toggleSelection = function(id,name){
+		// alert('hello');
+		var index = $scope.selection.findIndex(i=>i.id == id);
+		if(index>-1){
+			$scope.selection.splice(index,1);
+		}else{
+			$scope.selection.push({id:id,name:name});
+		}
+		console.log($scope.selection);
+	}
+	$scope.checked = function(id){
+		return $scope.selection.findIndex(i=>i.id == id)>-1;
+	}
+
+	/*------------------------Save edit info--------------------------------------*/
+	$scope.updateInfo = function(){
+		$http({
+			method:"post",
+			url: "emp/ngupdateinfo/"+$scope.empid,
+			data:$.param({emp:$scope.emp,skills:$scope.selection}),
+			headers: {'Content-type':'application/x-www-form-urlencoded'}
+		}).then(function(response){
+			if(response.data.status==true){
+				$scope.editable = false;
+			}
+			alert(response.data.message);
+		},function(error){
+			alert('ERROR');
+		});
+		console.log('Hi');
+	}
 
 	/*------------------Annimation of select section-----------------------------*/
 	$(document).ready(function(){
@@ -94,5 +135,69 @@ app.controller('EmpMngController',function($http,$scope){
 			
 			console.log('OK');
 		});
+		//change logo cover and logo
+		$('#cover-info').hover(function(){
+			console.log('vào');
+			  $('#cover-above-cover', this).stop(true, true).slideDown("normal");
+		},function(){
+			console.log('ra');
+			  $('#cover-above-cover', this).stop(true, true).hide();
+		});
+		$('#logo-info').hover(function(){
+			console.log('vào');
+			  $('#cover-above-logo', this).stop(true, true).slideDown("normal");
+		},function(){
+			console.log('ra');
+			  $('#cover-above-logo', this).stop(true, true).hide();
+		});
+
+		$('#formChangeCover input[name="file"]').change(function(){
+			var file = this.files[0];
+		   	var fileType = file["type"];
+			var ValidImageTypes = ["image/gif", "image/jpeg","image/jpg", "image/png"];
+			if ($.inArray(fileType, ValidImageTypes) < 0) {
+		      	alert('Image type invalid ');
+			}else{
+				$("#formChangeCover").submit();
+			}
+		});
+		$('#formChangeLogo input[name="file"]').change(function(){
+			var file = this.files[0];
+		   	var fileType = file["type"];
+			var ValidImageTypes = ["image/gif", "image/jpeg","image/jpg", "image/png"];
+			if ($.inArray(fileType, ValidImageTypes) < 0) {
+		      	alert('Image type invalid ');
+			}else{
+				$("#formChangeLogo").submit();
+			}
+		});
 	});
+
+	/*------------------------Upload file---------------------------------*/
+	$scope.fileCover = function(type){
+		if(type==1){
+			$('#filecover').click();
+		}else{
+			if(type==2){
+				$('#filelogo').click();
+			}
+		}
+
+	}
+
+	/**----------------TEST ZONE--------------------*/
+	$scope.selectDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+	$scope.selectedList = {};
+
+	/**
+	 * Action
+	 */
+	$scope.submit = function () {
+	    angular.forEach($scope.selectedList, function (selected, day) {
+	        if (selected) {
+	           console.log(day);
+	        }
+	    });
+	};
+	/**-------------END TEST ZONE--------------------*/
 });

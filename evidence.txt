@@ -31,5 +31,8 @@ Dat:
 	b. Them module pagination để sử dụng paginate vào app.js và master!
 	c. Them trang employer advance -  dang chinh sua khoang 65% roi.
 		*Luu y': Bảng Skill_employer nhưng mà CSDL là skill_employers!!!
+6. 1/12/2017
+	a. Hoàn thành chỉnh sửa thông tin employer
+	b. upload ảnh logo/cover bằng Laravel - not with angularjs
 
 

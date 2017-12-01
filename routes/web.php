@@ -234,6 +234,10 @@ Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
 	Route::get('ngadvance/{id}',['as'=>'nggetadvance','uses'=>'EmpController@ngGetAdvance']);
 	Route::get('ngconfirmass/{id}/{user_id}',['as'=>'nggetconfirmass','uses'=>'EmpController@ngGetConfirmAss']);
 	Route::get('ngdenyass/{id}/{user_id}',['as'=>'nggetdenyass','uses'=>'EmpController@ngGetDenyAss']);
+		/*Update info*/
+	Route::post('ngupdateinfo/{id}',['as'=>'ngupdateempinfo','uses'=>'EmpController@ngGetUpdateEmpInfo']);
+		/*Change logo-cover using Laravel - Reload page*/
+	Route::post('changelogocover/{empid}/{type}',['as'=>'postChangeLogoCover','uses'=>'EmpController@postChangeLogoCoverEmp']);
 });
 
 

@@ -9,12 +9,15 @@ Manage Advance
 			<div class="emp-section" id="emp-info">
 				<div class="info-ct">
 					<h1>Your employer's infomation</h1>
+					@if($errors->any())
+					<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{$errors->first()}}</div>
+					@endif
 					<div class="row">
 						<div class="col-lg-5">
 							<p>Quản lý thông tin cơ bản này — tên của công ty, website, địa chỉ hay những thông tin khác sẽ được hiển thị ở trang Chi tiết công ty - Hãy điền những thông tin chính xác để các ứng viên tìm thấy bạn.</p>
 						</div>
 						<div class="col-lg-7">
-							<form action="#" method="post" id="manageemp-form">
+							<form action="#" method="post" name="empInfo" class="block-info">
 								<div class="text-right">
 									<a href="javascript:void(0)" ng-click="editInfo()" ng-if="!editable"><i class="fa fa-edit"></i> Edit</a>
 								</div>
@@ -23,21 +26,23 @@ Manage Advance
 									<label class="col-md-2 form-control-label">Name</label>
 									<div class="col-md-10">
 										<span ng-show="!editable"><%emp.name%></span>
-										<input type="text" ng-show="editable" ng-model="emp.name" class="form-control" name="name" placeholder="Employer's name">
+										<input type="text" ng-show="editable" ng-model="emp.name" class="form-control" name="name" placeholder="Employer's name" required>
+										<span class="errors" ng-show="empInfo.name.$error.required">Please type employer's name</span>
 									</div>
 								</div>
 								<div class="form-group row">
 									<label class="col-md-2 form-control-label">Webiste</label>
 									<div class="col-md-10">
 										<span ng-show="!editable"><%emp.website%></span>
-										<input type="text" ng-show="editable" class="form-control" name="website" placeholder="Employer's website" ng-model="emp.website">
+										<input type="text" ng-show="editable" class="form-control" name="website" placeholder="Employer's website" ng-model="emp.website" required>
+										<span class="errors" ng-show="empInfo.website.$error.required">Please type employer's website</span>
 									</div>
 								</div>
 								<div class="form-group row">
 									<label class="col-md-2 form-control-label">City</label>
 									<div class="col-md-10">
 										<span ng-show="!editable"><%mycity.name%></span>
-										<select ng-show="editable" class="form-control" name="" id="" ng-options="item.id as item.name for item in cities" ng-model="emp.city_id" >
+										<select ng-show="editable" class="form-control" name="" id="" ng-options="item.id as item.name for item in cities" ng-model="emp.city_id">
 										</select>
 									</div>
 								</div>
@@ -45,7 +50,8 @@ Manage Advance
 									<label class="col-md-2 form-control-label">Address</label>
 									<div class="col-md-10">
 										<span ng-show="!editable"><%emp.address%></span>
-										<input ng-show="editable" type="text" class="form-control" name="address" placeholder="Employer's address" ng-model="emp.address">
+										<input ng-show="editable" type="text" class="form-control" name="address" placeholder="Employer's address" ng-model="emp.address" required>
+										<span class="errors" ng-show="empInfo.address.$error.required">Please type employer's address</span>
 									</div>
 								</div>
 								<div class="form-group row">
@@ -60,7 +66,6 @@ Manage Advance
 									<div class="col-md-10">
 										<p ng-show="!editable"><%emp.description%> </p>
 										<textarea ng-show="editable" ng-model="emp.description" name="description" class="form-control" rows="5"></textarea>
-										
 									</div>
 								</div>
 								
@@ -75,31 +80,63 @@ Manage Advance
 								<div class="form-group row">
 									<label class="col-md-2 form-control-label">Overtime</label>
 									<div class="col-md-10">
-										<span ng-show="!editable"><%emp.overtime%></span>
+										<span ng-show="!editable">
+											<span ng-if="emp.overtime==1">OVT</span>
+											<span ng-if="emp.overtime==0">No</span>
+										</span>
 										<label ng-show="editable"><input type="checkbox" name="overtime" id="overtime" ng-model="emp.overtime" ng-true-value="1" ng-false-value="0">OVT</label>
 									</div>
 								</div>
+
 								<div class="form-group row">
 									<label class="col-md-2 form-control-label">Our Skills</label>
 									<div class="col-md-10">
-										<span ng-show="!editable" ng-repeat="skill in skills track by $index"><%skill.name%><span ng-if="!$last"> - </span></span>
+										<span ng-repeat="sel in selection track by $index"><%sel.name%> <span ng-if="!$last">-</span> </span>
 										<div ng-show="editable">
-											<input type="text" id="skill-pick" class="form-control" value="" autocomplete="off">
-										 	<ul class="list-group postjob-listgroup-skills">
-										  	</ul>
-											<div class="mt-2 postjob-listskills">
-
+											<button style="float:left;" type="button" class="btn btn-primary btn-sm" ng-click="showSkill=!showSkill">Choose Skills &gt;</button>
+											<div id="listSkill" ng-show="showSkill">
+												<input type="text" class="form-control" ng-model="searchSkill" placeholder="Search">
+												<div class="single-skill" ng-repeat="skill in skills|filter:searchSkill">
+													<label><input type="checkbox" value="<%skill.id%>" 
+												  ng-checked="checked(skill.id)" ng-click="toggleSelection(skill.id,skill.name)"> <%skill.name%></label>
+												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 								<div class="form-group row justify" ng-if="editable">
 									<div class=" col text-center">
-										<button type="submit" class="btn btn-warning">Change</button>
+										<button ng-disabled="empInfo.$invalid" type="button" class="btn btn-warning" ng-click="updateInfo()">Change</button>
 										<button type="button" ng-click="editInfo()" class="btn btn-default">Back</button>
 									</div>
 								</div>
 							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-lg-7">
+							<div class="block-info">
+								<div id="cover-info">
+									<img ng-src="uploads/emp/cover/<%emp.cover%>" alt="<%emp.cover%>">
+									<div class="cover-above" id="cover-above-cover">
+										<button type="button" class="btn btn-success" ng-click="fileCover(1)">Click to change your cover</button>
+										<form action="{{route('postChangeLogoCover',[$empid,1])}}" method="post" enctype="multipart/form-data" id="formChangeCover">
+											<input type="hidden" value="{{csrf_token()}}" name="_token">
+											<input type="file" name="file" ng-show="false" id="filecover">
+										</form>	
+									</div>
+								</div>
+								<div id="logo-info">
+									<img ng-src="uploads/emp/logo/<%emp.logo%>" alt="<%emp.logo%>">
+									<div class="cover-above" id="cover-above-logo">
+										<button type="button" class="btn btn-sm btn-success" ng-click="fileCover(2)">Change logo</button>
+										<form action="{{route('postChangeLogoCover',[$empid,2])}}" method="post" enctype="multipart/form-data" id="formChangeLogo">
+											<input type="hidden" value="{{csrf_token()}}" name="_token">
+											<input type="file" name="file" ng-show="false" id="filelogo">
+										</form>	
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

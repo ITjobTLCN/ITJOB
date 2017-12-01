@@ -59,12 +59,13 @@
 
 
 /* TABLE - COPY FROM ADMIN */
+.errors{color:red;}
+
 .table-title-admin{padding:6px 18px;font-size:28px;color:#125262;}
 .table-input-search{width: 300px !important;padding:0px 20px;}
 .para-title-admin{ background-color: #B7CDCE; padding: 6px;font-size: 15px; margin: 6px 0px; }
 .btn-create-admin{float:right;  margin:6px 18px; display: inline-flex;}
 .label-form-horizontal{ padding-top: 3.5px; }
-.errors{color:red;}
 .table-angular th{  cursor:pointer;}
 .table-angular tfoot>tr>td{text-align: center;}
 .sort-icon{font-size: 9px;margin-left: 5px;}
@@ -93,4 +94,56 @@ tr#content-table-admin span.label{font-weight: unset;}
 
 .emp #emp-info .info-ct{margin:0 auto;}
 
-.emp form#manageemp-form{border:1px solid rgba(0,0,0,0.23); border-radius: 5px; padding:12px; background-color:rgba(255,255,255,1); box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);}
+
+.emp #listSkill{background-color: white;position: absolute;z-index: 1000;right: 20px; float:left; margin-left:20px;width: 250px; border:1px solid rgba(0,0,0,0.12);border-radius: 5px; max-height: 150px; overflow-y: scroll;}
+.emp #listSkill .single-skill{padding:10px 25px;}
+.emp #listSkill .single-skill:hover{background-color: rgba(0,0,0,0.07);}
+
+
+/* update logo cover */
+.emp .block-info{ 
+	border:1px solid rgba(0,0,0,0.23); 
+	border-radius: 5px; padding:12px; 
+	background-color:rgba(255,255,255,1); 
+	box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14); 
+	margin:12px 0;
+}
+.emp .block-info #cover-info{
+    display: block;
+    border: 1px solid #D2D2D2;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,0.30);
+}
+.emp .block-info #cover-info img{
+	width: 100%;
+	object-fit: cover;
+    max-height: 300px;
+    min-height: 200px;
+}
+
+.emp .block-info #logo-info{
+    position: relative;
+    top: -50px;
+    left: 10px;
+    display: inline-block;
+    background-color: rgba(0,0,0,0.30);
+    border: 1px solid #D2D2D2;
+    border-radius: 2px;
+}
+.emp .block-info #logo-info img{
+	display: block;
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+
+}
+.emp .block-info .cover-above{
+	display: none;
+	cursor: pointer;
+	background-color: rgba(6,86,0,0.22);
+    position: absolute;
+    z-index: 1000;
+    text-align: center;
+}
+.emp .block-info #cover-above-cover{width: 90%;height: 300px;top: 26px;line-height: 150px;}
+.emp .block-info #cover-above-logo{width: 100px;height: 100px;top: 0px;line-height: 100px;}
