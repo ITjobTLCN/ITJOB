@@ -224,10 +224,10 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('ngdeleteuser/{id}',['as'=>'nggetdeleteuser','uses'=>'AdminController@ngGetDeleteUser']);
 
 
-	/*admin dashboard  --- output: json*/
+		/*admin dashboard  --- output: json*/
 	Route::get('ngnumber',['as'=>'nggetnumber','uses'=>'AdminController@ngGetNumber']);
 
-	/*admin employers  --- output: json*/
+		/*admin employers  --- output: json*/
 	Route::get('ngemps',['as'=>'nggetemps','uses'=>'AdminController@ngGetEmps']);
 	Route::get('ngemp/{id}',['as'=>'nggetemp','uses'=>'AdminController@ngGetEmp']);
 	Route::post('ngcreateemp',['as'=>'ngpostcreateemp','uses'=>'AdminController@ngPostCreateEmp']);
@@ -237,8 +237,31 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('ngdenyemp/{id}',['as'=>'nggetdenyemp','uses'=>'AdminController@ngGetDenyEmp']);
 
 });
-	/**--------------END ADMIN ROUTE--------------------*/
 
+	/**--------------EMPLOYER ROUTE--------------------*/
+Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
+	/*Employer Advance*/
+	Route::get('/',['as'=>'getemp','uses'=>'EmpController@getIndex']);
+	Route::get('advance',['as'=>'getempadvance','uses'=>'EmpController@getAdvance']);
+
+		/*employer manage  --- output: json*/
+	Route::get('ngadvance/{id}',['as'=>'nggetadvance','uses'=>'EmpController@ngGetAdvance']);
+	Route::get('ngconfirmass/{id}/{user_id}',['as'=>'nggetconfirmass','uses'=>'EmpController@ngGetConfirmAss']);
+	Route::get('ngdenyass/{id}/{user_id}',['as'=>'nggetdenyass','uses'=>'EmpController@ngGetDenyAss']);
+		/*Update info*/
+	Route::post('ngupdateinfo/{id}',['as'=>'ngupdateempinfo','uses'=>'EmpController@ngGetUpdateEmpInfo']);
+		/*Change logo-cover using Laravel - Reload page*/
+	Route::post('changelogocover/{empid}/{type}',['as'=>'postChangeLogoCover','uses'=>'EmpController@postChangeLogoCoverEmp']);
+
+		/*Employer Basic*/
+	Route::get('basic',['as'=>'getempbasic','uses'=>'EmpController@getBasic']);
+	Route::get('ngbasic/{id}',['as'=>'nggetbasic','uses'=>'EmpController@ngGetBasic']);
+	Route::post('ngcreatepost/{empid}',['as'=>'ngcreatepost','uses'=>'EmpController@ngCreatePost']);
+	Route::get('nggetpost/{id}',['as'=>'nggetpost','uses'=>'EmpController@ngGetPost']);
+	Route::post('ngeditpost/{empid}/{id}',['as'=>'ngeditpost','uses'=>'EmpController@ngEditPost']);
+	Route::get('ngtrashpost/{id}',['as'=>'ngtrashpost','uses'=>'EmpController@ngTrashPost']);
+	Route::get('ngpushpost/{id}',['as'=>'ngpushpost','uses'=>'EmpController@ngPushPost']);
+});
 
 
 /*-----------------END DAT ROUTER----------------------*/	

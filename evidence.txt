@@ -25,7 +25,30 @@ Phong:
 Dat: 
 	a. COnfirm/deny employer khi user đăng ký 1 employer (confirm -> master);
 
+<<<<<<< HEAD
 	4/12/2017
 Phong: 
 	a. Chỉnh sửa giải thuật filter và tìm kiếm
 	b. upload image và cv trong trang profile ứng viên
+=======
+5. 29/11/2017
+Dat:
+	a. Thêm thông báo khi truy cập vao` trang nha` tuyển dụng không hợp lệ. 
+	b. Them module pagination để sử dụng paginate vào app.js và master!
+	c. Them trang employer advance -  dang chinh sua khoang 65% roi.
+		*Luu y': Bảng Skill_employer nhưng mà CSDL là skill_employers!!!
+6. 1/12/2017
+	a. Hoàn thành chỉnh sửa thông tin employer
+	b. upload ảnh logo/cover bằng Laravel - not with angularjs
+
+7. 2/12/2017 - 3/12/2017
+	a. Thêm plugin của CKEditor vào: public/assets/plugin
+	b. Tạo Employer Basic
+	c. Them post mới! Có sử dụng CKEditor. - Cấu hình thư mục upload image-Tạo public/uploads/
+	d. Updated: Không sử dụng CK-Editor theo Laravel- sử dụng theo Angularjs -> thêm 1 directive để su dụng- nhưng chưa the upload hình được	
+
+	e. Load danh sách post của User - phân trang
+	f. Thực hiện Push- Deleted post 
+	g. Đã bind được data Datetime lên trang Edit
+	h. Edit và Thêm post mới! Hoàn thành nhưng không thêm hình được vì sử dụng AngularJS
+>>>>>>> f49af1440e9ed9c5d5db30b4a168fbe3156c37c9

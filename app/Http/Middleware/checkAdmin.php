@@ -20,7 +20,8 @@ class checkAdmin
         if(Auth::check() && Auth::user()->role_id==2){//is Admin
             return $next($request);
         }else{
-            return Redirect::back()->with('error_code', 1);  
+            return Redirect::route('/')->with('error_code', 1);
+            // return Redirect::back()->with('error_code', 1);  
         }
     }
 }

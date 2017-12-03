@@ -151,7 +151,13 @@ ITJob - Top Job IT For You
 		@include('partials.advertiment')
 	</div>
 
-
+@include('partials.modal-login')
+@if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
+    <script>$(document).ready(function(){$('#loginModal').modal('show');}); </script>
+@endif
+@if(!empty(Session::get('error_code')) && Session::get('error_code') == 2)
+    <script>$(document).ready(function(){alert('This feature is not available');}); </script>
+@endif
 @endsection
 @section('footer.js')
 <script src="assets/js/typeahead.js"></script>

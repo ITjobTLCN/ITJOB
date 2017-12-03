@@ -58,9 +58,7 @@
     <!-- modules angularjs -->
     <!-- show modal login if dont login with Admin -->
     @if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
-        <script>
-            $('#loginModal').modal('show');
-        </script>
+        <script>$('#loginModal').modal('show');</script>
     @endif
 
     @yield('script')

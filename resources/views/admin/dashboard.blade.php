@@ -100,8 +100,8 @@
         	<div class="col-md-6">
         		<div class="panel panel-warning">
         			<div class="panel-heading text-center">
-        				<i class="fa fa-users fa-3x"></i>
-        				<div class="title-panel">Users</div>
+        				<i class="fa fa-users fa-2x"></i>
+        				<span class="title-panel">Users</span>
         				<div class="title-panel-number"><%countallusers%></div>
         			</div>
         			<div class="panel-body">
@@ -116,16 +116,16 @@
         							<th><%countusers%></th>
         						</tr>
         						<tr>
-        							<td>Employer:
+        							<td>Employer
 										<ul>
-											<li>Master</li>
-											<li>Assistant</li>
+											<li class="small-num">Master</li>
+											<li class="small-num">Assistant</li>
 										</ul>
         							</td>
         							<th><%countemployers%>
 										<ul>
-											<li><%countmasters%></li>
-											<li><%countassistants%></li>
+											<li class="small-num"><%countmasters%></li>
+											<li class="small-num"><%countassistants%></li>
 										</ul>
         							</th>
         						</tr>
@@ -149,34 +149,24 @@
             <div class="col-md-6">
                 <div class="panel panel-success">
                     <div class="panel-heading text-center">
-                        <i class="fa fa-users fa-3x"></i>
-                        <div class="title-panel">Users</div>
-                        <div class="title-panel-number"><%countallusers%></div>
+                        <i class="fa fa-user-secret fa-2x"></i>
+                        <span class="title-panel">Employers</span>
+                        <div class="title-panel-number"><%countemps%></div>
                     </div>
                     <div class="panel-body">
                         <table class="table table-condensed table-admin">
                             <tbody>
                                 <tr>
-                                    <td>Admin</td>
-                                    <th><%countadmins%></th>
+                                    <td>Actived</td>
+                                    <th><%countapprovedemps%></th>
                                 </tr>
                                 <tr>
-                                    <td>User</td>
-                                    <th><%countusers%></th>
+                                    <td>Pending</td>
+                                    <th><%countpendingemps%></th>
                                 </tr>
                                 <tr>
-                                    <td>Employer:
-                                        <ul>
-                                            <li>Master</li>
-                                            <li>Assistant</li>
-                                        </ul>
-                                    </td>
-                                    <th><%countemployers%>
-                                        <ul>
-                                            <li><%countmasters%></li>
-                                            <li><%countassistants%></li>
-                                        </ul>
-                                    </th>
+                                   <td>Denied</td>
+                                   <th><%countdeniedemps%></th>
                                 </tr>
                             </tbody>
                         </table>

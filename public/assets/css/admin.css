@@ -21,12 +21,13 @@ dir-pagination-controls.ng-isolate-scope .pagination{margin:0 !important;}
 
 .title-admin{font-size:36px; color: #125262; margin:40px 0 20px; padding-bottom: 9px;border-bottom: 1px solid #939393;}
 .title-panel{font-size:25px;}
-.title-panel-number{font-size:60px;font-weight:bold;}
+.title-panel-number{font-size:45px;font-weight:bold;}
 
 .table-admin tr{font-size:20px;}
 .table-admin th,.table-admin td{padding:10px !important;}
 .table-admin th{width:100px; text-align: right;}
 .table-admin ul{list-style-type:none;}
+.table-admin .small-num{font-size:15px;}
 
 select#select-admin-panel{width:150px;}
 
