@@ -225,8 +225,10 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('ngdenyemp/{id}',['as'=>'nggetdenyemp','uses'=>'AdminController@ngGetDenyEmp']);
 
 });
-	/**--------------END ADMIN ROUTE--------------------*/
+
+	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
+	/*Employer Advance*/
 	Route::get('/',['as'=>'getemp','uses'=>'EmpController@getIndex']);
 	Route::get('advance',['as'=>'getempadvance','uses'=>'EmpController@getAdvance']);
 
@@ -238,6 +240,15 @@ Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
 	Route::post('ngupdateinfo/{id}',['as'=>'ngupdateempinfo','uses'=>'EmpController@ngGetUpdateEmpInfo']);
 		/*Change logo-cover using Laravel - Reload page*/
 	Route::post('changelogocover/{empid}/{type}',['as'=>'postChangeLogoCover','uses'=>'EmpController@postChangeLogoCoverEmp']);
+
+		/*Employer Basic*/
+	Route::get('basic',['as'=>'getempbasic','uses'=>'EmpController@getBasic']);
+	Route::get('ngbasic/{id}',['as'=>'nggetbasic','uses'=>'EmpController@ngGetBasic']);
+	Route::post('ngcreatepost/{empid}',['as'=>'ngcreatepost','uses'=>'EmpController@ngCreatePost']);
+	Route::get('nggetpost/{id}',['as'=>'nggetpost','uses'=>'EmpController@ngGetPost']);
+	Route::post('ngeditpost/{empid}/{id}',['as'=>'ngeditpost','uses'=>'EmpController@ngEditPost']);
+	Route::get('ngtrashpost/{id}',['as'=>'ngtrashpost','uses'=>'EmpController@ngTrashPost']);
+	Route::get('ngpushpost/{id}',['as'=>'ngpushpost','uses'=>'EmpController@ngPushPost']);
 });
 
 

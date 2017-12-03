@@ -5,8 +5,6 @@
     color: unset !important;
     margin-right: unset !important;
 }
-/* .emp a:hover{color:rgba(198, 54, 5,1) !important;}
-/* .emp a i{color:#ea5b28; } */
 
 .emp .sidebar{
 		display: block;
@@ -90,12 +88,23 @@ tr#content-table-admin span.label{font-weight: unset;}
 /* END TABLE */
 
 
-.emp .emp-section {padding-top: 25px;padding-bottom: 25px; border-top:1px solid rgba(0,0,0,0.35);}
+.emp .emp-section {padding-top: 25px;padding-bottom: 25px; border-bottom: 1px solid rgba(0,0,0,0.35);}
 
 .emp #emp-info .info-ct{margin:0 auto;}
 
 
-.emp #listSkill{background-color: white;position: absolute;z-index: 1000;right: 20px; float:left; margin-left:20px;width: 250px; border:1px solid rgba(0,0,0,0.12);border-radius: 5px; max-height: 150px; overflow-y: scroll;}
+.emp #listSkill{
+	background-color: white;
+	position: absolute;
+	z-index: 1000; 
+	left: 130px;
+	margin-top: -32px;
+	max-width: 250px; 
+	border:1px solid rgba(0,0,0,0.12);
+	border-radius: 5px; 
+	max-height: 150px; 
+	overflow-y: scroll;
+}
 .emp #listSkill .single-skill{padding:10px 25px;}
 .emp #listSkill .single-skill:hover{background-color: rgba(0,0,0,0.07);}
 
@@ -147,3 +156,8 @@ tr#content-table-admin span.label{font-weight: unset;}
 }
 .emp .block-info #cover-above-cover{width: 90%;height: 300px;top: 26px;line-height: 150px;}
 .emp .block-info #cover-above-logo{width: 100px;height: 100px;top: 0px;line-height: 100px;}
+.emp .btn-zoom{font-size:10px !important;padding:2px;min-width: 75%; margin:1px;}
+
+/*Dashboard and yourpost*/
+.emp #emp-yourpost .yourpost{min-height:300px;}
+

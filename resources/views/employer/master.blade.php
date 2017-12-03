@@ -12,16 +12,16 @@ Employer
 			<div class="sb-content">
 				<div class="sb-block">
 					<div class="sb-head">
-						<a class="sb-a" href="">Basic</a>
+						<a class="sb-a" href="emp/basic">Basic</a>
 					</div>
 					<div class="sb-detail">
-						<a class="sb-b" href="" target="_blank"><i class="fa fa-dashboard" ></i> Dashboard</a>
-						<a class="sb-b" href=""><i class="fa fa-sticky-note-o"></i> Your post</a>
+						<a class="sb-b" href="emp/basic#emp-dashboard" target="_blank"><i class="fa fa-dashboard" ></i> Dashboard</a>
+						<a class="sb-b" href="emp/basic#emp-yourpost"><i class="fa fa-sticky-note-o"></i> Your post</a>
 					</div>
 				</div>
 				<div class="sb-block">
 					<div class="sb-head">
-						<a class="sb-a" href="javascript:void(0)" id="abc">Advance</a>
+						<a class="sb-a" href="{{route('getempadvance')}}">Advance</a>
 					</div>
 					<div class="sb-detail">
 						<a class="sb-b" href="emp/advance#emp-info"><i class="fa fa-info-circle"></i> Emp Info</a>

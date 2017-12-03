@@ -12,6 +12,9 @@ use App\Employers;
 use App\Skills;
 use App\Cities;
 use App\Skill_employer;
+use App\Skill_job;
+use App\Jobs;
+use DateTime;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use File;
@@ -24,7 +27,7 @@ class EmpController extends Controller
         return  str_replace(' ', '-',strtolower($str));
     }
 	//Load trang 
-   	public function getIndex(){return view('employer.dashboard');}
+   	public function getIndex(){return redirect()->route('getempbasic');}
    	public function getAdvance(){$empid = Auth::user()->emp_id;
    		return view('employer.advance',compact('empid'));
    	}
@@ -170,5 +173,158 @@ class EmpController extends Controller
 		return ['assis'=>$assis];
 	}
 
-   	/*----------------------END TRANG QUẢN TRỊ----------------------------*/
+
+   	/*------------------------------END TRANG QUẢN TRỊ-----------------------------*/
+
+
+    /*----------------BASIC:Dashboar và post bài + quản lý bài mình post-----------*/
+    public function getBasic(){$empid=Auth::user()->emp_id; return view('employer.basic',compact('empid'));}
+        /*-----Get data when load page Basic----------*/
+    public function ngGetBasic($id){
+        //chung
+        $cities = Cities::all();
+        $skills = Skills::all();
+        //riêng
+        $myposts = Jobs::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
+        return response()->json(['cities'=>$cities,'skills'=>$skills,'myposts'=>$myposts]);
+    }
+        /*--------------------------Create a job (post)---------------------*/
+    public function ngCreatePost(Request $request,$empid){
+        $user_id = Auth::user()->id;
+
+        /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
+        try{
+            $job = new Jobs();
+            $job->name = $request->job['name'];
+            $job->alias = $this->changToAlias($request->job['name']);
+            if(!empty($request->job['salary']))
+                $job->salary = $request->job['salary'];
+            if(!empty($request->job['description']))
+                $job->description = $request->job['description'];
+            if(!empty($request->job['require']))
+                $job->require = $request->job['require'];
+            if(!empty($request->job['treatment']))
+                $job->treatment = $request->job['treatment'];
+            if(!empty($request->job['quantity']))
+                $job->quantity = $request->job['quantity'];
+
+            if(!empty($request->job['date_expire'])){
+                // $date =strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
+                //Loại bỏ cái trong ngoặc (Altai Standard Time)
+                $substr = substr($request->job['date_expire'],0,strpos($request->job['date_expire'],"("));
+                $date = new DateTime($substr);
+                $date2 = $date->getTimestamp(); //chuyển sang unix datetime
+                $job->date_expire = $date;
+            }
+
+            $job->user_id = $user_id;
+            $job->emp_id = $empid;
+            $job->city_id = $request->job['city_id'];
+
+            $job->status=0;//0:saving, 10: pending, 1: publisher,11: expired,2: deleted
+            $job->save();
+
+            //xóa các skill cũ -> add lại skill mới
+            Skill_job::where('job_id',$job->id)->delete();
+            if(sizeof($request->skills)>0){
+                foreach($request->skills as $skill){
+                    $ski = new Skill_job();
+                    $ski->job_id=$job->id;
+                    $ski->skill_id=$skill['id'];
+                    $ski->save();
+                }
+            }
+
+            return response()->json(['status'=>true,'message'=>'Saved post']);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Failed to save this post']);
+        }
+    }
+
+        /*--------------------------Edit the post---------------------------*/
+    public function ngEditPost(Request $request,$empid,$id){
+        $user_id = Auth::user()->id;
+
+        /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
+        try{
+            $job = Jobs::findOrFail($id);
+
+            $job->name = $request->job['name'];
+            $job->alias = $this->changToAlias($request->job['name']);
+            if(!empty($request->job['salary']))
+                $job->salary = $request->job['salary'];
+            if(!empty($request->job['description']))
+                $job->description = $request->job['description'];
+            if(!empty($request->job['require']))
+                $job->require = $request->job['require'];
+            if(!empty($request->job['treatment']))
+                $job->treatment = $request->job['treatment'];
+            if(!empty($request->job['quantity']))
+                $job->quantity = $request->job['quantity'];
+
+            if(!empty($request->job['date_expire'])){
+                // $date =strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
+                //Loại bỏ cái trong ngoặc (Altai Standard Time)
+                $substr = substr($request->job['date_expire'],0,strpos($request->job['date_expire'],"("));
+                $date = new DateTime($substr);
+                $date2 = $date->getTimestamp(); //chuyển sang unix datetime
+                $job->date_expire = $date;
+            }
+            $job->city_id = $request->job['city_id'];
+
+            //check user và emp
+            if($job->emp_id!=$empid || $job->user_id!=$user_id){
+                return response()->json(['status'=>false,'message'=>'Employer or User is invalid']);
+            }
+
+
+            $job->status=0;//0:saving, 10: pending, 1: publisher,11: expired,2: deleted
+            $job->save();
+
+            //xóa các skill cũ -> add lại skill mới
+            Skill_job::where('job_id',$job->id)->delete();
+            if(sizeof($request->skills)>0){
+                foreach($request->skills as $skill){
+                    $ski = new Skill_job();
+                    $ski->job_id=$job->id;
+                    $ski->skill_id=$skill['id'];
+                    $ski->save();
+                }
+            }
+
+            return response()->json(['status'=>true,'message'=>'Saved post']);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Failed to save this post']);
+        }
+    }
+
+        /*------------------Get post by id---------------*/
+    public function ngGetPost($id){
+        $post = Jobs::findOrFail($id);
+        //post's skills
+        $postskills = Skill_job::where('skill_job.job_id',$id)->join('skills','skills.id','=','skill_job.skill_id')->select('skills.*')->get();
+        return response()->json(['post'=>$post,'postskills'=>$postskills]);
+    }
+        /*-----------------Trash and Push posts--------------------*/
+    public function ngTrashPost($id){
+        try{
+            $post = Jobs::findOrFail($id);
+            $post->status = 2;
+            $post->save();
+            return response()->json(['status'=>true,'message'=>'Moved post to trash']);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Failed to delete']);
+        }
+    }
+    public function ngPushPost($id){
+        try{
+            $post = Jobs::findOrFail($id);
+            $post->status = 10;
+            $post->save();
+            return response()->json(['status'=>true,'message'=>'Pushed and waiting to confirm']);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Failed to push']);
+        }
+    }
+    
 }

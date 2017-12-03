@@ -93,13 +93,15 @@ Manage Advance
 									<div class="col-md-10">
 										<span ng-repeat="sel in selection track by $index"><%sel.name%> <span ng-if="!$last">-</span> </span>
 										<div ng-show="editable">
-											<button style="float:left;" type="button" class="btn btn-primary btn-sm" ng-click="showSkill=!showSkill">Choose Skills &gt;</button>
+											<div>
+											<button type="button" class="btn btn-primary btn-sm" ng-click="showSkill=!showSkill">Choose Skills &gt;</button>
 											<div id="listSkill" ng-show="showSkill">
 												<input type="text" class="form-control" ng-model="searchSkill" placeholder="Search">
 												<div class="single-skill" ng-repeat="skill in skills|filter:searchSkill">
 													<label><input type="checkbox" value="<%skill.id%>" 
 												  ng-checked="checked(skill.id)" ng-click="toggleSelection(skill.id,skill.name)"> <%skill.name%></label>
 												</div>
+											</div>
 											</div>
 										</div>
 									</div>

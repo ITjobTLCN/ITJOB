@@ -1,6 +1,6 @@
 app.controller('EmpMngController',function($http,$scope){
 	/*---------Load page and get empid from Laravel----------*/
-	$scope.load = function(id){
+	$scope.load = function(id,userid){
 		$scope.empid = id;
 		$scope.editable = false;
 		$scope.selection = [];
@@ -23,6 +23,24 @@ app.controller('EmpMngController',function($http,$scope){
 		},function(error){
 			alert('ERROR');
 		});
+	}
+	/*---------Load page Basic ---------------------------------*/
+	$scope.loadBasic = function(id){
+		$scope.empid = id;
+		$scope.job=null;
+		$scope.selection = [];
+		$http.get('emp/ngbasic/'+$scope.empid).then(function(response){
+			console.log(response.data);
+			//chung
+			$scope.cities = response.data.cities;
+			$scope.skills = response.data.skills;
+			//rieng
+			$scope.myposts = response.data.myposts;
+
+		},function(error){
+			alert('ERROR');
+		});
+
 	}
 
 	/**-------Confirm/Deny Assistant------------*/
@@ -185,6 +203,121 @@ app.controller('EmpMngController',function($http,$scope){
 
 	}
 
+	/*-------------------BASIC FUNCTION----------------------------------*/
+	$scope.savePost = function(type,id){
+		if(type==0){//add
+			$http({
+				method:"post",
+				url: "emp/ngcreatepost/"+$scope.empid,
+				data:$.param({job:$scope.job,skills:$scope.selection}),
+				headers: {'Content-type':'application/x-www-form-urlencoded'}
+			}).then(function(response){
+				console.log(response.data);
+				if(response.data.status == true){
+					$scope.job=null;
+					$scope.selection=[];
+					$scope.addPost();
+					//update my list posts
+					$scope.loadBasic($scope.empid);
+				}
+				alert(response.data.message);
+			},function(error){
+				alert("ERROR");
+			});
+		}else{
+			if(type==1){//edit
+				var datajob = $scope.job;
+				var dataskills = $scope.selection;
+				$http({
+					method:"post",
+					url: "emp/ngeditpost/"+$scope.empid+"/"+id,
+					data:$.param({job:$scope.job,skills:$scope.selection}),
+					headers: {'Content-type':'application/x-www-form-urlencoded'}
+				}).then(function(response){
+					console.log(response.data);
+					if(response.data.status == true){
+						//update my list posts 
+						$scope.loadBasic($scope.empid);
+						$scope.job=datajob;
+						$scope.selection = dataskills;
+						// $scope.getPost(id);					
+					}
+					alert(response.data.message);
+				},function(error){
+					alert("ERROR");
+				});
+			}
+		}
+
+		
+	}
+	$scope.addPost = function(type){
+		if(type==0){//add
+			$scope.titleBlock='Add New Post';
+			$scope.typePost = type;
+		}else{
+			if(type==1){//edit
+				$scope.titleBlock='Edit Post';
+				$scope.typePost = type;
+				$scope.idPost = $scope.job.id;
+			}
+		}
+		$scope.addnewpost = !$scope.addnewpost;
+		$('#newpost').slideToggle();
+		if($scope.addnewpost){
+			var pos = $('#newpost').offset().top - 50;
+		}else{
+			var pos = $('#emp-yourpost').offset().top - 50;
+			$scope.job=null;
+			$scope.selection=[];
+		}
+		var body = $("html, body");
+		body.stop().animate({scrollTop:pos}, 450, 'swing', function() {});
+	}
+	$scope.getPost = function(id){
+		$http.get('emp/nggetpost/'+id).then(function(response){
+			console.log(response.data);
+			$scope.job=response.data.post;
+			$scope.job.date_expire=new Date($scope.job.date_expire);
+			$scope.selection = response.data.postskills;
+			$scope.addPost("1");
+		},function(error){
+			alert('ERROR');
+		});
+	}
+	$scope.trashPost = function(idPost){
+		if(confirm('Are you want to delete this post?')){
+			$http.get('emp/ngtrashpost/'+idPost).then(function(response){
+				if(response.data.status==true){
+					$scope.addPost();
+					//reload data
+					$scope.loadBasic($scope.empid);
+				}
+				alert(response.data.message);
+			},function(error){
+				alert("ERROR");
+			});			
+		}
+	}
+	$scope.pushPost = function(idPost){
+		if(confirm('Push this post and waiting confirm from Master?')){
+			if($scope.typePost==0){
+				alert('You must save this post');
+			}else{
+				$http.get('emp/ngpushpost/'+idPost).then(function(response){
+					if(response.data.status==true){
+						$scope.addPost();
+						//reload data
+						$scope.loadBasic($scope.empid);
+					}
+					alert(response.data.message);
+				},function(error){
+					alert("ERROR");
+				});
+			}
+		}
+	}
+
 	/**----------------TEST ZONE--------------------*/
 	$scope.selectDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 	$scope.selectedList = {};
@@ -200,4 +333,26 @@ app.controller('EmpMngController',function($http,$scope){
 	    });
 	};
 	/**-------------END TEST ZONE--------------------*/
+});
+
+
+app.directive('ckEditor', function () {
+    return {
+        require: '?ngModel',
+        link: function (scope, elm, attr, ngModel) {
+            var ck = CKEDITOR.replace(elm[0]);
+ 
+            if (!ngModel) return;
+ 
+            ck.on('pasteState', function () {
+                scope.$apply(function () {
+                    ngModel.$setViewValue(ck.getData());
+                });
+            });
+ 
+            ngModel.$render = function (value) {
+                ck.setData(ngModel.$viewValue);
+            };
+        }
+    };
 });
