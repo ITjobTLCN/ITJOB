@@ -1,4 +1,4 @@
-<div class="header-companies" >
+<div class="header-companies">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="container-fluid">

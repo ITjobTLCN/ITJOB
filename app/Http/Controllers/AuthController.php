@@ -35,25 +35,25 @@ class AuthController extends Controller
         if(!$socialProvider){
             $user=User::where('email',$socialUser->getEmail())->first();
             if(!$user){
-                 //create a new user and provider
+                //create a new user and provider
                 $user=new User();
                 $user->email=$socialUser->getEmail();
                 $user->name=$socialUser->getName();
                 $user->image=$socialUser->getAvatar();
                 $user->role_id='1';
                 $user->save();
+            }else{
+                //create a new social provider 
+                $socialProvider=new SocialProvider();
+                $socialProvider->user_id=$user->id;
+                $socialProvider->provider_id=$socialUser->getId();
+                $socialProvider->provider=$provider;
+                $socialProvider->save(); 
             }
-            //create a new social provider 
-            $socialProvider=new SocialProvider();
-            $socialProvider->user_id=$user->id;
-            $socialProvider->provider_id=$socialUser->getId();
-            $socialProvider->provider=$provider;
-            $socialProvider->save(); 
         }else{
             $user=$socialProvider->user;
         }
         auth()->login($user);
         return redirect()->back();
-        
     }
 }

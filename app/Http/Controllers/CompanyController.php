@@ -258,4 +258,13 @@ class CompanyController extends Controller
         }
         return $output;
     }
+    public function getListSkillEmployer(Request $req){
+        $emp_id=$req->emp_id;
+        $skills=DB::table('skills as s')
+                ->select('s.name')
+                ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$emp_id.') as a'),function($join){
+                    $join->on('s.id','=','a.skill_id');
+                })->get();
+        return response()->json($skills);
+    }
  }

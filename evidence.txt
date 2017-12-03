@@ -24,3 +24,8 @@ Phong:
 	c. thay đổi giao diện search-job
 Dat: 
 	a. COnfirm/deny employer khi user đăng ký 1 employer (confirm -> master);
+
+	4/12/2017
+Phong: 
+	a. Chỉnh sửa giải thuật filter và tìm kiếm
+	b. upload image và cv trong trang profile ứng viên

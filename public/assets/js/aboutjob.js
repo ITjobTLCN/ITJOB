@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
       //xóa toàn bộ tag dùng để filter job
 	$('p#loca').click(function(){
 		$loca=$(this).text();
@@ -7,6 +8,7 @@ $(document).ready(function(){
       $('i#openLoginModal').click(function(e){
             $('#loginModal').modal();
       });
+      
       $(document).on('click','div#followJob',function(){
             var job_id=$(this).attr('job_id');
             var emp_id=$(this).attr('emp_id');

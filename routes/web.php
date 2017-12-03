@@ -52,9 +52,13 @@ Route::get('profile-user',[
 	'as'=>'profileuser',
 	'uses'=>'UsersController@getProfileUser'
 ]);
-//add
-Route::post('add',[
-	'as'=>'add',
+Route::post('profile',[
+	'as'=>'postAvatar',
+	'uses'=>'UsersController@postAvatar'
+]);
+//edit email user
+Route::get('edit-email',[
+	'as'=>'editEmail',
 	'uses'=>'UsersController@editEmail'
 ]);
 //editProfile
@@ -176,7 +180,11 @@ Route::get('list-skill-jobs',[
 	'as'=>'getListSkillJob',
 	'uses'=>'JobsController@getListSkillJob'
 ]);
-
+//get list skills of employer by emp_id
+Route::get('list-skill-emp',[
+	'as'=>'getListSkillEmployer',
+	'uses'=>'CompanyController@getListSkillEmployer'
+]);
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------
 */
@@ -191,6 +199,10 @@ Route::get('/import',function(){
 Route::get('login',['as'=>'getlogin',function(){
 	return redirect()->route('login');
 }]);
+Route::post('login-modal',[
+	'as'=>'loginModal',
+	'uses'=>'UsersController@postLoginModal'
+]);
 Route::get('logout',['as'=>'getlogout','uses'=>'HomeController@getLogOut']);
 
 Route::post('nglogin',['as'=>'ngpostlogin','uses'=>'HomeController@ngPostLogin']);

@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Schema;
+use Session;
+use View;
+use \App\Jobs;
+use DB;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -13,6 +17,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->composer('partials.related-jobs',function($view){
+            $view->with('relatedJob',Session::get('relatedJob'));
+        });
+        view()->composer('partials.job-most-viewer',function($view){
+            $jobs=DB::table('employers as e')
+                    ->select('a.*','e.name as en','e.logo','c.name as cn')
+                    ->join(DB::raw('(select id,name,alias,city_id,emp_id,description,salary,created_at from jobs order by views desc) as a'),function($join){
+                        $join->on('e.id','=','a.emp_id');
+                    })->join('cities as c','a.city_id','=','c.id')->offset(0)->take(8)->get();
+            $view->with('topJobViewer',$jobs);
+        });
         Schema::defaultStringLength(191);
     }
 

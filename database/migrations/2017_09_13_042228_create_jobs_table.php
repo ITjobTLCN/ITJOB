@@ -26,8 +26,8 @@ class CreateJobsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('emp_id')->unsigned();
             $table->integer('city_id')->unsigned();
-            $table->integer('follow')->default(0);
             $table->integer('status')->default(1);
+            $table->integer('follows')->default(0);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('emp_id')->references('id')->on('employers');
             $table->foreign('city_id')->references('id')->on('cities');
