@@ -99,15 +99,16 @@ Manage Basic
 		<div id="emp-yourpost" class="emp-section">
 			<div class="row yourpost">
 				<h1>Your posts <button type="button" class="btn btn-info" ng-click="addPost(0)"><i class="fa fa-plus-square-o"></i> New post</button></h1>
-				<div class="col-lg-6 block-info">
+				<div class="col-lg-7 block-info">
 					<table class="table table-hover table-responsive ">
 						<h4 class="text-center">Your post in Company's name</h4>
 						<thead>
-							<tr >
+							<tr>
 								<th>Title</th>
 								<th>Created</th>
 								<th>Status</th>
 								<th>Action</th>
+								<th>Applied</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -127,6 +128,10 @@ Manage Basic
 										<button type="button" class="btn btn-sm btn-danger btn-zoom" ng-click="getPost(post.id)">Edit</button>
 									</div>
 									<button type="button" class="btn btn-sm btn-info btn-zoom">Preview</button>
+								</td>
+								<td><%post.applications.length%>/<%post.quantity%>
+									<span ng-if="post.quantity==null">All</span>
+									<a href=""><span class="fa fa-arrow-circle-right"></span></a>
 								</td>
 							</tr>
 							
@@ -196,17 +201,7 @@ Manage Basic
 								<div class="form-group">
 									<label for="">Description</label>
 									<textarea name="description" ng-model="job.description" class="form-control" cols="3" rows="3" ck-editor></textarea>
-									<!-- <script type="text/javascript">
-								      var editor = CKEDITOR.replace('job_description',{
-								       language:'en',
-								       filebrowserBrowseUrl :'assets/plugin/ckfinder/ckfinder.html',
-								       filebrowserImageBrowseUrl : 'assets/plugin/ckfinder/ckfinder.html?type=Images',
-								       filebrowserFlashBrowseUrl : 'assets/plugin/ckfinder/ckfinder.html?type=Flash',
-								       filebrowserUploadUrl : 'assets/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
-								       filebrowserImageUploadUrl : 'assets/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
-								       filebrowserFlashUploadUrl : 'assets/plugin/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash',
-								       });
-							      	</script> -->
+
 								</div>
 								<div class="form-group">
 									<label for="">Requirement</label>

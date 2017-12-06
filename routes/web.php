@@ -249,6 +249,8 @@ Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
 	Route::post('ngeditpost/{empid}/{id}',['as'=>'ngeditpost','uses'=>'EmpController@ngEditPost']);
 	Route::get('ngtrashpost/{id}',['as'=>'ngtrashpost','uses'=>'EmpController@ngTrashPost']);
 	Route::get('ngpushpost/{id}',['as'=>'ngpushpost','uses'=>'EmpController@ngPushPost']);
+	Route::get('ngconfirmpost/{id}',['as'=>'ngconfirmpost','uses'=>'EmpController@ngConfirmPost']);
+	Route::get('ngdenypost/{id}',['as'=>'ngdenypost','uses'=>'EmpController@ngDenyPost']);
 });
 
 

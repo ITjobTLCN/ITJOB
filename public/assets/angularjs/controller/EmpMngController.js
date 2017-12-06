@@ -1,6 +1,10 @@
 app.controller('EmpMngController',function($http,$scope){
+	/*-----------Reset function-----------------------*/
+	$scope.resetAd = function(id){
+		$scope.load(id);
+	}
 	/*---------Load page and get empid from Laravel----------*/
-	$scope.load = function(id,userid){
+	$scope.load = function(id){
 		$scope.empid = id;
 		$scope.editable = false;
 		$scope.selection = [];
@@ -14,6 +18,7 @@ app.controller('EmpMngController',function($http,$scope){
 			$scope.mycity = response.data.city;
 			$scope.cities = response.data.cities;
 			$scope.skills = response.data.skills;
+			$scope.posts = response.data.posts;
 
 			//add skill selection 
 			$scope.myskills.forEach(function(value){
@@ -72,10 +77,39 @@ app.controller('EmpMngController',function($http,$scope){
 			});
 		}	
 	}
-	/*--------End Confirm/Deny Assistant--------------*/
+	
+	/*---------Confirm/Deny Post ----------------*/
+	$scope.confirmPost = function(id){
+		if(confirm('Are you sure confirm?')){
+			$http.get('emp/ngconfirmpost/'+id).then(function(response){
+				if(response.data.status==true){
+					alert(response.data.message);
+					$scope.resetAd($scope.empid);
+				}else{
+					alert(response.data.message);
+				}
+			},function(error){
+				alert('ERROR');
+			});
+		}	
+	}
+	$scope.denyPost = function(id){
+		if(confirm('Are you sure deny this post?')){
+			$http.get('emp/ngdenypost/'+id).then(function(response){
+				if(response.data.status==true){
+					alert(response.data.message);
+					$scope.resetAd($scope.empid);
+				}else{
+					alert(response.data.message);
+				}
+			},function(error){
+				alert('ERROR');
+			});
+		}	
+	}
 
 
-	/*sort-num of raw in table*/
+	/*--------------sort-num of raw in table ASSISTANT-----------------*/
 	$scope.showitems = '3';
 	$scope.sort = function(type){
 		$scope.sortType = type;
@@ -92,6 +126,24 @@ app.controller('EmpMngController',function($http,$scope){
 			$scope.flagStatus = !$scope.flagStatus;
 		}
 	}
+	/*--------------sort-num of raw in table POSTS-----------------*/
+	$scope.showitemsPost = '3';
+	$scope.sortPost = function(type){
+		$scope.sortTypePost = type;
+		$scope.sortReversePost = !$scope.sortReversePost;
+	}
+	/*filter table with status*/
+	$scope.flagStatusPost = false;
+	// $scope.filterStatusPost = 1;
+	$scope.filterPost = function(type){
+		if($scope.filterStatusPost != type){
+			$scope.filterStatusPost = type;
+			$scope.flagStatusPost = true;
+		}else{
+			$scope.flagStatusPost = !$scope.flagStatusPost;
+		}
+	}
+
 
 	/*--------------------Enable Edit Infomation for Employer------------------*/
 	$scope.editInfo = function(){
@@ -318,6 +370,11 @@ app.controller('EmpMngController',function($http,$scope){
 		}
 	}
 
+	/*-----------------LIST APPLICATION--------------------------*/
+	$scope.showApps = function(apps){
+		$scope.listApps = apps;
+	}
+
 	/**----------------TEST ZONE--------------------*/
 	$scope.selectDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 	$scope.selectedList = {};
@@ -336,6 +393,7 @@ app.controller('EmpMngController',function($http,$scope){
 });
 
 
+//use CKEditor by AngularJS
 app.directive('ckEditor', function () {
     return {
         require: '?ngModel',

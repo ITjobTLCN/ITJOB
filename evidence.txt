@@ -45,3 +45,5 @@ Dat:
 	f. Thực hiện Push- Deleted post 
 	g. Đã bind được data Datetime lên trang Edit
 	h. Edit và Thêm post mới! Hoàn thành nhưng không thêm hình được vì sử dụng AngularJS
+8. 5/12/2017
+	a. Quan ly danh sach cac bai post cua assistant

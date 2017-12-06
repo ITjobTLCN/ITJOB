@@ -38,6 +38,10 @@ class EmpController extends Controller
    	*------------------Chỉnh sửa thông tin của Employer---------------------
    	*------------------------Route này của master---------------------------*/
 	public function ngGetAdvance($id){
+        //list city,skills  -- các danh sách chung
+        $cities = Cities::all();
+        $skills = Skills::all();
+        //
 		$dataassis = $this->ngGetAssistantByEmpId($id);
 		$assis = $dataassis['assis'];
 		//info employer
@@ -45,10 +49,16 @@ class EmpController extends Controller
 		$city = $emp->city;
 		//list skill
 		$myskills = Skill_employer::where('skill_employers.emp_id',$id)->join('skills','skills.id','=','skill_employers.skill_id')->select('skills.*')->get();
-		//list city,skills
-		$cities = Cities::all();
-		$skills = Skills::all();
-		return response()->json(['assis'=>$assis,'emp'=>$emp,'myskills'=>$myskills,'city'=>$city,'cities'=>$cities,'skills'=>$skills]);
+
+        //Get list posts of Employer (pending-publish-expire-masterdeleted) ->Khong lay save va2 delete cua Assis
+        $posts = Jobs::with('User','Applications')->where('emp_id',$id)->where(function($q){
+            $q->orWhere('status',10);   //->pending
+            $q->orWhere('status',1);    //->publisher
+            $q->orWhere('status',11);   //->expire
+            $q->orWhere('status',12);   //->master deleted
+        })->get();
+
+		return response()->json(['assis'=>$assis,'emp'=>$emp,'myskills'=>$myskills,'city'=>$city,'cities'=>$cities,'skills'=>$skills,'posts'=>$posts]);
 	}
 
 		/*CONFIRM/DENY pending Employer*/
@@ -172,6 +182,8 @@ class EmpController extends Controller
 		// dd($assis);
 		return ['assis'=>$assis];
 	}
+        /*function get user by id*/
+    public function getUser($id){$user = User::findOrFail($id);return $user;}
 
 
    	/*------------------------------END TRANG QUẢN TRỊ-----------------------------*/
@@ -185,7 +197,7 @@ class EmpController extends Controller
         $cities = Cities::all();
         $skills = Skills::all();
         //riêng
-        $myposts = Jobs::where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
+        $myposts = Jobs::with('applications')->where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
         return response()->json(['cities'=>$cities,'skills'=>$skills,'myposts'=>$myposts]);
     }
         /*--------------------------Create a job (post)---------------------*/
@@ -326,5 +338,29 @@ class EmpController extends Controller
             return response()->json(['status'=>false,'message'=>'Failed to push']);
         }
     }
-    
+        /*--------------Confirm/Deny posts-------------------------*/
+    public function ngConfirmPost($id){
+        try{
+            $post = Jobs::findOrFail($id);
+            //change status from Pending to Publisher: from 10 to 1
+            $post->status = 1;
+            $post->save();
+
+            return response()->json(['status'=>true,'message'=>'Confirm Successfully']);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Confirm failed']);
+        }
+    }
+    public function ngDenyPost($id){
+        try{
+            $post = Jobs::findOrFail($id);
+            //change status from Pending to Master Deleted: from 10 to 12
+            $post->status = 12;
+            $post->save();
+
+            return response()->json(['status'=>true,'message'=>'Deny Successfully']);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Deny failed']);
+        }
+    }
 }
