@@ -33,7 +33,7 @@ class UsersController extends Controller
         if($req->hasFile('avatar')){
             $avatar=$req->file('avatar');
             $filename=time().'.'.$avatar->getClientOriginalExtension();
-            Image::make($avatar)->resize(300,300)->save(public_path('/uploads/avatar/'.$filename));
+            Image::make($avatar)->resize(300,300)->save(public_path('/uploads/user/avatar/'.$filename));
 
             $user=Auth::user();
             $user->image=$filename;
@@ -53,7 +53,7 @@ class UsersController extends Controller
         if($req->hasFile('cv')){
             $cv=$req->file('cv');
             $filename = $cv->getClientOriginalName();
-            $cv->move('uploads/cv/' , $filename);
+            $cv->move('uploads/user/cv/' , $filename);
             $user->cv=$filename;      
         }
         $user->name=$req->name;

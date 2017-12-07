@@ -18,7 +18,7 @@ Thông tin cá nhân | ITJob
 						
 						<div class="avatar_profile">
 							@if($user->password !="")
-							<img src="uploads/avatar/{{$user->image}}" alt="" class="img-responsive" width="150px" height="150px">
+							<img src="uploads/user/avatar/{{$user->image}}" alt="" class="img-responsive" width="150px" height="150px">
 							@else
 							<img src="{{$user->image}}" alt="" class="img-responsive" width="150px" height="150px">
 							@endif
@@ -92,7 +92,7 @@ Thông tin cá nhân | ITJob
 									<label for="inputPassword3" class="col-sm-2 control-label">CV</label>
 									<div class="col-sm-8">
 										@if($user->cv !=null)
-										<a href="uploads/cv/{{$user->cv}}" download>{{$user->cv}}</a>
+										<a href="uploads/user/cv/{{$user->cv}}" download>{{$user->cv}}</a>
 										@endif
 										<input type="file" value="{{$user->cv}}" class="form-control" name="cv" id="cv"">
 										<span>We accept .doc .docx and .pdf files up to 1MB</span>
@@ -121,7 +121,6 @@ Thông tin cá nhân | ITJob
 @stop
 @section('footer.js')
 <script src="assets/controller/UsersController.js"></script>
-<script src="assets/JQuery/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 <script>
 // just for the demos, avoids form submit

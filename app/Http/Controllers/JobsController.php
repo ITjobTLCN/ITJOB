@@ -10,6 +10,8 @@ use App\Jobs;
 use App\Skill_job;
 use App\Follow_jobs;
 use App\Reviews;
+use App\User;
+use App\Applications;
 use DB;
 use View;
 use Session;
@@ -17,11 +19,12 @@ use Cache;
 use Auth;
 use DateTime;
 use Illuminate\Database\Eloquent\Collection;
+use Carbon\Carbon;
 class JobsController extends Controller
 {
     public function getIndex(){
         $minutes=60;    
-        $listJobLastest = Cache::remember('listJobLastest',$minutes,function(){
+        $listJobLastest = Cache::remember('listJobLastest',5,function(){
             return DB::table('jobs as j')->select('j.*','c.name as cn','e.name as en')
                                 ->join('cities as c','j.city_id','=','c.id')
                                 ->join('employers as e','j.emp_id','=','e.id')
@@ -143,6 +146,8 @@ class JobsController extends Controller
         foreach ($uniques as $key => $job) {
             $location=Cities::where('id',$job->city_id)->value('name');
             $cn=Employers::where('id',$job->emp_id)->value('name');
+            $date=Carbon::parse($job->created_at)->format('d-m-Y');
+            $today=date('d-m-Y');
             $skills=DB::table('skills as s')
                         ->select('s.name','s.id')
                         ->join(DB::raw('(select skill_id from skill_job where job_id='.$job->id.') as a'),function($join){
@@ -172,9 +177,13 @@ class JobsController extends Controller
                                             }else{
                                                 $result.='<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương</a></span>';
                                             }
-                                            $result.='<span class="separator">|</span>
-                                                <span class="">'.date_format($job->created_at,"d/m/Y").'</span>
-                                            </div>
+                                            $result.='<span class="separator">|</span>';
+                                            if($date == $today){
+                                                $result.='<span class="">Today</span>';
+                                            }else{
+                                                $result.='<span class="">'.$date.'</span>';
+                                            }
+                                            $result.='</div>
                                         <div class="job__skill">';
                 foreach ($skills as $key => $s) {
                     $result.='<a href=""><span>'.$s->name.'</span></a>';
@@ -359,5 +368,34 @@ class JobsController extends Controller
         }
         return response()->json([$skills,$relatedJob]);
         //return $skills;
+    }
+    public function getApplyJob(Request $req){
+        $job=Jobs::where('id',$req->id)->first();
+        $employer=Employers::where('id',$job->emp_id)->value('name');
+        $user=new User();
+        if(Auth::check()){
+            $user=Auth::user();
+        }
+        return view('layouts.apply',compact('user','job','employer'));
+    }
+    public function applyJob(Request $req){
+        $application=new Applications();
+        if(Auth::check()){
+            $application->user_id=Auth::id();
+        }else{
+            $application->user_id=0;
+        }
+        $application->job_id=$req->job_id;
+        $application->name=$req->fullname;
+        $application->email=$req->email;
+        if($req->hasFile('new_cv')){
+            $cv=$req->file('new_cv');
+            $filename = $cv->getClientOriginalName();
+            $application->cv=$filename;
+        }
+        $application->note=$req->note;
+        $cv->move('uploads/user/cv/' , $filename);
+        $application->save();
+        return redirect()->back()->with(['success'=>'Nộp CV thành công']);
     }
 }

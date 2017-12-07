@@ -52,3 +52,7 @@ Dat:
 	g. Đã bind được data Datetime lên trang Edit
 	h. Edit và Thêm post mới! Hoàn thành nhưng không thêm hình được vì sử dụng AngularJS
 >>>>>>> f49af1440e9ed9c5d5db30b4a168fbe3156c37c9
+7/12/2017
+Phong: 
+	a. Validation modal login
+	b. apply job

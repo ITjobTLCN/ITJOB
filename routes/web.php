@@ -143,7 +143,9 @@ Route::group(['prefix'=>'it-job'],function(){
 
 	Route::get('{alias}/tai-{city}',['as'=>'seachjob','uses'=>'JobsController@getListJobSearch']);
 	Route::get('{alias}/{id}',['as'=>'detailjob','uses'=>'JobsController@getDetailsJob']);
+	Route::get('{alias}-{employer}/{id}/apply',['as'=>'getApplyJob','uses'=>'JobsController@getApplyJob']);
 });
+Route::post('apply-job',['as'=>'applyJob','uses'=>'JobsController@applyJob']);
 Route::get('follow-job',['as'=>'follow-job','uses'=>'JobsController@followJob']);
 //search job by name and city
 Route::get('list-job-search',[

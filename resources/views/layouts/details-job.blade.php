@@ -125,7 +125,7 @@
         							<div class="col-md-4">
         								<div class="row">
         									<div class="action-apply">
-        										<button class="btn btn-primary btn-xlg col-xs-12">Apply Now</button>
+        										<a href="{{route('getApplyJob',[$jobs[0]->alias,$jobs[0]->el,$jobs[0]->id])}}" class="btn btn-primary btn-xlg col-xs-12">Apply Now</a>
         									</div>
         								</div>
         							</div>
@@ -247,4 +247,5 @@
 @endsection
 @section('footer.js')
 <script src="assets/js/modal-image-gallery.js"></script>
+<script src="assets/js/validate-form.js"></script>
 @endsection
