@@ -1,22 +1,24 @@
 @extends('admin.layout.master')
 @section('content')
-	<div class="container" ng-controller="DashBoardController">
+	<div class="container" ng-controller="DashBoardController" ng-init="loadDashboard()">
 		<div class="row">
 			<div class="col">
 				<div  class="title-admin">DashBoard</div>	
 			</div>
+            <h3 >Today: <span><%clock | date:'dd-MM-yyyy HH:mm:ss'%></span></h3>
 		</div>
+        <%now%>
 		<div class="row">
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-comments fa-5x"></i>
+                                <i class="fa fa-podcast fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">26</div>
-                                <div>New Comments!</div>
+                                <div class="huge">??</div>
+                                <div>Access!</div>
                             </div>
                         </div>
                     </div>
@@ -34,11 +36,11 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-tasks fa-5x"></i>
+                                <i class="fa fa-users fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">12</div>
-                                <div>New Tasks!</div>
+                                <div class="huge"><%countusertoday%></div>
+                                <div>New Users!</div>
                             </div>
                         </div>
                     </div>
@@ -56,11 +58,11 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-shopping-cart fa-5x"></i>
+                                <i class="fa fa-newspaper-o fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">124</div>
-                                <div>New Orders!</div>
+                                <div class="huge"><%countposttoday%></div>
+                                <div>New Posts!</div>
                             </div>
                         </div>
                     </div>
@@ -78,11 +80,11 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-support fa-5x"></i>
+                                <i class="fa fa-file-code-o fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">13</div>
-                                <div>Support Tickets!</div>
+                                <div class="huge"><%countapplitoday%></div>
+                                <div>New Applications!</div>
                             </div>
                         </div>
                     </div>
@@ -97,7 +99,7 @@
             </div>
         </div>
         <div class="row">
-        	<div class="col-md-6">
+        	<div class="col-md-4">
         		<div class="panel panel-warning">
         			<div class="panel-heading text-center">
         				<i class="fa fa-users fa-2x"></i>
@@ -116,19 +118,13 @@
         							<th><%countusers%></th>
         						</tr>
         						<tr>
-        							<td>Employer
-										<ul>
-											<li class="small-num">Master</li>
-											<li class="small-num">Assistant</li>
-										</ul>
-        							</td>
-        							<th><%countemployers%>
-										<ul>
-											<li class="small-num"><%countmasters%></li>
-											<li class="small-num"><%countassistants%></li>
-										</ul>
-        							</th>
+        							<td>Master(emp)</td>
+        							<th><%countmasters%></th>
         						</tr>
+                                <tr>
+                                    <td>Assistant(emp)</td>
+                                    <th><%countassistants%></th>
+                                </tr>
         					</tbody>
         				</table>
         				<div>
@@ -146,27 +142,31 @@
         			</div>
         		</div>
         	</div>
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="panel panel-success">
                     <div class="panel-heading text-center">
                         <i class="fa fa-user-secret fa-2x"></i>
-                        <span class="title-panel">Employers</span>
-                        <div class="title-panel-number"><%countemps%></div>
+                        <span class="title-panel">Companies</span>
+                        <div class="title-panel-number">
+                            <span class="sub-count sub-count-danger"><%countdeniedemps%></span>
+                            <%countapprovedemps%>
+                            <span class="sub-count sub-count-warning"><%countpendingemps%></span>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <table class="table table-condensed table-admin">
                             <tbody>
                                 <tr>
-                                    <td>Actived</td>
-                                    <th><%countapprovedemps%></th>
+                                    <td>New</td>
+                                    <th><%newemps%></th>
                                 </tr>
                                 <tr>
-                                    <td>Pending</td>
-                                    <th><%countpendingemps%></th>
+                                    <td>Posted</td>
+                                    <th><%countposted%></th>
                                 </tr>
                                 <tr>
-                                   <td>Denied</td>
-                                   <th><%countdeniedemps%></th>
+                                    <td>Applied</td>
+                                    <th><%countapplies%></th>
                                 </tr>
                             </tbody>
                         </table>
@@ -186,6 +186,28 @@
                 </div>
             </div>
         </div>
+        <!-- end row -->
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-hover table-responsive table-striped table-bordered">
+                    <h4>Top post views </h4>
+                    <thead>
+                        <tr>
+                            <th width="60%" class="text-center">Title</th>
+                            <th width="20%" class="text-center">Com.</th>
+                            <th class="text-center">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="post in posts|orderBy:views:true|limitTo:5">
+                            <td><a href=""><%post.name%></a></td>
+                            <td><a href=""><%post.employer.name%></a></td>
+                            <td><%post.views%></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 	</div>
-
+    
 @endsection

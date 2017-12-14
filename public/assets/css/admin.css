@@ -33,6 +33,12 @@ select#select-admin-panel{width:150px;}
 
 tr#content-table-admin span.label{font-weight: unset;}
 
+span.sub-count{
+	font-size: 20px;
+}
+span.sub-count.sub-count-warning{color: #f0ad4e;}
+span.sub-count.sub-count-danger{color: #d9534f;}
+span.sub-count.sub-count-success{color: #5cb85c;}
 
 @media only screen and (min-width: 375px) and (max-width: 767px){
 	.table-input-search{width: unset;}
@@ -45,3 +51,5 @@ tr#content-table-admin span.label{font-weight: unset;}
 	    padding: 10px 50px !important;
 	}
 }
+
+

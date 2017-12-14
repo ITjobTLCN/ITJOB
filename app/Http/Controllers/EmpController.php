@@ -8,16 +8,20 @@ use App\Http\Controllers\Controller;
 use App\Registration;
 use Auth;
 use App\User;
+use App\Follow_employers;
+use App\Applications;
 use App\Employers;
 use App\Skills;
 use App\Cities;
 use App\Skill_employer;
 use App\Skill_job;
 use App\Jobs;
+use App\Reviews;
 use DateTime;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use File;
+use Carbon\Carbon;
 class EmpController extends Controller
 {
 	 /*Function change from name to alias and remove Vietnamese*/
@@ -196,9 +200,36 @@ class EmpController extends Controller
         //chung
         $cities = Cities::all();
         $skills = Skills::all();
+        $emp = Employers::findOrFail($id);
+        $today = Carbon::today();
         //riêng
         $myposts = Jobs::with('applications')->where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
-        return response()->json(['cities'=>$cities,'skills'=>$skills,'myposts'=>$myposts]);
+
+        //Dashboard
+            //posts
+        $posts = Jobs::with('user','applications')->where('emp_id',$id)->where(function($q){
+            $q->orWhere('status',1);
+            $q->orWhere('status',11);
+        })->get();
+        $posttoday = Jobs::where('emp_id',$id)->where('status',1)->where('created_at','>',$today)->get();
+        $countposttoday = $posttoday->count();
+            //applications
+        $applis = Applications::join('jobs','applications.job_id','=','jobs.id')->where('jobs.emp_id',$id)->where('applications.status',1)->select('applications.*','jobs.name as jobname')->get();
+        $applitoday = Applications::where('status',1)->where('created_at','>',$today)->get();
+        $countapplitoday = $applitoday->count();
+            //reviews
+        $reviews = Reviews::with('user')->where('emp_id',$id)->get();
+        $reviewtoday = Reviews::where('created_at','>',$today)->get();
+        $countreviewtoday = $reviewtoday->count();
+
+            //follow
+        $follows = Follow_employers::with('user')->where('emp_id',$id)->get();
+
+        return response()->json(['cities'=>$cities,'skills'=>$skills,'myposts'=>$myposts,
+        'countposttoday'=>$countposttoday,'countapplitoday'=>$countapplitoday,
+        'countreviewtoday'=>$countreviewtoday,'follows'=>$follows,
+        'posts'=>$posts,'applis'=>$applis,
+        'reviews'=>$reviews]);
     }
         /*--------------------------Create a job (post)---------------------*/
     public function ngCreatePost(Request $request,$empid){

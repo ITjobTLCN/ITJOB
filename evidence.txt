@@ -25,6 +25,12 @@ Phong:
 Dat: 
 	a. COnfirm/deny employer khi user đăng ký 1 employer (confirm -> master);
 
+
+	4/12/2017
+Phong: 
+	a. Chỉnh sửa giải thuật filter và tìm kiếm
+	b. upload image và cv trong trang profile ứng viên
+
 5. 29/11/2017
 Dat:
 	a. Thêm thông báo khi truy cập vao` trang nha` tuyển dụng không hợp lệ. 
@@ -45,5 +51,11 @@ Dat:
 	f. Thực hiện Push- Deleted post 
 	g. Đã bind được data Datetime lên trang Edit
 	h. Edit và Thêm post mới! Hoàn thành nhưng không thêm hình được vì sử dụng AngularJS
+	
 8. 5/12/2017
 	a. Quan ly danh sach cac bai post cua assistant
+
+
+9. 7/12/2017
+	a. Tao trang dang ky trở thành nhà tuyển dụng
+	b. Chỉnh sửa link PostJob trong header

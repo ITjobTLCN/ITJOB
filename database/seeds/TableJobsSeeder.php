@@ -13,21 +13,29 @@ class TableJobsSeeder extends Seeder
     {
         DB::table('jobs')->insert([
         	[
-        		"name"=>"công việc 1",
+        		"name"=>"Công việc 1",
 	        	"alias"=>"cv-1",
-	        	"user_id"=>3,
+	        	"user_id"=>4,
 	        	"emp_id"=>1,
 	        	"city_id"=>1,
                 'created_at'=>new DateTime()
         	],
         	[
-        		"name"=>"công việc 2",
+        		"name"=>"Công việc 2",
 	        	"alias"=>"cv-2",
-	        	"user_id"=>1,
+	        	"user_id"=>4,
 	        	"emp_id"=>1,
 	        	"city_id"=>2,
                 'created_at'=>new DateTime()
-        	]
+        	],
+            [
+                "name"=>"Công việc 3",
+                "alias"=>"cv-3",
+                "user_id"=>4,
+                "emp_id"=>2,
+                "city_id"=>1,
+                'created_at'=>new DateTime()
+            ]
         ]);
     }
 }

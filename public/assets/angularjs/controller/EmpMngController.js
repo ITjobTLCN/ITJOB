@@ -28,6 +28,10 @@ app.controller('EmpMngController',function($http,$scope){
 		},function(error){
 			alert('ERROR');
 		});
+		$scope.sortTypePost = 'id';
+		$scope.sortReverse = true;
+		$scope.sortType = 'id';
+		$scope.sortReversePost = true;
 	}
 	/*---------Load page Basic ---------------------------------*/
 	$scope.loadBasic = function(id){
@@ -41,6 +45,19 @@ app.controller('EmpMngController',function($http,$scope){
 			$scope.skills = response.data.skills;
 			//rieng
 			$scope.myposts = response.data.myposts;
+			$scope.countposttoday = response.data.countposttoday;
+			$scope.countapplitoday = response.data.countapplitoday;
+			$scope.countreviewtoday = response.data.countreviewtoday;
+			$scope.countfollows = response.data.follows.length;
+
+
+			$scope.follows = response.data.follows;
+			$scope.posts = response.data.posts;
+			$scope.applis = response.data.applis;
+			$scope.reviews = response.data.reviews;
+			$scope.countposts = response.data.posts.length;
+			$scope.countapplis = response.data.applis.length;
+			$scope.countreviews = response.data.reviews.length;
 
 		},function(error){
 			alert('ERROR');
@@ -197,10 +214,7 @@ app.controller('EmpMngController',function($http,$scope){
 			var sec = href.slice(href.lastIndexOf('#'));
 			// console.log(sec);
 
-			var pos = $(sec).offset().top - 50;
-			var body = $("html, body");
-			body.stop().animate({scrollTop:pos}, 500, 'swing', function() { 
-			});
+			$scope.anniScroll(sec);
 			history.pushState(null, null, href); //change url without reload
 			
 			console.log('OK');
@@ -317,14 +331,14 @@ app.controller('EmpMngController',function($http,$scope){
 		$scope.addnewpost = !$scope.addnewpost;
 		$('#newpost').slideToggle();
 		if($scope.addnewpost){
-			var pos = $('#newpost').offset().top - 50;
+			// var pos = $('#newpost').offset().top - 50;
+			$scope.anniScroll('#newpost');
 		}else{
-			var pos = $('#emp-yourpost').offset().top - 50;
+			$scope.anniScroll('#emp-yourpost');
 			$scope.job=null;
 			$scope.selection=[];
 		}
-		var body = $("html, body");
-		body.stop().animate({scrollTop:pos}, 450, 'swing', function() {});
+		
 	}
 	$scope.getPost = function(id){
 		$http.get('emp/nggetpost/'+id).then(function(response){
@@ -372,7 +386,11 @@ app.controller('EmpMngController',function($http,$scope){
 
 	/*-----------------LIST APPLICATION--------------------------*/
 	$scope.showApps = function(apps){
-		$scope.listApps = apps;
+		$scope.curPost = apps;
+		$scope.showListPosts = true;
+
+		//scroll to list
+		$scope.anniScroll('#listApplications');
 	}
 
 	/**----------------TEST ZONE--------------------*/
@@ -390,6 +408,23 @@ app.controller('EmpMngController',function($http,$scope){
 	    });
 	};
 	/**-------------END TEST ZONE--------------------*/
+
+
+	//Funcion annimation scroll
+	$scope.anniScroll = function(ele){
+		var pos = $(ele).offset().top - 50;
+		var body = $("html, body");
+		body.stop().animate({scrollTop:pos}, 500, 'swing', function() { 
+		});
+	}
+
+
+
+	/*-----------FOR DASHBOARD--------------*/
+	$scope.expend = function(type){
+		$scope.expendflag = true;
+		$scope.expendtype=type;
+	}
 });
 
 
@@ -414,3 +449,6 @@ app.directive('ckEditor', function () {
         }
     };
 });
+
+
+

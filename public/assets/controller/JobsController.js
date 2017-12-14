@@ -21,6 +21,7 @@ app.controller('JobsController', function($scope,$http){
 	$scope.toggleSelection = function toggleSelection(event,t,id,name,alias) {
       // how to check if checkbox is selected or not
             var name = name;
+            var id=id;
             if(event.target.checked){
                   dem++;
             	if(t=="cities"){
@@ -38,29 +39,31 @@ app.controller('JobsController', function($scope,$http){
                         'display':'block'
                   });
             }else{
+                  dem--;
             	if(t=="cities"){
+                        i--;
             		for(var k=0;k<id_city.length;k++){
             			if(id_city[k]==id){
-            				var removeItem = id;
             				id_city=$.grep(id_city,function(value){
-            					return value != removeItem;
+            					return value != id;
             				});
             			}
             		}
             	}else{
-            		for(var l=0;l<id_skill.length;l++){
-            			if(id_skill[l]==id){
-            				var removeItem = id;
+                        j--;
+            		for(var k=0;k<id_skill.length;k++){
+            			if(id_skill[k]==id){
             				id_skill=$.grep(id_skill,function(value){
-            					return value != removeItem;
+            					return value != id;
             				});
             			}
             		}
             	}
             	$('#'+alias).find("br").remove();
             	$('span#'+alias).remove();
-            	dem--;
+            	
             }
+           // alert(id_skill);
             if(dem==0){
             	$('.edition-filter').empty();
                   $('.clear-all-filter-att').css({
@@ -75,8 +78,6 @@ app.controller('JobsController', function($scope,$http){
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
-            info_skill=[];
-            info_city=[];
 		$.ajax({
 			type:'get',
 			url:'filter-job',
@@ -85,11 +86,12 @@ app.controller('JobsController', function($scope,$http){
 			},
 			success : function(data){
       			$('.jb-search__result').html(data[0]);
-                        $('.countjob').show().text(data[1]);
+                       $('.countjob').show().text(data[1]);
 			}
 		});
       };
       $scope.clearAll=function(){
+            dem=0;
             angular.forEach($scope.skills, function(skill_id){
                   skill_id.selected=false;
             });

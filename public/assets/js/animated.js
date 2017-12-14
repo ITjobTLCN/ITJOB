@@ -43,9 +43,7 @@ $(document).ready(function(){
         var headerHeight=$('.header-companies').outerHeight();
         $('html, body').animate({
             scrollTop: $(linkHref).offset().top - headerHeight
-        },1000);
-        
-
+        },1000);        
         e.preventDefault();
     });
 });

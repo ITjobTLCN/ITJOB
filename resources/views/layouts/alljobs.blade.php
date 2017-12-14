@@ -105,10 +105,7 @@ Search for all it Jobs in Vietnam
 											<div class="company">
 												<span class="job-search__company">{{$ljlt->en}}</span>
 												<span class="separator">|</span>
-												<span class="job-search__location">{{$ljlt->cn}}</span>
-											</div>
-											<div class="description-job">
-												<h3><% job.job_description %></h3>
+												<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ljlt->cn}}</span>
 											</div>
 											<div class="company text-clip">
 												<span class="salary-job">
@@ -121,6 +118,11 @@ Search for all it Jobs in Vietnam
 												<span class="separator">|</span>
 												<span class="">{{date('d-m-Y', strtotime($ljlt->created_at))}}</span>
 											</div>
+											<div class="job__skill">
+								                @foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->id) as $key => $s)
+								                    <a href=""><span>{{$s->name}}</span></a>
+								                 @endforeach
+								                </div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
@@ -134,13 +136,12 @@ Search for all it Jobs in Vietnam
 											@endif
 										</div>
 										@else
-										<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal"></i>
+										<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>
 										@endif
 									</div>
 								</div>	
 							</div>
 							@endforeach
-							
 						</div>
 						
 					</div>
@@ -159,10 +160,9 @@ Search for all it Jobs in Vietnam
 
 @stop
 @section('footer.js')
-<script src="assets/controller/UsersController.js"></script>
 <script src="assets/controller/JobsController.js"></script>
-
 <script src="assets/js/aboutjob.js"></script>
+<script src="assets/js/validate-form.js"></script>
 <script src="assets/js/typeahead.js"></script>
 <script src="assets/js/typeahead-autocomplete-job.js"></script>
 @stop

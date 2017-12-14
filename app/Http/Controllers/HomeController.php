@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use App\User;
+use App\Registration;
 use App\Cities;
 use App\Jobs;
 use App\Employers;
@@ -46,4 +47,75 @@ class HomeController extends Controller
         }
     }
 
+    public function getDownloadEmpCV($name){
+        try{
+            return response()->download('uploads/emp/cv/'.$name);
+        }catch(\Exception $e){
+            return response()->json(['flag'=>false,'mess'=>'The filename invalid']);
+        }
+    }
+
+    /**--------------REGISTER A EMPLOYER - Master Or Assitant-------------------*/
+    public function ngLoadReg(){
+        $cities = Cities::all();
+        $emps = Employers::where('status',1)->get();
+
+        return response()->json(['cities'=>$cities,'emps'=>$emps]);
+    }
+    public function getRegisterEmp(){
+        return view('layouts.registeremp');
+    }
+    public function postRegisterEmp(Request $request){
+
+        try{
+            //check
+            $type = (!Employers::where('id',$request->empid)->first())?0:10; //0:master reg  10:assis reg
+            // dd($type);
+            //data
+            $user = User::findOrFail(Auth::user()->id);
+            $check = (Registration::where('user_id',$user->id)->first())?false:true; //de su dung sau
+            if(!$check){
+                return response()->json(['status'=>false,'message'=>'You have registered 1 employer']);
+                // return redirect()->back()->withErrors('You have registered 1 employer');
+            }
+            $flag = true;
+            //validate
+            //success
+
+            //case Master and Assistant
+            //construct
+            $res = new Registration();
+
+            switch ($type) {
+                case 0:
+                   //create employers //NAME,CITY,ADDRESS,WEBSITE ->
+                    $emp = new Employers();
+                    $emp->status = 0; //not yet confirm
+                    $emp->name= $request->name;         //nam
+                    $emp->city_id  = $request->city_id; 
+                    $emp->address = $request->address; 
+                    $emp->website = $request->website;
+                    $emp->save();
+
+                    $res->emp_id = $emp->id;
+                    break;
+                case 10:
+                    $res->emp_id = $request->empid;
+                    break;
+                default:
+                    $flag = false;
+                    break;
+            }
+                
+            if($flag){
+                //create registration
+                $res->user_id = $user->id;
+                $res->status = $type;//master:0   assis:10 - waiting confirm
+                $res->save();
+            }
+            return response()->json(['status'=>true,'message'=>'Register successfully']);
+        }catch(Exception $e){
+            return response()->json(['status'=>false,'message'=>'Register failed']);
+        }
+    }
 }

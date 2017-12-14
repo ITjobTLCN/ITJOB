@@ -1,106 +1,74 @@
-@extends('home.layout.master')
-@section('content')
-	<div class="jumbotron">
-			<div class="container text-center">
-				<h1 class="display-4">Register A Employer</h1>
-				<p class="lead">This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-			</div>
-		</div>
-		
+@extends('layouts.master')
+@section('title')
+Đăng ký nhà tuyển dụng | ITJob
+@endsection
+@section('body.content')
+	<div class="manager-account" ng-controller="HomeController" ng-init="loadReg()">
 		<!-- content -->
-		<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-				@if(Session::has('message'))
-					<p style="color:red; padding-left: 100px;">{{Session::get('message')}}</p>
-				@endif
-				@if ($errors->any())
-				    <div class="alert alert-danger">
-				        {{ $errors->first()}}       
-				    </div>
-				@endif
-				<form action="{{route('postregisteremp')}}" method="POST" id="register_emp_form">
-					<input type="hidden" name="emp_id" value="-1">
-					<div class="form-group row">
-						<label for="name" class="col-sm-3 form-control-label">Employer Name:</label>
-						<div class="col-sm-9">
-							<div class="row">
-								<div class="col-8">
-									<input type="text" name="name" class="form-control" placeholder="Employer name" value="{{old('name')}}">
+		<div class="container">
+			<div class="row main-content">
+				<div class="title-profile text-center">
+					<h2>Register a employer</h2>
+				</div>
+			</div>
+			<div class="wrapper-profile">
+				<div class="box box-md">
+					<div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+						@if(Session::has('message'))
+							<div class="alert alert-success">{{Session::get('message')}}</div>
+						@endif
+						@if ($errors->any())
+						    <div class="alert alert-danger">
+						        {{ $errors->first()}}       
+						    </div>
+						@endif
+						
+						
+
+						<form action="#" method="POST" id="register_emp_form">
+							<input type="hidden" name="empid" ng-model="curemp.empid" value="<%curemp.id%>">
+							<div class="form-group">
+								<label for="">Choose one:</label>
+								<div class="row">
+									<div class="col-md-8">
+										<select ng-model="curemp" id="" ng-options="emp.name for emp in emps track by emp.id" class="form-control" ng-change="new=false"></select>
+									</div>
+									<div class="col-md-4">
+										<button type="button" class="btn btn-default btn-sm" ng-click="reset()">Reset</button>
+									</div>
 								</div>
-								<div class="col-4">
-									<a href="#" class="btn btn-outline-info w-100" data-toggle="modal" data-target="#modal-choose-employer" id="suggest-btn">OR Choose one</a>
-									<button type="button" class="btn btn-outline-info w-100" id="create-btn" style="display: none">Create one</button>
+								<!-- <%curemp%> -->
+							</div>
+							<div class="form-group">
+								<label for="name" >Employer Name:</label>
+								<input type="text" name="name"  class="form-control" placeholder="Employer name" ng-readonly="!new" ng-model="curemp.name">
+							</div>
+							<div class="form-group">
+								<label for="">City</label>
+								<select name="city_id" id="" class="form-control" ng-options="item.id as item.name for item in cities" ng-readonly="!new" ng-model="curemp.city_id"></select>
+							</div>
+							<div class="form-group">
+								<label for="address">Address:</label>
+								<input type="text" name="address" class="form-control" placeholder="Address" ng-readonly="!new" ng-model="curemp.address">
+							</div>	
+							<div class="form-group">
+								<label for="website">Employer Website:</label>
+								<input type="text" name="website" class="form-control" placeholder="Link website" ng-readonly="!new" ng-model="curemp.website">
+							</div>
+							
+							<input type="hidden" name="_token" value="{{csrf_token()}}">
+							<div class="form-group">
+								<div class="text-center ">
+									<button type="button" ng-click="submitReg()" class="btn btn-primary">Send Request</button>
 								</div>
 							</div>
-						</div>
+						</form>
 					</div>
-					<div class="form-group row">
-						<label for="website" class="col-sm-3 form-control-label">Employer Website:</label>
-						<div class="col-sm-9">
-							<input type="text" name="website" class="form-control" placeholder="Link website" value="{{old('website')}}" >
-						</div>
-					</div>
-					<div class="form-group row">
-						<label for="address" class="col-sm-3 form-control-label">Address:</label>
-						<div class="col-sm-9">
-							<input type="text" name="address" class="form-control" placeholder="Address" value="{{old('address')}}" >
-						</div>
-					</div>	
-
-
-					<input type="hidden" name="_token" value="{{csrf_token()}}">
-					<div class="form-group row justify-content-center">
-						<div class=" col-md-5 text-center ">
-							<button type="submit" class="btn btn-secondary w-75">Send Request</button>
-						</div>
-					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 		
-			
-		</div>
-		<!-- endcontent -->
-		<hr>
-
-
-		<!-- model choose one employer -->
-		<div class="modal fade" id="modal-choose-employer">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							<span class="sr-only">Close</span>
-						</button>
-						<h4 class="modal-title">Choose one employer</h4>
-					</div>
-					<div class="modal-body">
-						<div class="row">
-							<div class="col">
-								<input type="text" placeholder="Type your employer" class="form-control" id="register_emp_suggest">
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col">
-								<h3>Suggest</h3>
-								<ul class="list-suggest-emp">
-									<div class="m-3">
-										<span class="float-right"><button type="button" data-val="1" class="btn btn-sm btn-outline-info select-suggest-emp">Chọn em</button></span>
-										<a href="" target="_blank"><h5 class="over">AAA</h5></a>
-									</div>									
-								</ul>
-								
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					</div>
-				</div><!-- /.modal-content -->
-			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-		<!-- END model choose one employer -->
+@endsection
+@section('footer.js')
+	<script src="assets/angularjs/controller/HomeController.js"></script>
 @endsection

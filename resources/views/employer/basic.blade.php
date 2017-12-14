@@ -10,16 +10,17 @@ Manage Basic
 	                <div class="panel panel-primary">
 	                    <div class="panel-heading">
 	                        <div class="row">
-	                            <div class="col-xs-3">
-	                                <i class="fa fa-comments fa-5x"></i>
+	                            <div class="col-xs-3 huge">
+	                                <i class="fa fa-newspaper-o fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge">26</div>
-	                                <div>New Comments!</div>
+	                                <div class="huge"><%countposts%><span class="huge-new">(<%countposttoday%> new)</span>
+	                                </div>
+	                                <div>Post!</div>
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <a href="#">
+	                    <a href="javascrip:void(0)" ng-click="expend('post')">
 	                        <div class="panel-footer">
 	                            <span class="pull-left">View Details</span>
 	                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -32,16 +33,16 @@ Manage Basic
 	                <div class="panel panel-success">
 	                    <div class="panel-heading">
 	                        <div class="row">
-	                            <div class="col-xs-3">
-	                                <i class="fa fa-tasks fa-5x"></i>
+	                            <div class="col-xs-3 huge">
+	                                <i class="fa fa-file-code-o fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge">12</div>
-	                                <div>New Tasks!</div>
+	                                <div class="huge"><%countapplis%><span class="huge-new">(<%countapplitoday%> new)</span></div>
+	                                <div>Application!</div>
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <a href="#">
+	                    <a href="javascrip:void(0)" ng-click="expend('apply')">
 	                        <div class="panel-footer">
 	                            <span class="pull-left">View Details</span>
 	                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -54,16 +55,16 @@ Manage Basic
 	                <div class="panel panel-warning">
 	                    <div class="panel-heading">
 	                        <div class="row">
-	                            <div class="col-xs-3">
-	                                <i class="fa fa-shopping-cart fa-5x"></i>
+	                            <div class="col-xs-3 huge">
+	                                <i class="fa fa-list-ul fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge">124</div>
-	                                <div>New Orders!</div>
+	                                <div class="huge"><%countreviews%><span class="huge-new">(<%countreviewtoday%> new)</span></div>
+	                                <div>Review!</div>
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <a href="#">
+	                    <a href="javascrip:void(0)" ng-click="expend('review')">
 	                        <div class="panel-footer">
 	                            <span class="pull-left">View Details</span>
 	                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -76,16 +77,16 @@ Manage Basic
 	                <div class="panel panel-danger">
 	                    <div class="panel-heading">
 	                        <div class="row">
-	                            <div class="col-xs-3">
-	                                <i class="fa fa-support fa-5x"></i>
+	                            <div class="col-xs-3 huge">
+	                                <i class="fa fa-heart "></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge">13</div>
-	                                <div>Support Tickets!</div>
+	                                <div class="huge"><%countfollows%><span class="huge-new"></span></div>
+	                                <div>Follow!</div>
 	                            </div>
 	                        </div>
 	                    </div>
-	                    <a href="#">
+	                    <a href="javascrip:void(0)" ng-click="expend('follow')">
 	                        <div class="panel-footer">
 	                            <span class="pull-left">View Details</span>
 	                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -93,6 +94,127 @@ Manage Basic
 	                        </div>
 	                    </a>
 	                </div>
+	            </div>
+	            <div class="col-md-12" >
+	            	<table class="table table-bordered table-striped table-responsive"
+	            	ng-if="expendflag==true && expendtype=='post'">
+	            		<thead >
+	            			<tr class="info">
+	            				<th>Title</th>
+	            				<th>Author</th>
+	            				<th>Create at</th>
+	            				<th>Date Expire</th>
+	            				<th>Applied</th>
+	            			</tr>
+	            		</thead>
+	            		<tbody>
+	            			<tr dir-paginate="post in posts|orderBy:created_at:true|itemsPerPage:5" pagination-id="post">
+	            				<td><a href=""><%post.name%></a></td>
+	            				<td><%post.user.name%></td>
+	            				<td><%post.created_at%></td>
+	            				<td><%post.date_expire%></td>
+	            				<td><%post.applications.length%>/<%post.quantity%>
+									<span ng-if="post.quantity==null">all</span></td>
+	            			</tr>
+	            			<tr>
+	            				<td colspan="100%" class="text-center">
+	            					<dir-pagination-controls pagination-id="post"
+									max-size="5"
+									direction-links="true"
+					       			boundary-links="true">
+	            					</dir-pagination-controls>
+	            				</td>
+	            			</tr>
+	            		</tbody>
+	            	</table>
+	            	<table class="table table-bordered table-striped table-responsive" ng-if="expendflag==true && expendtype=='apply'">
+	            		<thead >
+	            			<tr class="info">
+	            				<th>Name</th>
+	            				<th>Email</th>
+	            				<th>Time</th>
+	            				<th>Post</th>
+	            				<th>CV</th>
+	            			</tr>
+	            		</thead>
+	            		<tbody>
+	            			<tr dir-paginate="apply in applis|orderBy:created_at:true|itemsPerPage:5" pagination-id="application">
+	            				<td><%apply.name%></td>
+	            				<td><%apply.email%></td>
+	            				<td><%apply.created_at%></td>
+	            				<td><%apply.jobname%></td>
+	            				<td><a href=""><%apply.cv%></a></td>
+	            			</tr>
+	            			<tr>
+	            				<td colspan="100%" class="text-center">
+	            					<dir-pagination-controls pagination-id="application"
+									max-size="5"
+									direction-links="true"
+					       			boundary-links="true">
+	            					</dir-pagination-controls>
+	            				</td>
+	            			</tr>
+	            		</tbody>
+	            	</table>
+	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendflag==true && expendtype=='review'">
+	            		<thead >
+	            			<tr class="info">
+	            				<th>User</th>
+	            				<th>Title</th>
+	            				<th>Rating</th>
+	            				<th>Time</th>
+	            				<th>Like</th>
+	            				<th>Unlike</th>
+	            			</tr>
+	            		</thead>
+	            		<tbody>
+	            			<tr dir-paginate="re in reviews|orderBy:created_at:true|itemsPerPage:5" pagination-id="review">
+	            				<td><%re.user.name%></td>
+	            				<td><%re.title%></td>
+	            				<td><%re.rating%></td>
+	            				<td><%re.created_at%></td>
+	            				<td><%re.like%></td>
+	            				<td><%re.unlike%></td>
+	            			</tr>
+	            			<tr>
+	            				<td colspan="100%" class="text-center">
+	            					<dir-pagination-controls pagination-id="review"
+									max-size="5"
+									 direction-links="true"
+					       			boundary-links="true">
+	            					</dir-pagination-controls>
+	            				</td>
+	            			</tr>
+	            		</tbody>
+	            	</table>
+	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendflag==true && expendtype=='follow'"> 
+	            		<thead >
+	            			<tr class="info">
+	            				<th>User</th>
+	            				<th>Time</th>
+	            			</tr>
+	            		</thead>
+	            		<tbody>
+	            			<tr dir-paginate="fol in follows|orderBy:created_at:true|itemsPerPage:5" pagination-id="follow">
+	            				<td><%fol.user.name%></td>
+	            				<td><%fol.created_at%></td>
+	            			</tr>
+	            			<tr>
+	            				<td colspan="100%" class="text-center" >
+	            					<dir-pagination-controls pagination-id="follow"
+	            					max-size="5" 
+	            					direction="true"
+	            					boundary-links="true">
+	            					</dir-pagination-controls>
+	            				</td>
+	            			</tr>
+	            		</tbody>
+	            	</table>
+	            </div>
+	            <div class="row text-right">
+	            	<div class="col-md-12">
+	            		<button type="button" ng-show="expendflag==true" ng-click="expendflag=false" class="">Close</button>
+	            	</div>
 	            </div>
 	        </div>
 		</div>
@@ -112,7 +234,7 @@ Manage Basic
 							</tr>
 						</thead>
 						<tbody>
-							<tr dir-paginate="post in myposts|itemsPerPage:3">
+							<tr dir-paginate="post in myposts|itemsPerPage:3" pagination-id="mypost">
 								<td><%post.name%></td>
 								<td><%post.created_at%></td>
 								<td>
@@ -130,8 +252,8 @@ Manage Basic
 									<button type="button" class="btn btn-sm btn-info btn-zoom">Preview</button>
 								</td>
 								<td><%post.applications.length%>/<%post.quantity%>
-									<span ng-if="post.quantity==null">All</span>
-									<a href=""><span class="fa fa-arrow-circle-right"></span></a>
+									<span ng-if="post.quantity==null">all</span>
+									<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
 								</td>
 							</tr>
 							
@@ -139,7 +261,7 @@ Manage Basic
 
 					</table>
 					<div class="text-center">
-						<dir-pagination-controls 
+						<dir-pagination-controls pagination-id="mypost"
 							max-size="5">
 						</dir-pagination-controls>
 					</div>
@@ -248,7 +370,7 @@ Manage Basic
 				<!-- End col new post-->
 			</div>
 			<!-- End row new post-->
-			<div style="width: 100%;height:1000px;background-color:yellow;"></div>
 		</div>
+		@include('partials.list-apps')
     </div>
 @endsection

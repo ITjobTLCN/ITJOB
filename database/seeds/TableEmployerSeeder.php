@@ -22,14 +22,14 @@ class TableEmployerSeeder extends Seeder
         	[
         		'name'=>'FPT Software',
         		'alias'=>'fpt-software',
-        		'address'=>'Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Hà Nội',
+        		'address'=>'Lô T2, đường D1, khu công nghệ cao, Phường Tân Phú, Quận 9, Thành phố Hồ Chí Minh',
                 'city_id'=>'2',
                 'created_at'=>new DateTime()
         	],
         	[
         		'name'=>'VNG Corporation',
         		'alias'=>'vng-corporation',
-        		'address'=>'Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Hà Nội',
+        		'address'=>'Flemington, 182 Lê Đại Hành, Phường 15, Quận 11',
                 'city_id'=>'2',
                 'created_at'=>new DateTime()
         	]

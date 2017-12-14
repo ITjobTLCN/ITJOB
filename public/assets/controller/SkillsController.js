@@ -9,19 +9,28 @@ app.controller('SkillsController',function($scope,$http){
 		console.log(error,'can not get data');
 	});
 
-	$scope.listSkillJob=function($job_id){
-		var job_id=$job_id;
+	$scope.listSkillJob=function(job_id){
 		$http({
 			method: 'GET',
 			url: 'list-skill-jobs',
 			params:{job_id:job_id}	
 		}).then(function(response){
-			$scope.skillsjob=response.data;
+			$scope.skillsjob=response.data[0];
+			$scope.relatedJob=response.data[1];
 		},function(error){
 			console.log(error,'can not get data');
 		});
 	};
-	$scope.ralatedJob=function($job_id){
-		
-	};
+	$scope.listSkillCompanies=function(emp_id){
+		var emp_id=emp_id;
+		$http({
+			method: 'GET',
+			url: 'list-skill-emp',
+			params:{emp_id:emp_id}	
+		}).then(function(response){
+			$scope.skillsemp=response.data;
+		},function(error){
+			console.log(error,'can not get data');
+		});
+	}
 });

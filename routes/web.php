@@ -52,9 +52,13 @@ Route::get('profile-user',[
 	'as'=>'profileuser',
 	'uses'=>'UsersController@getProfileUser'
 ]);
-//add
-Route::post('add',[
-	'as'=>'add',
+Route::post('profile',[
+	'as'=>'postAvatar',
+	'uses'=>'UsersController@postAvatar'
+]);
+//edit email user
+Route::get('edit-email',[
+	'as'=>'editEmail',
 	'uses'=>'UsersController@editEmail'
 ]);
 //editProfile
@@ -176,7 +180,11 @@ Route::get('list-skill-jobs',[
 	'as'=>'getListSkillJob',
 	'uses'=>'JobsController@getListSkillJob'
 ]);
-
+//get list skills of employer by emp_id
+Route::get('list-skill-emp',[
+	'as'=>'getListSkillEmployer',
+	'uses'=>'CompanyController@getListSkillEmployer'
+]);
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------
 */
@@ -191,9 +199,17 @@ Route::get('/import',function(){
 Route::get('login',['as'=>'getlogin',function(){
 	return redirect()->route('login');
 }]);
+Route::post('login-modal',[
+	'as'=>'loginModal',
+	'uses'=>'UsersController@postLoginModal'
+]);
 Route::get('logout',['as'=>'getlogout','uses'=>'HomeController@getLogOut']);
 
 Route::post('nglogin',['as'=>'ngpostlogin','uses'=>'HomeController@ngPostLogin']);
+
+Route::get('ngloadreg',['as'=>'ngloadreg','uses'=>'HomeController@ngLoadReg']);
+Route::get('registeremp',['as'=>'getregisteremp','uses'=>'HomeController@getRegisterEmp'])->middleware('auth');
+Route::post('registeremp',['as'=>'postregisteremp','uses'=>'HomeController@postRegisterEmp'])->middleware('auth');
 
 	/**--------------ADMIN ROUTE--------------------*/
 Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
@@ -252,6 +268,9 @@ Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
 	Route::get('ngconfirmpost/{id}',['as'=>'ngconfirmpost','uses'=>'EmpController@ngConfirmPost']);
 	Route::get('ngdenypost/{id}',['as'=>'ngdenypost','uses'=>'EmpController@ngDenyPost']);
 });
+	
+	/*download aplication's CV*/
+Route::get('downloadcv/{name}',['as'=>'getempdownloadcv','uses'=>'HomeController@getDownloadEmpCV']);
 
 
 /*-----------------END DAT ROUTER----------------------*/	

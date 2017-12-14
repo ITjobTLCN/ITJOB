@@ -13,15 +13,15 @@ class TableRoleSeeder extends Seeder
     {
         DB::table('roles')->insert([
         	[
-	        	'name'=>'admin',
-	        	'detail'=>'Người quản trị',
-	        	'created_at'=>new DateTime()
-        	],
-        	[
 	        	'name'=>'candidate',
 	        	'detail'=>'Ứng viên',
 	        	'created_at'=>new DateTime()
         	],
+            [
+                'name'=>'admin',
+                'detail'=>'Người quản trị',
+                'created_at'=>new DateTime()
+            ],
         	[
 	        	'name'=>'employer',
 	        	'detail'=>'Công ty',

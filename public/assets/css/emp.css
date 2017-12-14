@@ -161,3 +161,5 @@ tr#content-table-admin span.label{font-weight: unset;}
 /*Dashboard and yourpost*/
 .emp #emp-yourpost .yourpost{min-height:300px;}
 
+.emp .huge{font-size:35px;font-weight: bold;}
+.emp .huge .huge-new{font-size:15px;}

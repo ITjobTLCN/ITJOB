@@ -23,21 +23,21 @@ class TableUsersSeeder extends Seeder
         		'name'=>'Nguyễn Bá Đạt',
         		'email'=>'datnguyen.ute@gmail.com',
         		'password'=>bcrypt('123456'),
-                'role_id'=>1,
+                'role_id'=>2,
                 'created_at'=>new DateTime()
         	],
             [
                 'name'=>'kelvin',
                 'email'=>'tranthanhphong1608@gmail.com',
                 'password'=>bcrypt('123456'),
-                'role_id'=>4,
+                'role_id'=>3,
                 'created_at'=>new DateTime()
             ],
             [
                 'name'=>'phong',
                 'email'=>'company@gmail.com',
                 'password'=>bcrypt('123456'),
-                'role_id'=>3,
+                'role_id'=>4,
                 'created_at'=>new DateTime()
             ],
         ]);

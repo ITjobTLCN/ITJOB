@@ -299,7 +299,7 @@ Manage Advance
 					</td>
 					<td><%post.applications.length%>/<%post.quantity%>
 						<span ng-if="post.quantity==null">*</span>
-						<a href="javascript:void(0)" ng-click="showApps(post.applications)"><span class="fa fa-arrow-circle-right"></span></a>
+						<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
 					</td>
 				</tr>
 			</tbody>
@@ -315,32 +315,8 @@ Manage Advance
 				</tr>
 			</tfoot>
 		</table>
-		<!-- <div style="width: 100%;height: 600px; background-color: orange;"></div> -->
-		<div id="listApplications" class="block-info">
-			<h1>List Applications</h1>
-			<table class="table table-hover table-bordered table-responsive">
-				<thead>
-					<tr class="warning">
-						<th>id</th>
-						<th>Name</th>
-						<th>Time</th>
-						<th>CV</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="app in listApps">
-						<td><%app.id%></td>
-						<td><%app.name%></td>
-						<td><%app.created_at%></td>
-						<td><a href=""><%app.cv%></a></td>
-						<td>
-							
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+		<!-- List of Applications of Current Post -->
+		@include('partials.list-apps')
 	</div>
 
 </div>

@@ -17,7 +17,7 @@ class UpdateTableUsers extends Migration
             $table->text('describe')->nullable();
             $table->string('cv')->nullable();
             $table->integer('status')->default(1);
-            $table->string('image')->nullable();
+            $table->string('image')->default('default.jpg');
             $table->integer('role_id')->unsigned();
             $table->integer('emp_id')->unsigned()->default(0);
         });

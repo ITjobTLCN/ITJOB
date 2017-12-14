@@ -28,7 +28,7 @@ class PageController extends Controller
         $top_jobs=Cache::remember('top_jobs',$minutes,function(){
             return DB::table('employers as e')
                         ->select('e.name as em','a.id','a.name','a.alias','e.id as ei')
-                        ->join(DB::raw('(select id,name,alias,emp_id from jobs order by follow desc) as a'),function($join){
+                        ->join(DB::raw('(select id,name,alias,emp_id from jobs order by views desc) as a'),function($join){
                             $join->on('a.emp_id','=','e.id');
                         })->get();
         });
@@ -53,13 +53,9 @@ class PageController extends Controller
     //get all skills
     public function getAllSkills(){
         $minutes=60;
-        if(Cache::has('listSkill')){
-            $skills=Cache::get('listSkill');
-        }else{
-            $skills=Cache::remember('listSkill',$minutes,function(){
-                return Skills::all();  
-            });
-        }
+        $skills=Cache::remember('listSkill',$minutes,function(){
+            return Skills::all();  
+        });
         return $skills;
     }
 }
