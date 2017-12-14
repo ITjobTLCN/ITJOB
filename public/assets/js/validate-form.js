@@ -73,4 +73,35 @@ $(document).ready(function(){
 	            });
             }
       });
+	$('#formApply').validate({
+		rules:{
+			fullname:{
+				required:true,
+			},
+			email:{
+				required:true,
+				email:true,
+			},
+			new_cv:{
+				required:true,
+				extension: "pdf|doc|docx",
+			}
+		},
+		messages:{
+			fullname:{
+				required:"Vui lòng nhập tên của bạn",
+			},
+			email:{
+				required:"Vui lòng nhập email",
+				email:"Email không đúng định dạng",
+			},
+			new_cv:{
+				required:"Vui lòng đính kèm CV",
+				extension:"Vui lòng đính kèm file .doc .docx hoặc .pdf"
+			}
+		},
+		submitHandler:function(){
+
+		}
+	});
 });

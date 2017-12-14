@@ -59,6 +59,9 @@ Dat:
 9. 7/12/2017
 	a. Tao trang dang ky trở thành nhà tuyển dụng
 	b. Chỉnh sửa link PostJob trong header
+Phong: 
+	a. Validation modal login
+	b. apply job
 
 10. 15/12/2017
 	a. Chinh3 sua trang Dashboard cua Admin va Emp 

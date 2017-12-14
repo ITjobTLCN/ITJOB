@@ -116,7 +116,7 @@ Search for all it Jobs in Vietnam
 												@endif
 												</span>
 												<span class="separator">|</span>
-												<span class="">{{date('d-m-Y', strtotime($ljlt->created_at))}}</span>
+												<span class="">@if(date('d-m-Y') == date('d-m-Y', strtotime($ljlt->created_at))) Today @else {{date('d-m-Y', strtotime($ljlt->created_at))}}@endif</span>
 											</div>
 											<div class="job__skill">
 								                @foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->id) as $key => $s)
