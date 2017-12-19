@@ -197,15 +197,16 @@ Manage Advance
 					<td><%ass.email%></td>				
 					<td><%ass.created_at%></td>
 					<td>
-						<span ng-show="ass.status==11" class="label label-success">Approved</span>
-						<span ng-show="ass.status==10" class="label label-warning">Pending</span>
-						<span ng-show="ass.status==12" class="label label-danger">Denied</span>
+						<span ng-if="ass.status==11" class="label label-success">Approved</span>
+						<span ng-if="ass.status==10" class="label label-warning">Pending</span>
+						<span ng-if="ass.status==12" class="label label-danger">Denied</span>
 					</td>
 					<td>
 						<span ng-if="ass.status==10">
 							<button ng-click="confirm(ass.id)" class="btn btn-sm btn-success">Confirm</button>
 							<button ng-click="deny(ass.id)" class="btn btn-sm btn-danger">Deny</button>
 						</span>
+						<span ng-if="ass.status==11">Last: <%ass.lastlogin%></span>
 					</td>
 				</tr>
 			</tbody>

@@ -14,6 +14,7 @@ use Excel;
 use Illuminate\Support\Facades\Input;
 use DateTime;
 use Carbon\Carbon;
+use Cache;
 
 class AdminController extends Controller
 {
@@ -139,7 +140,14 @@ class AdminController extends Controller
 
        /*-------Page loading by Laravel-------*/
     public function getDashBoard(){return view('admin.dashboard');}
-    public function getListUsers(){return view('admin.users');}
+    public function getListUsers(){
+        $user = User::get();
+        $count_user_online = 0;
+        foreach($user as $u){
+            if(Cache::has('user-is-online-'.$u->id))
+                $count_user_online++;
+        }
+        return view('admin.users',compact('count_user_online'));}
     public function getListEmps(){return view('admin.employers');}
     /*
     |-------Angular using --------
@@ -253,6 +261,7 @@ class AdminController extends Controller
         $countdeniedemps = Employers::where('status',2)->count();
 
 
+
         //main
         // $date = new Carbon('2017-12-05 18:06:49');
         $now = Carbon::now();
@@ -284,6 +293,12 @@ class AdminController extends Controller
             //new approved in today
         $newemps = Employers::join('registration','employers.id','=','registration.emp_id')->where('employers.status',1)->where('registration.status',1)->where('registration.created_at','>',$today)->select('emp_id')->get()->count();
         
+        //count online user
+        $user = User::get();$user_online = 0;
+        foreach($user as $u){
+            if(Cache::has('user-is-online-'.$u->id))
+                $user_online++;
+        }
 
         return response()->json(['status'=>true,'countallusers'=>$countallusers,'countadmins'=>$countadmins,
             'countusers'=>$countusers,'countemployers'=>$countemployers,'countmasters'=>$countmasters,
@@ -292,7 +307,7 @@ class AdminController extends Controller
             'countapprovedemps'=>$countapprovedemps,'countdeniedemps' => $countdeniedemps,
             //main
             'countusertoday' => $countusertoday,'countposttoday'=>$countposttoday,'countapplitoday'=>$countapplitoday,
-            'posts'=>$posts,'countposted'=>$countposted,'countapplies'=>$countapplies,'newemps'=>$newemps]);
+            'posts'=>$posts,'countposted'=>$countposted,'countapplies'=>$countapplies,'newemps'=>$newemps, 'user_online'=>$user_online]);
     }
     /*----------------END DASHBOARD------------------*/
 

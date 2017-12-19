@@ -19,6 +19,7 @@ Employer
 						<a class="sb-b" href="emp/basic#emp-yourpost"><i class="fa fa-sticky-note-o"></i> Your post</a>
 					</div>
 				</div>
+				@if(Auth::user()->role_id==3)
 				<div class="sb-block">
 					<div class="sb-head">
 						<a class="sb-a" href="{{route('getempadvance')}}">Advance</a>
@@ -29,6 +30,7 @@ Employer
 						<a class="sb-b" href="emp/advance#emp-post"> <i class="fa fa-sticky-note"></i> Manage Posts</a>
 					</div>
 				</div>
+				@endif
 			</div>
 		</div>
 		<div class="content">

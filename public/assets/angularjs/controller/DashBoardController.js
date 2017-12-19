@@ -26,6 +26,9 @@ app.controller('DashBoardController',function($scope,$http,$interval){
 			
 			$scope.countapplies =  response.data.countapplies;
 			$scope.newemps =  response.data.newemps;
+
+			//count online user
+			$scope.useronline  = response.data.user_online;
 		},function(error){
 			alert("Can't get data!");
 		});

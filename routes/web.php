@@ -274,5 +274,7 @@ Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
 	/*download aplication's CV*/
 Route::get('downloadcv/{name}',['as'=>'getempdownloadcv','uses'=>'HomeController@getDownloadEmpCV']);
 
+	/*send Email*/
+Route::post('sendemail',['as'=>'postsendemail','uses'=>'EmpController@postSendEmail']);
 
 /*-----------------END DAT ROUTER----------------------*/	

@@ -1,4 +1,4 @@
-app.controller('EmpMngController',function($http,$scope){
+app.controller('EmpMngController',function($http,$scope,$filter){
 	/*-----------Reset function-----------------------*/
 	$scope.resetAd = function(id){
 		$scope.load(id);
@@ -41,6 +41,7 @@ app.controller('EmpMngController',function($http,$scope){
 		$http.get('emp/ngbasic/'+$scope.empid).then(function(response){
 			console.log(response.data);
 			//chung
+			$scope.emp = response.data.emp;
 			$scope.cities = response.data.cities;
 			$scope.skills = response.data.skills;
 			//rieng
@@ -338,7 +339,6 @@ app.controller('EmpMngController',function($http,$scope){
 			$scope.job=null;
 			$scope.selection=[];
 		}
-		
 	}
 	$scope.getPost = function(id){
 		$http.get('emp/nggetpost/'+id).then(function(response){
@@ -425,6 +425,36 @@ app.controller('EmpMngController',function($http,$scope){
 		$scope.expendflag = true;
 		$scope.expendtype=type;
 	}
+
+
+	/*S---------FOR EMAIL------------------*/
+	$scope.emailName ="default Tên";
+	$scope.getAppli = function(name,email){
+		$scope.emailName = name;
+		$scope.emailEmail = email;
+
+		$scope.emailContent = `
+		<h3><span style="font-family:Tahoma,Geneva,sans-serif">Chào <em><strong id="email-name">`+$scope.emailName+`</strong>!</em></span></h3>
+
+		<p><span style="font-family:Tahoma,Geneva,sans-serif">Chúng tôi đến từ công ty <em><strong><span style="color:#2980b9">`+$scope.emp.name+`<span style="font-size:16px"></span></span> </strong></em> đã xem xét đơn xin việc của bạn và cảm thấy bạn đã đủ điều kiện để chúng tôi kiểm tra Technical cùng với kỹ năng làm việc. Chúng tôi hi vọng bạn sắp xếp thời gian công việc để đến tham dự buổi phỏng vấn của công ty chúng tôi.</span></p>
+
+		<h4><span style="font-family:Tahoma,Geneva,sans-serif">Tên công việc bạn đã apply: <span style="color:#c0392b"><strong>`+$scope.curPost.name+`</strong></span></span></h4>
+
+		<h3><span style="font-size:18px"><span style="font-family:Tahoma,Geneva,sans-serif"><em><strong>Lịch phỏng vấn:</strong></em></span></span></h3>
+
+		<h4 style="margin-left:40px"><span style="font-family:Tahoma,Geneva,sans-serif">Ngày: <strong><em>`+$filter('date')($scope.emailDate,'dd-MM-yyyy')+`</em></strong></span></h4>
+
+		<h4 style="margin-left:40px"><span style="font-family:Tahoma,Geneva,sans-serif">Giờ: <strong><em>`+$filter('date')($scope.emailHour,'HH:mm')+`</em></strong></span></h4>
+
+		<h4 style="margin-left:40px"><span style="font-family:Tahoma,Geneva,sans-serif">Địa điểm phỏng vấn: <strong><em>`+$scope.emailAddress+`</em></strong></span></h4>
+
+		<p style="text-align:right"><span style="font-family:Tahoma,Geneva,sans-serif">Chào thân ái!<br />
+		<strong><em>Recruitment team!</em></strong></span></p>`;
+	}
+	$scope.emailAddress ="default Address";
+	$scope.updateEmail = function(){
+		$scope.getAppli($scope.emailName,$scope.emailEmail);
+	}
 });
 
 
@@ -434,21 +464,26 @@ app.directive('ckEditor', function () {
         require: '?ngModel',
         link: function (scope, elm, attr, ngModel) {
             var ck = CKEDITOR.replace(elm[0]);
- 
             if (!ngModel) return;
- 
-            ck.on('pasteState', function () {
-                scope.$apply(function () {
-                    ngModel.$setViewValue(ck.getData());
-                });
-            });
- 
-            ngModel.$render = function (value) {
+            ck.on('instanceReady', function () {
                 ck.setData(ngModel.$viewValue);
-            };
+            });
+            // update ngModel on change
+            function updateModel() {
+                scope.$apply(function () {
+                ngModel.$setViewValue(ck.getData());
+            });
+
         }
-    };
+        ck.on('change', updateModel);
+        ck.on('key', updateModel);
+        ck.on('dataReady', updateModel);
+
+        ngModel.$render = function (value) {
+            ck.setData(ngModel.$viewValue);
+        };
+        //
+        // ngModel.$render();
+    }
+}
 });
-
-
-

@@ -16,12 +16,14 @@ use App\Cities;
 use App\Skill_employer;
 use App\Skill_job;
 use App\Jobs;
+use Mail;
 use App\Reviews;
 use DateTime;
 use Validator;
 use Illuminate\Support\Facades\Input;
 use File;
 use Carbon\Carbon;
+use Session;
 class EmpController extends Controller
 {
 	 /*Function change from name to alias and remove Vietnamese*/
@@ -229,7 +231,7 @@ class EmpController extends Controller
         'countposttoday'=>$countposttoday,'countapplitoday'=>$countapplitoday,
         'countreviewtoday'=>$countreviewtoday,'follows'=>$follows,
         'posts'=>$posts,'applis'=>$applis,
-        'reviews'=>$reviews]);
+        'reviews'=>$reviews,'emp'=>$emp]);
     }
         /*--------------------------Create a job (post)---------------------*/
     public function ngCreatePost(Request $request,$empid){
@@ -388,10 +390,29 @@ class EmpController extends Controller
             //change status from Pending to Master Deleted: from 10 to 12
             $post->status = 12;
             $post->save();
-
+            
             return response()->json(['status'=>true,'message'=>'Deny Successfully']);
         }catch(Exception $e){
             return response()->json(['status'=>false,'message'=>'Deny failed']);
         }
+    }
+
+
+
+    /*
+    |                   SEND EMAIL TO CANDIDATE AND SET UP DATE: 
+    |                       (date,hour,address)  
+    |---------------------------------------------------------------------
+    |                       Send email by SWIFTMAILER
+    */
+    public function postSendEmail(Request $request){
+        // dd($request->all());
+        $data = ['contentemail'=>$request->contentemail];
+        Mail::send('partials.email1',$data,function($msg) use ($request){
+            $msg->from('itjobchallenge@gmail.com','IT JOB - CHALLENGE YOUR DREAM');
+            $msg->to($request->email,$request->email)->subject('Trả lời đơn xin việc của các ứng viên');
+        });
+        Session::flash('flash_message', 'Send email successfully!');
+        return redirect()->back();
     }
 }

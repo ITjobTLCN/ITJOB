@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use DateTime;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Event' => [
             'App\Listeners\EventListener',
         ],
+        /*Update lastlogin when login or logout*/
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\LogSuccessfulLogin',
+        ],
     ];
 
     /**
@@ -27,6 +32,10 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
+        // Event::listen('auth.login',function($user){
+        //     $user->lastlogin = new DateTime;
+        //     $user->save();  
+        // });
         //
     }
 }

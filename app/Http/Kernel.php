@@ -34,6 +34,8 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            // Sử dụng Middle ware để lưu trữ thông tin dang online
+            \App\Http\Middleware\LogLastUserActivity::class,
         ],
 
         'api' => [

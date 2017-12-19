@@ -65,3 +65,11 @@ Phong:
 
 10. 15/12/2017
 	a. Chinh3 sua trang Dashboard cua Admin va Emp 
+
+11. 16/12/2017
+	a. Thêm thư viện Event của laravel:  php artisan event:generate
+	b. Thêm trường last_login vào bảng User
+
+12. 18/12/2017
+	a. Thêm middleware LogLastUserActivity để kiểm tra user online
+	b. Gủi mail đến ứng viên kêu đi phỏng vấn

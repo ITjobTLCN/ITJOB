@@ -17,8 +17,8 @@
                                 <i class="fa fa-podcast fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">??</div>
-                                <div>Access!</div>
+                                <div class="huge"><%useronline%></div>
+                                <div>Online!</div>
                             </div>
                         </div>
                     </div>
