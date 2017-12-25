@@ -51,45 +51,12 @@
         </li>
     </ul>
 
+
 </div>
 <!--/.nav-collapse -->
 </div>
 <!--/.container-fluid -->
 </nav>
-    {{-- <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#"><img src="assets/img/logo.png" alt="" height="40px">
-                </a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul id="menu-header" class="nav navbar-nav">
-                    <li><a href="{{route('/')}}">Home</a>
-                    </li>
-                    <li><a href="{{route('alljobs')}}">All Jobs</a>
-                    </li>
-                    <li><a href="{{route('searchCompanies')}}">Company</a>
-                    </li>
 
-                    <li><a href="{{route('lienhe')}}">Contact</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="sign-in"><a href="#">Sign In</a>
-                    </li>
-                    <li class="employer_site"><a href="#">
-                        <strong>Employers</strong>
-                        <br>
-                        <span>Post Job to Find Talents</span>
-                    </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> --}}
+
 </div>

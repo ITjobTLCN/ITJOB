@@ -94,4 +94,16 @@ $(document).ready(function(){
 			'color':'grey',
 		});
 	});
+
+	$('#clickModalLogin').click(function(e){
+		$('#modalRegister').modal('hide');
+		$('#loginModal').modal('show');
+
+		e.preventDefault();
+	});
+	$('#clickModalRegister').click(function(e){
+		$('#loginModal').modal('hide');
+		$('#modalRegister').modal('show');
+		e.preventDefault();
+	});
 });
