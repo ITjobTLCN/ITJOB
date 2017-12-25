@@ -21,10 +21,12 @@
 				</h5>
 			</div>
 			<div class="modal-body">
-				
 				<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
 				<div class="modal_content">
 					<form role="form" id="frmLogin">
+				<div class="login_content ">
+					<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
+					<form action="{{route('login')}}" method="post" role="form" name="frmLogin" id="frmLogin">
 						<p style="color: red;display: none;" class="error errorLogin"></p>
 						<div class="form-group">
 							

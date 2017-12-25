@@ -61,7 +61,7 @@
 							<td><%user.name%></td>
 							<td><%user.created_at%></td>
 							<td><%user.updated_at%></td>
-							<td>2017-2-2 12:2:01</td>
+							<td><%user.lastlogin%></td>
 						</tr>
 
 					</tbody>

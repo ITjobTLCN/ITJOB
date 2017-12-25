@@ -23,16 +23,19 @@ class Jobs extends Model
      {
      	return $this->belongsTo('App\Cities','city_id','id');
      }
-     public function Employers()
+     public function Employer()
      {
-     	return $this->belongsTo('App\Employers','employer_id','id');
+     	return $this->belongsTo('App\Employers','emp_id','id');
      }
      public function User()
      {
      	return $this->belongsTo('App\User','user_id','id');
      }
+
+     public function Applications(){
+          return $this->hasMany('App\Applications','job_id','id');
+     }
      public function __toString(){
           return $this->id;
      }
-
 }

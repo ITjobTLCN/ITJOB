@@ -21,7 +21,7 @@ class checkEmp
             if(Auth::user()->role_id==3 || Auth::user()->role_id==4){
                 return $next($request);
             }else{
-                return Redirect::route('/')->with('error_code', 2); //không có quyền employer
+                return Redirect::route('getregisteremp');//không có quyền employer
             }
         }else{
             return Redirect::route('/')->with('error_code', 1); // 1: chưa đăng nhập

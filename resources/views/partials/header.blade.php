@@ -45,7 +45,7 @@
             <li class="sign-in text-center"><a href="{{route('login')}}">Sign In</a>
                 @endif
             </li>
-            <li class="employer_site text-center"><a href="#">
+            <li class="employer_site text-center"><a href="{{route('getemp')}}">
                 Post Job
             </a>
         </li>

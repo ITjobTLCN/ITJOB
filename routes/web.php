@@ -213,6 +213,10 @@ Route::get('logout',['as'=>'getlogout','uses'=>'HomeController@getLogOut']);
 
 Route::post('nglogin',['as'=>'ngpostlogin','uses'=>'HomeController@ngPostLogin']);
 
+Route::get('ngloadreg',['as'=>'ngloadreg','uses'=>'HomeController@ngLoadReg']);
+Route::get('registeremp',['as'=>'getregisteremp','uses'=>'HomeController@getRegisterEmp'])->middleware('auth');
+Route::post('registeremp',['as'=>'postregisteremp','uses'=>'HomeController@postRegisterEmp'])->middleware('auth');
+
 	/**--------------ADMIN ROUTE--------------------*/
 Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('users',['as'=>'getadminusers','uses'=>'AdminController@getListUsers']);
@@ -267,7 +271,14 @@ Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
 	Route::post('ngeditpost/{empid}/{id}',['as'=>'ngeditpost','uses'=>'EmpController@ngEditPost']);
 	Route::get('ngtrashpost/{id}',['as'=>'ngtrashpost','uses'=>'EmpController@ngTrashPost']);
 	Route::get('ngpushpost/{id}',['as'=>'ngpushpost','uses'=>'EmpController@ngPushPost']);
+	Route::get('ngconfirmpost/{id}',['as'=>'ngconfirmpost','uses'=>'EmpController@ngConfirmPost']);
+	Route::get('ngdenypost/{id}',['as'=>'ngdenypost','uses'=>'EmpController@ngDenyPost']);
 });
+	
+	/*download aplication's CV*/
+Route::get('downloadcv/{name}',['as'=>'getempdownloadcv','uses'=>'HomeController@getDownloadEmpCV']);
 
+	/*send Email*/
+Route::post('sendemail',['as'=>'postsendemail','uses'=>'EmpController@postSendEmail']);
 
 /*-----------------END DAT ROUTER----------------------*/	

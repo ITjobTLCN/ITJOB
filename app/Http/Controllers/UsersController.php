@@ -76,7 +76,7 @@ class UsersController extends Controller
                     return redirect()->intended('admin/dashboard');
                     break;
                 default:
-                    return redirect()->route('/');
+                    return redirect()->route('getemp');
                     break;
             }
   		}else{

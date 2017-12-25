@@ -25,12 +25,12 @@ Phong:
 Dat: 
 	a. COnfirm/deny employer khi user đăng ký 1 employer (confirm -> master);
 
-<<<<<<< HEAD
+
 	4/12/2017
 Phong: 
 	a. Chỉnh sửa giải thuật filter và tìm kiếm
 	b. upload image và cv trong trang profile ứng viên
-=======
+
 5. 29/11/2017
 Dat:
 	a. Thêm thông báo khi truy cập vao` trang nha` tuyển dụng không hợp lệ. 
@@ -51,8 +51,25 @@ Dat:
 	f. Thực hiện Push- Deleted post 
 	g. Đã bind được data Datetime lên trang Edit
 	h. Edit và Thêm post mới! Hoàn thành nhưng không thêm hình được vì sử dụng AngularJS
->>>>>>> f49af1440e9ed9c5d5db30b4a168fbe3156c37c9
-7/12/2017
+	
+8. 5/12/2017
+	a. Quan ly danh sach cac bai post cua assistant
+
+
+9. 7/12/2017
+	a. Tao trang dang ky trở thành nhà tuyển dụng
+	b. Chỉnh sửa link PostJob trong header
 Phong: 
 	a. Validation modal login
 	b. apply job
+
+10. 15/12/2017
+	a. Chinh3 sua trang Dashboard cua Admin va Emp 
+
+11. 16/12/2017
+	a. Thêm thư viện Event của laravel:  php artisan event:generate
+	b. Thêm trường last_login vào bảng User
+
+12. 18/12/2017
+	a. Thêm middleware LogLastUserActivity để kiểm tra user online
+	b. Gủi mail đến ứng viên kêu đi phỏng vấn
