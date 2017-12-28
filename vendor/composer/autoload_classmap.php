@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddColumnViewsOnTableJob' => $baseDir . '/database/migrations/2017_11_30_215536_add_column_views_on_table_job.php',
     'AddFollowTableEmployers' => $baseDir . '/database/migrations/2017_10_02_112609_add_follow_table_employers.php',
-    'AddIndexTableJobs' => $baseDir . '/database/migrations/2017_12_02_135728_add_index_table_jobs.php',
     'App\\Applications' => $baseDir . '/app/Applications.php',
     'App\\Cities' => $baseDir . '/app/Cities.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',

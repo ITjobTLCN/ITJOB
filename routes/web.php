@@ -163,7 +163,10 @@ Route::get('check-job-followed',[
 	'uses'=>'JobsController@getJobFollowed'
 ]);
 
-
+Route::post('register-modal',[
+	'as'=>'registerModal',
+	'uses'=>'UsersController@postRegisterModal'
+]);
 
 //login with social
 Route::get('login/{provider}',['as'=>'loginProvider','uses'=>'AuthController@redirectToProvider']);
@@ -205,6 +208,7 @@ Route::post('login-modal',[
 	'as'=>'loginModal',
 	'uses'=>'UsersController@postLoginModal'
 ]);
+
 Route::get('logout',['as'=>'getlogout','uses'=>'HomeController@getLogOut']);
 
 Route::post('nglogin',['as'=>'ngpostlogin','uses'=>'HomeController@ngPostLogin']);

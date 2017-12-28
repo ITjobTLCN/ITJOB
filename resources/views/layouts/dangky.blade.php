@@ -23,15 +23,23 @@
 			<hr>
 			<div class="login_content text-center">
 				<h4>Đăng nhập bằng tài khoản ITJob</h4>
-				<form action="" method="POST" role="form">
-					<div class="form-group">
-						<input type="text" class="form-control" id="" placeholder="Email">
-					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" id="" placeholder="Password">
-					</div>
-					<button type="submit" class="btn btn-primary btn-login">Đăng nhập</button>
-				</form>
+				<form id="frmRegister">
+						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+						<p style="color: red;display: none;" class="error errorRegister"></p>
+						<div class="form-group">
+							<input type="text" class="form-control" name="name" id="name" placeholder="Your Name">
+						</div>
+						<div class="form-group">
+							<input type="email" class="form-control" name="email" id="email" placeholder="Email">
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" name="password" id="password" placeholder="Password">
+						</div>
+						<input type="hidden" name="">
+						
+						<input type="submit" class="btn-primary form-control" value="Đăng ký">
+						
+					</form>
 			</div>
 			<hr>
 			<div class="register text-center">
@@ -43,4 +51,11 @@
 	</div>
 </div>
 </div>
+@stop
+@section('footer.js')
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<script src="assets/controller/UsersController.js"></script>
+
+<script src="assets/js/validate-form.js"></script>
+
 @stop

@@ -72,15 +72,15 @@ h6 {
     letter-spacing: 1px;
 }
 h1 {
-    font-size: 2em;
+    font-size: 3em;
     margin: .4em 0
 }
 h2 {
-    font-size: 1.5em;
+    font-size: 2.5em;
     margin: .75em 0
 }
 h3 {
-    font-size: 20px;
+    font-size: 1.5em;
     margin: .83em 0
 }
 h5 {
@@ -1003,7 +1003,7 @@ div#navbar ul li:hover .sub-menu-info {
     .job-header__list-photo a>img.modal-image{
         height: 140px !important;
     }
-    .modal-dialog{
+    .job-header__list-photo .modal-dialog{
         margin:50% auto;
         width: 60%;
         height: 200px !important;
@@ -1234,7 +1234,10 @@ div#navbar ul li:hover .sub-menu-info {
         }
         #main-job-list {
             .job-search__top-nav {
-                padding: 0px 30px
+                padding: 0px 30px;
+                h2{
+                    font-size: 20px;
+                }
             }
             #job-list {
                 background: #e5f8fe;
@@ -2238,10 +2241,14 @@ label.error{
 .register{
     padding-bottom: 10px;
 }
-#loginModal {
-    .modal-footer{
-        margin-top: 30px !important;
+.modal-footer{
+        margin-top: 10px !important;
     }
+#frmRegister{
+    margin-top: 10px;
+}
+.modal_content{
+    padding: 10px 20px;
 }
 .apply{
     width: 100%;
@@ -2283,3 +2290,12 @@ label.error{
     height: 50px;
     font-size: 16px;
 }
+// .register .modal-dialog{
+//     width: 500px !important;
+// }
+#btnSubmit{
+    background: @mainColor;
+    border-color: @mainColor;
+    border-radius: 0px;
+}
+

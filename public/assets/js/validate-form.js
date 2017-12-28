@@ -64,9 +64,101 @@ $(document).ready(function(){
 	            	data:{'email':$('#email').val(),'password':$('#password').val()},
 	            	success:function(data){
 	            		if(data.error==true){
-	            			$('.error').hide();
 	            			$('.errorLogin').show().text(data.message);
+	            			$('#password').val("");
 	            		}else{
+	            			location.reload();
+	            		}
+	            	}
+	            });
+            }
+      });
+	// $('#frmLoginm').validate({
+ //            rules:{
+ //                  emaill:{
+ //                        required:true,
+ //                        email:true,
+ //                  },
+ //                  passwordl:{
+ //                        required:true,
+ //                  }
+ //            },
+ //            messages:{
+ //                  emaill:{
+ //                        required: "Email không được để trống",
+ //                        email: "Email không đúng định dạng"
+ //                  },
+ //                  passwordl:{
+ //                        required:"Mật khẩu không được để trống"
+ //                  }
+ //            },
+ //            submitHandler:function(){
+ //            	$.ajaxSetup({
+	//                 headers: {
+	//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	//                 }
+	//             });
+	//             $.ajax({
+	//             	type:'post',
+	//             	url:'login-modal',
+	//             	data:{'email':$('#emaill').val(),'password':$('#passwordl').val()},
+	//             	success:function(data){
+	//             		if(data.error==true){
+	//             			$('.error').hide();
+	//             			$('.errorLogin').show().text(data.message);
+	//             		}else{
+	//             			location.reload();
+	//             		}
+	//             	}
+	//             });
+ //            }
+ //      });
+	$('#frmRegister').validate({
+            rules:{
+                  namer:{
+                        required:true
+                  },
+                  emailr:{
+                  	required:true,
+                  	email:true
+                  },
+                  passwordr:{
+                  	required:true,
+                  	minlength: 6
+                  }
+            },
+            messages:{
+            	namer:{
+            		required: "Vui lòng nhập tên của bạn"
+            	},
+              	emailr:{
+                    required: "Email không được để trống",
+                    email: "Email không đúng định dạng"
+              	},
+              	passwordr:{
+                    required:"Mật khẩu không được để trống",
+                    minlength: "Mật khẩu ít nhất 6 ký tự"
+              	}
+            },
+            submitHandler:function(){
+            	alert($('#passwordr').val());
+            	$.ajaxSetup({
+	                headers: {
+	                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	                }
+	            });
+	            $.ajax({
+	            	type:'post',
+	            	url:'register-modal',
+	            	data:{'email':$('#emailr').val(),'password':$('#passwordr').val(),'name':$('#namer').val()},
+	            	success:function(data){
+	            		if(data.error==true){
+
+	            			$('.error').hide();
+	            			$('.errorRegister').show().text(data.message);
+	            			$('#emailr').val("");
+	            		}else{
+	            			alert('Đăng ký thành công tài khoản');
 	            			location.reload();
 	            		}
 	            	}

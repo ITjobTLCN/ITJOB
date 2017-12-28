@@ -96,4 +96,23 @@ class UsersController extends Controller
                 'message'=>'Email hoặc mật khẩu không đúng'
             ],200);
     }
+    public function postRegisterModal(Request $req){
+        $user=User::where('email',$req->email)->first();
+        if($user){
+            return response()->json([
+                'error'=>true,
+                'message'=>'Email đã tồn tại'
+            ],200);
+        }else{
+            $user=User::create([
+                'name'=>$req->name,
+                'email'=>$req->email,
+                'password'=>bcrypt($req->password)
+            ]);  
+            return response()->json([
+                'error'=>false,
+                'message'=>'Tạo thành công tài khoản'
+                ],200);
+        }
+    }
 }

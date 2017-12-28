@@ -11,7 +11,7 @@
 					<div class="login_header">
 						<div class="title">
 							<h1 class="text-center">Đăng nhập</h1>
-							<h2 class="text-center">Đăng nhập hoặc đăng ký thành viên nhanh bằng tài khoản</h2>
+							<h3 class="text-center">Đăng nhập hoặc đăng ký thành viên nhanh bằng tài khoản</h3>
 						</div>
 						<div class="social text-center">
 							<a type="button" href="{{route('loginProvider','facebook')}}" class="btn btn-primary"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
@@ -21,6 +21,9 @@
 				</h5>
 			</div>
 			<div class="modal-body">
+				<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
+				<div class="modal_content">
+					<form role="form" id="frmLogin">
 				<div class="login_content ">
 					<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
 					<form action="{{route('login')}}" method="post" role="form" name="frmLogin" id="frmLogin">
@@ -33,17 +36,13 @@
 							<input type="password" class="form-control" name="password" id="password" placeholder="Password">
 						</div>
 						{{ csrf_field() }}
-						<button type="submit" class="btn btn-primary pull-right">Đăng nhập</button>
+						<button type="submit" class="btn btn-primary" style="width: 100%">Đăng nhập</button>
 					</form>
 				</div>
 			</div>
-
 			<div class="modal-footer">
-				<h4 class="text-center">Bạn chưa có tài khoản? <a href="{{route('register')}}" style="color: #337ab7">Đăng ký ngay</a></h4>
+				<h4 class="text-center">Bạn chưa có tài khoản? <a id="clickModalRegister" href="#" style="color: #337ab7">Đăng ký ngay</a></h4>
 			</div>
-					{{-- <div class="register text-center">
-						
-					</div> --}}
 		</div>
 	</div>
 </div>

@@ -373,7 +373,6 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
     public static $classMap = array (
         'AddColumnViewsOnTableJob' => __DIR__ . '/../..' . '/database/migrations/2017_11_30_215536_add_column_views_on_table_job.php',
         'AddFollowTableEmployers' => __DIR__ . '/../..' . '/database/migrations/2017_10_02_112609_add_follow_table_employers.php',
-        'AddIndexTableJobs' => __DIR__ . '/../..' . '/database/migrations/2017_12_02_135728_add_index_table_jobs.php',
         'App\\Applications' => __DIR__ . '/../..' . '/app/Applications.php',
         'App\\Cities' => __DIR__ . '/../..' . '/app/Cities.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',

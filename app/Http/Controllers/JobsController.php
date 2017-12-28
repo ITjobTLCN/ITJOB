@@ -394,7 +394,7 @@ class JobsController extends Controller
             $application->cv=$filename;
         }
         $application->note=$req->note;
-        $cv->move('uploads/user/cv/' , $filename);
+        $cv->move('uploads/emp/cv/' , $filename);
         $application->save();
         return redirect()->back()->with(['success'=>'Nộp CV thành công']);
     }
