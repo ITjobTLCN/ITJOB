@@ -415,4 +415,24 @@ class EmpController extends Controller
         Session::flash('flash_message', 'Send email successfully!');
         return redirect()->back();
     }
+
+    /*
+    |-------------SEND NOTIFICATION----------------
+    |For: Employer
+    |Case:  co người apply, có người follow-review, 
+    |       confirm assistant, comfirm post
+    |For: User
+    |Case: Công ty đã follow có post(publisher)
+    |
+    |Action:
+    |       post publisher => add noti for all user has Followed
+    |
+    |       confirm emp => add noti for admin, user
+    |
+    |       confirm/deny assistant=> add noti for assistant
+    |   
+    |       apply => add noti for emp đã apply
+    |       follow-review => add noti for emp đã apply
+    |       
+    */
 }
