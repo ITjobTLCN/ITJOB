@@ -101,11 +101,13 @@ app.controller('EmpMngController',function($http,$scope,$filter){
 		if(confirm('Are you sure confirm?')){
 			$http.get('emp/ngconfirmpost/'+id).then(function(response){
 				if(response.data.status==true){
+
 					alert(response.data.message);
 					$scope.resetAd($scope.empid);
 				}else{
 					alert(response.data.message);
 				}
+				console.log(response.data);
 			},function(error){
 				alert('ERROR');
 			});

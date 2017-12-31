@@ -24,6 +24,9 @@ use Illuminate\Support\Facades\Input;
 use File;
 use Carbon\Carbon;
 use Session;
+use App\Notifications\ConfirmAssistant;
+use App\Notifications\ConfirmPost;
+use App\Notifications\NotifyNewPost;
 class EmpController extends Controller
 {
 	 /*Function change from name to alias and remove Vietnamese*/
@@ -67,10 +70,11 @@ class EmpController extends Controller
 		return response()->json(['assis'=>$assis,'emp'=>$emp,'myskills'=>$myskills,'city'=>$city,'cities'=>$cities,'skills'=>$skills,'posts'=>$posts]);
 	}
 
-		/*CONFIRM/DENY pending Employer*/
+		/*CONFIRM/DENY pending Employee*/
     public function ngGetConfirmAss($id,$user_id){	//id: employer_id 
         try{
             $user = User::findOrFail($user_id);
+            $emp = Employers::findOrFail($id);
             //with assistant
             $regis = Registration::where('emp_id',$id)->where('user_id',$user_id)->first();
             //
@@ -83,6 +87,10 @@ class EmpController extends Controller
 
             $data = $this->ngGetAssistantByEmpId($id);
             $assis = $data['assis'];
+
+            //send notification to this person
+            $user->notify(new ConfirmAssistant($emp,true));
+
             return response()->json(['status'=>true,'message'=>'Confirm Successfully','assis'=>$assis]);
         }catch(Exception $e){
             return response()->json(['status'=>false,'message'=>'Confirm failed']);
@@ -90,6 +98,8 @@ class EmpController extends Controller
     }
     public function ngGetDenyAss($id,$user_id){
         try{
+            $user = User::findOrFail($user_id);
+            $emp = Employers::findOrFail($id);
             //with master
          	$regis = Registration::where('emp_id',$id)->where('user_id',$user_id)->first();
             //
@@ -98,6 +108,9 @@ class EmpController extends Controller
 
             $data = $this->ngGetAssistantByEmpId($id);
             $assis = $data['assis'];
+
+            //send notification to this person
+            $user->notify(new ConfirmAssistant($emp,true));
 
             return response()->json(['status'=>true,'message'=>'Deny Successfully','assis'=>$assis]);
         }catch(Exception $e){
@@ -379,6 +392,14 @@ class EmpController extends Controller
             $post->status = 1;
             $post->save();
 
+            //notification to author
+            $post->user->notify(new ConfirmPost($post,true));
+            //notification to users has followed (recommend Queue)
+            $userFollowed = Follow_employers::where('emp_id',$post->emp_id)->get();
+            foreach($userFollowed as $user){
+                $user->user->notify(new NotifyNewPost($post,$post->Employer->name));
+            }
+
             return response()->json(['status'=>true,'message'=>'Confirm Successfully']);
         }catch(Exception $e){
             return response()->json(['status'=>false,'message'=>'Confirm failed']);
@@ -390,7 +411,10 @@ class EmpController extends Controller
             //change status from Pending to Master Deleted: from 10 to 12
             $post->status = 12;
             $post->save();
-            
+
+            //notification to user
+            $post->user->notify(new ConfirmPost($post,false));
+
             return response()->json(['status'=>true,'message'=>'Deny Successfully']);
         }catch(Exception $e){
             return response()->json(['status'=>false,'message'=>'Deny failed']);
@@ -415,7 +439,6 @@ class EmpController extends Controller
         Session::flash('flash_message', 'Send email successfully!');
         return redirect()->back();
     }
-
     /*
     |-------------SEND NOTIFICATION----------------
     |For: Employer

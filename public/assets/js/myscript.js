@@ -106,4 +106,10 @@ $(document).ready(function(){
 		$('#modalRegister').modal('show');
 		e.preventDefault();
 	});
+
 });
+function markNotificationAsRead(countNoti){
+	if(countNoti!='0'){
+		$.get('markAsRead');
+	}
+}
