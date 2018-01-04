@@ -22,23 +22,23 @@ Thông tin cá nhân | ITJob
 							@else
 							<img src="{{$user->image}}" alt="" class="img-responsive" width="150px" height="150px">
 							@endif
-								
+							
 
 						</div>
 						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">
-									<input type="file" name="avatar">
-									{{csrf_field()}}
-									<input type="submit" value="Upload" class="btn btn-sm btn-primary">
+							<input type="file" name="avatar">
+							{{csrf_field()}}
+							<input type="submit" value="Upload" class="btn btn-sm btn-primary">
 
-								</form>
+						</form>
 					</div>
 					<div class="col-md-7 col-sm-9">
 						@if(Session::has('success'))
 						<div class="alert alert-success alert-dismissable">
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-    {{Session::get('success')}}
-  </div>
-					@endif
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+							{{Session::get('success')}}
+						</div>
+						@endif
 						<div class="welcome">
 							<h3> Welcome, {{$user->name}}
 							</h3>
@@ -46,7 +46,7 @@ Thông tin cá nhân | ITJob
 						<div class="info">
 							<form class="form-horizontal" name="frmEditProfile" id="myForm" enctype="multipart/form-data" method="post" action="{{route('editProfile')}}" role="form" >
 								<div class="form-group">
-									<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+									<label for="inputEmail" class="col-sm-2 control-label">Email</label>
 									<div class="col-sm-6">
 										<input name="email" class="form-control" disabled="true" class="email" value="{{$user->email}}">
 									</div>
@@ -59,7 +59,7 @@ Thông tin cá nhân | ITJob
 									</div>
 								</div>
 								<div class="form-group" ng-show="showEmail">
-									<label for="inputEmail3" class="col-sm-2 hidden-xs control-label"></label>
+									<label for="inputNewEmail" class="col-sm-2 hidden-xs control-label"></label>
 									<div class="col-sm-8">
 										<input type="email" class="form-control" value="{{$user->email}}" name="newemail" id="newEmail" required="true"> 
 										<div id="error">
@@ -77,19 +77,19 @@ Thông tin cá nhân | ITJob
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="inputPassword3" class="col-sm-2 control-label">Name</label>
+									<label for="inputName" class="col-sm-2 control-label">Name</label>
 									<div class="col-sm-6">
-										<input type="text" name="name" value="{{$user->name}}" class="form-control" id="inputPassword3">
+										<input type="text" name="name" value="{{$user->name}}" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="inputPassword3" class="col-sm-2 control-label">Description</label>
+									<label for="inputDescription" class="col-sm-2 control-label">Description</label>
 									<div class="col-sm-10">
-										<textarea type="text" name="describe" class="form-control" id="inputPassword3" style="height: 100px">{{$user->describe}}</textarea>
+										<textarea type="text" name="describe" class="form-control" style="height: 100px">{{$user->describe}}</textarea>
 									</div>
 								</div>
 								<div class="form-group">
-									<label for="inputPassword3" class="col-sm-2 control-label">CV</label>
+									<label for="inputCV" class="col-sm-2 control-label">CV</label>
 									<div class="col-sm-8">
 										@if($user->cv !=null)
 										<a href="uploads/user/cv/{{$user->cv}}" download>{{$user->cv}}</a>
@@ -125,16 +125,16 @@ Thông tin cá nhân | ITJob
 <script>
 // just for the demos, avoids form submit
 $( "#myForm" ).validate({
-  rules: {
-    cv: {
-      extension: "pdf|doc|docx"
-    }
-  },
-  messages:{
-  	cv:{
-  		extension: "Vui lòng đính kèm file .doc .docx hoặc .pdf"
-  	}
-  }
+	rules: {
+		cv: {
+			extension: "pdf|doc|docx"
+		}
+	},
+	messages:{
+		cv:{
+			extension: "Vui lòng đính kèm file .doc .docx hoặc .pdf"
+		}
+	}
 });
 </script>
 @stop

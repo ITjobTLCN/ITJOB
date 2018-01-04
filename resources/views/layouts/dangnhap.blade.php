@@ -11,7 +11,7 @@ Login | ITJob
 			<div class="login_header">
 				<div class="title">
 					<h1 class="text-center">Đăng nhập</h1>
-					<h4 class="text-center">Đăng nhập hoặc đăng ký thành viên nhanh bằng tài khoản</h4>
+					<h3 class="text-center">Đăng nhập hoặc đăng ký thành viên nhanh bằng tài khoản</h3>
 				</div>
 				<div class="social text-center">
 
@@ -22,16 +22,28 @@ Login | ITJob
 			<hr>
 			<div class="login_content text-center">
 				<h4>Đăng nhập bằng tài khoản ITJob</h4>
-				<p style="color: red;display: none;" class="error errorLogin"></p>
-				<form role="form" name="frmLogin" id="frmLogin">
+				@if($errors->has('errorLogin'))
+					<div class="alert alert-danger">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						{{$errors->first('errorLogin')}}
+					</div>
+				@endif
+				<form role="form" name="frmLogin" method="post" action="{{route('login')}}">
 					<div class="form-group">
-						<input type="email" class="form-control" name="email" id="email" placeholder="Email" >
+						<input type="email" class="form-control" name="email" placeholder="Email" value="{{old('email')}}">
+						@if($errors->has('email'))
+						<p style="color: red">{{$errors->first('email')}}</p>
+						@endif
 					</div>
 					<div class="form-group">
-						<input type="password" class="form-control" name="password" id="password" placeholder="Password">
+						<input type="password" class="form-control" name="password" placeholder="Password">
+						@if($errors->has('password'))
+						<p style="color: red">{{$errors->first('password')}}</p>
+						@endif
 					</div>
-					<button type="submit" class="btn btn-primary btn-login">Đăng nhập</button>
 					{{ csrf_field() }}
+					<button type="submit" class="btn btn-primary btn-login">Đăng nhập</button>
+					
 				</form>
 			</div>
 			<hr>
@@ -42,6 +54,8 @@ Login | ITJob
 		</div>
 		<div class="col-md-3 hidden-xs"></div>
 		</div>
+		@include('partials.modal-login')
+		@include('partials.modal-register')
 	</div>
 </div>
 @stop

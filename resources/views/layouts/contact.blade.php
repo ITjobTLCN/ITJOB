@@ -11,33 +11,33 @@ Contact Us | ITJob
 		<div class="contact">
 			<div class="row">
 				<div class="col-md-6">
-					<form action="" method="POST" class="form-horizontal" role="form">
+					<form action="" method="POST" id="frmContact" name="frmContact" class="form-horizontal" role="form">
 								<div class="form-group">
 									<h1>Contact Us</h1>
 								</div>
 								<div class="form-group">
 									<label for="" class="col-sm-3 control-label">Your Email <span class="red-star">*</span></label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control">
+										<input type="email" id="email" name="email" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="" class="col-sm-3 control-label">Your Name </label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control">
+										<input type="text" id="name" name="name" class="form-control">
 									</div>
 								</div>
 								<div class="form-group">
 									<label for="" class="col-sm-3 control-label">Subtitle <span class="red-star">*</span></label>
 									<div class="col-sm-9">
-										<input type="text" class="form-control">
+										<input type="text" id="subtitle" name="subtitle" class="form-control">
 									</div>
 								</div>
 								<hr>
 								<div class="form-group">
 									<label for="" class="col-sm-3 control-label">Content <span class="red-star">*</span></label>
 									<div class="col-sm-9">
-										<textarea name="" class="form-control" id="" cols="20" rows="10"></textarea>
+										<textarea name="content" id="content" class="form-control" id="" cols="20" rows="10"></textarea>
 									</div>
 								</div>
 								<div class="form-group">

@@ -21,6 +21,10 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\LogSuccessfulLogin',
         ],
+        //send mail when register
+        'App\Events\SendMail' => [
+            'App\Listeners\SendMailRegister',
+        ]
     ];
 
     /**

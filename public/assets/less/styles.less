@@ -83,6 +83,10 @@ h3 {
     font-size: 1.5em;
     margin: .83em 0
 }
+h4{
+    font-size: 1em;
+    margin: 1em 0;
+}
 h5 {
     font-size: .83em;
     margin: 1.5em 0
@@ -123,6 +127,10 @@ h6 {
 .button-apply{
     background: @mainColor !important;
     border-color: @mainColor !important;
+}
+.dotted{
+    color: #ea2635;
+    border-bottom: 1px dotted;
 }
 /*  Header Section  */
 
@@ -627,7 +635,6 @@ div#navbar ul li:hover .sub-menu-info {
     }
     #see-more-hiring {
         float: right;
-        border-bottom: 1px dotted;
         margin-bottom: 10px;
         &:hover {
             color: @mainColor !important;
@@ -1511,26 +1518,27 @@ div#navbar ul li:hover .sub-menu-info {
     max-height: 150px;
 }
 .name-info {
+    font-size: 17px;
     padding: 10px 10px;
-}
-.name-info #name-company {
-    font-size: 30px;
-    margin-bottom: 13px;
-    color: #23527c;
+    #name-company {
+        font-size: 30px;
+        margin-bottom: 13px;
+        color: #23527c;
+    }
+    .location {
+        padding: 4px 0;
+    }
+    .num-employee {
+        padding: 6px 0;
+    }
+    .see-maps a:hover h3 {
+        color: #23527c;
+    }
 }
 .fa {
     font-size: 16px !important;
     color: #777;
     margin-right: 5px;
-}
-.name-info .location {
-    padding: 4px 0;
-}
-.name-info .num-employee {
-    padding: 6px 0;
-}
-.name-info .see-maps a:hover h3 {
-    color: #23527c;
 }
 /*reviews-companies section*/
 
@@ -1590,53 +1598,58 @@ div#navbar ul li:hover .sub-menu-info {
 }
 .list-job-hiring {
     padding: 10px 10px;
-}
-.list-job-hiring span {
-    display: inline-block;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 1px solid #373a48;
-    line-height: 18px;
-    margin-left: 10px;
-}
-.list-job-hiring span:hover {
-    background: #373a48;
-}
-.list-job-hiring span i:hover {
-    color: #fff;
-}
-.list-job-hiring span i {
-    margin-left: 3px;
-    color: #373a48;
-}
-.list-job-hiring .title {
-    text-align: center;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-.list-job-hiring .title:hover a {
-    color: #23527c;
-}
-#list-job-content .job-item .job-item-info {
-    padding: 15px 10px;
-}
-#list-job-content .job-item {
-    border-bottom: 1px solid #e2e2e2;
-}
-#list-job-content .job-item .job-item-info h3 {
-    font-size: 16px;
-    text-transform: capitalize;
-    font-weight: 500 ! important;
-    margin: 0;
-    padding: 0 0 5px;
-}
-.job-item-info h3 a {
-    color: #000;
-}
-.job-item-info h3 a:hover {
-    color: #373a48;
-}
+    .title{
+        text-align: center;
+        margin-bottom: 10px;
+        a{
+            color: #373a48;
+            font-size: 20px;
+            &:hover{
+                color: #23527c;
+            }
+        }
+    }
+    span {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        border: 2px dotted #373a48;
+        line-height: 18px;
+        &:hover{
+            background: #373a48;
+        }
+        i{
+            margin-left: 3px;
+            color: #373a48;
+            &:hover{
+                color: #fff;
+            }
+        }
+    }
+
+} 
+#list-job-content{
+    .job-item{
+        border-bottom: 1px solid #e2e2e2;
+        .job-item-info {
+            padding: 15px 10px;
+            h3{
+                font-size: 16px;
+                text-transform: capitalize;
+                font-weight: 500 ! important;
+                margin: 0;
+                padding: 0 0 5px;
+                a{
+                    color: #000;
+                    &:hover{
+                        color: #373a48;
+                    }
+                }
+            }
+        }
+    }
+} 
 .job-item .job-item-info .view-detail a {
     display: inline-block;
     width: 100%;
@@ -1787,36 +1800,47 @@ a:visited {
 .companies-item {
     margin-top: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #D8D8D8;
+    .logo{
+        padding: 15px 0px;
+    }
+    .companies-item-info .companies-title{
+        color: red;
+        font-weight: bold;
+        font-size: 20px; 
+    }
+    .sum-job{
+        padding: 10px 0;
+    }
+    .fa-caret-down{
+        font-size: 13px !important;
+    }
+    span i.fa-heart-o{
+        cursor: pointer;
+        color: #29487d;
+        font-size: 20px;
+        float: right;
+        &:hover{
+             color: #e4163a;
+        }
+
+    }
 }
-.companies-item .logo {
-    padding: 15px 0px;
-}
-.companies-item .companies-item-info .companies-title {
-    color: red;
-    font-weight: bold;
-    font-size: 20px;
-}
-.companies-item span i.fa-heart-o {
-    cursor: pointer;
-    color: #29487d;
-    font-size: 20px;
-    float: right;
-}
-.companies-item span i.fa-heart-o:hover {
-    color: #e4163a;
+.website{
+    margin-left: 15px;
 }
 /*follow companies*/
 
 .action_companies {
     text-align: center;
     padding: 59px 26px;
-}
-.action_companies a {
-    width: 100%;
-}
-.add_review {
-    margin-bottom: 10px;
+    
+    a{
+        width: 100%;
+        border: 1px;
+    }
+    .add_review {
+        margin-bottom: 10px;
+    }
 }
 .followed a:hover {
     color: #23527c;

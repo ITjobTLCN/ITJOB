@@ -67,52 +67,12 @@ $(document).ready(function(){
 	            			$('.errorLogin').show().text(data.message);
 	            			$('#password').val("");
 	            		}else{
-	            			location.reload();
+	            			 location.reload();
 	            		}
 	            	}
 	            });
             }
       });
-	// $('#frmLoginm').validate({
- //            rules:{
- //                  emaill:{
- //                        required:true,
- //                        email:true,
- //                  },
- //                  passwordl:{
- //                        required:true,
- //                  }
- //            },
- //            messages:{
- //                  emaill:{
- //                        required: "Email không được để trống",
- //                        email: "Email không đúng định dạng"
- //                  },
- //                  passwordl:{
- //                        required:"Mật khẩu không được để trống"
- //                  }
- //            },
- //            submitHandler:function(){
- //            	$.ajaxSetup({
-	//                 headers: {
-	//                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-	//                 }
-	//             });
-	//             $.ajax({
-	//             	type:'post',
-	//             	url:'login-modal',
-	//             	data:{'email':$('#emaill').val(),'password':$('#passwordl').val()},
-	//             	success:function(data){
-	//             		if(data.error==true){
-	//             			$('.error').hide();
-	//             			$('.errorLogin').show().text(data.message);
-	//             		}else{
-	//             			location.reload();
-	//             		}
-	//             	}
-	//             });
- //            }
- //      });
 	$('#frmRegister').validate({
             rules:{
                   namer:{
@@ -141,7 +101,6 @@ $(document).ready(function(){
               	}
             },
             submitHandler:function(){
-            	alert($('#passwordr').val());
             	$.ajaxSetup({
 	                headers: {
 	                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -194,6 +153,38 @@ $(document).ready(function(){
 		},
 		submitHandler:function(){
 
+		}
+	});
+	$('#frmContact').validate({
+		rules:{
+			email: {
+				required: true,
+				email: true,
+			},
+			name: {
+				required: true,
+			},
+			subtitle: {
+				required: true,
+			},
+			content: {
+				required: true
+			}
+		},
+		messages:{
+			email:{
+				required:"Vui lòng nhập email",
+				email:"Email không đúng định dạng",
+			},
+			name:{
+				required:"Vui lòng nhập tên",
+			},
+			subtitle:{
+				required:"Vui lòng nhập tiêu đề",
+			},
+			content:{
+				required:"Vui lòng nhập nội dung",
+			}
 		}
 	});
 });

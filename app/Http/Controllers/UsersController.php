@@ -7,6 +7,8 @@ use App\User;
 use Auth;
 use Illuminate\Support\MessageBag;
 use Image;
+use App\Events\SendMail;
+use Validator;
 class UsersController extends Controller
 {
 	public function _construct(){
@@ -63,33 +65,55 @@ class UsersController extends Controller
         
     }
     public function postLogin(Request $req){
-  		$email = $req->email;
-  		$password=$req->password;
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ];
+        $messages = [
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không đúng định dạng',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu ít nhất 6 ký tự',
+        ];
+        $validator = Validator::make($req->all(),$rules,$messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            $email = $req->email;
+            $password = $req->password;
 
-  		if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            $role_id=Auth::user()->role_id;
-            switch ($role_id) {
-                case 1:
-                     return redirect()->route('profile');
-                     break;
-                case 2:
-                    return redirect()->intended('admin/dashboard');
-                    break;
-                default:
-                    return redirect()->route('getemp');
-                    break;
+            if(Auth::attempt(['email'=>$email,'password'=>$password])){
+                $role_id=Auth::user()->role_id;
+                switch ($role_id) {
+                    case 1:
+                         return redirect()->route('profile');
+                         break;
+                    case 2:
+                        return redirect()->intended('admin/dashboard');
+                        break;
+                    default:
+                        return redirect()->route('getemp');
+                        break;
+                }
+            }else{
+                $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không đúng']); 
+                return redirect()->back()->withInput()->withErrors($errors);
             }
-  		}else{
-            $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không']); 
-            return redirect()->back()->withInput()->withErrors($errors);
         }
+  		
+
+  		
     }
     public function postLoginModal(Request $req){
         $email = $req->email;
         $password=$req->password;
 
         if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            return redirect()->back();
+
+            return response()->json([
+                'error'=>false,
+                'message'=>''
+                ],200);
         }
         return response()->json([
                 'error'=>true,
@@ -108,7 +132,8 @@ class UsersController extends Controller
                 'name'=>$req->name,
                 'email'=>$req->email,
                 'password'=>bcrypt($req->password)
-            ]);  
+            ]);
+            event(new SendMail($user));
             return response()->json([
                 'error'=>false,
                 'message'=>'Tạo thành công tài khoản'

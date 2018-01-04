@@ -150,8 +150,6 @@ ITJob - Top Job IT For You
 		</section>
 		@include('partials.advertiment')
 	</div>
-
-@include('partials.modal-login')
 @if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
     <script>$(document).ready(function(){$('#loginModal').modal('show');}); </script>
 @endif

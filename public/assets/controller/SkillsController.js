@@ -28,6 +28,7 @@ app.controller('SkillsController',function($scope,$http){
 			url: 'list-skill-emp',
 			params:{emp_id:emp_id}	
 		}).then(function(response){
+			alert(response.data);
 			$scope.skillsemp=response.data;
 		},function(error){
 			console.log(error,'can not get data');

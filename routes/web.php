@@ -10,9 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',function(){
-	return view('layouts.trangchu');
-});
 Route::get('/',[
 	'as'=>'/',
 	'uses'=>'PageController@getIndex'
@@ -44,28 +41,13 @@ Route::get('dang-xuat',[
 	'uses'=>'UsersController@logout'
 ]);
 //profile candidate
-Route::get('profile',[
-	'as'=>'profile',
-	'uses'=>'UsersController@getProfile'
-]);
-Route::get('profile-user',[
-	'as'=>'profileuser',
-	'uses'=>'UsersController@getProfileUser'
-]);
-Route::post('profile',[
-	'as'=>'postAvatar',
-	'uses'=>'UsersController@postAvatar'
-]);
-//edit email user
-Route::get('edit-email',[
-	'as'=>'editEmail',
-	'uses'=>'UsersController@editEmail'
-]);
-//editProfile
-Route::post('editProfile',[
-	'as'=>'editProfile',
-	'uses'=>'UsersController@editProfile'
-]);
+Route::group(['prefix'=>'profile', 'middleware'=>'auth'],function(){
+	Route::get('/',['as'=>'profile','uses'=>'UsersController@getProfile']);
+	Route::post('/',['as'=>'postAvatar','uses'=>'UsersController@postAvatar']);
+	Route::post('edit-email',['as'=>'editEmail', 'uses'=>'UsersController@editEmail']);
+	Route::post('editProfile',['as'=>'editProfile', 'uses'=>'UsersController@editProfile']);
+});
+
 //list cities
 Route::get('list-city',[
 	'as'=>'listcity',
@@ -87,35 +69,31 @@ Route::get('list-jobs-company',[
 	'uses'=>'CompanyController@getJobsCompany'
 ]);
 //get employers by id
-Route::group(['prefix'=>'companies'],function(){
-	Route::get('',['as'=>'companies','uses'=>'CompanyController@getIndex']);
-	Route::get('all-jobs-company',['as'=>'AllJobCompany','uses'=>'CompanyController@getListJobCompany']);
-	Route::get('list-skill',['as'=>'listskill','uses'=>'PageController@getAllSkills']);
-	Route::get('get-more-job',['as'=>'get-more-job','uses'=>'CompanyController@getMoreJob']);
+Route::group(['prefix' => 'companies'],function(){
+	Route::get('',['as' => 'companies','uses' => 'CompanyController@getIndex']);
+	Route::get('all-jobs-company',['as' => 'AllJobCompany','uses' => 'CompanyController@getListJobCompany']);
+	Route::get('list-skill',['as' => 'listskill','uses'=>'PageController@getAllSkills']);
+	Route::get('get-more-job',['as' => 'get-more-job','uses' => 'CompanyController@getMoreJob']);
 	
-	Route::get('search-companies',['as'=>'searchCompanies','uses'=>'CompanyController@getCompaniesReview']);
-	Route::get('search-companies-by-name',['as'=>'searchCompaniesbyname','uses'=>'CompanyController@searchCompaniesByName']);
+	Route::get('search-companies',['as' => 'searchCompanies','uses' => 'CompanyController@getCompaniesReview']);
+	Route::get('search-companies-by-name',['as' => 'searchCompaniesbyname','uses' => 'CompanyController@searchCompaniesByName']);
 	//click to follow conpany
-	Route::get('follow-company',['as'=>'followCompany','uses'=>'CompanyController@followCompany']);
+	Route::get('follow-company',['as' => 'followCompany','uses' => 'CompanyController@followCompany']);
 	
 	//submit review companies
-	Route::post('review',['as'=>'submitReviewCompany','uses'=>'CompanyController@postReviewCompanies']);
+	Route::post('review',['as' => 'submitReviewCompany','uses' => 'CompanyController@postReviewCompanies']);
 	//get details company
-	Route::get('{alias}',['as'=>'getEmployers','uses'=>'CompanyController@getDetailsCompanies']);
+	Route::get('{alias}',['as' => 'getEmployers','uses' => 'CompanyController@getDetailsCompanies']);
 	//review
-	Route::get('{alias}/review',['as'=>'reviewCompany','uses'=>'CompanyController@getReviewCompanies'])->middleware('auth');
-	Route::post('{alias}/review',['as'=>'reviewCompany','uses'=>'CompanyController@postReviewCompanies'])->middleware('auth');
+	Route::get('{alias}/review',['as' => 'reviewCompany','uses' => 'CompanyController@getReviewCompanies'])->middleware('auth');
+	Route::post('{alias}/review',['as' => 'reviewCompany','uses' => 'CompanyController@postReviewCompanies'])->middleware('auth');
 });
-//get more hiring companies
-Route::get('more-hiring-companies',[
-	'as'=>'more-hiring-companies',
-	'uses'=>'CompanyController@getMoreHirring'
-]);
-//get mmore most followed companies
-Route::get('more-most-followed-companies',[
-	'as'=>'more-hiring-companies',
-	'uses'=>'CompanyController@getMoreMostFollowed'
-]);
+//get more companies
+Route::group(['prefix' => 'more-companies'],function(){
+	Route::get('', ['as' => 'more-companies', 'uses' => 'CompanyController@getMoreCompanies']);
+	Route::get('hiring', ['as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreHirring']);
+	Route::get('most-followed', ['as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreMostFollowed']);
+});
 //get attribute filter
 Route::get('all-attribute-filter',[
 	'as'=>'all-attribute-filter',
@@ -137,11 +115,11 @@ Route::get('skill-by-job-id',[
 ]);
 //jobs
 Route::group(['prefix'=>'it-job'],function(){
-	Route::get('tat-ca-viec-lam',['as'=>'alljobs','uses'=>'JobsController@getIndex']);
-	Route::get('viec-lam-o-{city}',['as'=>'seachjobByCity','uses'=>'JobsController@getListJobByCity']);
+	Route::get('all-jobs',['as'=>'alljobs','uses'=>'JobsController@getIndex']);
+	Route::get('work-at-{city}',['as'=>'seachjobByCity','uses'=>'JobsController@getListJobByCity']);
 	Route::get('{alias}',['as'=>'seachjob1opt','uses'=>'JobsController@getListJobBySkill']);
 
-	Route::get('{alias}/tai-{city}',['as'=>'seachjob','uses'=>'JobsController@getListJobSearch']);
+	Route::get('{alias}/at-{city}',['as'=>'seachjob','uses'=>'JobsController@getListJobSearch']);
 	Route::get('{alias}/{id}',['as'=>'detailjob','uses'=>'JobsController@getDetailsJob']);
 	Route::get('{alias}-{employer}/{id}/apply',['as'=>'getApplyJob','uses'=>'JobsController@getApplyJob']);
 });
@@ -171,7 +149,6 @@ Route::post('register-modal',[
 //login with social
 Route::get('login/{provider}',['as'=>'loginProvider','uses'=>'AuthController@redirectToProvider']);
 Route::get('login/{provider}/callback', 'AuthController@handleProviderCallback');
-
 
 Route::get('see-more-reviews',[
 	'as'=>'seeMoreReview',

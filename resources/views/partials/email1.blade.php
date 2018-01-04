@@ -1,1 +1,2 @@
-{!!$contentemail!!}
+{!! $title !!}
+{!! $contentemail !!}
