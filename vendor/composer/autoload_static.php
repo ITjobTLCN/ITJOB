@@ -407,7 +407,10 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         'App\\Jobs\\SendReminderEmail' => __DIR__ . '/../..' . '/app/Jobs/SendReminderEmail.php',
         'App\\Listeners\\EventListener' => __DIR__ . '/../..' . '/app/Listeners/EventListener.php',
         'App\\Listeners\\LogSuccessfulLogin' => __DIR__ . '/../..' . '/app/Listeners/LogSuccessfulLogin.php',
+<<<<<<< HEAD
         'App\\Mail\\VerifyRegister' => __DIR__ . '/../..' . '/app/Mail/VerifyRegister.php',
+=======
+>>>>>>> afd7509d0a0c7dde07b6cb4a4f8be31170fb376e
         'App\\Permissions' => __DIR__ . '/../..' . '/app/Permissions.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -434,6 +437,7 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         'CreateFollowEmployersTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_19_212227_create_follow_employers_table.php',
         'CreateFollowJobsTable' => __DIR__ . '/../..' . '/database/migrations/2017_11_03_204826_create_follow_jobs_table.php',
         'CreateJobsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_042228_create_jobs_table.php',
+        'CreateNotificationsTable' => __DIR__ . '/../..' . '/database/migrations/2017_12_28_151904_create_notifications_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePermissionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_13_040636_create_permissions_table.php',
         'CreateRolesTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_17_092447_create_roles_table.php',

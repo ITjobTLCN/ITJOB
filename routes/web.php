@@ -257,5 +257,7 @@ Route::get('downloadcv/{name}',['as'=>'getempdownloadcv','uses'=>'HomeController
 
 	/*send Email*/
 Route::post('sendemail',['as'=>'postsendemail','uses'=>'EmpController@postSendEmail']);
-
+Route::get('/markAsRead',function(){
+	auth()->user()->unreadnotifications->markAsRead();
+});
 /*-----------------END DAT ROUTER----------------------*/	

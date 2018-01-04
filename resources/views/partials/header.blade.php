@@ -27,6 +27,29 @@
         <ul class="nav navbar-nav navbar-right">
             <li class="search hidden-xs"><a href="{{route('alljobs')}}""><i class="fa fa-search"></i></a></li>
             @if(Auth::check())
+             <li class="dropdown" id="markasread" onclick="markNotificationAsRead({{count(auth()->user()->unreadnotifications)}})">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                     <span class="glyphicon glyphicon-globe"></span> Notifications <span class="badge">{{count(auth()->user()->unreadnotifications)}}</span>
+                </a>
+
+                <ul class="dropdown-menu" role="menu">
+                    @forelse(auth()->user()->unreadnotifications as $notification)
+                    <li class="notification-all">
+                      @include('partials.notification.'.snake_case(class_basename($notification->type)))
+                      
+                    </li>
+                    @empty
+                      <li class="notification-all"><a href="">No new notification</a></li>
+                    @endforelse
+                   @foreach(auth()->user()->notifications as $notification)
+                    <li >
+                      @if($notification->read_at!=null)
+                        @include('partials.notification.'.snake_case(class_basename($notification->type)))
+                      @endif
+                    </li>
+                    @endforeach
+                </ul>
+            </li>
             <li>
                 <a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar">
                     @if(Auth::user()->password !="")

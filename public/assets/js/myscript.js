@@ -131,3 +131,8 @@ $(document).ajaxComplete(function(){
 		'display':'none',
 	});
 });
+function markNotificationAsRead(countNoti){
+	if(countNoti!='0'){
+		$.get('markAsRead');
+	}
+}

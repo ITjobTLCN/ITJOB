@@ -42,7 +42,10 @@ return array(
     'App\\Jobs\\SendReminderEmail' => $baseDir . '/app/Jobs/SendReminderEmail.php',
     'App\\Listeners\\EventListener' => $baseDir . '/app/Listeners/EventListener.php',
     'App\\Listeners\\LogSuccessfulLogin' => $baseDir . '/app/Listeners/LogSuccessfulLogin.php',
+<<<<<<< HEAD
     'App\\Mail\\VerifyRegister' => $baseDir . '/app/Mail/VerifyRegister.php',
+=======
+>>>>>>> afd7509d0a0c7dde07b6cb4a4f8be31170fb376e
     'App\\Permissions' => $baseDir . '/app/Permissions.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',
@@ -69,6 +72,7 @@ return array(
     'CreateFollowEmployersTable' => $baseDir . '/database/migrations/2017_11_19_212227_create_follow_employers_table.php',
     'CreateFollowJobsTable' => $baseDir . '/database/migrations/2017_11_03_204826_create_follow_jobs_table.php',
     'CreateJobsTable' => $baseDir . '/database/migrations/2017_09_13_042228_create_jobs_table.php',
+    'CreateNotificationsTable' => $baseDir . '/database/migrations/2017_12_28_151904_create_notifications_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreatePermissionsTable' => $baseDir . '/database/migrations/2017_09_13_040636_create_permissions_table.php',
     'CreateRolesTable' => $baseDir . '/database/migrations/2017_09_17_092447_create_roles_table.php',

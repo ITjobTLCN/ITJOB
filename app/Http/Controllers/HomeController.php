@@ -69,8 +69,10 @@ class HomeController extends Controller
 
         try{
             //check
-            $type = (!Employers::where('id',$request->empid)->first())?0:10; //0:master reg  10:assis reg
+            $type = (!Employers::where('id',$request->id)->first())?0:10; //0:master reg  10:assis reg
             // dd($type);
+
+
             //data
             $user = User::findOrFail(Auth::user()->id);
             $check = (Registration::where('user_id',$user->id)->first())?false:true; //de su dung sau
@@ -100,7 +102,7 @@ class HomeController extends Controller
                     $res->emp_id = $emp->id;
                     break;
                 case 10:
-                    $res->emp_id = $request->empid;
+                    $res->emp_id = $request->id;
                     break;
                 default:
                     $flag = false;
@@ -113,6 +115,8 @@ class HomeController extends Controller
                 $res->status = $type;//master:0   assis:10 - waiting confirm
                 $res->save();
             }
+
+
             return response()->json(['status'=>true,'message'=>'Register successfully']);
         }catch(Exception $e){
             return response()->json(['status'=>false,'message'=>'Register failed']);

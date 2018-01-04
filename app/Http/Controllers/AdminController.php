@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Input;
 use DateTime;
 use Carbon\Carbon;
 use Cache;
+use Auth;
+use App\Notifications\ConfirmEmployer;
 
 class AdminController extends Controller
 {
@@ -400,17 +402,23 @@ class AdminController extends Controller
             $user->save();
 
             $emps = Employers::all();
+
+            //send notification
+            $user->notify(new ConfirmEmployer($emp,true));
+
             return response()->json(['status'=>true,'message'=>'Confirm Successfully','emps'=>$emps]);
         }catch(Exception $e){
             return response()->json(['status'=>false,'message'=>'Confirm failed']);
         }
     }
+
     public function ngGetDenyEmp($id){
         try{
             $emp = Employers::findOrFail($id);
 
             //with master
             $regis = Registration::where('emp_id',$emp->id)->where('status',0)->first();
+            $user = User::findOrFail($regis->user_id);
             //
             $regis->status = 2;
             $regis->save();
@@ -418,6 +426,9 @@ class AdminController extends Controller
             $emp->save();
 
             $emps = Employers::all();
+
+            $user->notify(new ConfirmEmployer($emp,false));
+
             return response()->json(['status'=>true,'message'=>'Deny Successfully','emps'=>$emps]);
         }catch(Exception $e){
             return response()->json(['status'=>false,'message'=>'Deny failed']);

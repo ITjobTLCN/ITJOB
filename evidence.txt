@@ -73,3 +73,6 @@ Phong:
 12. 18/12/2017
 	a. Thêm middleware LogLastUserActivity để kiểm tra user online
 	b. Gủi mail đến ứng viên kêu đi phỏng vấn
+13. 31/12/2017
+	a. Notification khi confirm Employer, employee, 
+	b. Khi Employer có bài đăng mới thì notify cho Người Folllow
