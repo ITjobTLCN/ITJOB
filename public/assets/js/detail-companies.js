@@ -98,6 +98,9 @@ $(document).ready(function(){
 	//see more reviews about companies
 	var cReview=0;
 	$('#see-more__reviews').click(function(e){
+		$('.loading').css({
+			'display':'block',
+		});
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

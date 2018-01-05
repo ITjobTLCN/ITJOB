@@ -8,6 +8,7 @@ use Session;
 use View;
 use \App\Jobs;
 use \App\Cities;
+use \App\Employers;
 use DB;
 use Cache;
 class AppServiceProvider extends ServiceProvider
@@ -35,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
                 return Cities::all();
             });
             $view->with('cities',$cities);
+        });
+        view()->composer('partials.top-emps',function($view){
+            $top_emps = Cache::remember('top_emps', 10, function(){
+                return Employers::select('id','name','alias','logo')->orderByRaw('rating desc,follow desc')->offset(0)->take(12)->get();
+            });
+            $view->with('top_emps',$top_emps);
         });
         Schema::defaultStringLength(191);
     }

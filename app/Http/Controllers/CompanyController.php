@@ -10,18 +10,22 @@ use App\Reviews;
 use DB;
 use Auth;
 use DateTime;
+use Session;
+use Cache;
 class CompanyController extends Controller
 {
     public function getIndex(){
         $cCompanies = Employers::count();
-        $companies = DB::table('employers as e')
-                            ->select('e.*',DB::raw('count(j.id) as total'))
-                            ->join('jobs as j','e.id','=','j.emp_id')
-                            ->groupBy('e.id')
+        $companies = Employers::orderBy('id','desc')
                             ->offset(0)
                             ->take(10)
                             ->get();
+        
         return view('layouts.companies',compact('companies','cCompanies'));
+    }
+    public function countJobCompany($emp_id)
+    {
+        return Jobs::where('emp_id',$emp_id)->count();
     }
     public function getMoreJob(Request $req){
         $dem=$req->dem;
@@ -59,6 +63,10 @@ class CompanyController extends Controller
     }
     public function getDetailsCompanies(Request $req){
         $company=Employers::where('alias',$req->alias)->first();
+        if($company==null){
+            Session::flash('haveNotCompany',$req->alias);
+            return view('layouts.companies');
+        }
         $jobs=Jobs::count();
         $skills=DB::table('skills as s')
                     ->select('s.name')
@@ -170,25 +178,25 @@ class CompanyController extends Controller
        return $output;
     }
     public function getMoreCompanies(Request $req){
-        $count=$req->cNormal;
-        $output="";
-        $employers=DB::table('employers as e')
-                            ->select('e.*',DB::raw('count(j.id) as total'))
-                            ->join('jobs as j','e.id','=','j.emp_id')
-                            ->groupBy('e.id')
+        $count = $req->cNormal;
+        $output = "";
+        $employers=Employers::orderBy('id','desc')
                             ->offset($count)
                             ->take(10)
                             ->get();
-
+        if(count($employers) == 0){
+            return $output;
+        }
         foreach ($employers as $key => $emp) {
-            $skills=$this->getListSkillEmployer($emp->id);
-            $text="";
+            $skills = $this->getListSkillEmployer($emp->id);
+            $numJobs = Jobs::where('emp_id',$emp->id)->count();
+            $skill = "";
             foreach ($skills as $key => $s) {
-                $text .= "<li class='employer-skills__item'>
+                $skill .= "<li class='employer-skills__item'>
                             <a href='' target='_blank'>{$s}</a>
                         </li>";
             }
-           $output.="<div class='row'>
+           $output .= "<div class='row'>
                         <div class='col-xs-3 col-md-3 col-lg-2'>
                             <div class='logo job-search__logo'>
                                 <a href=''><img title='' class='img-responsive' src='assets/img/logo-search-job.jpg' alt=''>
@@ -210,11 +218,11 @@ class CompanyController extends Controller
                                 </div>
                                 <div id='skills'>
                                     <ul>
-                                    {$text}
+                                    {$skill}
                                     </ul>
                                 </div>
                                 <div class='sum-job'>
-                                    <a href='companies/{$emp->alias}' id='job' class='dotted'>{$emp->total} jobs </a><i class='fa fa-caret-down' aria-hidden='true'></i>
+                                    <a href='companies/{$emp->alias}' id='job' class='dotted'>{$numJobs} jobs </a><i class='fa fa-caret-down' aria-hidden='true'></i>
                                 </div>
                             </div>
                         </div>
@@ -225,6 +233,9 @@ class CompanyController extends Controller
     public function searchCompaniesByName(Request $req){
         $com_name=$req->company_name;
         $alias=Employers::where('name',$com_name)->value('alias');
+        if($alias == null){
+            return redirect()->route('getEmployers',$com_name);
+        }
         return redirect()->route('getEmployers',$alias);
     }
     public function followCompany(Request $req){
@@ -253,70 +264,74 @@ class CompanyController extends Controller
         return $output;
     }
     public function getReviewCompanies($alias){
-        $company=Employers::where('alias',$alias)->first();
+        $company = Employers::where('alias',$alias)->first();
         return view('layouts.review',compact('company'));
     }
     public function postReviewCompanies(Request $req){
         //get value from form
-        $title=$req->title;
-        $like=$req->like;
-        $unlike=$req->unlike;
-        $rating=$req->cStar;
-        $suggest=$req->suggest;
-        $recommend=$req->recommend;
-        $emp_id=$req->emp_id;
+        $title = $req->title;
+        $like = $req->like;
+        $unlike = $req->unlike;
+        $rating = $req->cStar;
+        $suggest = $req->suggest;
+        $recommend = $req->recommend;
+        $emp_id = $req->emp_id;
         //create a review
-        $table=new Reviews();
-        $table->rating=$rating;
-        $table->title=$title;
-        $table->like=$like;
-        $table->unlike=$unlike;
-        $table->suggests=$suggest;
-        $table->user_id=Auth::id();
-        $table->emp_id=$emp_id;
-        $table->recommend=$recommend;
+        $table = new Reviews();
+        $table->rating = $rating;
+        $table->title = $title;
+        $table->like = $like;
+        $table->unlike = $unlike;
+        $table->suggests = $suggest;
+        $table->user_id = Auth::id();
+        $table->emp_id = $emp_id;
+        $table->recommend = $recommend;
         $table->save();
         //update rating of company
-        Employers::where('id',$req->emp_id)->update(['rating'=>Reviews::where('emp_id',$emp_id)->avg('rating')]);
-        return redirect()->back()->with('message','Cảm ơn bài đánh giá của bạn');
+        Employers::where('id', $req->emp_id)
+                   ->update(['rating' => Reviews::where('emp_id', $emp_id)->avg('rating')]);
+        return redirect()->back()->with('message', 'Cảm ơn bài đánh giá của bạn');
     }
     public function seeMoreReviews(Request $req){
-        $output="";
-        $reviews=Reviews::where('emp_id',$req->emp_id)->offset($req->cReview)->take(10)->get();
+        $output = "";
+        $reviews = Reviews::where('emp_id', $req->emp_id)
+                            ->offset($req->cReview)
+                            ->take(10)
+                            ->get();
         foreach ($reviews as $key => $rv) {
-            $output.='<div class="content-of-review">
-                        <div class="short-summary">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3 class="short-title">'.$rv->title.'</h3>
-                                    <div class="stars-and-recommend">
-                                        <span class="rating-stars-box">';
-                                            for($i=0;$i < $rv->rating;$i++){
-                                                $output.='<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a> ';
-                                            }
-            $output.='</span>';
-            if($rv->recommend==1){
+            $rating="";
+            for($i = 0; $i < $rv->rating; $i++){
+                $rating = "<a href='' ><i class='fa fa-star' aria-hidden='true'></i></a>";
+            }
+            $output .= "<div class='content-of-review'>
+                        <div class='short-summary'>
+                            <div class='row'>
+                                <div class='col-md-12'>
+                                    <h3 class='short-title'>$rv->title</h3>
+                                    <div class='stars-and-recommend'>
+                                        <span class='rating-stars-box'>$rating</span>";
+            if($rv->recommend == 1){
                 $output.='<span class="recommend"><i class="fa fa-thumbs-o-up"></i> Recommend</span>';
             }else{
                 $output.='<span class="recommend"><i class="fa fa-thumbs-o-down"></i>UnRecommend</span>';
             }
             $output.='</div>
             <div class="date">'.$rv->created_at->format('d-M Y').'</div>
-        </div></div></div>
-        <div class="details-review">
-            <div class="what-you-liked">
-                <h3>Điều tôi thích</h3>
-                <div class="content paragraph">
-                    <p>'.$rv->like.'</p>
+            </div></div></div>
+            <div class="details-review">
+                <div class="what-you-liked">
+                    <h3>Điều tôi thích</h3>
+                    <div class="content paragraph">
+                        <p>'.$rv->like.'</p>
+                    </div>
                 </div>
-            </div>
-            <div class="feedback">
-                <h3>Đề nghị cải thiện</h3>
-                <div class="content paragraph">
-                    <p>'.$rv->suggests.'</p>
+                <div class="feedback">
+                    <h3>Đề nghị cải thiện</h3>
+                    <div class="content paragraph">
+                        <p>'.$rv->suggests.'</p>
+                    </div>
                 </div>
-            </div>
-        </div></div>';                                          
+            </div></div>';                                          
         }
         return $output;
     }

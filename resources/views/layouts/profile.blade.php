@@ -61,19 +61,13 @@ Thông tin cá nhân | ITJob
 								<div class="form-group" ng-show="showEmail">
 									<label for="inputNewEmail" class="col-sm-2 hidden-xs control-label"></label>
 									<div class="col-sm-8">
-										<input type="email" class="form-control" value="{{$user->email}}" name="newemail" id="newEmail" required="true"> 
-										<div id="error">
-											<span style="color:red" ng-cloak ng-show="(frmEditProfile.newEmail.$dirty && frmEditProfile.newEmail.$invalid)">
-												<span ng-show="frmEditProfile.newEmail.$error.required">Không được để trống</span>
-												<span ng-show="frmEditProfile.newEmail.$error.email">Nhập đúng định dạng</span>
-											</span>
-										</div>
+										<input type="email" class="form-control" value="{{$user->email}}" name="newemail" id="newEmail"> 
 										<div class="clearfix"></div>
 									</div>
 								</div>
 								<div class="form-group" ng-show="showEmail">
 									<div class="col-sm-offset-2 col-sm-8">
-										<button ng-disabled="newEmail.$valid || newEmail.$dirty" class="btn btn-danger" ng-click="saveNewEmail()">Save New Email</button>
+										<button ng-click="saveNewEmail()" type="button" class="btn btn-danger">Save New Email</button>
 									</div>
 								</div>
 								<div class="form-group">

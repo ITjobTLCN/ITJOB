@@ -47,7 +47,7 @@ $(document).ready(function(){
 		$('.loading').css({
 			'display':'block',
 		});
-		cNormal+=1;
+		cNormal+=10;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

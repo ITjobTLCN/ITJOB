@@ -157,8 +157,12 @@
                                 </div>
                                 @endforeach
                             	</div>
+                                <div class="loading text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
                                 <div class="load-more">
+                                    @if(Auth::check())
                                     <a href="" id="see-more__reviews">See more...</a>
+                                    @else
+                                    <a href="" id="openLoginModal">See more...</a> @endif
                                 </div>
                             </div>
                         </div>

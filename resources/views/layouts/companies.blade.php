@@ -36,73 +36,75 @@ All Companies in Vietnam
     <div class="companies">
         <div class="row">
            <div class="col-md-9" id="list-companies">
-            <table class="table table-striped">
-                <tbody>
-                    <div class="num-companies">
-                        <span>{{$cCompanies}} companies for you</span>
-                    </div>
-                    @foreach($companies as $com)
-                    <tr>
-                        <td>
-                            <div class="companies-item">
-                                <div class="row">
-                                    <div class="col-xs-3 col-md-3 col-lg-2">
-                                        <div class="logo job-search__logo">
-                                            <a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-xs-9 col-md-9 col-lg-9">
-                                        <div class="companies-item-info">
-                                            <a href="{{route('getEmployers',$com->alias)}}" class="companies-title" target="_blank">{{$com->name}}</a>
-                                            <div class="company text-clip">
-                                                <span class="job-search__location">{{$com->address}}</span>
-                                            </div>
-                                            <div class="description-job">
-                                                <h3>{{$com->description}}</h3>
-                                            </div>
-                                            <div class="company text-clip">
-                                                <span class="people"><i class="fa fa-users" aria-hidden="true"></i> 100</span>
-                                                <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->website}}</span>
-                                            </div>
-                                            <div id="skills">
-                                                <ul>
-                                                    @foreach (app(App\Http\Controllers\CompanyController::class)->getListSkillEmployer($com->id) as $key => $s)
-                                                    <li class="employer-skills__item">
-                                                        <a href="" target="_blank">{{$s}}</a>
-                                                    </li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="sum-job">
-                                                <a href="{{route('getEmployers',$com->alias)}}" id="job" class="dotted">{{$com->total}} jobs </a><i class="fa fa-caret-down" aria-hidden="true"></i>
+            @if(Session::has('haveNotCompany'))
+            <h2>0 <span style="color: red">{{Session::get('haveNotCompany')}}</span> companies in Vietnam for you</h2>
+            @else
+                <table class="table table-striped">
+                    <tbody>
+                        <div class="num-companies">
+                            <span>{{$cCompanies}} companies for you</span>
+                        </div>
+                        @foreach($companies as $com)
+                        <tr>
+                            <td>
+                                <div class="companies-item">
+                                    <div class="row">
+                                        <div class="col-xs-3 col-md-3 col-lg-2">
+                                            <div class="logo job-search__logo">
+                                                <a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="clearfix"></div>
+                                        <div class="col-xs-9 col-md-9 col-lg-9">
+                                            <div class="companies-item-info">
+                                                <a href="{{route('getEmployers',$com->alias)}}" class="companies-title" target="_blank">{{$com->name}}</a>
+                                                <div class="company text-clip">
+                                                    <span class="job-search__location">{{$com->address}}</span>
+                                                </div>
+                                                <div class="description-job">
+                                                    <h3>{{$com->description}}</h3>
+                                                </div>
+                                                <div class="company text-clip">
+                                                    <span class="people"><i class="fa fa-users" aria-hidden="true"></i> 100</span>
+                                                    <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->website}}</span>
+                                                </div>
+                                                <div id="skills">
+                                                    <ul>
+                                                        @foreach (app(App\Http\Controllers\CompanyController::class)->getListSkillEmployer($com->id) as $key => $s)
+                                                        <li class="employer-skills__item">
+                                                            <a href="" target="_blank">{{$s}}</a>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <div class="sum-job">
+                                                    <a href="{{route('getEmployers',$com->alias)}}" id="job" class="dotted">{{app(App\Http\Controllers\CompanyController::class)->countJobCompany($com->id)}} jobs </a><i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                    <tr id="result-more-companies">
-                        <td>
-                           <div class="companies-item" id="more-companies">
-                               
-                           </div>         
-                        </td>
-                    </tr>
-                </tbody>
+                            </td>
+                        </tr>
+                        @endforeach
+                        <tr id="result-more-companies">
+                            <td>
+                               <div class="companies-item" id="more-companies">
+                                   
+                               </div>         
+                            </td>
+                        </tr>
+                    </tbody>
 
-            </table>
-            <div class="loading text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
-            <div class="load-more">
-                <a href="" id="see-more-companies">Show More</a>
+                </table>
+                <div class="loading text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
+                <div class="load-more">
+                    <a href="" id="see-more-companies">Show More</a>
+                </div>
+                @endif
             </div>
-        </div>
-        <div class="col-md-3">
-
-        </div>
+        @include('partials.top-emps')
     </div>
 </div>
 </div>

@@ -48,13 +48,25 @@ class UsersController extends Controller
         return view('layouts.profile',array('user'=>Auth::user()));
     }
     public function editEmail(Request $req){
-        $user=new User();
-        $id=Auth::user()->id;
-        $user=User::where('id',$id)->update(['email'=>$req->newEmail]);
+        $email = $req->newEmail;
+        
+        if($email != Auth::user()->email){
+            $find = User::where('email',$email);
+             return response()->json([
+                'error'=>true,
+                'message'=>'Email đã tồn tại'
+                ],200);
+        }
+        $user=User::where('id',Auth::id())->update(['email'=>$req->newEmail]);
+         return response()->json([
+                'error'=>false,
+                'message'=>'Cập nhật email thành công'
+                ],200);
     }
     public function editProfile(Request $req)
     {
         $user=User::findOrFail(Auth::user()->id);
+        dd($user);
         if($req->hasFile('cv')){
             $cv=$req->file('cv');
             $filename = $cv->getClientOriginalName();

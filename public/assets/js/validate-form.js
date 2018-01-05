@@ -118,7 +118,7 @@ $(document).ready(function(){
 	            			$('#emailr').val("");
 	            		}else{
 	            			alert('Đăng ký thành công tài khoản');
-	            			location.reload();
+	            			window.location.href = 'http://itjob.localhost/www/ITJob/public/';
 	            		}
 	            	}
 	            });
