@@ -149,9 +149,9 @@ ITJob - Top Job IT For You
 			</div>
 		</section>
 		@include('partials.advertiment')
+		@include('partials.modal-login')
+		@include('partials.modal-register')
 	</div>
-
-@include('partials.modal-login')
 @if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
     <script>$(document).ready(function(){$('#loginModal').modal('show');}); </script>
 @endif
@@ -162,5 +162,6 @@ ITJob - Top Job IT For You
 @section('footer.js')
 <script src="assets/js/typeahead.js"></script>
 <script src="assets/js/aboutjob.js"></script>
+<script src="assets/js/validate-form.js"></script>
 <script src="assets/js/typeahead-autocomplete-job.js"></script>
 @endsection

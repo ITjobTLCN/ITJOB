@@ -1,7 +1,7 @@
 @extends('companies.master')
 @section('title')
 {{$company->name}} | ITJob
-@stop
+@endsection
 @section('body.content')
 <div class="detail-companies" ng-controller="CompanyController">
     <div class="container">
@@ -20,13 +20,13 @@
                         <div class="name-info">
                             <h2 id="name-company">{{$company->name}}</h2>
                             <div class="location">
-                                <h3><span><i class="fa fa-location-arrow" aria-hidden="true"></i> {{$company->address}}</span></h3>
+                                <span><i class="fa fa-location-arrow" aria-hidden="true"></i> {{$company->address}}</span>
                             </div>
                             <div class="num-employee">
-                                <h3><span data-toggle="tooltip" title="Personel"><i class="fa fa-users" aria-hidden="true"></i> 100-200</span></h3>
+                                <span data-toggle="tooltip" title="Personel"><i class="fa fa-users" aria-hidden="true"></i> 100-200</span>
                             </div>
                             <div class="see-maps">
-                                <a href=""><h3><i class="fa fa-map" aria-hidden="true"></i> See on map</h3></a>
+                                <a href=""><i class="fa fa-map" aria-hidden="true"></i> See on map</a>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                             <div class="add_review">
                                 @if(Auth::check())
                                 <a href="{{route('reviewCompany',$company->alias)}}" class="btn btn-danger">Add Review</a> @else
-                                <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#loginModal">Add Review</a> @endif
+                                <a class="btn btn-danger" id="openLoginModal">Add Review</a> @endif
                             </div>
 
                             @if(Auth::check())
@@ -51,9 +51,9 @@
                             <a class="btn btn-default" id="openLoginModal">Follow ({{$company->follow}})</a>
 
                         </div>
-                        @include('partials.modal-login')
                         @endif
-                        
+                        @include('partials.modal-login')
+                        @include('partials.modal-register')
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
         <section class="reviews-companies">
             <div id="reviews">
                 <div class="header-section">
-                    <h1>About Us</h1>
+                    <p>About Us</p>
                     <span class="under-line"></span>
                 </div>
                 <div class="about-company">
@@ -109,7 +109,7 @@
                 
                 <div class="header-section">
                     @if(count($reviews)!=0)
-                    <h1>Ratings <span>(Có {{count($reviews)}} bài đánh giá)</span></h1>
+                    <p>Ratings <span>(Có {{count($reviews)}} bài đánh giá)</span></p>
                     
                     <span class="under-line"></span>
                 </div>
@@ -157,11 +157,9 @@
                                 </div>
                                 @endforeach
                             	</div>
-                                @if(count($reviews)>=10)
                                 <div class="load-more">
                                     <a href="" id="see-more__reviews">See more...</a>
                                 </div>
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -199,19 +197,18 @@
                     </div>
                 </div>
                 @else
-                <h1>Ratings <span>(Có 0 bài đánh giá)</span></h1>
+                <p>Ratings <span>(Có 0 bài đánh giá)</span></p>
                 @endif
             </div>
         </section>
         <section class="hiring-now-companies">
             <div id="hiring-now">
                 <div class="header-section">
-                    <h1>Hiring Now</h1>
+                    <p>Hiring Now</p>
                     <span class="under-line"></span>
                 </div>
                 <div class="list-job-hiring">
-                    <input type="hidden" value="{{$company->id}}" id="company_id"> {{--
-                    <p id="show-jobs">click me</p> --}}
+                    <input type="hidden" value="{{$company->id}}" id="company_id"> 
                     <div class="title">
                         <a data-toggle="collapse" id="up-down" href="#list-job-content">{{$jobs}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
                     </div>
@@ -226,14 +223,15 @@
                 </div>
             </div>
             <!-- End row -->
-            @include('partials.modal-login')
+            
         </section>
     </div>
 </div>
-@stop
+@endsection
 @section('footer.js')
 <script src="assets/js/jquery.circlechart.js"></script>
 <script src="assets/js/detail-companies.js"></script>
+<script src="assets/js/validate-form.js"></script>
 <script src="assets/controller/SkillsController.js"></script>
 <script src="assets/controller/CompanyController.js"></script>
-@stop
+@endsection

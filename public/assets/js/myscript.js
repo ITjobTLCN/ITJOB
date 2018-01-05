@@ -3,13 +3,15 @@ $(document).ready(function(){
 	$('.active i').css({
 		'color':'#365899'
 	});
-	
-	var count1=0;
-	var count2=0;
+	$('.loading, #result-more-companies').css({
+		'display':'none',
+	});
+	var cHirring=0;
+	var cMostFollow=0;
+	var cNormal=0;
 	//see more companies hiring now
 	$('#see-more-hiring').click(function(){
-		alert("clicked");
-		count1+=6;
+		cHirring+=6;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -17,8 +19,8 @@ $(document).ready(function(){
 		});
 		$.ajax({
 			type:'get',
-			url: 'more-hiring-companies',
-			data: {'count1':count1},
+			url: 'more-companies/hiring',
+			data: {'cHirring':cHirring},
 			success:function(data){
 				$('.more-hiring').append(data);
 			}
@@ -26,7 +28,7 @@ $(document).ready(function(){
 	});
 	//see more most followed companies
 	$('#see-more-most-followed').click(function(e){
-		count2+=6;
+		cMostFollow+=6;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -34,16 +36,37 @@ $(document).ready(function(){
 		});
 		$.ajax({
 			type:'get',
-			url: 'more-most-followed-companies',
-			data: {'count2':count2},
+			url: 'more-companies/most-followed',
+			data: {'cMostFollow':cMostFollow},
 			success:function(data){
 				$('.more-most-followed').append(data);
 			}
 		});
 	});
-	
-	
-	
+	$('#see-more-companies').click(function(){
+		$('.loading').css({
+			'display':'block',
+		});
+		cNormal+=1;
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+		$.ajax({
+			type:'get',
+			url: 'more-companies',
+			data: {'cNormal':cNormal},
+			success:function(data){
+				if(data.length != 0){
+					$('#result-more-companies').css({
+						'display':'block',
+					});
+					$('#more-companies').append(data);
+				}
+			}
+		});
+	});
 	
 	
 	//add star reviews companies
@@ -107,6 +130,11 @@ $(document).ready(function(){
 		e.preventDefault();
 	});
 
+});
+$(document).ajaxComplete(function(){
+	$('.loading').css({
+		'display':'none',
+	});
 });
 function markNotificationAsRead(countNoti){
 	if(countNoti!='0'){

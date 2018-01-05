@@ -13,8 +13,15 @@ use DateTime;
 class CompanyController extends Controller
 {
     public function getIndex(){
-        $companies=Employers::orderBy('id','desc')->offset(0)->take(10)->get();
-        return view('layouts.companies',compact('companies'));
+        $cCompanies = Employers::count();
+        $companies = DB::table('employers as e')
+                            ->select('e.*',DB::raw('count(j.id) as total'))
+                            ->join('jobs as j','e.id','=','j.emp_id')
+                            ->groupBy('e.id')
+                            ->offset(0)
+                            ->take(10)
+                            ->get();
+        return view('layouts.companies',compact('companies','cCompanies'));
     }
     public function getMoreJob(Request $req){
         $dem=$req->dem;
@@ -53,11 +60,12 @@ class CompanyController extends Controller
     public function getDetailsCompanies(Request $req){
         $company=Employers::where('alias',$req->alias)->first();
         $jobs=Jobs::count();
-        $skills=DB::table('skill_job as sj')
-                    ->select('s.*')->distinct()
-                    ->join(DB::raw('(select id from jobs where emp_id='.$company['id'].') as a'),function($join){
-                        $join->on('sj.job_id','=','a.id');})
-                    ->join('skills as s','sj.skill_id','=','s.id')->get();
+        $skills=DB::table('skills as s')
+                    ->select('s.name')
+                    ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$company['id'].') as a'),function($join){
+                            $join->on('s.id','=','a.skill_id');
+                        })
+                    ->get();
         $reviews=Reviews::where('emp_id',$company['id'])->offset(0)->take(5)->get();
         if(Auth::check()){
             $follow=Follow_employers::where('emp_id',$company['id'])
@@ -95,7 +103,7 @@ class CompanyController extends Controller
     }
     //get more companies hirring now
     public function getMoreHirring(Request $req){
-       $count=$req->count1;
+       $count=$req->cHirring;
        $output="";
        $employers=Employers::where('status',1)->orderBy('id','desc')->offset($count)->take(6)->get();
        foreach ($employers as $key => $emp) {
@@ -127,12 +135,13 @@ class CompanyController extends Controller
     }
     //get more companies most followed
     public function getMoreMostFollowed(Request $req){
-       $count=$req->count2;
+       $count=$req->cMostFollow;
        $output="";
        $employers=Employers::where('status',1)
                             ->orderBy('follow','desc')
                             ->offset($count)
-                            ->take(6)->get();
+                            ->take(6)
+                            ->get();
        foreach ($employers as $key => $emp) {
            $output.='<div class="col-md-4">
                 <a href="companies/'.$emp->alias.'" class="company">
@@ -157,6 +166,59 @@ class CompanyController extends Controller
                     </div>
                 </a>
             </div>';
+       }
+       return $output;
+    }
+    public function getMoreCompanies(Request $req){
+        $count=$req->cNormal;
+        $output="";
+        $employers=DB::table('employers as e')
+                            ->select('e.*',DB::raw('count(j.id) as total'))
+                            ->join('jobs as j','e.id','=','j.emp_id')
+                            ->groupBy('e.id')
+                            ->offset($count)
+                            ->take(10)
+                            ->get();
+
+        foreach ($employers as $key => $emp) {
+            $skills=$this->getListSkillEmployer($emp->id);
+            $text="";
+            foreach ($skills as $key => $s) {
+                $text .= "<li class='employer-skills__item'>
+                            <a href='' target='_blank'>{$s}</a>
+                        </li>";
+            }
+           $output.="<div class='row'>
+                        <div class='col-xs-3 col-md-3 col-lg-2'>
+                            <div class='logo job-search__logo'>
+                                <a href=''><img title='' class='img-responsive' src='assets/img/logo-search-job.jpg' alt=''>
+                                </a>
+                            </div>
+                        </div>
+                        <div class='col-xs-9 col-md-9 col-lg-9'>
+                            <div class='companies-item-info'>
+                                <a href='companies/{$emp->alias}' class='companies-title' target='_blank'>{$emp->name}</a>
+                                <div class='company text-clip'>
+                                    <span class='job-search__location'>{$emp->address}</span>
+                                </div>
+                                <div class='description-job'>
+                                    <h3>{$emp->description}</h3>
+                                </div>
+                                <div class='company text-clip'>
+                                    <span class='people'><i class='fa fa-users' aria-hidden='true'></i> 100</span>
+                                    <span class='website'><i class='fa fa-desktop' aria-hidden='true'></i>{$emp->website}</span>
+                                </div>
+                                <div id='skills'>
+                                    <ul>
+                                    {$text}
+                                    </ul>
+                                </div>
+                                <div class='sum-job'>
+                                    <a href='companies/{$emp->alias}' id='job' class='dotted'>{$emp->total} jobs </a><i class='fa fa-caret-down' aria-hidden='true'></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>";
        }
        return $output;
     }
@@ -258,13 +320,14 @@ class CompanyController extends Controller
         }
         return $output;
     }
-    public function getListSkillEmployer(Request $req){
-        $emp_id=$req->emp_id;
+    public function getListSkillEmployer($emp_id){
         $skills=DB::table('skills as s')
                 ->select('s.name')
-                ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$emp_id.') as a'),function($join){
-                    $join->on('s.id','=','a.skill_id');
-                })->get();
-        return response()->json($skills);
+                ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$emp_id.') as a')
+                    ,function($join){
+                        $join->on('s.id','=','a.skill_id');
+                })
+                ->get();
+        return $skills;
     }
  }

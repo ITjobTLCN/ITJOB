@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Applications;
+use App\Employers;
 use Auth;
 use Illuminate\Support\MessageBag;
 use Image;
+use App\Events\SendMail;
+use Validator;
+use DB;
+use Cache;
 class UsersController extends Controller
 {
 	public function _construct(){
@@ -44,8 +50,7 @@ class UsersController extends Controller
     public function editEmail(Request $req){
         $user=new User();
         $id=Auth::user()->id;
-        $email=$req->newEmail;
-        $user=User::where('id',$id)->update(['email'=>$email]);
+        $user=User::where('id',$id)->update(['email'=>$req->newEmail]);
     }
     public function editProfile(Request $req)
     {
@@ -63,33 +68,53 @@ class UsersController extends Controller
         
     }
     public function postLogin(Request $req){
-  		$email = $req->email;
-  		$password=$req->password;
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ];
+        $messages = [
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không đúng định dạng',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu ít nhất 6 ký tự',
+        ];
+        $validator = Validator::make($req->all(),$rules,$messages);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }else{
+            $email = $req->email;
+            $password = $req->password;
 
-  		if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            $role_id=Auth::user()->role_id;
-            switch ($role_id) {
-                case 1:
-                     return redirect()->route('profile');
-                     break;
-                case 2:
-                    return redirect()->intended('admin/dashboard');
-                    break;
-                default:
-                    return redirect()->route('getemp');
-                    break;
+            if(Auth::attempt(['email'=>$email,'password'=>$password])){
+                $role_id=Auth::user()->role_id;
+                switch ($role_id) {
+                    case 1:
+                         return redirect()->route('profile');
+                         break;
+                    case 2:
+                        return redirect()->intended('admin/dashboard');
+                        break;
+                    default:
+                        return redirect()->route('getemp');
+                        break;
+                }
+            }else{
+                $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không đúng']); 
+                return redirect()->back()->withInput()->withErrors($errors);
             }
-  		}else{
-            $errors=new MessageBag(['errorLogin'=>'Email hoặc mật khẩu không']); 
-            return redirect()->back()->withInput()->withErrors($errors);
         }
+  		
     }
     public function postLoginModal(Request $req){
         $email = $req->email;
         $password=$req->password;
 
         if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            return redirect()->back();
+
+            return response()->json([
+                'error'=>false,
+                'message'=>''
+                ],200);
         }
         return response()->json([
                 'error'=>true,
@@ -97,22 +122,38 @@ class UsersController extends Controller
             ],200);
     }
     public function postRegisterModal(Request $req){
-        $user=User::where('email',$req->email)->first();
-        if($user){
+        $user = User::where('email',$req->email)->first();
+        if($user) {
             return response()->json([
-                'error'=>true,
-                'message'=>'Email đã tồn tại'
+                'error' => true,
+                'message' => 'Email đã tồn tại'
             ],200);
-        }else{
-            $user=User::create([
-                'name'=>$req->name,
-                'email'=>$req->email,
-                'password'=>bcrypt($req->password)
-            ]);  
+        }else {
+            $user = User::create([
+                'name' => $req->name,
+                'email' => $req->email,
+                'password' => bcrypt($req->password)
+            ]);
+            event(new SendMail($user));
             return response()->json([
                 'error'=>false,
                 'message'=>'Tạo thành công tài khoản'
                 ],200);
         }
+    }
+    public function getJobApplicationsOfUser(){
+        $jobApplications = DB::table('jobs as j')
+                                ->select('j.*','c.name as cn','e.name as en')
+                                ->join(DB::raw('(select job_id from applications where user_id='.Auth::id().') as a'),function($join){
+                                    $join->on('j.id','=','a.job_id');
+                                })
+                                ->join('cities as c','j.city_id','=','c.id')
+                                ->join('employers as e','j.emp_id','=','e.id')
+                                ->orderBy('j.id','desc')
+                                ->get();
+        $top_emps = Cache::remember('top_emps', 10, function(){
+            return Employers::select('id','name','alias','logo')->orderByRaw('rating desc,follow desc')->offset(0)->take(12)->get();
+        });                        
+        return view('layouts.job-applications',compact('jobApplications','top_emps'));
     }
 }

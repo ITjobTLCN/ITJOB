@@ -1,5 +1,5 @@
 
-<!-- Modal -->
+<!-- Modal Login -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -21,27 +21,26 @@
 				</h5>
 			</div>
 			<div class="modal-body">
-				<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
 				<div class="modal_content">
-					<form role="form" id="frmLogin">
-				<div class="login_content ">
-					<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
-					<form action="{{route('login')}}" method="post" role="form" name="frmLogin" id="frmLogin">
-						<p style="color: red;display: none;" class="error errorLogin"></p>
-						<div class="form-group">
-							
-							<input type="email" class="form-control" name="email" id="email" placeholder="Email">
-						</div>
-						<div class="form-group">
-							<input type="password" class="form-control" name="password" id="password" placeholder="Password">
-						</div>
-						{{ csrf_field() }}
-						<button type="submit" class="btn btn-primary" style="width: 100%">Đăng nhập</button>
-					</form>
+					<div class="login_content ">
+						<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
+						<form role="form" name="frmLogin" id="frmLogin">
+							<p style="color: red;display: none;" class="error errorLogin"></p>
+							<div class="form-group">
+
+								<input type="email" class="form-control" name="email" id="email" placeholder="Email">
+							</div>
+							<div class="form-group">
+								<input type="password" class="form-control" name="password" id="password" placeholder="Password">
+							</div>
+							{{ csrf_field() }}
+							<button type="submit" class="btn btn-primary" style="width: 100%">Đăng nhập</button>
+						</form>
+					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<h4 class="text-center">Bạn chưa có tài khoản? <a id="clickModalRegister" href="#" style="color: #337ab7">Đăng ký ngay</a></h4>
+				<div class="modal-footer">
+					<h4 class="text-center">Bạn chưa có tài khoản? <a id="clickModalRegister" href="#" style="color: #337ab7">Đăng ký ngay</a></h4>
+				</div>
 			</div>
 		</div>
 	</div>

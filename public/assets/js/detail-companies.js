@@ -5,9 +5,6 @@ $(document).ready(function(){
 	$('.list-job-hiring .fa-arrow-up').css({
 		'display':'none',
 	});
-	$('.loading').css({
-		'display':'none',
-	});
 	var dem=0;
 	$('#up-down').click(function(){
 		$("i", this).toggleClass("fa fa-arrow-up fa fa-arrow-down");
@@ -59,7 +56,7 @@ $(document).ready(function(){
 			}
 		});
 	});
-	$('#openLoginModal').click(function(e){
+	$('a#openLoginModal').click(function(e){
         $('#loginModal').modal();
     });
 	//flowed companies

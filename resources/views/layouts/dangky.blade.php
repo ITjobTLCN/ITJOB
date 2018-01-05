@@ -12,7 +12,7 @@
 			<div class="login_header">
 				<div class="title">
 					<h1 class="text-center">Đăng ký thành viên</h1>
-					<h4 class="text-center">Đăng thành viên để tiếp cận nhanh hơn với nhà tuyển dụng</h4>
+					<h4 class="text-center">Đăng ký thành viên để tiếp cận nhanh hơn với nhà tuyển dụng</h4>
 				</div>
 				<div class="social text-center">
 
@@ -43,7 +43,7 @@
 			</div>
 			<hr>
 			<div class="register text-center">
-				<h4>Bạn chưa có tài khoản? <a href="#" style="color: #337ab7">Đăng ký ngay</a></h4>
+				<h4>Bạn đã có tài khoản ITJob? <a href="#" style="color: #337ab7">Đăng nhập ngay</a></h4>
 			</div>
 		</div>
 		<div class="col-md-3"></div>

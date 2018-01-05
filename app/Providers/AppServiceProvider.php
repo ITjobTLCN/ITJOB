@@ -7,7 +7,9 @@ use Schema;
 use Session;
 use View;
 use \App\Jobs;
+use \App\Cities;
 use DB;
+use Cache;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
                         $join->on('e.id','=','a.emp_id');
                     })->join('cities as c','a.city_id','=','c.id')->offset(0)->take(8)->get();
             $view->with('topJobViewer',$jobs);
+        });
+        view()->composer('partials.search-job',function($view){
+            $cities=Cache::remember('listLocation', 10, function() {
+                return Cities::all();
+            });
+            $view->with('cities',$cities);
         });
         Schema::defaultStringLength(191);
     }

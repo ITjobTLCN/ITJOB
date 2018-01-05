@@ -22,8 +22,6 @@
 	@yield('header.caption')
 	<div class="main">
 		@yield('body.content')
-		@include('partials.modal-login')
-		@include('partials.modal-register')
 		
 	</div>
 	@include('partials.social')

@@ -68,7 +68,7 @@ Reviews of top companies on ITJob
 			@endforeach
 			<div class="more-hiring"></div>
 		</div>
-		<a href="" id="see-more-hiring">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<a href="" id="see-more-hiring" class="dotted">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 	</div>
 	<div class="seperate"></div>
 	<div class="most-followed-companies container">
@@ -106,7 +106,7 @@ Reviews of top companies on ITJob
 			@endforeach
 			<div class="more-most-followed"></div>
 		</div>
-		<a href="" id="see-more-most-followed">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<a href="" id="see-more-most-followed" class="dotted">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			</div>
 	</div>
 </div>

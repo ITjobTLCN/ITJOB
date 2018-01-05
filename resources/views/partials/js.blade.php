@@ -1,6 +1,6 @@
 
 <script>less = { env: 'development'};</script>
-<script src="assets/js/less.js"></script>
+<script type="text/javascript" src="assets/js/less.js"></script>
 <script>less.watch();</script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/JQuery/jquery.validate.min.js"></script>
