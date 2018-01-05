@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Cache;
 use Auth;
 use App\Notifications\ConfirmEmployer;
+use App\Notifications\SendNotify;
 
 class AdminController extends Controller
 {
@@ -436,4 +437,32 @@ class AdminController extends Controller
     }
         /*END CONFIRM/DENY pending Employer*/
     /*----------------END EMPLOYERS-------------------*/
+
+
+    //Manage notification
+    public function getAdminNotification(){
+        return view('admin.notification');
+    }
+    public function createNotification(Request $request){
+         //validate
+        $this->validate($request,[
+            'notification'=>'required|min:4',
+            'roleid'=>'required'
+        ]);
+        // dd($request->all());
+        //
+        if($request->roleid<=0){ //all
+            $userss = User::all();
+            foreach($userss as $user){
+                $user->notify(new SendNotify($request->notification));
+            }
+        }
+        else{
+            $users = User::where('role_id',$request->roleid)->get();
+            foreach($users as $user){
+                $user->notify(new SendNotify($request->notification));
+            }
+        }
+        return redirect()->back();
+    }
 }

@@ -224,6 +224,10 @@ Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
 	Route::get('ngconfirmemp/{id}',['as'=>'nggetconfirmemp','uses'=>'AdminController@ngGetConfirmEmp']);
 	Route::get('ngdenyemp/{id}',['as'=>'nggetdenyemp','uses'=>'AdminController@ngGetDenyEmp']);
 
+		//Send notification
+	Route::get('notification','AdminController@getAdminNotification')->name('getadminnotification');
+	Route::post('createnotification','AdminController@createNotification')->name('createnotification');
+
 });
 
 	/**--------------EMPLOYER ROUTE--------------------*/
