@@ -13,6 +13,7 @@ use DateTime;
 class CompanyController extends Controller
 {
     public function getIndex(){
+        $cCompanies = Employers::count();
         $companies = DB::table('employers as e')
                             ->select('e.*',DB::raw('count(j.id) as total'))
                             ->join('jobs as j','e.id','=','j.emp_id')
@@ -20,7 +21,7 @@ class CompanyController extends Controller
                             ->offset(0)
                             ->take(10)
                             ->get();
-        return view('layouts.companies',compact('companies'));
+        return view('layouts.companies',compact('companies','cCompanies'));
     }
     public function getMoreJob(Request $req){
         $dem=$req->dem;

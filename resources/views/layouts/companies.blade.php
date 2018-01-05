@@ -39,7 +39,7 @@ All Companies in Vietnam
             <table class="table table-striped">
                 <tbody>
                     <div class="num-companies">
-                        <span>{{count($companies)}} companies</span>
+                        <span>{{$cCompanies}} companies for you</span>
                     </div>
                     @foreach($companies as $com)
                     <tr>
@@ -85,7 +85,7 @@ All Companies in Vietnam
                         </td>
                     </tr>
                     @endforeach
-                    <tr>
+                    <tr id="result-more-companies">
                         <td>
                            <div class="companies-item" id="more-companies">
                                

@@ -13,6 +13,7 @@ return array(
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Employers' => $baseDir . '/app/Employers.php',
     'App\\Events\\Event' => $baseDir . '/app/Events/Event.php',
+    'App\\Events\\SendMail' => $baseDir . '/app/Events/SendMail.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Follow_employers' => $baseDir . '/app/Follow_employers.php',
     'App\\Http\\Controllers\\AdminController' => $baseDir . '/app/Http/Controllers/AdminController.php',
@@ -42,10 +43,12 @@ return array(
     'App\\Jobs\\SendReminderEmail' => $baseDir . '/app/Jobs/SendReminderEmail.php',
     'App\\Listeners\\EventListener' => $baseDir . '/app/Listeners/EventListener.php',
     'App\\Listeners\\LogSuccessfulLogin' => $baseDir . '/app/Listeners/LogSuccessfulLogin.php',
-<<<<<<< HEAD
+    'App\\Listeners\\SendMailRegister' => $baseDir . '/app/Listeners/SendMailRegister.php',
     'App\\Mail\\VerifyRegister' => $baseDir . '/app/Mail/VerifyRegister.php',
-=======
->>>>>>> afd7509d0a0c7dde07b6cb4a4f8be31170fb376e
+    'App\\Notifications\\ConfirmAssistant' => $baseDir . '/app/Notifications/ConfirmAssistant.php',
+    'App\\Notifications\\ConfirmEmployer' => $baseDir . '/app/Notifications/ConfirmEmployer.php',
+    'App\\Notifications\\ConfirmPost' => $baseDir . '/app/Notifications/ConfirmPost.php',
+    'App\\Notifications\\NotifyNewPost' => $baseDir . '/app/Notifications/NotifyNewPost.php',
     'App\\Permissions' => $baseDir . '/app/Permissions.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

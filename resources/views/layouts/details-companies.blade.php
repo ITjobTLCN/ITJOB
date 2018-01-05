@@ -157,11 +157,9 @@
                                 </div>
                                 @endforeach
                             	</div>
-                                @if(count($reviews)>=10)
                                 <div class="load-more">
                                     <a href="" id="see-more__reviews">See more...</a>
                                 </div>
-                                @endif
                             </div>
                         </div>
                     </div>

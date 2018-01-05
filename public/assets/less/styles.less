@@ -322,32 +322,32 @@ div#navbar ul li:hover .sub-menu-info {
 .form-inline .form-control {
     width: 100% !important;
 }
-.caption {
-    .search-widget {
-        background: rgba(0, 0, 0, .65);
-        padding: 20px 20px;
-        border-radius: 4px;
-        z-index: 10;
-        margin: 50px auto 50px;
-        .list-skill {
-            margin-left: 15px;
-            ul {
-                li {
-                    float: left;
-                    padding: 10px 5px;
-                    a {
-                        color: #fff;
-                        &:hover {
-                            color: @mainColor !important;
-                        }
+.search-widget {
+    background: rgba(0, 0, 0, .65);
+    padding: 20px 20px;
+    border-radius: 4px;
+    z-index: 10;
+    margin: 50px auto 50px;
+    .list-skill {
+        margin-left: 15px;
+        ul {
+            li {
+                float: left;
+                padding: 10px 5px;
+                a {
+                    color: #fff;
+                    &:hover {
+                        color: @mainColor !important;
                     }
                 }
             }
         }
     }
 }
+
 .all-jobs {
     .search-widget {
+        background: none;
         border-radius: 4px;
         z-index: 10;
         margin: 20px auto 30px;
@@ -2226,13 +2226,7 @@ a:visited {
 .push-top-sm{
     margin-top: 15px;
 }
-#job-description{
-    font-size: 16px;
-    margin-bottom: 40px;
-}
-#job-description{
-    &:extend(#job-description);
-}
+
 .border-primary{
     border-left: 5px solid @mainColor;
     .benifit-name{
@@ -2279,9 +2273,17 @@ label.error{
     .button-apply;
     margin-top: 20px;
 }
-#job-detail h2{
-    font-weight: 600;
+#job-detail{
+    h2{
+        font-weight: 600;
+        font-size: 20px;
+    }
+    .job-info{
+       margin: 25px 0; 
+       padding: 0 20px;
+    }
 }
+
 #top-job-viewer{
     .job-item{
         border-bottom: none !important;
@@ -2314,12 +2316,89 @@ label.error{
     height: 50px;
     font-size: 16px;
 }
-// .register .modal-dialog{
-//     width: 500px !important;
-// }
 #btnSubmit{
     background: @mainColor;
     border-color: @mainColor;
     border-radius: 0px;
 }
+// list job application of user
+.job-applications{
+    background: #eee;
+    margin-top: @margin-top;
+    .search-widget{
+        background: none;
+    }
+    .applied-jobs{
+        background: #fff;
+    }
+}
+#save-jobs{
+    max-width: 755px;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 0 10px;
+    padding-bottom: 5px;
+    background: white;
+    border-radius: 5px;
+    h1{
+        font-size: 30px;
+        color: #221F20;
+        line-height: 35px;
+        margin-top: 10px;
+        padding-top: 10px;
+        padding-left: 10px;
+        height: auto;
+    }
+    .title{
+        margin-bottom: 50px;
+    }
+}
+.no-jobs{
+    .no-jobs-caption {
+        font-size: 20px;
+        font-family: "Roboto", sans-serif;
+        margin-bottom: 40px;
+        color: #221F20;
+        font-weight: 500;
+    }
+    .no-jobs-image{
+        margin-bottom: 50px;
+    }
+}
+.hirring-now-side-bar {
+    #hirring{
+        font-size: 30px;
+        font-family: "Roboto Condensed", sans-serif;
+        font-weight: normal;
+        text-align: center;
+        padding: 17px 0;
+        margin: 0px 0px 0px -4px;
+        line-height: 42px;
+    }
+    ul.company-logos{
+        margin: auto;
+        padding: 0;
+        width: 175px;
+        overflow: hidden;
+        margin-top: -10px;
+        li{
+            text-align: center;
+            margin-top: 10px;
+            position: relative;
+            border: 1px solid #eee;
+            &:hover{
+                border: 1px solid #bdb4b4;
+            }
+            a{
+                top: 0;
+                bottom: 0;
+                left: 4px;
+                right: 4px;
+                -webkit-transition: all 0.25s ease;
+                transition: all 0.25s ease;
+            }
+        }
+    }
+}
+
 

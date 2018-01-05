@@ -42,7 +42,7 @@ Review Company | ITJob
 								<label for="">Điều bạn thích</label>
 								<textarea id="like" name="like" class="form-control" placeholder="Điều gì làm công ty này nổi bật? Ví dụ: &quot;Bãi đậu xe rộng rãi. Văn phòng đẹp tất cả đều được trang bị hàng &quot;Apple&quot; (Macbook, iMac)&quot;" id="" cols="30" rows="5"></textarea>
 							</div>
-							<div class="form-group">
+						<div class="form-group">
 								<label for="">Điều bạn không thích</label>
 								<textarea id="unlike" name="unlike" class="form-control" placeholder="Bạn nghĩ công ty cần cải thiện điều gì? Ví dụ: &quot;Khi có dự án thì OT hơi nhiều, áp lực, nên cần cải thiện khâu estimation. Họp và báo cáo nhiều gây mất thời gian, nên giảm các việc này.&quot;" id="" cols="30" rows="5"></textarea>
 							</div>
@@ -86,7 +86,7 @@ Review Company | ITJob
 					</div>
 				</div>
 			</div>
-			<div class="col-md-4 hidden-sm hidden-xs">
+			<div class="col-md-4 col-sm-0 hidden-sm hidden-xs">
 				<div class="panel panel-default review-policites">
 					<div class="panel-heading">
 						<h2 class="panel-title">Hướng Dẫn &amp; Điều Kiện Về Đánh Giá</h2>

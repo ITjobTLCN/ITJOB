@@ -41,11 +41,12 @@ Route::get('dang-xuat',[
 	'uses'=>'UsersController@logout'
 ]);
 //profile candidate
-Route::group(['prefix'=>'profile', 'middleware'=>'auth'],function(){
-	Route::get('/',['as'=>'profile','uses'=>'UsersController@getProfile']);
-	Route::post('/',['as'=>'postAvatar','uses'=>'UsersController@postAvatar']);
+Route::group(['prefix'=>'users', 'middleware'=>'auth'],function(){
+	Route::get('profile',['as'=>'profile','uses'=>'UsersController@getProfile']);
+	Route::post('profile',['as'=>'postAvatar','uses'=>'UsersController@postAvatar']);
 	Route::post('edit-email',['as'=>'editEmail', 'uses'=>'UsersController@editEmail']);
 	Route::post('editProfile',['as'=>'editProfile', 'uses'=>'UsersController@editProfile']);
+	Route::get('job-applications',['as'=>'jobApplications','uses'=>'UsersController@getJobApplicationsOfUser']);
 });
 
 //list cities

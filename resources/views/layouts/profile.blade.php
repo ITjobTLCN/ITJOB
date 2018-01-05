@@ -73,7 +73,7 @@ Thông tin cá nhân | ITJob
 								</div>
 								<div class="form-group" ng-show="showEmail">
 									<div class="col-sm-offset-2 col-sm-8">
-										<button type="submit" ng-disabled="newEmail.$valid || newEmail.$dirty" class="btn btn-danger" ng-click="saveNewEmail()">Save New Email</button>
+										<button ng-disabled="newEmail.$valid || newEmail.$dirty" class="btn btn-danger" ng-click="saveNewEmail()">Save New Email</button>
 									</div>
 								</div>
 								<div class="form-group">

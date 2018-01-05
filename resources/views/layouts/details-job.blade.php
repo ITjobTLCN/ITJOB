@@ -134,16 +134,16 @@
         				</div>
         			</div>
                     {{-- Job Detail --}}
-                    <div id="job-detail" class="job-info">
+                    <div id="job-detail" >
                         <div class="box box-md">
                             {{-- Job Description --}}
                             <h2>The Job</h2>
-                            <div id="job-description" class="push-top-sm">
+                            <div id="job-description" class="job-info">
                                 {{$jobs[0]->description}}
                             </div>
                             {{-- Job Requirement --}}
                             <h2>Your Skills and Experience</h2>
-                            <div id="job-requirement">
+                            <div id="job-requirement" class="job-info">
                                 {{$jobs[0]->require}}
                             </div>
                             <h2 class="pull-left">Benifit</h2>

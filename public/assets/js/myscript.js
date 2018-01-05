@@ -3,7 +3,7 @@ $(document).ready(function(){
 	$('.active i').css({
 		'color':'#365899'
 	});
-	$('.loading').css({
+	$('.loading, #result-more-companies').css({
 		'display':'none',
 	});
 	var cHirring=0;
@@ -47,7 +47,7 @@ $(document).ready(function(){
 		$('.loading').css({
 			'display':'block',
 		});
-		cNormal+=10;
+		cNormal+=1;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -58,7 +58,12 @@ $(document).ready(function(){
 			url: 'more-companies',
 			data: {'cNormal':cNormal},
 			success:function(data){
-				$('#more-companies').append(data);
+				if(data.length != 0){
+					$('#result-more-companies').css({
+						'display':'block',
+					});
+					$('#more-companies').append(data);
+				}
 			}
 		});
 	});

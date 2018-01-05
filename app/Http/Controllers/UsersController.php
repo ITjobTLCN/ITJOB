@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Applications;
+use App\Employers;
 use Auth;
 use Illuminate\Support\MessageBag;
 use Image;
 use App\Events\SendMail;
 use Validator;
+use DB;
+use Cache;
 class UsersController extends Controller
 {
 	public function _construct(){
@@ -46,8 +50,7 @@ class UsersController extends Controller
     public function editEmail(Request $req){
         $user=new User();
         $id=Auth::user()->id;
-        $email=$req->newEmail;
-        $user=User::where('id',$id)->update(['email'=>$email]);
+        $user=User::where('id',$id)->update(['email'=>$req->newEmail]);
     }
     public function editProfile(Request $req)
     {
@@ -101,8 +104,6 @@ class UsersController extends Controller
             }
         }
   		
-
-  		
     }
     public function postLoginModal(Request $req){
         $email = $req->email;
@@ -121,17 +122,17 @@ class UsersController extends Controller
             ],200);
     }
     public function postRegisterModal(Request $req){
-        $user=User::where('email',$req->email)->first();
-        if($user){
+        $user = User::where('email',$req->email)->first();
+        if($user) {
             return response()->json([
-                'error'=>true,
-                'message'=>'Email đã tồn tại'
+                'error' => true,
+                'message' => 'Email đã tồn tại'
             ],200);
-        }else{
-            $user=User::create([
-                'name'=>$req->name,
-                'email'=>$req->email,
-                'password'=>bcrypt($req->password)
+        }else {
+            $user = User::create([
+                'name' => $req->name,
+                'email' => $req->email,
+                'password' => bcrypt($req->password)
             ]);
             event(new SendMail($user));
             return response()->json([
@@ -139,5 +140,20 @@ class UsersController extends Controller
                 'message'=>'Tạo thành công tài khoản'
                 ],200);
         }
+    }
+    public function getJobApplicationsOfUser(){
+        $jobApplications = DB::table('jobs as j')
+                                ->select('j.*','c.name as cn','e.name as en')
+                                ->join(DB::raw('(select job_id from applications where user_id='.Auth::id().') as a'),function($join){
+                                    $join->on('j.id','=','a.job_id');
+                                })
+                                ->join('cities as c','j.city_id','=','c.id')
+                                ->join('employers as e','j.emp_id','=','e.id')
+                                ->orderBy('j.id','desc')
+                                ->get();
+        $top_emps = Cache::remember('top_emps', 10, function(){
+            return Employers::select('id','name','alias','logo')->orderByRaw('rating desc,follow desc')->offset(0)->take(12)->get();
+        });                        
+        return view('layouts.job-applications',compact('jobApplications','top_emps'));
     }
 }
