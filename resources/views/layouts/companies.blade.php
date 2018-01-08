@@ -51,26 +51,26 @@ All Companies in Vietnam
                                     <div class="row">
                                         <div class="col-xs-3 col-md-3 col-lg-2">
                                             <div class="logo job-search__logo">
-                                                <a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
+                                                <a href=""><img title="" class="img-responsive" src="assets/img/logo/{{$com->logo}}" alt="">
                                                 </a>
                                             </div>
                                         </div>
                                         <div class="col-xs-9 col-md-9 col-lg-9">
                                             <div class="companies-item-info">
                                                 <a href="{{route('getEmployers',$com->alias)}}" class="companies-title" target="_blank">{{$com->name}}</a>
-                                                <div class="company text-clip">
+                                                <div class="company">
                                                     <span class="job-search__location">{{$com->address}}</span>
                                                 </div>
                                                 <div class="description-job">
                                                     <h3>{{$com->description}}</h3>
                                                 </div>
-                                                <div class="company text-clip">
+                                                <div class="company">
                                                     <span class="people"><i class="fa fa-users" aria-hidden="true"></i> 100</span>
                                                     <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->website}}</span>
                                                 </div>
                                                 <div id="skills">
                                                     <ul>
-                                                        @foreach (app(App\Http\Controllers\CompanyController::class)->getListSkillEmployer($com->id) as $key => $s)
+                                                        @foreach (app(App\Http\Controllers\CompanyController::class)->getListSkillEmployers($com->id) as $key => $s)
                                                         <li class="employer-skills__item">
                                                             <a href="" target="_blank">{{$s}}</a>
                                                         </li>
@@ -78,7 +78,7 @@ All Companies in Vietnam
                                                     </ul>
                                                 </div>
                                                 <div class="sum-job">
-                                                    <a href="{{route('getEmployers',$com->alias)}}" id="job" class="dotted">{{app(App\Http\Controllers\CompanyController::class)->countJobCompany($com->id)}} jobs </a><i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                    <a href="{{route('getEmployers',$com->alias)}}#hiring-now" id="job" class="dotted" target="_blank">{{app(App\Http\Controllers\CompanyController::class)->countJobCompany($com->id)}} jobs </a><i class="fa fa-caret-down" aria-hidden="true"></i>
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div>

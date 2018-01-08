@@ -7,13 +7,13 @@
     <div class="container">
         <section class="home-companies">
             <div class="cover-photo_company" id="home">
-                <img src="assets/img/episerver-headline-photo-compress.jpg" alt="" class="img-responsive">
+                <img src="assets/img/cover/{{$company->cover}}" alt="" class="img-responsive">
             </div>
             <div class="profile-header_company">
                 <div class="row">
                     <div class="col-md-2 col-sm-3 col-xs-12">
                         <div class="logo-company">
-                            <img src="assets/img/episerver-logo-170-151.png" alt="" class="img-responsive">
+                            <img src="assets/img/logo/{{$company->logo}}" alt="" class="img-responsive">
                         </div>
                     </div>
                     <div class="col-md-7 col-sm-5 col-xs-12">
@@ -49,7 +49,6 @@
                                 </div>
                             @else
                             <a class="btn btn-default" id="openLoginModal">Follow ({{$company->follow}})</a>
-
                         </div>
                         @endif
                         @include('partials.modal-login')
@@ -126,7 +125,7 @@
                                                 <h3 class="short-title">{{$rv->title}}</h3>
                                                 <div class="stars-and-recommend">
                                                     <span class="rating-stars-box">
-                                                    	@for($i=0;$i < $rv->rating;$i++)
+                                                    	@for($i = 0; $i < $rv->rating; $i++)
 														<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
 														@endfor
 													</span>
@@ -173,10 +172,9 @@
                                 <div class="panel-body disable-user-select">
                                     <span class="rating-stars-box">
 										<div class="star-review">
-											<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
-											<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
-											<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
-											<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
+											@for($i = 0; $i < $company->rating; $i++)
+                                             <a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
+                                            @endfor
 										</div>
 									</span>
                                     <span class="company-ratings__star-point">{{number_format($company->rating,1)}}</span>
@@ -192,7 +190,7 @@
                                     </table>
                                     <hr class="divider">
                                     <div class="view-more">
-                                        <a href="/companies/kms-technology/review">See all ratings and reviews</a>
+                                        <a href="#">See all ratings and reviews</a>
                                         <i class="fa fa-caret-right"></i>
                                     </div>
                                 </div>

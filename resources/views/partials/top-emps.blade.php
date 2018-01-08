@@ -2,7 +2,7 @@
 	<h3 id="hirring">Top Employer</h3>
 	<ul class="company-logos">
 		@foreach($top_emps as $te)
-		<li><a href=""><img width="110" alt="{{$te->name}}" title="{{$te->name}}" data-animation="false" src="https://cdn.itviec.com/system/production/employers/logos/114/misfit-logo-170-151.jpg?1463630640"></a></li>
+		<li><a href="{{route('getEmployers',$te->alias)}}" target="_blank"><img width="110" alt="{{$te->name}}" title="{{$te->name}}" data-animation="false" src="assets/img/logo/{{$te->logo}}""></a></li>
 		@endforeach
 	</ul>
 </div>

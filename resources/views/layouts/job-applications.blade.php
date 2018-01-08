@@ -23,14 +23,14 @@ Application Jobs | ITJob
 					<div class="row" >
 						<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 							<div class="logo job-search__logo jb-search__result">
-								<a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
+								<a href=""><img title="{{$ja->en}}" class="img-responsive" src="assets/img/logo/{{$ja->logo}}" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 							<div class="job-item-info" >
 								<h3 class="bold-red">
-									<a href="" class="job-title" target="_blank">{{$ja->name}}</a>
+									<a href="{{route('detailjob',[$ja->alias,$ja->id])}}" class="job-title" title="{{$ja->name}}">{{$ja->name}}</a>
 								</h3>
 								<div class="company">
 									<span class="job-search__company">{{$ja->en}}</span>
@@ -61,7 +61,6 @@ Application Jobs | ITJob
 				@endforeach
 			</div>
 			@endif
-			
 		</div>
 		@include('partials.top-emps')
 	</div>

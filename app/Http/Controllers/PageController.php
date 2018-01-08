@@ -23,7 +23,11 @@ class PageController extends Controller
             });
         }
         $top_emps=Cache::remember('top_emps', $minutes,function(){
-            return Employers::select('id','name','alias','logo')->orderByRaw('rating desc,follow desc')->offset(0)->take(12)->get();
+            return Employers::select('id','name','alias','logo')
+                                ->orderByRaw('rating desc, follow desc')
+                                ->offset(0)
+                                ->take(6)
+                                ->get();
         });
         $top_jobs=Cache::remember('top_jobs',$minutes,function(){
             return DB::table('employers as e')
@@ -32,7 +36,7 @@ class PageController extends Controller
                             $join->on('a.emp_id','=','e.id');
                         })->get();
         });
-		return view('layouts.trangchu',compact('cities'));
+		return view('layouts.trangchu',compact('cities','top_emps','top_jobs'));
 	}
     //get page contact
     public function getContact(){

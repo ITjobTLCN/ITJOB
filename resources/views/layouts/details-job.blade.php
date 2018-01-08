@@ -110,7 +110,6 @@
         									<span class="tag-salary">Salary: <strong class="">
         										@if(Auth::check()) {{$jobs[0]->salary}}
         										@else <a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
-        										@include('partials.modal-login')
         										@endif
         									</strong>
    
@@ -139,7 +138,7 @@
                             {{-- Job Description --}}
                             <h2>The Job</h2>
                             <div id="job-description" class="job-info">
-                                {{$jobs[0]->description}}
+                                {!!$jobs[0]->description!!}
                             </div>
                             {{-- Job Requirement --}}
                             <h2>Your Skills and Experience</h2>
@@ -209,7 +208,7 @@
                                     <span class="tag-skill" title="<% skill.name %>" ng-repeat="skill in skillsemp"><% skill.name %></span>
                                 </div>
                             </div>
-                            <button class="btn btn-primary btn-xlg col-xs-12 apply">Apply Now</button>
+                            <a href="{{route('getApplyJob',[$jobs[0]->alias,$jobs[0]->el,$jobs[0]->id])}}" class="btn btn-primary btn-xlg col-xs-12 apply" type="button">Apply Now</a>
                         </div>
                     </div>
                     @include('partials.job-most-viewer')
@@ -218,7 +217,7 @@
         			<div class="box">
         				<div class="col-md-12 col-sm-12 employer-logo">
         					<div class="responsive-container box-limit">
-        							<a href="{{route('getEmployers',$jobs[0]->el)}}" target="_blank" title="{{$jobs[0]->en}}"><img src="assets/img/LG-logo.png" alt=""></a>
+        							<a href="{{route('getEmployers',$jobs[0]->el)}}" target="_blank" title="{{$jobs[0]->en}}"><img src="assets/img/logo/{{$jobs[0]->logo}}" alt=""></a>
         						
         					</div>
         				</div>
@@ -239,6 +238,8 @@
         				</div>
         			</div>
         			@include('partials.related-jobs')
+                    @include('partials.modal-login')
+                    @include('partials.modal-register')
         		</div>
         	</div>
         </div>

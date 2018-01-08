@@ -16,7 +16,7 @@
                          <span class="salary"><i class="fa fa-wifi" aria-hidden="true"></i> @if(Auth::check()){{$rl->salary}}
                           @else 
                           <a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
-                          @include('partials.modal-login')
+                          
                           @endif
                       </span>
                   </div>

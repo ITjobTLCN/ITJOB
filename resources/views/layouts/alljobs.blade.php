@@ -56,7 +56,7 @@ Search for all it Jobs in Vietnam
 							<div class="row" >
 								<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 									<div class="logo job-search__logo jb-search__result">
-										<a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
+										<a href=""><img title="" class="img-responsive" src="assets/img/logo/{{$ljlt->le}}" alt="">
 										</a>
 									</div>
 								</div>

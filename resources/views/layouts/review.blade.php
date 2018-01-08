@@ -55,34 +55,17 @@ Review Company | ITJob
 								<div class="recommend-to-friend">
 									<input type="hidden" name="recommend" id="recommend" value="1">
 									<div class="recommend yes active" id="yes">
-										<span><i class="fa fa-thumbs-o-up"></i></span>
+										<span><i class="fa fa-thumbs-o-up" title="Yes"></i></span>
 									</div>
 									<div class="clearfix"></div>
 									<div class="recommend no" id="no">
-										<span><i class="fa fa-thumbs-o-down"></i></span>
+										<span><i class="fa fa-thumbs-o-down" title="No"></i></span>
 									</div>
 								</div>
 								
 							</div>
 							<button type="submit" class="btn btn-danger">Review</button>
 						</form>
-						<div class="modal fade" id="modal-id">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-										<h4 class="modal-title">Modal title</h4>
-									</div>
-									<div class="modal-body">
-										
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary">Save changes</button>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</div>
@@ -114,7 +97,6 @@ Review Company | ITJob
 </div>
 @endsection
 @section('footer.js')
-<script src="assets/js/myscript.js"></script>
 <script src="assets/controller/CompanyController.js"></script>
 <script src="assets/JQuery/jquery.validate.min.js"></script>
 <script src="assets/js/validate-form.js"></script>

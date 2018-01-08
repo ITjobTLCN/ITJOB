@@ -155,7 +155,7 @@ class UsersController extends Controller
     }
     public function getJobApplicationsOfUser(){
         $jobApplications = DB::table('jobs as j')
-                                ->select('j.*','c.name as cn','e.name as en')
+                                ->select('j.*','c.name as cn','e.name as en','e.logo')
                                 ->join(DB::raw('(select job_id from applications where user_id='.Auth::id().') as a'),function($join){
                                     $join->on('j.id','=','a.job_id');
                                 })

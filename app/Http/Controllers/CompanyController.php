@@ -35,7 +35,10 @@ class CompanyController extends Controller
     }
     public function getJobsCompany(Request $req){
         $output="";
-        $jobs=Jobs::where('emp_id',$req->emp_id)->offset($req->dem)->take(10)->get();
+        $jobs=Jobs::where('emp_id',$req->emp_id)
+                    ->offset($req->dem)
+                    ->take(10)
+                    ->get();
         foreach ($jobs as $key => $job) {
            $output.='<div class="job-item">
                     <div class="job-item-info">
@@ -67,14 +70,18 @@ class CompanyController extends Controller
             Session::flash('haveNotCompany',$req->alias);
             return view('layouts.companies');
         }
-        $jobs=Jobs::count();
+        $jobs=Jobs::where('emp_id',$company->id)
+                    ->count();
         $skills=DB::table('skills as s')
                     ->select('s.name')
                     ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$company['id'].') as a'),function($join){
                             $join->on('s.id','=','a.skill_id');
                         })
                     ->get();
-        $reviews=Reviews::where('emp_id',$company['id'])->offset(0)->take(5)->get();
+        $reviews=Reviews::where('emp_id',$company['id'])
+                            ->offset(0)
+                            ->take(2)
+                            ->get();
         if(Auth::check()){
             $follow=Follow_employers::where('emp_id',$company['id'])
                                         ->where('user_id',Auth::user()->id)
@@ -188,7 +195,7 @@ class CompanyController extends Controller
             return $output;
         }
         foreach ($employers as $key => $emp) {
-            $skills = $this->getListSkillEmployer($emp->id);
+            $skills = $this->getListSkillEmployers($emp->id);
             $numJobs = Jobs::where('emp_id',$emp->id)->count();
             $skill = "";
             foreach ($skills as $key => $s) {
@@ -335,7 +342,17 @@ class CompanyController extends Controller
         }
         return $output;
     }
-    public function getListSkillEmployer($emp_id){
+    public function getListSkillEmployer(Request $req){
+        $skills=DB::table('skills as s')
+                ->select('s.name')
+                ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$req->emp_id.') as a')
+                    ,function($join){
+                        $join->on('s.id','=','a.skill_id');
+                })
+                ->get();
+        return $skills;
+    }
+    public function getListSkillEmployers($emp_id){
         $skills=DB::table('skills as s')
                 ->select('s.name')
                 ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$emp_id.') as a')

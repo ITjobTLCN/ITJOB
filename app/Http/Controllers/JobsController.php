@@ -23,9 +23,9 @@ use Carbon\Carbon;
 class JobsController extends Controller
 {
     public function getIndex(){
-        $minutes=60;    
+        $minutes=60;  
         $listJobLastest = Cache::remember('listJobLastest',5,function(){
-            return DB::table('jobs as j')->select('j.*','c.name as cn','e.name as en')
+            return DB::table('jobs as j')->select('j.*','c.name as cn','e.name as en','e.logo as le')
                                 ->join('cities as c','j.city_id','=','c.id')
                                 ->join('employers as e','j.emp_id','=','e.id')
                                 ->orderBy('j.id','desc')
@@ -39,22 +39,27 @@ class JobsController extends Controller
     }
     //return to detail-job page
     public function getDetailsJob(Request $req){
-        $jobs=DB::table('employers as e')
-                    ->select('a.*','e.name as en','e.alias as el','e.image','e.address','e.description as ed','c.name as cn')
-                    ->join(DB::raw('(select * from jobs where id ='.$req->id.') as a'),function($join){
+        $id = $req->id;
+        $jobs = DB::table('employers as e')
+                    ->select('a.*','e.name as en','e.alias as el','e.image','e.logo','e.address','e.description as ed','c.name as cn')
+                    ->join(DB::raw('(select * from jobs where id ='.$id.') as a'),function($join){
                         $join->on('e.id','=','a.emp_id');
                     })->join('cities as c','a.city_id','=','c.id')->get();
-        $relatedJob=DB::table('skills as s')
-                    ->select('e.name as en','e.address','c.name as cn','j.id','j.name','j.alias','j.salary')
-                    ->join(DB::raw('(select skill_id from skill_job where job_id='.$req->id.') as a'),function($join){
+        $relatedJob = Cache::remember('relatedJob', 10, function() use ($id){
+            return DB::table('skills as s')
+                    ->select('e.name as en','e.address','e.logo','c.name as cn','j.id','j.name','j.alias','j.salary')
+                    ->join(DB::raw('(select skill_id from skill_job where job_id='.$id.') as a'),function($join){
                         $join->on('s.id','=','a.skill_id');
                     })->join('skill_job as sj','s.id','sj.skill_id')
-                    ->join(DB::raw('(select id,name,alias,salary,emp_id from jobs where id !='.$req->id.') as j'),function($join){
+                    ->join(DB::raw('(select id,name,alias,salary,emp_id from jobs where id !='.$id.') as j'),function($join){
                         $join->on('j.id','=','sj.job_id');
                     })->join('employers as e','j.emp_id','=','e.id')
                     ->join('cities as c','e.city_id','=','c.id')
-                    ->offset(0)->take(8)->get();
-        Session::flash('relatedJob', $relatedJob);
+                    ->offset(0)
+                    ->take(8)
+                    ->get();
+        });
+        Session::flash('relatedJob',$relatedJob);
         return view('layouts.details-job',compact('jobs'));
     }
     //get list skills and locations to filter jobs
@@ -145,7 +150,7 @@ class JobsController extends Controller
         }
         foreach ($uniques as $key => $job) {
             $location=Cities::where('id',$job->city_id)->value('name');
-            $cn=Employers::where('id',$job->emp_id)->value('name');
+            $cn=Employers::where('id',$job->emp_id)->first();
             $date=Carbon::parse($job->created_at)->format('d-m-Y');
             $today=date('d-m-Y');
             $skills=DB::table('skills as s')
@@ -157,7 +162,7 @@ class JobsController extends Controller
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
                                     <div class="logo job-search__logo">
-                                        <a href=""><img title="" class="img-responsive" src="assets/img/logo-search-job.jpg" alt="">
+                                        <a href=""><img title="" class="img-responsive" src="assets/img/logo/'.$cn->logo.'" alt="">
                                         </a>
                                     </div>
                                 </div>
@@ -167,7 +172,7 @@ class JobsController extends Controller
                                             <a href="it-job/'.$job->alias.'/'.$job->id.'" class="job-title" target="_blank" title="'.$job->name.'">'.$job->name.'</a>
                                         </h3>
                                         <div class="company">
-                                            <span class="job-search__company">'.$cn.' </span>
+                                            <span class="job-search__company">'.$cn->name.' </span>
                                             <span class="separator">|</span>
                                             <span class="job-search__location">'.$location.'</span>
                                         </div>
@@ -227,7 +232,7 @@ class JobsController extends Controller
         $skill_id=Skills::where('name',$name)->value('id');
         if($skill_id){
             $listJobLastest=DB::table('jobs as j')
-                                ->select('j.*','e.name as en','c.name as cn')
+                                ->select('j.*','e.name as en','c.name as cn','e.logo as le')
                                 ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
                                     $join->on('j.id','=','a.job_id');})
                                 ->join('employers as e','j.emp_id','=','e.id')
@@ -247,7 +252,7 @@ class JobsController extends Controller
         $city=Cities::select('id','name')->where('alias',$req->city)->first();
         if($skill_id){
             $listJobLastest=DB::table('jobs as j')
-                ->select('j.*','e.name as en','c.name as cn')
+                ->select('j.*','e.name as en','c.name as cn','e.logo as le')
                 ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
                     $join->on('j.id','=','a.job_id');})
                 ->where('j.city_id',$city->id)
@@ -288,7 +293,7 @@ class JobsController extends Controller
     public function getListJobByCity(Request $req){
         $city=Cities::select('id','name')->where('alias',$req->city)->first();
         $listJobLastest=DB::table('jobs as j')
-                            ->select('j.*','e.name as en','a.name as cn')
+                            ->select('j.*','e.name as en','a.name as cn','e.logo as le')
                             ->join(DB::raw('(Select id,name from cities where id='.$city->id.') a'),function($join){
                                 $join->on('j.city_id','=','a.id');})
                             ->join('employers as e','j.emp_id','=','e.id')

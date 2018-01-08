@@ -83,7 +83,21 @@ ITJob - Top Job IT For You
 	<div class="container">
 		<section class="top_employers">
 			<h1 class="title text-center">Top Employees</h1>
-			@include('partials.top-employers')
+			<div class="row top-employers__list">
+				@foreach($top_emps as $te)
+			    <div class="col-md-2 col-xs-6 col-sm-4 col-lg-2">
+			        <div class="item">
+			            <div class="top-employer__logo text-center">
+			                <a href="{{route('getEmployers',$te->alias)}}" target="_blank"><img src="assets/img/logo/{{$te->logo}}" alt="" title="" class="property_img"/>
+			                </a>
+			            </div>
+			            <div class="property_details text-center">
+			                <a href="{{route('getEmployers',$te->alias)}}" class="top-employer__name" target="_blank">{{$te->name}}</a>
+			            </div>
+			        </div>
+			    </div>
+			    @endforeach
+			</div>
 		</section>	<!--  end listing section  -->
 		<section class="our_jobs">
 			<h1 class="title text-center">Our Job</h1>
@@ -98,41 +112,15 @@ ITJob - Top Job IT For You
 									<div class="panel-content">
 										<div class="job-list">
 											<ul>
+												@foreach($top_jobs as $tj)
 												<li>
-													<a target="_blank" href="https://topdev.vn/detail-jobs/software-development-5791" title="Software Development (Project Manager)">
+													<a href="{{route('detailjob',[$tj->alias,$tj->id])}}" title="{{$tj->name}}">
 											            <span class="job-title">
-											            	<strong class="text-clip">Software Development (Project Manager)</strong>
-											            <em class="text-clip">LG Việt Nam</em></span>
+											            	<strong class="text-clip">{{$tj->name}}</strong>
+											            <em class="text-clip">{{$tj->em}}</em></span>
 										 			</a>
 												</li>
-												<li>
-													<a target="_blank" href="https://topdev.vn/detail-jobs/software-development-5791" title="Software Development (Project Manager)">
-											            <span class="job-title">
-											            	<strong class="text-clip">Software Development</strong>
-											            <em class="text-clip">LG Việt Nam</em></span>
-										 			</a>
-												</li>
-												<li>
-													<a target="_blank" href="https://topdev.vn/detail-jobs/software-development-5791" title="ASP.NET Developer (AngularJS, C#)">
-											            <span class="job-title">
-											            	<strong class="text-clip">ASP.NET Developer (AngularJS, C#)</strong>
-											            <em class="text-clip">Trí Nghĩa</em></span>
-										 			</a>
-												</li>
-												<li>
-													<a target="_blank" href="https://topdev.vn/detail-jobs/software-development-5791" title="Software Development (Project Manager)">
-											            <span class="job-title">
-											            	<strong class="text-clip">Software Development (Project Manager)</strong>
-											            <em class="text-clip">LG Việt Nam</em></span>
-										 			</a>
-												</li>
-												<li>
-													<a target="_blank" href="https://topdev.vn/detail-jobs/software-development-5791" title="Software Development (Project Manager)">
-											            <span class="job-title">
-											            	<strong class="text-clip">Software Development (Project Manager)</strong>
-											            <em class="text-clip">LG Việt Nam</em></span>
-										 			</a>
-												</li>
+												@endforeach
 											</ul>
 										</div>
 									</div>

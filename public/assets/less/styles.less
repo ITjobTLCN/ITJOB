@@ -459,6 +459,10 @@ div#navbar ul li:hover .sub-menu-info {
                 .top-employer__name {
                     color: #555;
                     font-size: 15px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: block;
                     &:hover {
                         color: @mainColor !important;
                     }
@@ -577,6 +581,12 @@ div#navbar ul li:hover .sub-menu-info {
             }
         }
     }
+    .company{
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        border: 1px solid #D8D8D8;
+    }
     .image {
         opacity: 1;
         display: block;
@@ -596,6 +606,8 @@ div#navbar ul li:hover .sub-menu-info {
         .company_header {
             display: flex;
             .company_logo {
+                width: 120px;
+                height: 90px;
                 position: relative;
                 top: -16px;
                 padding: 4px;
@@ -603,6 +615,10 @@ div#navbar ul li:hover .sub-menu-info {
                 background-color: #fff;
                 border: 1px solid #D2D2D2;
                 border-radius: 2px;
+                img{
+                   width: 120px;
+                    height: 80px; 
+                }
             }
             .company_name {
                 display: inline-block;
@@ -1309,7 +1325,7 @@ div#navbar ul li:hover .sub-menu-info {
     padding: 20px 30px 20px 15px;
     transition: background-color .3s;
     .logo {
-        padding: 0px 5px;
+        padding: 0px 15px;
     }
     .job-item-info {
         h3 {
@@ -1498,19 +1514,24 @@ div#navbar ul li:hover .sub-menu-info {
 }
 .home-companies {
     border: 1px solid #d3d6db;
+    img{
+        width: 1138px;
+    }
 }
 .profile-header_company {
     background: #fff;
 }
 .profile-header_company .logo-company {
     width: 168px;
-    height: 162px;
+    height: 160px;
     background-color: #fff;
     border: 1px solid #D2D2D2;
     border-radius: 2px;
     top: -31px;
-    left: 15%;
     position: relative;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
     padding: 5px;
 }
 .profile-header_company .logo-company img {
@@ -1801,7 +1822,7 @@ a:visited {
     margin-top: 10px;
     padding-bottom: 10px;
     .logo{
-        padding: 15px 0px;
+        padding: 15px 15px;
     }
     .companies-item-info .companies-title{
         color: red;
@@ -1936,19 +1957,22 @@ a:visited {
     margin-left: 4px;
 }
 .star-review {
+    
+}
+.star-review{
     display: inline-flex;
-}
-.star-review a {
-    background: #00c4ff;
-    padding: 10px 7px;
-    color: #fff;
-    border-radius: 100%;
-    margin-right: 5px;
-    margin-left: 5px;
-}
-.star-review i {
-    color: #fff;
-    margin-left: 3px;
+    a {
+        background: #00c4ff;
+        padding: 5px;
+        color: #fff;
+        border-radius: 50%;
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+    i {
+        color: #fff;
+        margin-left: 3px;
+    }
 }
 .result {
     margin-top: 15px;
@@ -2382,10 +2406,11 @@ label.error{
         overflow: hidden;
         margin-top: -10px;
         li{
+            height: 150px;
             text-align: center;
             margin-top: 10px;
-            position: relative;
             border: 1px solid #eee;
+            align-items: center;
             &:hover{
                 border: 1px solid #bdb4b4;
             }
