@@ -414,6 +414,7 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         'App\\Notifications\\ConfirmEmployer' => __DIR__ . '/../..' . '/app/Notifications/ConfirmEmployer.php',
         'App\\Notifications\\ConfirmPost' => __DIR__ . '/../..' . '/app/Notifications/ConfirmPost.php',
         'App\\Notifications\\NotifyNewPost' => __DIR__ . '/../..' . '/app/Notifications/NotifyNewPost.php',
+        'App\\Notifications\\SendNotify' => __DIR__ . '/../..' . '/app/Notifications/SendNotify.php',
         'App\\Permissions' => __DIR__ . '/../..' . '/app/Permissions.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

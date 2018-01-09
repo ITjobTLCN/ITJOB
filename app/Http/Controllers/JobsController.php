@@ -228,8 +228,8 @@ class JobsController extends Controller
     }
     //get list job by location
     public function getListJobBySkill(Request $req){
-        $name=$req->alias;
-        $skill_id=Skills::where('name',$name)->value('id');
+        $keysearch=$req->alias;
+        $skill_id=Skills::where('name',$keysearch)->value('id');
         if($skill_id){
             $listJobLastest=DB::table('jobs as j')
                                 ->select('j.*','e.name as en','c.name as cn','e.logo as le')
@@ -237,55 +237,64 @@ class JobsController extends Controller
                                     $join->on('j.id','=','a.job_id');})
                                 ->join('employers as e','j.emp_id','=','e.id')
                                 ->join('cities as c','j.city_id','=','c.id')->get();
-            Session::flash('skillname',$name);
+            Session::flash('skillname',$keysearch);
             $countjob=count($listJobLastest);
             $cities=$this->getCities();
             Cache::put('listJobSearch', $listJobLastest, 60);
             Session::flash('skill_id',$skill_id);
             return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
         }
-        return redirect()->route('getEmployers',$name);
+
+        $aliasEmp = Employers::where('name',$keysearch)->value('alias');
+        if(!$aliasEmp){
+            return redirect()->route('getEmployers',$keysearch);
+        }
+        return redirect()->route('getEmployers',$aliasEmp);
     }
     //get list job full option
     public function getListJobSearch(Request $req){
-        $skill_id=Skills::where('name',$req->alias)->value('id');
-        $city=Cities::select('id','name')->where('alias',$req->city)->first();
-        if($skill_id){
+        
+        $skill=Skills::where('alias',$req->alias)->first();
+        $city=Cities::where('alias',$req->city)->first();   
+        if($skill){
             $listJobLastest=DB::table('jobs as j')
                 ->select('j.*','e.name as en','c.name as cn','e.logo as le')
-                ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill_id.') a'),function($join){
+                ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill->id.') a'),function($join){
                     $join->on('j.id','=','a.job_id');})
                 ->where('j.city_id',$city->id)
                 ->join('employers as e','j.emp_id','=','e.id')
                 ->join('cities as c','j.city_id','=','c.id')->get();
-                Session::flash('skillname',$req->alias);
+                Session::flash('skillname', $skill->name);
                 Session::flash('city',$city->name);
-                Session::flash('skill_id',$skill_id);
+                Session::flash('skill_id',$skill->id);
                 Session::flash('city_id',$city->id);
                 $countjob=count($listJobLastest);
                 $cities=$this->getCities();
                 Cache::put('listJobSearch', $listJobLastest, 60);
                 return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
         }
-        return redirect()->route('getEmployers',Employers::where('name',$req->alias)->value('alias'));  
+        return redirect()->route('getEmployers',$req->alias);  
     }
     //redirect to the others route with every edition 
     public function getJobsBySearch(Request $req){
         Cache::forget('listJobSearch');
         $keysearch=$req->keysearch;
-        $city_id=Cities::where('name',$req->nametp)->value('id');
-        $city=Cities::where('id',$city_id)->value('alias');
+        $city=Cities::where('name',$req->nametp)->first();
         if($keysearch==""){
-            if($city_id==""){
+            if(!$city){
                 return redirect()->route('alljobs');
             }else{
-                return redirect()->route('seachjobByCity',$city);
+                return redirect()->route('seachjobByCity',$city->alias);
             }
         }else{
-            if($city_id==""){
+            if(!$city){
                 return redirect()->route('seachjob1opt',$keysearch);
             }else{
-                return redirect()->route('seachjob',[$keysearch,$city]);
+                $alias = Skills::where('name',$keysearch)->value('alias');
+                if(!$alias){
+                    $alias = Employers::where('name',$keysearch)->value('alias');
+                }
+                return redirect()->route('seachjob',[$alias,$city->alias]);
             }
         }       
     }
@@ -390,6 +399,12 @@ class JobsController extends Controller
         }else{
             $application->user_id=0;
         }
+        $temp = Applications::where('user_id',Auth::id())
+                                ->where('job_id',$req->job_id)
+                                ->first();
+        if($temp){
+            return redirect()->back()->with(['hasApply'=>'Bạn đã apply công việc này rồi']);
+        }
         $application->job_id=$req->job_id;
         $application->name=$req->fullname;
         $application->email=$req->email;
@@ -400,6 +415,7 @@ class JobsController extends Controller
         }
         $application->note=$req->note;
         $cv->move('uploads/emp/cv/' , $filename);
+        dd($cv);
         $application->save();
         return redirect()->back()->with(['success'=>'Nộp CV thành công']);
     }
