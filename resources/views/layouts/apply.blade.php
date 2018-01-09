@@ -22,21 +22,17 @@ Application
 						
 					<form class="form-horizontal" id="formApply" enctype="multipart/form-data" method="post" action="{{route('applyJob')}}">
 						<div class="form-group">
-							@if(Session::has('success'))
-								<div class="modal fade" id="modal-id">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-												<h4 class="modal-title">Modal title</h4>
-											</div>
-											<div class="modal-body">
-												{{Session::get('success')}}
-											</div>
-										</div>
+							<div class="col-sm-offset-2">
+								@if(Session::has('success'))
+									<div class="alert alert-success alert-dismissable">
+										<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+										{{Session::get('success')}}
 									</div>
-								</div>
-							@endif
+								@endif
+								@if(Session::has('hasApply'))
+									<span class="label label-danger" style="font-size: 15px">{{Session::get('hasApply')}}</span>
+								@endif
+							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label col-sm-2" for="email">Your name:</label>

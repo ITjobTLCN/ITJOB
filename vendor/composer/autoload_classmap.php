@@ -49,6 +49,7 @@ return array(
     'App\\Notifications\\ConfirmEmployer' => $baseDir . '/app/Notifications/ConfirmEmployer.php',
     'App\\Notifications\\ConfirmPost' => $baseDir . '/app/Notifications/ConfirmPost.php',
     'App\\Notifications\\NotifyNewPost' => $baseDir . '/app/Notifications/NotifyNewPost.php',
+    'App\\Notifications\\SendNotify' => $baseDir . '/app/Notifications/SendNotify.php',
     'App\\Permissions' => $baseDir . '/app/Permissions.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'App\\Providers\\AuthServiceProvider' => $baseDir . '/app/Providers/AuthServiceProvider.php',

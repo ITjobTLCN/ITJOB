@@ -72,8 +72,8 @@ class CompanyController extends Controller
         }
         $jobs=Jobs::where('emp_id',$company->id)
                     ->count();
-        $skills=DB::table('skills as s')
-                    ->select('s.name')
+    $skills=DB::table('skills as s')
+                    ->select('s.name','s.alias')
                     ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$company['id'].') as a'),function($join){
                             $join->on('s.id','=','a.skill_id');
                         })
