@@ -11,7 +11,7 @@ Contact Us | ITJob
 		<div class="contact">
 			<div class="row">
 				<div class="col-md-6">
-					<form action="" method="POST" id="frmContact" name="frmContact" class="form-horizontal" role="form">
+					<form action="{{route('contact')}}" method="POST" id="frmContact" name="frmContact" class="form-horizontal" role="form">
 								<div class="form-group">
 									<h1>Contact Us</h1>
 								</div>
@@ -40,6 +40,7 @@ Contact Us | ITJob
 										<textarea name="content" id="content" class="form-control" id="" cols="20" rows="10"></textarea>
 									</div>
 								</div>
+								{{csrf_field()}}
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3">
 										<button type="submit" class="btn btn-danger" style="width: 100%">Send</button>
@@ -57,7 +58,5 @@ Contact Us | ITJob
 </div>
 @stop
 @section('footer.js')
-<script src="assets/js/app.js"></script>
-<script src="assets/controller/UsersController.js"></script>
-<script src="assets/controller/SkillsController.js"></script>
+<script src="assets/js/validate-form.js"></script>
 @stop

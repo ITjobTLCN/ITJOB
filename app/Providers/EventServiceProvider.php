@@ -24,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         //send mail when register
         'App\Events\SendMail' => [
             'App\Listeners\SendMailRegister',
+        ],
+        'App\Events\SendMailContact' => [
+            'App\Listeners\SendMailContacts'
         ]
     ];
 

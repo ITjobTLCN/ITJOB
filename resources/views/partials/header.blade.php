@@ -21,7 +21,7 @@
             <li><a href="{{route('searchCompanies')}}">Company</a>
             </li>
 
-            <li><a href="{{route('lienhe')}}">Contact</a>
+            <li><a href="{{route('contact')}}">Contact</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

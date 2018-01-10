@@ -66,7 +66,6 @@ class UsersController extends Controller
     public function editProfile(Request $req)
     {
         $user=User::findOrFail(Auth::user()->id);
-        dd($user);
         if($req->hasFile('cv')){
             $cv=$req->file('cv');
             $filename = $cv->getClientOriginalName();

@@ -118,6 +118,7 @@ $(document).ready(function(){
 	            			$('#emailr').val("");
 	            		}else{
 	            			alert('Đăng ký thành công tài khoản');
+	            			//location.reload();
 	            			window.location.href = 'http://localhost/www/ITJob/public/';
 	            		}
 	            	}
@@ -185,6 +186,9 @@ $(document).ready(function(){
 			content:{
 				required:"Vui lòng nhập nội dung",
 			}
+		},
+		submitHandler: function(){
+			
 		}
 	});
 });

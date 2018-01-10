@@ -13,15 +13,14 @@
 							<h1>Đăng ký</h1>
 						</div>
 						<div class="social text-center">
-							<a type="button" href="{{route('loginProvider','facebook')}}" class="btn btn-primary"><i class="fa fa-fw fa-facebook"></i> Dùng tài khoản Facebook</a>
-							<a type="button" href="{{route('loginProvider','google')}}" class="btn btn-danger"><i class="fa fa-fw fa-google"></i> Dùng tài khoản Google</a>
+							<p style="font-size: 15px; padding: 5px">Đăng nhập nhanh</p>
+							<a type="button" href="{{route('loginProvider','facebook')}}" class="btn btn-primary"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+							<a type="button" href="{{route('loginProvider','google')}}" class="btn btn-danger"><i class="fa fa-fw fa-google"></i> Google</a>
 						</div>
 					</div>
 				</h5>
 			</div>
 			<div class="modal-body">
-				
-				<h4 class="text-center">Đăng ký bằng EMAIL</h4>
 				<div class="modal_content ">
 					<form role="form" id="frmRegister">
 						<p style="color: red;display: none;" class="error errorRegister"></p>

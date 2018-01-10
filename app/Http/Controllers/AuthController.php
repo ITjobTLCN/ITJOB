@@ -56,6 +56,6 @@ class AuthController extends Controller
             $user=$socialProvider->user;
         }
         auth()->login($user);
-        return redirect()->back();
+        return redirect()->route('/');
     }
 }

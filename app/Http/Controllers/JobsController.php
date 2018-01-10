@@ -162,7 +162,7 @@ class JobsController extends Controller
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
                                     <div class="logo job-search__logo">
-                                        <a href=""><img title="" class="img-responsive" src="assets/img/logo/'.$cn->logo.'" alt="">
+                                        <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/'.$cn->logo.'" alt="">
                                         </a>
                                     </div>
                                 </div>
@@ -415,7 +415,6 @@ class JobsController extends Controller
         }
         $application->note=$req->note;
         $cv->move('uploads/emp/cv/' , $filename);
-        dd($cv);
         $application->save();
         return redirect()->back()->with(['success'=>'Nộp CV thành công']);
     }

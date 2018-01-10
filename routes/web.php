@@ -15,11 +15,14 @@ Route::get('/',[
 	'uses'=>'PageController@getIndex'
 ]);
 //contact
-Route::get('contact',[
-	'as'=>'lienhe',
+Route::get('lien-he',[
+	'as'=>'contact',
 	'uses'=>'PageController@getContact'
 ]);
-
+Route::post('lien-he',[
+	'as' => 'contact',
+	'uses' => 'PageController@postContact'
+]);
 //login
 Route::get('dang-nhap',[
 	'as'=>'login',

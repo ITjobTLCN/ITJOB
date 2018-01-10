@@ -125,12 +125,12 @@ class CompanyController extends Controller
            $output.='<div class="col-md-4">
                 <a href="companies/'.$emp->alias.'" class="company">
                     <div class="company_banner">
-                        <img src="assets/img/property_1.jpg" alt="Cover-photo" class="img-responsive image" title="" class="property_img"/>
+                        <img src="uploads/emp/cover/'.$emp->cover.'" alt="Cover-photo" class="img-responsive image" title="" class="property_img"/>
                     </div>
                     <div class="company_info">
                         <div class="company_header">
                             <div class="company_logo">
-                                <img src="https://itviec.com/system/production/employers/logos/100/fpt-software-logo-65-65.png?1459494092" alt="avatar-company">
+                                <img src="uploads/emp/logo/'.$emp->logo.'" alt="avatar-company">
                             </div>
                             <div class="company_name">'.$emp->name.'</div>
                         </div>
@@ -161,12 +161,12 @@ class CompanyController extends Controller
            $output.='<div class="col-md-4">
                 <a href="companies/'.$emp->alias.'" class="company">
                     <div class="company_banner">
-                        <img src="assets/img/property_1.jpg" alt="Cover-photo" class="img-responsive image" title="" class="property_img"/>
+                        <img src="uploads/emp/cover/'.$emp->cover.'" alt="Cover-photo" class="img-responsive image" title="'.$emp->name.'" class="property_img"/>
                     </div>
                     <div class="company_info">
                         <div class="company_header">
                             <div class="company_logo">
-                                <img src="https://itviec.com/system/production/employers/logos/100/fpt-software-logo-65-65.png?1459494092" alt="avatar-company">
+                                <img src="uploads/emp/logo/'.$emp->logo.'" alt="avatar-company" title="'.$emp->name.'">
                             </div>
                             <div class="company_name">'.$emp->name.'</div>
                         </div>
@@ -206,7 +206,7 @@ class CompanyController extends Controller
            $output .= "<div class='row'>
                         <div class='col-xs-3 col-md-3 col-lg-2'>
                             <div class='logo job-search__logo'>
-                                <a href=''><img title='' class='img-responsive' src='assets/img/logo-search-job.jpg' alt=''>
+                                <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/logo/{$emp->logo}' alt=''>
                                 </a>
                             </div>
                         </div>

@@ -7,7 +7,7 @@
     <div class="container">
         <section class="home-companies">
             <div class="cover-photo_company" id="home">
-                <img src="assets/img/cover/{{$company->cover}}" alt="" class="img-responsive">
+                <img src="uploads/emp/cover/{{$company->cover}}" alt="" class="img-responsive">
             </div>
             <div class="profile-header_company">
                 <div class="row">

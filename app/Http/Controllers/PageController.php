@@ -10,6 +10,8 @@ use App\Skills;
 use App\Employers;
 use Auth;
 use Cache;
+use Mail;
+use App\Events\SendMailContact;
 class PageController extends Controller
 {
 	public function getIndex(){
@@ -42,8 +44,15 @@ class PageController extends Controller
     public function getContact(){
     	return view('layouts.contact');
     }
-    public function getAllCities()
-    {
+    public function postContact(Request $req){
+        dd($req->email);
+        event(new SendMailContact($req->email, 
+                                 $req->name, 
+                                 $req->subtitle, 
+                                 $req->content));
+        return redirect()->back();
+    }
+    public function getAllCities(){
         $minutes=60;
         if(Cache::has('listLocation')){
             $locations=Cache::get('listLocation');

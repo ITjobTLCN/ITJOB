@@ -43,12 +43,12 @@ Reviews of top companies on ITJob
 			<div class="col-md-4 col-sm-4 col-lg-4">
 				<a href="{{route('getEmployers',$ch->alias)}}" class="company" target="_blank">
 					<div class="company_banner">
-						<img src="assets/img/cover/{{$ch->cover}}" alt="Cover-photo" class="img-responsive image" title="{{$ch->name}}" class="property_img"/>
+						<img src="uploads/emp/cover/{{$ch->cover}}" alt="Cover-photo" class="img-responsive image" title="{{$ch->name}}" class="property_img"/>
 					</div>
 					<div class="company_info">
 						<div class="company_header">
 							<div class="company_logo">
-								<img src="assets/img/logo/{{$ch->logo}}" alt="avatar-company">
+								<img src="uploads/emp/logo/{{$ch->logo}}" alt="avatar-company">
 							</div>
 							<div class="company_name">
 								{{$ch->name}}
@@ -81,12 +81,12 @@ Reviews of top companies on ITJob
 			<div class="col-md-4">
 				<a href="{{route('getEmployers',$cf->alias)}}" class="company">
 					<div class="company_banner">
-						<img src="assets/img/cover/{{$cf->cover}}" alt="Cover-photo" class="img-responsive image" title="{{$cf->name}}" class="property_img"/>
+						<img src="uploads/emp/cover/{{$cf->cover}}" alt="Cover-photo" class="img-responsive image" title="{{$cf->name}}" class="property_img"/>
 					</div>
 					<div class="company_info">
 						<div class="company_header">
 							<div class="company_logo">
-								<img src="assets/img/logo/{{$cf->logo}}" alt="avatar-company">
+								<img src="uploads/emp/logo/{{$cf->logo}}" alt="avatar-company">
 							</div>
 							<div class="company_name">
 								{{$cf->name}}

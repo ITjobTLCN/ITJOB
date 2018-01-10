@@ -217,7 +217,7 @@
         			<div class="box">
         				<div class="col-md-12 col-sm-12 employer-logo">
         					<div class="responsive-container box-limit">
-        							<a href="{{route('getEmployers',$jobs[0]->el)}}" target="_blank" title="{{$jobs[0]->en}}"><img src="assets/img/logo/{{$jobs[0]->logo}}" alt=""></a>
+        							<a href="{{route('getEmployers',$jobs[0]->el)}}" target="_blank" title="{{$jobs[0]->en}}"><img src="uploads/emp/logo/{{$jobs[0]->logo}}" alt=""></a>
         						
         					</div>
         				</div>
