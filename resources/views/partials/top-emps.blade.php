@@ -2,7 +2,7 @@
 	<h3 id="hirring">Top Employer</h3>
 	<ul class="company-logos">
 		@foreach($top_emps as $te)
-		<li><a href="{{route('getEmployers',$te->alias)}}" target="_blank"><img width="110" alt="{{$te->name}}" title="{{$te->name}}" data-animation="false" src="assets/img/logo/{{$te->logo}}""></a></li>
+		<li><a href="{{route('getEmployers',$te->alias)}}" target="_blank"><img width="110" alt="{{$te->name}}" title="{{$te->name}}" data-animation="false" src="uploads/emp/logo/{{$te->logo}}""></a></li>
 		@endforeach
 	</ul>
 </div>

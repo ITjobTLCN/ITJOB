@@ -88,7 +88,7 @@ ITJob - Top Job IT For You
 			    <div class="col-md-2 col-xs-6 col-sm-4 col-lg-2">
 			        <div class="item">
 			            <div class="top-employer__logo text-center">
-			                <a href="{{route('getEmployers',$te->alias)}}" target="_blank"><img src="assets/img/logo/{{$te->logo}}" alt="" title="" class="property_img"/>
+			                <a href="{{route('getEmployers',$te->alias)}}" target="_blank"><img src="uploads/emp/logo/{{$te->logo}}" alt="" title="" class="property_img"/>
 			                </a>
 			            </div>
 			            <div class="property_details text-center">
