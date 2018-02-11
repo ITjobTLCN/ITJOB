@@ -25,48 +25,51 @@ use DateTime;
 
 class HomeController extends Controller
 {
-    public function getLogOut(){
+    public function getLogOut() {
         Auth::logout();
         return redirect()->route('getlogin');
     }
-    // ng-login
-    public function ngPostLogin(Request $req){
-        $email = $req->email;
-        $password=$req->password;
 
-        if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            $url="";
-            $role_id=Auth::user()->role_id;
-            if($role_id==2){
-                $url="admin/dashboard";
+    public function ngPostLogin(Request $req) {
+        $email = $req->email;
+        $password = $req->password;
+
+        if(Auth::attempt(['email' => $email, 'password' => $password])) {
+            $url = "";
+            $role_id = Auth::user()->role_id;
+            if($role_id == 2) {
+                $url = "admin/dashboard";
             }
-            return response()->json(['status'=>true,'message'=>'Đăng nhập thành công','url'=>$url]);
-            
-        }else{
-            return response()->json(['status'=>false,'errors'=>'Email hoặc mật khẩu không đúng']);
+            return response()->json(['status'=>true,
+                                      'message'=>'Đăng nhập thành công',
+                                      'url'=>$url]); 
+        } else {
+            return response()->json(['status'=>false,
+                                     'errors'=>'Email hoặc mật khẩu không đúng']);
         }
     }
 
-    public function getDownloadEmpCV($name){
-        try{
+    public function getDownloadEmpCV($name) {
+        try {
             return response()->download('uploads/emp/cv/'.$name);
-        }catch(\Exception $e){
+        } catch(\Exception $e) {
             return response()->json(['flag'=>false,'mess'=>'The filename invalid']);
         }
     }
 
     /**--------------REGISTER A EMPLOYER - Master Or Assitant-------------------*/
-    public function ngLoadReg(){
+    public function ngLoadReg() {
         $cities = Cities::all();
         $emps = Employers::where('status',1)->get();
 
         return response()->json(['cities'=>$cities,'emps'=>$emps]);
     }
-    public function getRegisterEmp(){
+
+    public function getRegisterEmp() {
         return view('layouts.registeremp');
     }
-    public function postRegisterEmp(Request $request){
 
+    public function postRegisterEmp(Request $request) {
         try{
             //check
             $type = (!Employers::where('id',$request->id)->first())?0:10; //0:master reg  10:assis reg
@@ -118,7 +121,7 @@ class HomeController extends Controller
 
 
             return response()->json(['status'=>true,'message'=>'Register successfully']);
-        }catch(Exception $e){
+        } catch(Exception $e) {
             return response()->json(['status'=>false,'message'=>'Register failed']);
         }
     }

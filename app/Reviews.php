@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class Reviews extends Model
+class Reviews extends Eloquent
 {
-     protected $table='reviews';
+    use SoftDeletes;
+
+     protected $collection = 'reviews';
      public function user(){
      	return $this->belongsTo('App\User','user_id','id');
      }

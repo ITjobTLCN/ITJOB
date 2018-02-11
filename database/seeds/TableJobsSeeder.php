@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use MongoDB\BSON\UTCDateTime;
 class TableJobsSeeder extends Seeder
 {
     /**
@@ -11,14 +11,15 @@ class TableJobsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('jobs')->insert([
+        DB::collection('jobss')->insert([
         	[
         		"name"=>"Công việc 1",
 	        	"alias"=>"cv-1",
 	        	"user_id"=>4,
 	        	"emp_id"=>1,
 	        	"city_id"=>1,
-                'created_at'=>new DateTime()
+                'created_at' => new UTCDateTime(round(microtime(true) * 1000)),
+                'updated_at' => new UTCDateTime(round(microtime(true) * 1000)),
         	],
         	[
         		"name"=>"Công việc 2",
@@ -26,7 +27,8 @@ class TableJobsSeeder extends Seeder
 	        	"user_id"=>4,
 	        	"emp_id"=>1,
 	        	"city_id"=>2,
-                'created_at'=>new DateTime()
+                'created_at' => new UTCDateTime(round(microtime(true) * 1000)),
+                'updated_at' => new UTCDateTime(round(microtime(true) * 1000)),
         	],
             [
                 "name"=>"Công việc 3",
@@ -34,7 +36,8 @@ class TableJobsSeeder extends Seeder
                 "user_id"=>4,
                 "emp_id"=>2,
                 "city_id"=>1,
-                'created_at'=>new DateTime()
+                'created_at' => new UTCDateTime(round(microtime(true) * 1000)),
+                'updated_at' => new UTCDateTime(round(microtime(true) * 1000)),
             ]
         ]);
     }

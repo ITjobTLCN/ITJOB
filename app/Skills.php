@@ -2,11 +2,14 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class Skills extends Model
+class Skills extends Eloquent
 {
-     protected $table='skills';
+    use SoftDeletes;
+
+     protected $collection = 'skills';
 
      public function Jobs()
      {

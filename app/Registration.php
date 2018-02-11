@@ -2,12 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class Registration extends Model
+class Registration extends Eloquent
 {
     //
-    protected $table="registration";
+    use SoftDeletes;
+
+    protected $collection = "registration";
 
     protected $primaryKey = ('user_id');
     public function user(){

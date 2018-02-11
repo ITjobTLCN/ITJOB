@@ -268,4 +268,8 @@ Route::post('sendemail',['as'=>'postsendemail','uses'=>'EmpController@postSendEm
 Route::get('/markAsRead',function(){
 	auth()->user()->unreadnotifications->markAsRead();
 });
-/*-----------------END DAT ROUTER----------------------*/	
+/*-----------------END DAT ROUTER----------------------*/
+Route::get('/demo', [
+	'as' => 'demo',
+	'uses' => 'PageController@getDemo'
+]);

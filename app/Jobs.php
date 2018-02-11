@@ -2,22 +2,21 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class Jobs extends Model
+class Jobs extends Eloquent
 {
+    use SoftDeletes;
+
      private $id;
-     protected $table='jobs';
-     protected $fillable=[
+     protected $collection = 'jobss';
+     protected $fillable = [
           "name","alias","user_id","emp_id","city_id"
      ];
      public function CV()
      {
      	return $this->belongsToMany('App\CV','applies','job_id','cv_id');
-     }
-     public function Skills()
-     {
-     	return $this->belongsToMany('App\Skills','skill_job','job_id','skill_id');
      }
      public function Cities()
      {

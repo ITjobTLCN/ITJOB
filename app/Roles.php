@@ -2,16 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class Roles extends Model
+class Roles extends Eloquent
 {
-   protected $table = "roles";
+    use SoftDeletes;
 
-   public function Permission()
-   {
-   		return $this->hasMany('App\Permissions','role_id','id');
-   }
+   protected $collection = "roles";
+
    public function User()
    {
    		return $this->hasMany('App\User','role_id','id');

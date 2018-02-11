@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class Cities extends Model
+class Cities extends Eloquent
 {
-    protected $table='cities';
+    use SoftDeletes;
+    protected $collection = 'cities';
 }

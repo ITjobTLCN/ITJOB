@@ -2,10 +2,13 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
-class SocialProvider extends Model
+class SocialProvider extends Eloquent
 {
+    use SoftDeletes;
+
 	protected $filltable=['provider_id','provider'];
     public function user()
     {
