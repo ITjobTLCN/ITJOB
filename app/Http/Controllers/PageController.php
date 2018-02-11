@@ -15,28 +15,28 @@ class PageController extends Controller
 {
 	public function getIndex() {
         $minutes=10;
-        if(Cache::has('listLocation')) {
-            $cities=Cache::get('listLocation');
-        } else {
-            $cities=Cache::remember('listLocation', $minutes, function(){
+        Cache::has('listLocation') ?
+            $cities = Cache::get('listLocation')
+            :
+            $cities = Cache::remember('listLocation', $minutes, function() {
                 return Cities::all();  
             });
-        }
 
-        $top_emps=Cache::remember('top_emps', $minutes, function(){
-            return Employers::select('id','name','alias','logo')
+        $top_emps = Cache::remember('top_emps', $minutes, function() {
+            return Employers::select('_id', 'name', 'alias', 'logo')
                                 ->orderBy('rating desc')
                                 ->orderBy('follow desc')
                                 ->offset(0)
                                 ->take(6)
                                 ->get();
-        });
-
-        $top_jobs=Cache::remember('top_jobs', $minutes, function(){
-            return DB::table('employers as e')
-                        ->select('e.name as em','a.id','a.name','a.alias','e.id as ei')
-                        ->join(DB::raw('(select id, name, alias, emp_id from jobs order by views desc) as a'),function($join){
-                            $join->on('a.emp_id','=','e.id');
+        }); 
+        
+        $top_jobs = Cache::remember('top_jobs', $minutes, function(){
+            return DB::collection('employers as e')
+                        ->select('e.name as em','a._id','a.name','a.alias','e._id as ei')
+                        ->join(DB::raw('(select _id, name, alias, emp_id 
+                                        from jobss) as a'), function($join) {
+                            $join->on('a.emp_id','=','e._id');
                         })->get();
         });
 
