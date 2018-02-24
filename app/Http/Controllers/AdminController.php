@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Applications;
 use App\User;
 use App\Roles;
-use App\Jobs;
+use App\Job;
 use App\Employers;
 use App\Cities;
 use App\Registration;
@@ -49,7 +49,7 @@ class AdminController extends Controller
                             //     Cities::firstOrCreate($sheet->toArray());
                             //     break;          
                             // case 3: 
-                            //     Jobs::firstOrCreate($sheet->toArray());
+                            //     Job::firstOrCreate($sheet->toArray());
                             //     break;  
                             // case 4: 
                             //     Employers::firstOrCreate($sheet->toArray());
@@ -96,8 +96,8 @@ class AdminController extends Controller
             //     $name= $name.'Cities';
             //     break;
             // case 3:
-            //     $export = Jobs::all();
-            //     $name= $name.'Jobs';
+            //     $export = Job::all();
+            //     $name= $name.'Job';
             //     break;
             // case 4:
             //     $export = Employers::all();
@@ -273,7 +273,7 @@ class AdminController extends Controller
         $usertoday = User::where('status',1)->where('created_at','>',$today)->get();
         $countusertoday = $usertoday->count();
 
-        $posttoday = Jobs::where('status',1)->where('created_at','>',$today)->get();
+        $posttoday = Job::where('status',1)->where('created_at','>',$today)->get();
         $countposttoday = $posttoday->count();
 
         $applitoday = Applications::where('status',1)->where('created_at','>',$today)->get();
@@ -282,9 +282,9 @@ class AdminController extends Controller
         // $now = gmdate('H:i:s',$now->diffInSeconds($diff));
 
         //POST
-        $posts = Jobs::with('Employer')->get();
+        $posts = Job::with('Employer')->get();
         //count post approved and expired
-        $countposted = Jobs::where(function($q){
+        $countposted = Job::where(function($q){
             $q->orWhere('status',1);
             $q->orWhere('status',11);
         })->get()->count();

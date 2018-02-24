@@ -3,13 +3,23 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Cache;
 
-class User extends Authenticatable
+class User extends Eloquent implements
+    AuthenticatableContract,
+    AuthorizableContract
 {
-    use Notifiable;
+    use Notifiable, Authenticatable, SoftDeletes, Authorizable;
+    protected $collection = "users";
 
+    protected $dates = ['deleted_at'];
+    
     /**
      * The attributes that are mass assignable.
      *

@@ -7,6 +7,7 @@ use DB;
 use App\Cities;
 use App\Skills;
 use App\Employers;
+use App\Job;
 use Auth;
 use Cache;
 use Mail;
@@ -35,7 +36,7 @@ class PageController extends Controller
             return DB::collection('employers as e')
                         ->select('e.name as em','a._id','a.name','a.alias','e._id as ei')
                         ->join(DB::raw('(select _id, name, alias, emp_id 
-                                        from jobss) as a'), function($join) {
+                                        from job) as a'), function($join) {
                             $join->on('a.emp_id','=','e._id');
                         })->get();
         });
@@ -78,5 +79,16 @@ class PageController extends Controller
         });
 
         return $skills;
+    }
+    
+    public function getDemo()
+    {
+        $abc = Employers::with('jobs')->first();
+        $temp = [];
+            dd($abc['jobs']);
+            $temp[] = Job::find('5a801c36bb8cc222ac0040e9');
+        dd($temp);
+        //$d = $abc->jobs();
+        dd($abc);
     }
 }

@@ -98,12 +98,12 @@ class UsersController extends Controller
 
         $validator = Validator::make($req->all(), $rules, $messages);
         if($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
         } else {
-            $email = $req->email;
-            $password = $req->password;
-
-            if(Auth::attempt(['email' => $email,'password' => $password])){
+            if(Auth::attempt(['email' => $req->email, 
+                              'password' => $req->password])) {
                 $role_id = Auth::user()->role_id;
                 switch ($role_id) {
                     case 1:
@@ -118,7 +118,9 @@ class UsersController extends Controller
                 }
             } else {
                 $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']); 
-                return redirect()->back()->withInput()->withErrors($errors);
+                return redirect()->back()
+                                 ->withInput()
+                                 ->withErrors($errors);
             }
         }
     }
@@ -163,7 +165,7 @@ class UsersController extends Controller
     }
 
     public function getJobApplicationsOfUser() {
-        $jobApplications = DB::table('jobs as j')
+        $jobApplications = DB::table('job as j')
                                 ->select('j.*','c.name as cn','e.name as en','e.logo')
                                 ->join(DB::raw('(select job_id from applications where user_id='.Auth::id().') as a'),function($join){
                                     $join->on('j.id','=','a.job_id');

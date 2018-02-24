@@ -8,11 +8,12 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 class Skills extends Eloquent
 {
     use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
-     protected $collection = 'skills';
+    protected $collection = 'skills';
 
-     public function Jobs()
-     {
-     	return $this->belongsToMany('App\Jobs','skill_job','skill_id','job_id');
-     }
+    public function Jobs()
+    {
+    return $this->belongsToMany('App\Jobs','skill_job','skill_id','job_id');
+    }
 }

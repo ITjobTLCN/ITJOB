@@ -8,7 +8,6 @@ use DB;
 use App\User;
 use App\Registration;
 use App\Cities;
-use App\Jobs;
 use App\Employers;
 use App\Skills;
 use App\Skill_Job;
@@ -40,12 +39,12 @@ class HomeController extends Controller
             if($role_id == 2) {
                 $url = "admin/dashboard";
             }
-            return response()->json(['status'=>true,
-                                      'message'=>'Đăng nhập thành công',
-                                      'url'=>$url]); 
+            return response()->json(['status' => true,
+                                      'message' => 'Đăng nhập thành công',
+                                      'url' => $url]); 
         } else {
-            return response()->json(['status'=>false,
-                                     'errors'=>'Email hoặc mật khẩu không đúng']);
+            return response()->json(['status' => false,
+                                     'errors' => 'Email hoặc mật khẩu không đúng']);
         }
     }
 
@@ -53,16 +52,16 @@ class HomeController extends Controller
         try {
             return response()->download('uploads/emp/cv/'.$name);
         } catch(\Exception $e) {
-            return response()->json(['flag'=>false,'mess'=>'The filename invalid']);
+            return response()->json(['flag' => false,'mess' => 'The filename invalid']);
         }
     }
 
     /**--------------REGISTER A EMPLOYER - Master Or Assitant-------------------*/
     public function ngLoadReg() {
         $cities = Cities::all();
-        $emps = Employers::where('status',1)->get();
+        $emps = Employers::where('status', 1)->get();
 
-        return response()->json(['cities'=>$cities,'emps'=>$emps]);
+        return response()->json(['cities' => $cities, 'emps' => $emps]);
     }
 
     public function getRegisterEmp() {
@@ -70,17 +69,14 @@ class HomeController extends Controller
     }
 
     public function postRegisterEmp(Request $request) {
-        try{
+        try {
             //check
-            $type = (!Employers::where('id',$request->id)->first())?0:10; //0:master reg  10:assis reg
-            // dd($type);
-
-
+            $type = (!Employers::where('id', $request->id)->first()) ? 0 : 10; //0:master reg  10:assis reg
             //data
             $user = User::findOrFail(Auth::user()->id);
-            $check = (Registration::where('user_id',$user->id)->first())?false:true; //de su dung sau
-            if(!$check){
-                return response()->json(['status'=>false,'message'=>'You have registered 1 employer']);
+            $check = (Registration::where('user_id', $user->id)->first()) ? false : true; //de su dung sau
+            if(!$check) {
+                return response()->json(['status' => false, 'message' => 'You have registered 1 employer']);
                 // return redirect()->back()->withErrors('You have registered 1 employer');
             }
             $flag = true;
@@ -112,17 +108,16 @@ class HomeController extends Controller
                     break;
             }
                 
-            if($flag){
+            if($flag) {
                 //create registration
                 $res->user_id = $user->id;
                 $res->status = $type;//master:0   assis:10 - waiting confirm
                 $res->save();
             }
 
-
-            return response()->json(['status'=>true,'message'=>'Register successfully']);
+            return response()->json(['status' => true,'message' => 'Register successfully']);
         } catch(Exception $e) {
-            return response()->json(['status'=>false,'message'=>'Register failed']);
+            return response()->json(['status' => false,'message' => 'Register failed']);
         }
     }
 }

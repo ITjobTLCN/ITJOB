@@ -9,7 +9,8 @@ class Registration extends Eloquent
 {
     //
     use SoftDeletes;
-
+    protected $dates = ['deleted_at'];
+    
     protected $collection = "registration";
 
     protected $primaryKey = ('user_id');
