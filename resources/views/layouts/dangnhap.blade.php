@@ -7,7 +7,7 @@ Login | ITJob
 @stop
 @section('body.content')
 <div class="container">
-	<div class="form-login">
+	<div class="form-card">
 		<div class="row justify-content-center">
 			<div class="col-md-8">
 				<div class="card-group">
