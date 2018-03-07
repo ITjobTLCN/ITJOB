@@ -10,10 +10,8 @@ Thông tin cá nhân | ITJob
 			<div class="title-profile text-center">
 				<h2>Manage your profile settings</h2>
 			</div>
-			@if(Auth::check())
 			<div class="wrapper-profile">
 				<div class="box box-md">
-
 					<div class="col-md-2 col-sm-3">
 						
 						<div class="avatar_profile">
@@ -22,8 +20,6 @@ Thông tin cá nhân | ITJob
 							@else
 							<img src="{{$user->image}}" alt="" class="img-responsive" width="150px" height="150px">
 							@endif
-							
-
 						</div>
 						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">
 							<input type="file" name="avatar">
@@ -103,14 +99,9 @@ Thông tin cá nhân | ITJob
 					</div>
 				</div>
 			</div>
-			@else
-			<h2 class="text-center">Please login before using this function</h2>
-			@endif
 		</div>
-		
 		<div class="clearfix"></div>
 	</div>
-	
 </div>	
 @stop
 @section('footer.js')

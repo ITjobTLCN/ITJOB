@@ -5,17 +5,16 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Cache;
 
-class User extends Eloquent implements
-    AuthenticatableContract,
-    AuthorizableContract
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Auth\Authenticatable as AuthenticableTrait;
+use Cache;
+class User extends Eloquent implements Authenticatable
 {
-    use Notifiable, Authenticatable, SoftDeletes, Authorizable;
+    use Notifiable,  
+        SoftDeletes,
+        AuthenticableTrait;
+
     protected $collection = "users";
 
     protected $dates = ['deleted_at'];
@@ -35,16 +34,8 @@ class User extends Eloquent implements
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
-    public function Roles()
-    {
-       return $this->belongsTo('App\Roles','role_id','id');
-    }
-    public function Employers()
-    {
-        return $this->belongsTo('App\Employers','company_id','id');
-    }
     public function socialProviders()
     {
         return $this->hasMany(SocialProvider::class);

@@ -44,7 +44,7 @@ Route::get('dang-xuat',[
 	'uses'=>'UsersController@logout'
 ]);
 //profile candidate
-Route::group(['prefix'=>'users', 'middleware'=>'auth'],function(){
+Route::group(['prefix'=>'users', 'middleware'=>'auth'],function() {
 	Route::get('profile',['as'=>'profile','uses'=>'UsersController@getProfile']);
 	Route::post('profile',['as'=>'postAvatar','uses'=>'UsersController@postAvatar']);
 	Route::post('edit-email',['as'=>'editEmail', 'uses'=>'UsersController@editEmail']);

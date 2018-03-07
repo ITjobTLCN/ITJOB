@@ -44,6 +44,18 @@ class AggregateTest extends TestCase
             $options[][] = ['collation' => $value];
         }
 
+        foreach ($this->getInvalidStringValues() as $value) {
+            $options[][] = ['comment' => $value];
+        }
+
+        foreach ($this->getInvalidHintValues() as $value) {
+            $options[][] = ['hint' => $value];
+        }
+
+        foreach ($this->getInvalidIntegerValues() as $value) {
+            $options[][] = ['maxAwaitTimeMS' => $value];
+        }
+
         foreach ($this->getInvalidIntegerValues() as $value) {
             $options[][] = ['maxTimeMS' => $value];
         }
@@ -54,6 +66,10 @@ class AggregateTest extends TestCase
 
         foreach ($this->getInvalidReadPreferenceValues() as $value) {
             $options[][] = ['readPreference' => $value];
+        }
+
+        foreach ($this->getInvalidSessionValues() as $value) {
+            $options[][] = ['session' => $value];
         }
 
         foreach ($this->getInvalidArrayValues() as $value) {
@@ -97,5 +113,10 @@ class AggregateTest extends TestCase
             [['$match' => ['x' => 1]]],
             ['typeMap' => ['root' => 'array'], 'useCursor' => false]
         );
+    }
+
+    private function getInvalidHintValues()
+    {
+        return [123, 3.14, true];
     }
 }

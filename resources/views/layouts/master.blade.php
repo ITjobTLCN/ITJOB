@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/emp.css">
 	<link rel="stylesheet/less" type="text/css" href="assets/less/styles.less">
 	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
+	@yield('header.css')
 	<script type="text/javascript" src="assets/plugin/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.js"></script>
 </head>

@@ -15,12 +15,52 @@ use DB;
 use Cache;
 class UsersController extends Controller
 {
-	public function _construct() {
-    	$this->middleware('auth');
+    public function getLogin() {
+        if(Auth::check()) 
+            return redirect()->route('/');
+    	return  view('layouts.dangnhap');
     }
 
-    public function getLogin() {
-    	return view('layouts.dangnhap');
+    public function postLogin(Request $req) {
+        $credentials = $req->only('email', 'password');
+
+        $rules = [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ];
+
+        $messages = [
+            'email.required' => 'Email không được để trống',
+            'email.email' => 'Email không đúng định dạng',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.min' => 'Mật khẩu ít nhất 6 ký tự',
+        ];
+
+        $validator = Validator::make($credentials, $rules, $messages);
+        if($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        } else {
+            if(Auth::attempt($credentials)) {
+                switch (Auth::user()->role_id) {
+                    case 1:
+                         return redirect()->route('profile');
+                         break;
+                    case 2:
+                        return redirect()->intended('admin/dashboard');
+                        break;
+                    default:
+                        return redirect()->route('getemp');
+                        break;
+                }
+            } else {
+                $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']); 
+                return redirect()->back()
+                                 ->withInput()
+                                 ->withErrors($errors);
+            }
+        }
     }
 
     public function logout() {
@@ -33,7 +73,8 @@ class UsersController extends Controller
     }
 
     public function getProfile() {
-      return view('layouts.profile', array('user'=>Auth::user()));
+        $user = Auth::user();
+        return view('layouts.profile', compact('user'));
     }
 
     public function postAvatar(Request $req) {
@@ -83,66 +124,24 @@ class UsersController extends Controller
         return redirect()->back()->with(['success'=>'Cập nhật thông tin thành công']);
     }
 
-    public function postLogin(Request $req) {
-        $rules = [
-            'email' => 'required|email',
-            'password' => 'required|min:6'
-        ];
-
-        $messages = [
-            'email.required' => 'Email không được để trống',
-            'email.email' => 'Email không đúng định dạng',
-            'password.required' => 'Mật khẩu không được để trống',
-            'password.min' => 'Mật khẩu ít nhất 6 ký tự',
-        ];
-
-        $validator = Validator::make($req->all(), $rules, $messages);
-        if($validator->fails()) {
-            return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
-        } else {
-            if(Auth::attempt(['email' => $req->email, 
-                              'password' => $req->password])) {
-                $role_id = Auth::user()->role_id;
-                switch ($role_id) {
-                    case 1:
-                         return redirect()->route('profile');
-                         break;
-                    case 2:
-                        return redirect()->intended('admin/dashboard');
-                        break;
-                    default:
-                        return redirect()->route('getemp');
-                        break;
-                }
-            } else {
-                $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']); 
-                return redirect()->back()
-                                 ->withInput()
-                                 ->withErrors($errors);
-            }
-        }
-    }
-
     public function postLoginModal(Request $req) {
-        $email = $req->email;
-        $password = $req->password;
+        $credentials = $req->only('email', 'password');
 
-        if(Auth::attempt(['email' => $email,'password' => $password])) {
+        if(Auth::attempt($credentials)) {
             return response()->json([
-                'error' => false,
-                'message' => ''
-                ],200);
+                    'error' => false,
+                    'message' => 'Đăng nhập thành công'
+                    ], 200);
         }
 
         return response()->json([
                 'error' => true,
                 'message' => 'Email hoặc mật khẩu không đúng'
-            ],200);
+            ], 401);
     }
+
     public function postRegisterModal(Request $req) {
-        $user = User::where('email',$req->email)->first();
+        $user = User::where('email', $req->email)->first();
         if($user) {
             return response()->json([
                 'error' => true,

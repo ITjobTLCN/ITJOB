@@ -38,14 +38,14 @@ return [
     'facebook' => [
         'client_id' => '1135270876609986',
         'client_secret' => 'ad695df3d05cff5cc287e8032e8546f0',
-        'redirect' => 'http://itjob.com/login/facebook/callback',
+        'redirect' => 'http://itjob.local.vn/login/facebook/callback',
         ''
     ],
 
     'google' => [
         'client_id' => '944515654602-jj757r6sbtam54ie92tj7vto10o4tm6c.apps.googleusercontent.com',
         'client_secret' => '5J5DPDNKzgZGQxxm4Az-1Zkj',
-        'redirect' => 'http://itjob.com/login/google/callback',
+        'redirect' => 'http://itjob.local.vn/login/google/callback',
     ],
 
 ];
