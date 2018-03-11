@@ -2,17 +2,15 @@
 $(document).ready(function(){
     
     $(function() {
-        var offsettop=317;
+        var offsettop = 100;
         
         $(window).scroll(function(){
-            var main=$('.main').outerHeight();
+            var main = $('.main').outerHeight();
             if($(window).scrollTop() > offsettop && $(window).scrollTop() < main){
                 $('#mySidenav').css({
-                    'position':'fixed',
-                    'display':'block',
-                    'top':'-200px'
+                    'display':'block'
                 });
-            }else{
+            } else {
                 $('#mySidenav').css({
                     'display':'none'
                 });

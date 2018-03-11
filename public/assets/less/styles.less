@@ -1419,54 +1419,53 @@ div#navbar ul li:hover .sub-menu-info {
     background-color: @background;
 }
 // navbar social
-#mySidenav {
-    a {
-        padding: 10px 10px;
-        position: absolute;
-        margin-left: 5px;
-        transition: 0.3s;
-        width: 50px;
-        border-radius: 100%;
-        img {
-            margin-bottom: 5px;
-            width: 23px;
-            border-radius: 4px;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-            display: table-cell;
-            vertical-align: middle;
-        }
-    }
-    #facebook {
-        .social(#4267b2, 520px, 1px solid #4267b2);
-        &:hover {
-            .social-hover(#5576a5);
-        }
-    }
-    #twitter {
-        .social(#1da1f2, 580px, 1px solid #1da1f2);
-        &:hover {
-            .social-hover(#1da1f2);
-        }
-    }
-    #google {
-        .social(#dc493c, 640px, 1px solid #dc493c);
-        &:hover {
-            .social-hover(#dc493c);
-        }
-    }
-    #linkedin {
-        .social(#0077b5, 700px, 1px solid #0077b5);
-        &:hover {
-            .social-hover(#0077b5);
-        }
-    }
-    h5 {
-        text-align: center;
-        margin-top: 13px;
-        margin-bottom: 8px;
-    }
+.social-bar {
+	position: fixed;
+	right: 0;
+	top: 35%;
+	font-size: 1.5rem;
+	display: none;
+	flex-direction: column;
+	align-items: flex-end;
+	z-index: 100;
+}
+
+.icon {
+	color: white;
+	text-decoration: none;
+	padding: .7rem;
+	display: flex;
+	transition: all .5s;
+}
+
+.icon-facebook {
+	background: #3b5998;
+}
+
+.icon-twitter {
+	background: #55acee;
+}
+
+.icon-google {
+	background: #dc4e41;
+}
+
+.icon-linkedin {
+	background: #007ab9;
+}
+
+.icon:first-child {
+	border-radius: 1rem 0 0 0;
+}
+
+.icon:last-child {
+	border-radius: 0 0 0 1rem;
+}
+
+.icon:hover {
+	padding-right: 2rem;
+	border-radius: 1rem 0 0 1rem;
+	box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.42);
 }
 /* =Footer
 -------------------------------------------------------------- */

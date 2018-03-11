@@ -29,23 +29,23 @@ $(document).ready(function(){
 		});
 	});
 	//see-more jobs in company
-	var dem=0;
+	var dem = 0;
 	$('#see-more-job-company').click(function(){
 		$('.loading').css({
 			'display':'block',
 		});
-		dem+=10;
+		dem += 10;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
 		$.ajax({
-			type:'get',
-			url:'list-jobs-company',
+			type: 'get',
+			url: 'list-jobs-company',
 			data:{
-				'dem':dem,
-				'emp_id':$('#company_id').val()
+				'dem': dem,
+				'emp_id': $('#company_id').val()
 			},
 			success:function(data){
 				$('.result-job-company').append(data);
@@ -56,10 +56,10 @@ $(document).ready(function(){
         $('#loginModal').modal();
     });
 	//flowed companies
-	$('.followed').click(function(){
-		var emp_id=$('#emp_id').val();
+	$('.followed').click(function() {
+		var emp_id = $('#emp_id').val();
 		$('.followed i').css({
-			'display':'inline-block',
+			'display': 'inline-block',
 		});
 		$.ajaxSetup({
 		    headers: {
@@ -69,8 +69,8 @@ $(document).ready(function(){
 		$.ajax({
 			type:'get',
 			url:'companies/follow-company',
-			data:{
-				emp_id:emp_id,
+			data: {
+				emp_id: emp_id,
 			},
 			success : function(data){
 				

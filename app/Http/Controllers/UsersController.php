@@ -68,8 +68,31 @@ class UsersController extends Controller
       return redirect(\URL::previous());
     }
 
-    public function getRegister() {
-    	return view('layouts.dangky');
+    public function register(Request $req) {
+        if($req->isMethod('get')) {
+            return view('layouts.dangky');
+        } else {
+            $user = User::where('email', $req->email)->first();
+
+            if($user) {
+                return response()->json([
+                    'error' => true,
+                    'message' => 'Email đã tồn tại'
+                ],200);
+            } else {
+                $user = User::create([
+                    'name' => $req->name,
+                    'email' => $req->email,
+                    'password' => bcrypt($req->password),
+                    'role_id' => 1
+                ]);
+                //event(new SendMail($user));
+                return response()->json([
+                    'error' => false,
+                    'message'=>'Tạo thành công tài khoản'
+                    ],200);
+            }
+        }
     }
 
     public function getProfile() {

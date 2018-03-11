@@ -33,9 +33,9 @@ Route::post('dang-nhap',[
 	'uses'=>'UsersController@postLogin'
 ]);
 //register
-Route::get('dang-ky',[
-	'as'=>'register',
-	'uses'=>'UsersController@getRegister'
+Route::any('dang-ky', [ 
+	'as' => 'register',
+	'uses' => 'UsersController@register',
 ]);
 
 //logout
