@@ -97,17 +97,18 @@ class CompanyController extends Controller
 
     public function getCompaniesReview() {
         $comHirring = DB::table('cities as c')
-                        ->select('a.id','a.alias','a.description','a.name','a.rating','a.logo','a.cover','c.name as cn')
-                        ->join(DB::raw('(select * from employers order by id desc limit 0,6) as a'),
+                        ->select('a.*', 'c.name as cn')
+                        ->join(DB::raw('(select * from employers order by _id desc) as a'),
                             function($join) {
-                                $join->on('c.id','=','a.city_id');
+                                $join->on('c._id', '=', 'a.city_id');
                             })
                         ->get();
+        \Log::info('hirring', [$comHirring]);
         $comFollow = DB::table('cities as c')
                         ->select('a.id','a.alias','a.description','a.name','a.rating','a.logo','a.cover','c.name as cn')
                         ->join(DB::raw('(select * from employers order by follow desc limit 0,6) as a'),
                             function($join) {
-                                $join->on('c.id','=','a.city_id');
+                                $join->on('c._id','=','a.city_id');
                             })
                         ->get();
         return view('layouts.companies-reviews', compact('comHirring', 'comFollow'));
@@ -237,6 +238,22 @@ class CompanyController extends Controller
                     </div>";
        }
        return $output;
+    }
+    public function searchCompany(Request $req) {
+        $key = $req->search;
+        $output = [];
+        if($key != "") {
+            $companies = Employers::select('name', 'alias')
+                                    ->where('name', 'like', '%'.$key.'%')
+                                    ->get();
+            foreach ($companies as $key => $com) {
+                $output[] = [
+                    "com_name" => $com->name, 
+                    "com_alias"=>$com->alias
+                ];
+            }   
+        }
+        return response()->json($output);
     }
     public function searchCompaniesByName(Request $req) {
         $com_name = $req->company_name;

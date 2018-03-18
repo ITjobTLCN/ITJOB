@@ -956,8 +956,10 @@ div#navbar ul li:hover .sub-menu-info {
     footer .copyrights ul>li {
         text-align: center;
     }
-    .job-search #main-job-list {
+    #main-job-list {
         width: 100% !important;
+        min-height: 515px;
+        background: white;
     }
     #myFooter #maps iframe {
         width: 340px !important;
@@ -1286,6 +1288,7 @@ div#navbar ul li:hover .sub-menu-info {
             #job-list {
                 background: #e5f8fe;
                 margin-bottom: 10px;
+                min-height: 515px;
                 
             }
         }
@@ -2454,6 +2457,21 @@ label.error{
 .justify-content-center {
     justify-content: center;
     display: flex
+}
+.typeahead-search {
+    list-style: none;
+    padding: 5px 5px;
+    cursor: pointer;
+}
+#no-results-message {
+    padding: 20px;
+    border: 1px dashed #ddd;
+    border-radius: 10px;
+    background: #fbfbfb;
+    h2 {
+        font-size: 15px;
+        color: red;
+    }
 }
 
 

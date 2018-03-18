@@ -63,7 +63,7 @@ Route::get('list-skill',[
 	'uses'=>'PageController@getAllSkills'
 ]);
 //search company default
-Route::get('search-companies',[
+Route::get('search-companies', [
 	'as'=>'search-companies',
 	'uses'=>'CompanyController@searchCompany'
 ]);
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'companies'],function(){
 	Route::get('list-skill',['as' => 'listskill','uses'=>'PageController@getAllSkills']);
 	Route::get('get-more-job',['as' => 'get-more-job','uses' => 'CompanyController@getMoreJob']);
 	
-	Route::get('search-companies',['as' => 'searchCompanies','uses' => 'CompanyController@getCompaniesReview']);
+	Route::get('search-companies', ['as' => 'searchCompanies','uses' => 'CompanyController@getCompaniesReview']);
 	Route::get('search-companies-by-name',['as' => 'searchCompaniesbyname','uses' => 'CompanyController@searchCompaniesByName']);
 	//click to follow conpany
 	Route::get('follow-company',['as' => 'followCompany','uses' => 'CompanyController@followCompany']);
@@ -118,40 +118,23 @@ Route::get('skill-by-job-id',[
 	'uses'=>'JobsController@getSkillByJobId'
 ]);
 //jobs
-Route::group(['prefix'=>'it-job'],function(){
-	Route::get('all-jobs',['as'=>'alljobs','uses'=>'JobsController@getIndex']);
-	Route::get('work-at-{city}',['as'=>'seachjobByCity','uses'=>'JobsController@getListJobByCity']);
-	Route::get('{alias}',['as'=>'seachjob1opt','uses'=>'JobsController@getListJobBySkill']);
-
-	Route::get('{alias}/at-{city}',['as'=>'seachjob','uses'=>'JobsController@getListJobSearch']);
-	Route::get('{alias}/{id}',['as'=>'detailjob','uses'=>'JobsController@getDetailsJob']);
-	Route::get('{alias}-{employer}/{id}/apply',['as'=>'getApplyJob','uses'=>'JobsController@getApplyJob']);
+Route::group(['prefix' => 'it-job'], function(){
+	Route::get('all-jobs', ['as' => 'alljobs','uses' => 'JobsController@getIndex']);
+	Route::get('work-at-{cname}', ['as' => 'seachJobByCity','uses'=>'JobsController@getListJobByCity']);
+	Route::get('/', ['as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch']);
+	Route::get('{alias}', ['as' => 'quickJobBySkill','uses' => 'JobsController@getQuickJobBySkill']);
+	Route::get('{alias}/{id}', ['as' => 'detailjob','uses' => 'JobsController@getDetailsJob']);
+	Route::get('{alias}-{employer}/{id}/apply',['as' => 'getApplyJob','uses' => 'JobsController@getApplyJob']);
 });
-Route::post('apply-job',['as'=>'applyJob','uses'=>'JobsController@applyJob']);
-Route::get('follow-job',['as'=>'follow-job','uses'=>'JobsController@followJob']);
-//search job by name and city
-Route::get('list-job-search',[
-	'as'=>'list-job-search',
-	'uses'=>'JobsController@getJobsBySearch'
-]);
-//get current user
-Route::get('get-current-user',[
-	'as'=>'get-current-user',
-	'uses'=>'UsersController@getCurrentUser'
-]);
+Route::post('apply-job', ['as' => 'applyJob', 'uses' => 'JobsController@applyJob']);
+Route::get('follow-job', ['as' => 'follow-job', 'uses' => 'JobsController@followJob']);
 //get job followed of user
-Route::get('check-job-followed',[
-	'as'=>'check-job-followed',
-	'uses'=>'JobsController@getJobFollowed'
-]);
+Route::get('check-job-followed', [ 'as' => 'check-job-followed', 'uses' => 'JobsController@getJobFollowed']);
 
-Route::post('register-modal',[
-	'as'=>'registerModal',
-	'uses'=>'UsersController@postRegisterModal'
-]);
+Route::post('register-modal', ['as' => 'registerModal', 'uses' => 'UsersController@postRegisterModal']);
 
 //login with social
-Route::get('login/{provider}',['as'=>'loginProvider','uses'=>'AuthController@redirectToProvider']);
+Route::get('login/{provider}', ['as' => 'loginProvider', 'uses' => 'AuthController@redirectToProvider']);
 Route::get('login/{provider}/callback', 'AuthController@handleProviderCallback');
 
 Route::get('see-more-reviews',[
@@ -167,10 +150,7 @@ Route::get('list-skill-jobs',[
 	'uses'=>'JobsController@getListSkillJob'
 ]);
 //get list skills of employer by emp_id
-Route::get('list-skill-emp',[
-	'as'=>'getListSkillEmployer',
-	'uses'=>'CompanyController@getListSkillEmployer'
-]);
+Route::get('list-skill-emp', ['as' => 'getListSkillEmployer', 'uses' => 'CompanyController@getListSkillEmployer']);
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------
 */

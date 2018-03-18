@@ -5,22 +5,21 @@
 				<h2>Find your dream jobs. Be success!</h2>
 			</div>
 			<div class="row" id="search-form">
-				<form class="form-inline" role="form" method="get" action="{{route('list-job-search')}}">
+				<form class="form-inline" role="form" method="get" action="{{route('seachJob')}}">
 					<div class="form-group col-sm-6 col-md-6 col-lg-7 keyword-search">
 						<i class="fa fa-search" aria-hidden="true"></i>
-						<input type="hidden" name="idtp" ng-model="idtp">
 						@if(Session::has('skillname'))
-						<input type="text" id="keyword" name="keysearch" class="typeahead form-control" value="{{Session::get('skillname')}}" placeholder="Keyword skill (Java, iOS,...),..">
+						<input type="text" id="keyword" name="q" class="typeahead form-control" value="{{Session::get('skillname')}}" placeholder="Keyword skill (Java, iOS,...),..">
 						@else
-						<input type="text" id="keyword" name="keysearch" class="typeahead form-control" placeholder="Keyword skill (Java, iOS,...),..">
+						<input type="text" id="keyword" name="q" class="typeahead form-control" placeholder="Keyword skill (Java, iOS,...),..">
 						@endif
 					</div>
 					<div class="form-group col-sm-3 col-md-3 col-lg-3 location-search">
 						<i class="fa fa-map-marker" aria-hidden="true"></i>
 						@if(Session::has('city'))
-						<input class="form-control dropdown-toggle" id="nametp" name="nametp" placeholder="City" data-toggle="dropdown" value="{{Session::get('city')}}">
+						<input class="form-control dropdown-toggle" id="nametp" name="cname" placeholder="City" data-toggle="dropdown" value="{{Session::get('city')}}">
 						@else
-						<input class="form-control dropdown-toggle" id="nametp" name="nametp" placeholder="City" data-toggle="dropdown">
+						<input class="form-control dropdown-toggle" id="nametp" name="cname" placeholder="City" data-toggle="dropdown">
 						@endif
 						<ul class="dropdown-menu">
 							@foreach($cities as $c)

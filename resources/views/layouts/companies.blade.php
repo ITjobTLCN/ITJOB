@@ -111,5 +111,5 @@ All Companies in Vietnam
 @stop
 @section('footer.js')
 <script src="assets/js/typeahead.js"></script>
-<script src="assets/js/typeahead-autocomplete-company.js"></script>
+<script src="assets/js/typeahead-autocomplete.js"></script>
 @stop

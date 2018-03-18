@@ -15,15 +15,16 @@ use App\Events\SendMailContact;
 class PageController extends Controller
 {
 	public function getIndex() {
-        $minutes=10;
+        set_time_limit(-1);
+        $minutes = 10;
         Cache::has('listLocation') ?
             $cities = Cache::get('listLocation')
             :
-            $cities = Cache::remember('listLocation', $minutes, function() {
+            $cities = Cache::remember('listLocation', config('constant.cacheTime') , function() {
                 return Cities::all();  
             });
 
-        $top_emps = Cache::remember('top_emps', $minutes, function() {
+        $top_emps = Cache::remember('top_emps', config('constant.cacheTime'), function() {
             return Employers::select('_id', 'name', 'alias', 'logo')
                                 ->orderBy('rating desc')
                                 ->orderBy('follow desc')
@@ -32,7 +33,7 @@ class PageController extends Controller
                                 ->get();
         }); 
         
-        $top_jobs = Cache::remember('top_jobs', $minutes, function(){
+        $top_jobs = Cache::remember('top_jobs', config('constant.cacheTime'), function(){
             return DB::collection('employers as e')
                         ->select('e.name as em','a._id','a.name','a.alias','e._id as ei')
                         ->join(DB::raw('(select _id, name, alias, emp_id 
@@ -41,7 +42,7 @@ class PageController extends Controller
                         })->get();
         });
 
-        return view('layouts.trangchu',compact('cities',
+        return view('layouts.trangchu', compact('cities',
                                                 'top_emps',
                                                 'top_jobs'));
 	}
@@ -59,11 +60,10 @@ class PageController extends Controller
     }
 
     public function getAllCities() {
-        $minutes=60;
         if(Cache::has('listLocation')) {
-            $locations=Cache::get('listLocation');
+            $locations = Cache::get('listLocation');
         } else {
-            $locations=Cache::remember('listLocation', $minutes, function(){
+            $locations = Cache::remember('listLocation', config('constant.cacheTime'), function(){
                 return Cities::all();  
             });
         }
@@ -72,23 +72,10 @@ class PageController extends Controller
 
     //get all skills
     public function getAllSkills() {
-        $minutes = 60;
-
-        $skills = Cache::remember('listSkill', $minutes, function(){
+        $skills = Cache::remember('listSkill', config('constant.cacheTime'), function() {
             return Skills::all();  
         });
 
         return $skills;
-    }
-    
-    public function getDemo()
-    {
-        $abc = Employers::with('jobs')->first();
-        $temp = [];
-            dd($abc['jobs']);
-            $temp[] = Job::find('5a801c36bb8cc222ac0040e9');
-        dd($temp);
-        //$d = $abc->jobs();
-        dd($abc);
     }
 }

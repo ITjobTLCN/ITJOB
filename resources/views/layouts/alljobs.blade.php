@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Search for all it Jobs in Vietnam
+Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 @stop
 @section('body.content')	
 <div class="all-jobs" ng-controller="JobsController">
@@ -40,6 +40,16 @@ Search for all it Jobs in Vietnam
 					<div class="clearfix"></div>
 				</div>
 				<div id="main-job-list" class="col-sm-7 col-md-7 col-lg-8">
+					@if(Session::has('match'))
+					<div id="no-results-message">
+						<h2 class="text-center">
+							So sorry, we could not find matching jobs for your search at this moment. 
+							There are still various awesome job opportunities for you.
+							Please try with a broader keyword choice.
+						</h2>
+						<img src="" alt="">
+					</div>
+					@else
 					<div class="box m-b-none">
 						<div class="job-search__top-nav">
 							<div class="row">
@@ -68,7 +78,7 @@ Search for all it Jobs in Vietnam
 										<div class="company">
 											<span class="job-search__company">{{$ljlt->en}}</span>
 											<span class="separator">|</span>
-											<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ljlt->cn}}</span>
+											<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ljlt->city}}</span>
 										</div>
 										<div class="company text-clip">
 											<span class="salary-job">
@@ -106,7 +116,7 @@ Search for all it Jobs in Vietnam
 						</div>
 						@endforeach
 					</div>
-					
+					@endif
 				</div>
 				<div id="right-column" class="hidden-xs hidden-sm col-md-2 col-lg-2">
 					<div class="box m-b-none">
@@ -121,12 +131,11 @@ Search for all it Jobs in Vietnam
 		</div>
 	</div>
 </div>
-
 @stop
 @section('footer.js')
 <script src="assets/controller/JobsController.js"></script>
 <script src="assets/js/aboutjob.js"></script>
 <script src="assets/js/validate-form.js"></script>
 <script src="assets/js/typeahead.js"></script>
-<script src="assets/js/typeahead-autocomplete-job.js"></script>
+<script src="assets/js/typeahead-autocomplete.js"></script>
 @stop

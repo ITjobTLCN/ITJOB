@@ -112,8 +112,7 @@ Reviews of top companies on ITJob
 </div>
 @stop
 @section('footer.js')
-<script src="assets/js/myscript.js"></script>
+{{--  <script src="assets/js/myscript.js"></script>  --}}
 <script src="assets/js/typeahead.js"></script>
-<script src="assets/js/typeahead-autocomplete-company.js"></script>
-<script src="assets/controller/CompanyController.js"></script>
+<script src="assets/js/typeahead-autocomplete.js"></script>
 @stop
