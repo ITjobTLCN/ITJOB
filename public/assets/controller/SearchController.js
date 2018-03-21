@@ -53,4 +53,7 @@ app.controller('SearchController', ['$scope', '$timeout', '$http', function ($sc
     $timeout(function() {
         sessionStorage.clear();
     }, 2000);
+    // $scope.insertIconClose = function() {
+    //     $('#keyword').
+    // }
 }]);

@@ -8,6 +8,7 @@
 						@else
 						<input type="text" id="keyword" name="q" class="typeahead form-control" placeholder="Keyword job title, company...">
 						@endif
+						<span id="close"><i class="fa fa-times" aria-hidden="true"></i></span>
 					</div>
 					<div class="form-group col-sm-3 col-md-3 col-lg-3 location-search" ng-controller="SearchController as ctrl">
 					<ui-select ng-model="ctrl.city.selected"  theme="select2" on-select="onSelected($item)">
