@@ -25,21 +25,22 @@ use MongoDB\BSON\UTCDateTime;
 class JobsController extends Controller
 {
     public function getIndex() {
-        $listJobLastest = Cache::remember('listJobLastest',5,function() {
-            return DB::table('job as j')->select('j.*','c.name as cn','e.name as en','e.logo as le')
-                                ->join('cities as c','j.city_id','=','c.id')
+        $listJobLastest = Cache::remember('listJobLastest', config('constant.cacheTime'), function() {
+            return DB::table('job as j')->select('j.*', 'e.name as en','e.logo as le')
                                 ->join('employers as e','j.emp_id','=','e.id')
-                                ->where('j.status',1)
+                                ->where('j.status', 1)
                                 ->orderBy('j.id','desc')
-                                ->offset(0)->take(20)->get();
+                                ->offset(0)
+                                ->take(20)
+                                ->get();
         });
 
         $countjob = Job::count();
-        $cities = Cache::remember('listLocation', 10, function() {
+        $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
             return Cities::all();
         });
 
-    	return view('layouts.alljobs',compact('countjob','listJobLastest','cities'));
+    	return view('layouts.alljobs', compact('countjob', 'listJobLastest', 'cities'));
     }
     //return to detail-job page
     public function getDetailsJob(Request $req) {
@@ -70,7 +71,7 @@ class JobsController extends Controller
     public function getAttributeFilter() {
     	$locations = Cache::get('listLocation');
         $skills = Cache::get('listSkill');
-    	return response()->json(['locations'=>$locations,'skills'=>$skills]);
+    	return response()->json(['locations' => $locations, 'skills' => $skills]);
     }
     //filter job by skills and locations
     public function FilterJob(Request $req) {
@@ -242,13 +243,13 @@ class JobsController extends Controller
         Cache::forget('listJobSearch');
         $key = $req->q;
         $city_name = $req->cname;
-        
+        $city = Cities::where('name', $req->cname)->first();
         
         if(empty($key) && empty($city_name)) {
             $jobs = Job::all();
         } else {
             if(empty($key) && !empty($city_name)) {
-                return redirect()->route('seachJobByCity', $city_name);
+                return redirect()->route('seachJobByCity', $city->alias);
             }
             $emp = Employers::where('name', $key)->first();
             if(!empty($emp)) {
@@ -271,30 +272,27 @@ class JobsController extends Controller
                 }           
             }
         }
-        Session::flash('skillname', $key);
+        Session::flash('jobname', $key);
         Session::flash('city', $city_name); 
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs]);
     }
     //get list job by location
     public function getListJobByCity(Request $req) {
-        $city_name = $req->cname; 
-
+        $city = Cities::where('alias', $req->alias)->first();
         $jobs = new Job();
 
-        $city = Cities::where('name', $city_name)->first();
         if(!empty($city)) {
-            $jobs = Job::where('city', $city_name)->get();
+            $jobs = Job::where('city', $city->name)->get();
             Cache::put('listJobSearch', $jobs, config('constant.cacheTime'));
         } else {
             Session::flash('match', false);
         }
-        Session::flash('city', $city_name);
+        Session::flash('city', $city->name);
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs]);
     }
-    public function getQuickJobBySkill(Request $req)
-    {
+    public function getQuickJobBySkill(Request $req) {
         $skill = Skills::where('alias', $req->alias)->first();
         $listJobLastest = DB::table('job as j')
                     ->select('j.*', 'e.name as en', 'e.logo as le')

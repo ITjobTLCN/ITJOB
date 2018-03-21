@@ -1,4 +1,4 @@
-app.controller('SkillsController',function($scope,$http){
+app.controller('SkillsController',function($scope, $http){
 	$http({
 		method: 'GET',
 		url: 'list-skill',	

@@ -14,9 +14,13 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/emp.css">
 	<link rel="stylesheet/less" type="text/css" href="assets/less/styles.less">
 	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/css/select2.css">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap3.css">
+	<link rel="stylesheet" href="assets/css/select.css">
 	@yield('header.css')
 	<script type="text/javascript" src="assets/plugin/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.js"></script>
+	@yield('header.js')
 </head>
 <body>
 	@include('partials.header')

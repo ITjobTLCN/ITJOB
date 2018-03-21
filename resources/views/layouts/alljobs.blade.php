@@ -4,7 +4,18 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 @stop
 @section('body.content')	
 <div class="all-jobs" ng-controller="JobsController">
-	@include('partials.search-job')
+	<div class="search-widget container clearfix">
+		<div id="serach-widget ">
+			<div class="bg-blue container">
+				<div class="row">
+					<h2>Find your dream jobs. Be success!</h2>
+				</div>
+				<div class="row" id="search-form">
+					@include('partials.search-job')
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="job-search" class="job-search">
 		<div class="container-fluid">
 			<div class="row">
@@ -133,6 +144,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 </div>
 @stop
 @section('footer.js')
+<script src="assets/controller/SearchController.js"></script>
 <script src="assets/controller/JobsController.js"></script>
 <script src="assets/js/aboutjob.js"></script>
 <script src="assets/js/validate-form.js"></script>

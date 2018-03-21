@@ -120,7 +120,7 @@ Route::get('skill-by-job-id',[
 //jobs
 Route::group(['prefix' => 'it-job'], function(){
 	Route::get('all-jobs', ['as' => 'alljobs','uses' => 'JobsController@getIndex']);
-	Route::get('work-at-{cname}', ['as' => 'seachJobByCity','uses'=>'JobsController@getListJobByCity']);
+	Route::get('work-at-{alias}', ['as' => 'seachJobByCity','uses'=>'JobsController@getListJobByCity']);
 	Route::get('/', ['as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch']);
 	Route::get('{alias}', ['as' => 'quickJobBySkill','uses' => 'JobsController@getQuickJobBySkill']);
 	Route::get('{alias}/{id}', ['as' => 'detailjob','uses' => 'JobsController@getDetailsJob']);

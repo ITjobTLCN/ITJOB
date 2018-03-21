@@ -41,36 +41,11 @@ ITJob - Top Job IT For You
 		<div class="search-widget container clearfix">
 			<h2>Find your dream jobs. Be success !</h2>
 			<div class="row">
-				<form class="form-inline" role="form" method="get" action="{{route('seachJob')}}">
-					<div class="form-group col-sm-7 col-md-7 keyword-search">
-						<i class="fa fa-search" aria-hidden="true"></i>
-						@if(Session::has('skillname'))
-						<input type="text" id="keyword" name="q" class="typeahead form-control" value="{{Session::get('skillname')}}" placeholder="Keyword skill (Java, iOS,...),..">
-						@else
-						<input type="text" id="keyword" name="q" class="typeahead form-control" placeholder="Keyword skill (Java, iOS,...),..">
-						@endif
-					</div>
-					<div class="form-group col-sm-3 col-md-3 location-search">
-						<i class="fa fa-map-marker" aria-hidden="true"></i>
-						@if(Session::has('city'))
-						<input class="form-control dropdown-toggle" id="nametp" name="cname" placeholder="City" data-toggle="dropdown" value="{{Session::get('city')}}">
-						@else
-						<input class="form-control dropdown-toggle" id="nametp" name="cname" placeholder="City" data-toggle="dropdown">
-						@endif
-						<ul class="dropdown-menu">
-							@foreach(Cache::get('listLocation') as $c)
-								<li><p id="loca">{{$c->name}}</p></li>
-							@endforeach
-						</ul>
-					</div>
-					<div class="form-group col-sm-2 col-md-2">
-						<input type="submit" class="btn btn-default btn-search" value="Search" formtarget="_blank">
-					</div>	
-				</form>
+				@include('partials.search-job')
 				<div class="list-skill hidden-xs" ng-controller="SkillsController">
 					<ul>
 						<li ng-repeat="skill in skills">
-						<a href="it-job/<% skill.alias %>" target="_blank"><% skill.name  %>, </a>
+							<a href="it-job/<% skill.alias %>" target="_blank"><% skill.name  %>, </a>
 						</li>
 					</ul>
 				</div>
@@ -148,6 +123,7 @@ ITJob - Top Job IT For You
 @endif
 @endsection
 @section('footer.js')
+<script src="assets/controller/SearchController.js"></script>
 <script src="assets/js/aboutjob.js"></script>
 <script src="assets/js/validate-form.js"></script>
 <script src="assets/js/typeahead.js"></script>
