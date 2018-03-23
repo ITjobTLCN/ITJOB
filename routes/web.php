@@ -103,9 +103,9 @@ Route::get('all-attribute-filter',[
 	'as'=>'all-attribute-filter',
 	'uses'=>'JobsController@getAttributeFilter'
 ]);
-Route::get('filter-job',[
-	'as'=>'filter-job',
-	'uses'=>'JobsController@FilterJob'
+Route::post('filter-job', [
+	'as' => 'filter-job',
+	'uses' => 'JobsController@FilterJob'
 ]);
 //search jobs
 Route::get('search-job',[

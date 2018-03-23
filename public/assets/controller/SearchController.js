@@ -28,9 +28,8 @@ app.filter('propsFilter', function() {
 
     return out;
   };
-});
-
-app.controller('SearchController', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
+})
+.controller('SearchController', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
     var vm = this;
     $scope.onSelected = function(item) {
         sessionStorage.setItem('city', item.name);
@@ -53,7 +52,4 @@ app.controller('SearchController', ['$scope', '$timeout', '$http', function ($sc
     $timeout(function() {
         sessionStorage.clear();
     }, 2000);
-    // $scope.insertIconClose = function() {
-    //     $('#keyword').
-    // }
 }]);

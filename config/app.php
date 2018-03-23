@@ -186,6 +186,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
 
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Jenssegers\Mongodb\MongodbQueueServiceProvider::class,
 
     ],
 

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	//search company
 		var lstCompany = new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('com_name'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -7,16 +8,7 @@ $(document).ready(function() {
 				wildcard: "{query}"
 			}
 		});
-		var lstJobs = new Bloodhound({
-			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('result_name'),
-			queryTokenizer: Bloodhound.tokenizers.whitespace,
-			remote: {
-				url:"search-job?search={query}",
-				wildcard:"{query}"
-			}
-		});
 		lstCompany.initialize();
-		lstJobs.initialize();
 		$('#company_name').typeahead({
 			hint: true,
 			highlight: true,
@@ -37,23 +29,35 @@ $(document).ready(function() {
 				}
 			}
 		});
+
+		//search jobs
+		var lstJobs = new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('q'),
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			limit: 10,
+			remote: {
+				url:"search-job?search={query}",
+				wildcard:"{query}"
+			}
+		});
+		
+		lstJobs.initialize();
+		
 		$('#keyword').typeahead({
-			hint:true,
-			highlight:true,
-			minLength:2,
-			maxItem:7.
+			hint: true,
+			highlight: true,
+			minLength: 2
 		},
 		{
-			name: 'jobs',
-			displayKey: 'result_name',
+			name: 'lstJobs',
+			displayKey: 'name',
 			source: lstJobs.ttAdapter(),
-			templates:{
+			limit: 20,
+			templates: {
 				empty:function(){
-					
 				},
-				suggestion:function(jobs) {
-					var result = '<li class="typeahead-search"><span>' + jobs.result_name +'</span></li>';
-					return result;
+				suggestion:function(data) {
+					return '<li class="typeahead-search"><span>' + data.name +'</span></li>';
 				}
 			}
 		});

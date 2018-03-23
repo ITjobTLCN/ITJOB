@@ -9,8 +9,7 @@ $(document).ready(function(){
             $('#loginModal').modal();
       });
       $('#keyword').keyup(function() {
-            var cKey = $(this).val().length;
-            cKey !== 0 ?
+            $(this).val().length !== 0 ?
                   $('#close i').attr('style', 'display: inline !important')
                   :
                   $('#close i').attr('style', 'display: none !important')

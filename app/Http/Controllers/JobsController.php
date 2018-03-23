@@ -25,22 +25,29 @@ use MongoDB\BSON\UTCDateTime;
 class JobsController extends Controller
 {
     public function getIndex() {
-        $listJobLastest = Cache::remember('listJobLastest', config('constant.cacheTime'), function() {
-            return DB::table('job as j')->select('j.*', 'e.name as en','e.logo as le')
-                                ->join('employers as e','j.emp_id','=','e.id')
-                                ->where('j.status', 1)
-                                ->orderBy('j.id','desc')
-                                ->offset(0)
-                                ->take(20)
-                                ->get();
-        });
-
+        $selects = [
+            'name', 'alias', 'city', 'employer', 'skills', 'expired'
+        ];
+        $listJobLastest = [];
+        if(Cache::has('listJobLastest')) {
+            $listJobLastest = Cache::get('listJobLastest');
+        } else {
+            $listJobLastest = Job::select($selects)->where('status', 1)
+                                                    ->orderBy('_id', 'desc')
+                                                    ->offset(0)
+                                                    ->take(10)
+                                                    ->get();
+            Cache::put('listJobLastest', $listJobLastest, config('constant.cacheTime'));
+        }
         $countjob = Job::count();
         $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
             return Cities::all();
         });
 
-    	return view('layouts.alljobs', compact('countjob', 'listJobLastest', 'cities'));
+        return view('layouts.alljobs', ['countjob' => Job::count(), 
+                                        'listJobLastest' => $listJobLastest, 
+                                        'cities' => $cities
+                                    ]);
     }
     //return to detail-job page
     public function getDetailsJob(Request $req) {
@@ -81,70 +88,47 @@ class JobsController extends Controller
         $result = "";
         $info_skill = $req->info_skill;
         $info_city = $req->info_city;
-
         if(Session::has('city_id')) {
            $city_a[] = Session::get('city_id');
         }
         if(Session::has('skill_id')) {
             $skill_a[] = Session::get('skill_id');
         }
-        if(count($info_city) !=0 || count($info_skill) != 0) {
-            if(count($info_city) !=0) {
-                foreach ($info_city as $key => $ifc) {
-                    $city_a[] = $ifc;
-                } 
-            }
-            if(count($info_skill) !=0) {
-                foreach ($info_skill as $key => $ifs) {
-                    $skill_a[] = $ifs;
-                }
-            }
-            if(count($city_a) !=0 && count($skill_a) ==0) {
-                 foreach ($city_a as $key => $ca) {
-                    $jobs = Job::select('id','name','alias','salary','city_id','emp_id','created_at')
-                            ->where('city_id',$ca)
-                            ->where('status',1)
-                            ->get();
-                    if(count($jobs) !=0) {
-                        foreach ($jobs as $key => $jo) {
-                            $output[] = $jo;
+        if(!empty($info_city) || !empty($info_skill)) {
+            if(!empty($info_city) && empty($info_skill)) {
+                 foreach ($info_city as $key => $value) {
+                    $jobs = Job::where('city._id', $value)
+                                ->where('status', 1)
+                                ->get();
+                    if(!empty($jobs)) {
+                        foreach ($jobs as $key => $value) {
+                            $output[] = $value;
                         }   
                     }
                 }
-            }else if(count($city_a) == 0 && count($skill_a) !=0) {
-                foreach ($skill_a as $key => $sa) {
-                    $sid = $sa;
-                    $jobs = DB::table('job as j')
-                            ->select('j.id','j.name','j.alias','j.salary','j.city_id','j.emp_id','j.created_at')
-                            ->join(DB::raw('(select job_id from skill_job where skill_id='.$sid.') as a'),function($join){
-                                $join->on('j.id','=','a.job_id');
-                            })
-                            ->where('j.status',1)
-                            ->get();
-                    if(count($jobs) !=0) {
-                        foreach ($jobs as $key => $jo) {
-                            $output[] = $jo;
-                        }   
-                    }
+            }elseif(empty($info_city) && !empty($info_skill)) {
+                $jobs = Job::whereIn('skill', $info_skill)->get();
+                if(!empty($jobs)) {
+                    foreach ($jobs as $key => $value) {
+                        $output[] = $value;
+                    }   
                 }
             } else {
-                foreach ($city_a as $key => $ca) {
-                    foreach ($skill_a as $key => $sa) {
-                        $jobs = new Job();
-                        $sid = $sa;
-                        $jobs = DB::table('job as j')
-                                        ->select('j.id','j.name','j.alias','j.salary','j.city_id','j.emp_id','j.created_at')
-                                        ->where('j.city_id', $ca)
-                                        ->where('j.status', 1)
-                                        ->join(DB::raw('(select job_id from skill_job where skill_id='.$sid.') as a'),function($join){
-                                            $join->on('j.id','=','a.job_id');
-                                        })->get();
-                        if(count($jobs) !=0) {
-                            foreach ($jobs as $key => $jo) {
-                                $output[] = $jo;
+                foreach ($info_city as $key => $ca) {
+                        $jobs = Job::where('city._id', $ca)->whereIn('skill', $info_skill)->get();
+                        // $jobs = DB::table('job as j')
+                        //                 ->select('j.id','j.name','j.alias','j.salary','j.city_id','j.emp_id','j.created_at')
+                        //                 ->where('j.city_id', $ca)
+                        //                 ->where('j.status', 1)
+                        //                 ->join(DB::raw('(select job_id from skill_job where skill_id='.$sid.') as a'),function($join){
+                        //                     $join->on('j.id','=','a.job_id');
+                        //                 })->get();
+                        if(!empty($jobs)) {
+                            foreach ($jobs as $key => $value) {
+                                $output[] = $value;
                             }   
                         }
-                   }
+                   
                 }
             }
         } else {
@@ -224,20 +208,30 @@ class JobsController extends Controller
     public function getSearchJob(Request $req) {
         $key = $req->search;
         $output = [];
-        if($key != "") {
-            $companies = Employers::select('id','name','alias')->where('name','like','%'.$key.'%')->get();
-            $jobs = Job::select('id','name','alias')->where('name','like','%'.$key.'%')->get();
-            foreach ($jobs as $key => $value) {
-                $output[] = array("result_name" => $value->name, "result_alias" => $value->alias);
+        $wheres = [
+            '$text' => [
+                '$search' => $key
+            ]
+        ];
+        if(!empty($key)) {
+            $companies = Employers::select('name')
+                                    ->where($wheres)
+                                    ->get();
+            $jobs = Job::select('name')
+                                ->where($wheres)
+                                ->get();
+            if(!empty($jobs)) {
+                foreach ($jobs as $key => $job) {
+                    $output[] = [ "name" => $job->name ];
+                }
+            } 
+            if(!empty($companies)) {
+                foreach ($companies as $key => $company) {
+                    $output[] = [ "name" => $company->name ];
+                }   
             }
-            foreach ($companies as $key => $value) {
-                $output[] = array("result_name" => $value->name, "result_alias" => $value->alias);
-            }   
-        } else {
-            $output[] = "";
         }
-
-        return response()->json($output);
+        return $output;
     }
     public function getListJobSearch(Request $req) {
         Cache::forget('listJobSearch');
