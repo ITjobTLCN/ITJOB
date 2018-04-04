@@ -109,6 +109,7 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         ),
         'E' => 
         array (
+            'Evercode1\\TraitMaker\\' => 21,
             'Egulias\\EmailValidator\\' => 23,
         ),
         'D' => 
@@ -307,6 +308,10 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
         ),
+        'Evercode1\\TraitMaker\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/evercode1/trait-maker/src',
+        ),
         'Egulias\\EmailValidator\\' => 
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
@@ -427,6 +432,7 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
+        'App\\Http\\Controllers\\CityController' => __DIR__ . '/../..' . '/app/Http/Controllers/CityController.php',
         'App\\Http\\Controllers\\CompanyController' => __DIR__ . '/../..' . '/app/Http/Controllers/CompanyController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\EmpController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmpController.php',
@@ -944,6 +950,8 @@ class ComposerStaticInitb0eafb826617e592eab4b809245548d0
         'Egulias\\EmailValidator\\Warning\\TLD' => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator/Warning/TLD.php',
         'Egulias\\EmailValidator\\Warning\\Warning' => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator/Warning/Warning.php',
         'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
+        'Evercode1\\TraitMaker\\MakeTrait' => __DIR__ . '/..' . '/evercode1/trait-maker/src/MakeTrait.php',
+        'Evercode1\\TraitMaker\\TraitMakerServiceProvider' => __DIR__ . '/..' . '/evercode1/trait-maker/src/TraitMakerServiceProvider.php',
         'Faker\\Calculator\\Iban' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Iban.php',
         'Faker\\Calculator\\Inn' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Inn.php',
         'Faker\\Calculator\\Luhn' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Calculator/Luhn.php',

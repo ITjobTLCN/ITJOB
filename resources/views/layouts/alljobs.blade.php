@@ -67,7 +67,6 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 								<div class="col-xs-12 col-md-6 col-lg-12">
 									<h2 ><span class="countjob">{{$countjob}}</span> IT Jobs for you </h2>
 								</div>
-								<div class="col-xs-12 col-md-6 col-lg-5"></div>
 							</div>
 						</div>
 					</div>
@@ -84,10 +83,10 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 								<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 									<div class="job-item-info" >
 										<h3 class="bold-red">
-											<a href="{{route('detailjob',[$ljlt->alias,$ljlt->id])}}" class="job-title" target="_blank">{{$ljlt->name}}</a>
+											<a href="{{route('detailjob',[$ljlt->alias, $ljlt->_id])}}" class="job-title" target="_blank">{{$ljlt->name}}</a>
 										</h3>
 										<div class="company">
-											<span class="job-search__company">{{$ljlt->en}}</span>
+											<span class="job-search__company">{{$ljlt['employer']['name']}}</span>
 											<span class="separator">|</span>
 											<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ljlt->city}}</span>
 										</div>
@@ -126,6 +125,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 							</div>	
 						</div>
 						@endforeach
+						<button id="show-more-jobs" ng-click="showMoreJob()">Show more...</button>
 					</div>
 					@endif
 				</div>

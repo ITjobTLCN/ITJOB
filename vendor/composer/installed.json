@@ -687,6 +687,61 @@
         ]
     },
     {
+        "name": "evercode1/trait-maker",
+        "version": "1.0.7",
+        "version_normalized": "1.0.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/evercode1/trait-maker.git",
+            "reference": "22636ad24439608a9dcd20ec20cd82a10cab0bbe"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/evercode1/trait-maker/zipball/22636ad24439608a9dcd20ec20cd82a10cab0bbe",
+            "reference": "22636ad24439608a9dcd20ec20cd82a10cab0bbe",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "~5.1",
+            "php": "5.6.*|~7.0"
+        },
+        "time": "2016-04-06T02:34:14+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Evercode1\\TraitMaker\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Bill Keck",
+                "email": "ikon321@yahoo.com",
+                "homepage": "https://github.com/evercode1",
+                "role": "Developer"
+            }
+        ],
+        "description": "Artisan Command To Create A Trait Stub",
+        "homepage": "https://github.com/evercode1/trait-maker",
+        "keywords": [
+            "Evercode1",
+            "Laravel 5.2",
+            "artisan",
+            "laravel",
+            "laravel traits",
+            "trait-maker"
+        ]
+    },
+    {
         "name": "fzaninotto/faker",
         "version": "v1.7.1",
         "version_normalized": "1.7.1.0",

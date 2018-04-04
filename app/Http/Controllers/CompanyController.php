@@ -7,6 +7,7 @@ use App\Employers;
 use App\Job;
 use App\Follow_employers;
 use App\Reviews;
+use App\Skills;
 use DB;
 use Auth;
 use DateTime;
@@ -369,23 +370,11 @@ class CompanyController extends Controller
         return $output;
     }
     public function getListSkillEmployer(Request $req) {
-        $skills = DB::table('skills as s')
-                    ->select('s.name')
-                    ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$req->emp_id.') as a'),
-                        function($join){
-                            $join->on('s.id','=','a.skill_id');
-                        })
-                    ->get();
-        return $skills;
-    }
-    public function getListSkillEmployers($emp_id) {
-        $skills = DB::table('skills as s')
-                    ->select('s.name')
-                    ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$emp_id.') as a'), 
-                        function($join){
-                            $join->on('s.id','=','a.skill_id');
-                        })
-                    ->get();
+        $listSkillCompany = Employers::select('skills')
+                                        ->where('_id', $req->emp_id)
+                                        ->first();
+        $skills = Skills::whereIn('_id', $listSkillCompany['skills'])->get();
+        
         return $skills;
     }
  }

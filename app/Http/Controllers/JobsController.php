@@ -21,21 +21,24 @@ use DateTime;
 use Illuminate\Database\Eloquent\Collection;
 use Carbon\Carbon;
 use MongoDB\BSON\UTCDateTime;
-
+use App\Traits\AliasTrait;
 class JobsController extends Controller
 {
-    public function getIndex() {
+    use AliasTrait;
+
+    public function getIndex(Request $req, $limit = 20, $offset = 0) {
         $selects = [
-            'name', 'alias', 'city', 'employer', 'skills', 'expired'
+            'name', 'alias', 'city', 'employer', 'skills', 'expired', 'employer_id'
         ];
         $listJobLastest = [];
+        $req->offset ? $offset = $req->offset : $offset;
         if(Cache::has('listJobLastest')) {
             $listJobLastest = Cache::get('listJobLastest');
         } else {
             $listJobLastest = Job::select($selects)->where('status', 1)
                                                     ->orderBy('_id', 'desc')
-                                                    ->offset(0)
-                                                    ->take(10)
+                                                    ->offset($offset)
+                                                    ->take($limit)
                                                     ->get();
             Cache::put('listJobLastest', $listJobLastest, config('constant.cacheTime'));
         }
@@ -43,7 +46,6 @@ class JobsController extends Controller
         $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
             return Cities::all();
         });
-
         return view('layouts.alljobs', ['countjob' => Job::count(), 
                                         'listJobLastest' => $listJobLastest, 
                                         'cities' => $cities
@@ -51,28 +53,20 @@ class JobsController extends Controller
     }
     //return to detail-job page
     public function getDetailsJob(Request $req) {
-        $id = $req->id;
-        $jobs = DB::table('employers as e')
-                    ->select('a.*','e.name as en','e.alias as el','e.image','e.logo','e.address','e.description as ed','c.name as cn')
-                    ->join(DB::raw('(select * from job where id ='.$id.') as a'),function($join){
-                        $join->on('e.id','=','a.emp_id');
-                    })->join('cities as c','a.city_id','=','c.id')->get();
-        $relatedJob = Cache::remember('relatedJob', 10, function() use ($id){
-            return DB::table('skills as s')
-                    ->select('e.name as en','e.address','e.logo','c.name as cn','j.id','j.name','j.alias','j.salary')
-                    ->join(DB::raw('(select skill_id from skill_job where job_id='.$id.') as a'),function($join){
-                        $join->on('s.id','=','a.skill_id');
-                    })->join('skill_job as sj','s.id','sj.skill_id')
-                    ->join(DB::raw('(select id,name,alias,salary,emp_id from job where id !='.$id.') as j'),function($join){
-                        $join->on('j.id','=','sj.job_id');
-                    })->join('employers as e','j.emp_id','=','e.id')
-                    ->join('cities as c','e.city_id','=','c.id')
-                    ->offset(0)
-                    ->take(8)
-                    ->get();
-        });
-        Session::flash('relatedJob',$relatedJob);
-        return view('layouts.details-job',compact('jobs'));
+        $job_id = $req->_id;
+        $jobs = Job::where('_id', $job_id)->first();
+        $relatedJob = [];
+        if(Cache::has('job'.$job_id)) {
+            $relatedJob = Cache::get('job'.$job_id);
+        } else {
+            $relatedJob = Job::where('_id', '!=', $job_id)
+                                ->whereIn('skills', $jobs->skills)
+                                ->offset(0)
+                                ->take(6)
+                                ->get();
+            Cache::put('job'.$job_id, $relatedJob, config('constant.cacheTime'));
+        }
+        return view('layouts.details-job', compact(['jobs', 'relatedJob']));
     }
     //get list skills and locations to filter jobs
     public function getAttributeFilter() {
@@ -236,38 +230,42 @@ class JobsController extends Controller
     public function getListJobSearch(Request $req) {
         Cache::forget('listJobSearch');
         $key = $req->q;
-        $city_name = $req->cname;
-        $city = Cities::where('name', $req->cname)->first();
-        
-        if(empty($key) && empty($city_name)) {
-            $jobs = Job::all();
+        $city_alias = $req->calias;
+
+        $jobs = new Job();
+        if(empty($key) && empty($city_alias)) {
+            $jobs = Job::offset(0)->take(10)->get();
         } else {
-            if(empty($key) && !empty($city_name)) {
-                return redirect()->route('seachJobByCity', $city->alias);
+            if(empty($key)) {
+                return redirect()->route('seachJobByCity', $city_alias);
             }
-            $emp = Employers::where('name', $key)->first();
+            $emp = $this->getEmployerByKey($key);
             if(!empty($emp)) {
                 return redirect()->route('getEmployers', $emp->alias);  
             } else {
-                $jobs = Job::where('name', $key)->get();
-                if(count($jobs) != 0) {
-                    if(!empty($city_name)) {
-                        $city = Cities::where('name', $city_name)->first();
-                        if(!empty($city)) {
-                            $jobs = Job::where('name', $key)
-                                        ->where('city', $city_name)->get();
-                            Cache::put('listJobSearch', $jobs, config('constant.cacheTime'));
-                        } else {
-                            Session::flash('match', false);
-                        }
-                    }
-                } else {
+                $job = $this->getJobByKey($key);
+                Session::flash('jobname', $key);
+                if(empty($job)) {
                     Session::flash('match', false);
-                }           
-            }
+                } else {
+                    return redirect()->route('seachJobFullOption', [ $job->alias, $city_alias ]);
+                }
+            }         
         }
-        Session::flash('jobname', $key);
-        Session::flash('city', $city_name); 
+        return view('layouts.alljobs', ['countjob' => count($jobs),
+                                        'listJobLastest' => $jobs]);
+    }
+    public function getJobFullOption(Request $req) {
+        $jobs = new Job();
+        $city = $this->getCityByKey($req->cityAlias);
+        if(empty($this->getJobByKey($req->jobAlias)) || empty($city)) {
+           Session::flash('match', false);
+        } else {
+            $jobs = Job::where('alias', $req->jobAlias)
+                        ->where('city', $city->name)
+                        ->get();
+        }
+        Session::flash('jobname', Session::get('jobname', ''));
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs]);
     }
@@ -287,19 +285,25 @@ class JobsController extends Controller
                                         'listJobLastest' => $jobs]);
     }
     public function getQuickJobBySkill(Request $req) {
-        $skill = Skills::where('alias', $req->alias)->first();
-        $listJobLastest = DB::table('job as j')
+        $skill = $this->getSkillByKey($req->alias);
+        $listJobLastest = new Job();
+        if(empty($skill)) {
+            Session::flash('match', false);
+            Session::flash('jobname', $req->alias);
+        } else {
+            $listJobLastest = DB::table('job as j')
                     ->select('j.*', 'e.name as en', 'e.logo as le')
                     ->join(DB::raw('(Select skill_job.job_id from skill_job where skill_id='.$skill->_id.') a'), function($join){
                         $join->on('j.id', '=', 'a.job_id');
                     })->where('j.status', 1)
                         ->join('employers as e', 'j.emp_id', '=', 'e.id')
                         ->get();
-        Session::flash('skillname', $skill->name);
+            Session::flash('jobname', $skill->name);            
+        }
+
         Cache::put('listJobSearch', $listJobLastest, config('constant.cacheTime'));
         return view('layouts.alljobs', ['countjob' => count($listJobLastest),
-                    'listJobLastest' => $listJobLastest,
-                    'match' => true]);
+                    'listJobLastest' => $listJobLastest]);
     }
     public function getCities() {
         if(Cache::has('listLocation')) {
@@ -363,26 +367,9 @@ class JobsController extends Controller
     }
 
     public function getListSkillJob(Request $req) {
-        $skills = DB::table('skills as s')
-                    ->select('s.id','s.name','s.alias')
-                    ->join(DB::raw('(select skill_id from skill_job where job_id='.$req->job_id.') as a'),function($join){
-                        $join->on('s.id', '=', 'a.skill_id');
-                    })->get();
-        $relatedJob = [];
-        foreach ($skills as $key => $skill) {
-            $relatedJob[] = DB::table('job as j')
-                            ->select('j.name','e.name as en','c.name as cn','j.salary')
-                            ->join(DB::raw('(select job_id from skill_job where skill_id='.$skill->id.') as a'),function($join){
-                                $join->on('j.id', '=', 'a.job_id');
-                            })->join('employers as e', 'j.emp_id', '=', 'e.id')
-                            ->join('cities as c', 'j.city_id', '=', 'c.id')
-                            ->where('j.status', 1)
-                            ->where('j.id','!=',$req->job_id)
-                            ->offset(0)
-                            ->take(10)
-                            ->get();
-        }
-        return response()->json([$skills, $relatedJob]);
+        $listSkillJob = Job::select('skills')->where('_id', $req->job_id)->first();
+        $skills = Skills::whereIn('_id', $listSkillJob['skills'])->get();
+        return $skills;
     }
 
     public function getApplyJob(Request $req) {

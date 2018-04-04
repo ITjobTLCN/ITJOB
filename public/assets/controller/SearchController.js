@@ -32,9 +32,9 @@ app.filter('propsFilter', function() {
 .controller('SearchController', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
     var vm = this;
     $scope.onSelected = function(item) {
-        sessionStorage.setItem('city', item.name);
+      localStorage.setItem('city', item.name);
     };
-    vm.scity = sessionStorage.getItem('city');
+    vm.scity = localStorage.getItem('city');
     vm.scity ? 
         vm.city = {selected : vm.scity}
         :
@@ -50,6 +50,6 @@ app.filter('propsFilter', function() {
         console.log(error,'can not get data');
     });
     $timeout(function() {
-        sessionStorage.clear();
-    }, 2000);
+        localStorage.removeItem('city');
+    }, 1000);
 }]);

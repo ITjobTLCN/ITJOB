@@ -135,5 +135,8 @@ app.controller('JobsController', function($scope,$http){
                   console.log(error, 'can not get data');
             });
       };
+      $scope.showMoreJob = function() {
+            
+      }
 });
 

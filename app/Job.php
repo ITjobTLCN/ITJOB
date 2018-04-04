@@ -12,7 +12,7 @@ class Job extends Eloquent
     private $id;
     protected $collection = 'job';
     protected $fillable = [
-        "name","alias","user_id","emp_id","city_id"
+        "name", "alias", "user_id", "emp_id", "city_id"
     ];
     public function CV()
     {
@@ -24,13 +24,15 @@ class Job extends Eloquent
     }
     public function Employer()
     {
-        return $this->belongsTo('App\Employers','emp_id','id');
+        return $this->belongsTo('App\Employers','employer_id','_id');
     }
     public function User()
     {
         return $this->belongsTo('App\User','user_id','id');
     }
-
+    // public function skills() {
+    //     return $this->belongsToMany('App\Skills');
+    // }
     public function Applications(){
         return $this->hasMany('App\Applications','job_id','id');
     }

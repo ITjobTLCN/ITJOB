@@ -6,14 +6,14 @@
        <ul class="jobs">
         @foreach($relatedJob as $rl)
             <li class="item-job">
-                 <a href="{{route('detailjob',[$rl->alias,$rl->id])}}" title="{{$rl->name}}">
+                 <a href="{{route('detailjob',[$rl->alias,$rl->_id])}}" title="{{$rl->name}}">
                     <div class="title">{{$rl->name}}</div>
                     <div>
-                         <span class="company">{{$rl->en}}</span>
-                         <span class="location"><i class="fa fa-map-marker"></i> {{$rl->cn}}</span>
+                         <span class="company">{{$rl->employer->name}}</span>
+                         <span class="location"><i class="fa fa-map-marker"></i> {{$rl->city}}</span>
                     </div>
                      <div>
-                         <span class="salary"><i class="fa fa-wifi" aria-hidden="true"></i> @if(Auth::check()){{$rl->salary}}
+                         <span class="salary"><i class="fa fa-wifi" aria-hidden="true"></i> @if(Auth::check()){{$rl->policy->salary}}
                           @else 
                           <a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
                           

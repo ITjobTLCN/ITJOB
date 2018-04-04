@@ -74,7 +74,7 @@ $(document).ready(function(){
             }
       });
 	$('#frmRegister').validate({
-            rules:{
+            rules: {
 				name: {
 					required: true,
 				},
@@ -91,7 +91,7 @@ $(document).ready(function(){
 					equalTo: "#password"
 				}
             },
-            messages:{
+            messages: {
             	name: {
             		required: "Vui lòng nhập tên của bạn"
             	},
@@ -122,16 +122,23 @@ $(document).ready(function(){
 						'password':$('#password').val(),
 						'name':$('#name').val()
 					},
-	            	success:function(data) {
-	            		if(data.error == true) {
-	            			$('.alert').css({
+	            	success: function(data) {
+						$('.alert').hide();
+	            		if(data.error) {
+	            			$('.alert-danger').css({
 								'display': 'block',
 							});
 	            			$('.errRegister').show().text(data.message);
 	            			$('#email').val("");
 	            		} else {
-	            			alert('Đăng ký thành công tài khoản');
-	            			window.location.href = 'http://itjob.local.vn/';
+							$('.alert-success').css({
+								'display': 'block',
+							});
+							$('.successRegister').show().text(data.message);
+							setTimeout(function() {
+								window.location.href = location.protocol + "//" + location.host;
+							}, 1000);
+	            			
 	            		}
 	            	}
 	            });

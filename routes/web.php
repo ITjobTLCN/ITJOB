@@ -119,13 +119,20 @@ Route::get('skill-by-job-id',[
 ]);
 //jobs
 Route::group(['prefix' => 'it-job'], function(){
-	Route::get('all-jobs', ['as' => 'alljobs','uses' => 'JobsController@getIndex']);
-	Route::get('work-at-{alias}', ['as' => 'seachJobByCity','uses'=>'JobsController@getListJobByCity']);
-	Route::get('/', ['as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch']);
-	Route::get('{alias}', ['as' => 'quickJobBySkill','uses' => 'JobsController@getQuickJobBySkill']);
-	Route::get('{alias}/{id}', ['as' => 'detailjob','uses' => 'JobsController@getDetailsJob']);
-	Route::get('{alias}-{employer}/{id}/apply',['as' => 'getApplyJob','uses' => 'JobsController@getApplyJob']);
+	Route::match(['get', 'post'], '/', ['as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch']);
+	Route::get('all-jobs/{offset?}/{limit?}', ['as' => 'alljobs','uses' => 'JobsController@getIndex']);
+	Route::get('work-at-{alias}', ['as' => 'seachJobByCity','uses'=>'JobsController@getListJobByCity'])
+	->where(['alias' => '[a-z]+']);
+	Route::get('{jobAlias}/{cityAlias}', ['as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption']);
+	Route::get('{alias}', ['as' => 'quickJobBySkill','uses' => 'JobsController@getQuickJobBySkill'])
+		->where(['alias' => '[a-z]+']);
+	Route::get('{alias}-{employer}/{id}/apply',['as' => 'getApplyJob','uses' => 'JobsController@getApplyJob'])
+	->where(['alias' => '[0-9a-z]+']);
 });
+Route::get('detai-jobs/{alias}/{_id}', [
+	'as' => 'detailjob',
+	'uses' => 'JobsController@getDetailsJob'
+]);
 Route::post('apply-job', ['as' => 'applyJob', 'uses' => 'JobsController@applyJob']);
 Route::get('follow-job', ['as' => 'follow-job', 'uses' => 'JobsController@followJob']);
 //get job followed of user
@@ -145,9 +152,9 @@ Route::get('/demo',function(){
 	return view('layouts.demo');
 });
 //get list skills of job by job_id
-Route::get('list-skill-jobs',[
-	'as'=>'getListSkillJob',
-	'uses'=>'JobsController@getListSkillJob'
+Route::get('list-skill-jobs', [
+	'as' => 'getListSkillJob',
+	'uses' => 'JobsController@getListSkillJob'
 ]);
 //get list skills of employer by emp_id
 Route::get('list-skill-emp', ['as' => 'getListSkillEmployer', 'uses' => 'CompanyController@getListSkillEmployer']);

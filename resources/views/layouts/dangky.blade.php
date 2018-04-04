@@ -20,6 +20,10 @@ ITJob - Đăng ký tài khoản
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 								<p class="errRegister"></p>
 							</div>
+							<div class="alert alert-success" style="display: none">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+								<p class="successRegister"></p>
+							</div>
 							<form role="form" name="frmRegister" id="frmRegister" method="post" action="{{route('login')}}">
 								<div class="input-group mb-3">
 									<span class="input-group-addon"><i class="fa fa-user"></i></span>

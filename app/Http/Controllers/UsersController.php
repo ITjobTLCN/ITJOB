@@ -13,6 +13,7 @@ use App\Events\SendMail;
 use Validator;
 use DB;
 use Cache;
+use Hash;
 class UsersController extends Controller
 {
     public function getLogin() {
@@ -78,19 +79,19 @@ class UsersController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Email đã tồn tại'
-                ],200);
+                ], 200);
             } else {
                 $user = User::create([
                     'name' => $req->name,
                     'email' => $req->email,
-                    'password' => bcrypt($req->password),
+                    'password' => Hash::make($req->password),
                     'role_id' => 1
                 ]);
                 //event(new SendMail($user));
                 return response()->json([
                     'error' => false,
                     'message'=>'Tạo thành công tài khoản'
-                    ],200);
+                    ], 200);
             }
         }
     }

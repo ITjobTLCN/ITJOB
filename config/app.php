@@ -187,6 +187,7 @@ return [
 
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         Jenssegers\Mongodb\MongodbQueueServiceProvider::class,
+        Evercode1\TraitMaker\TraitMakerServiceProvider::class,
 
     ],
 
