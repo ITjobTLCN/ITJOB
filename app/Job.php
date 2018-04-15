@@ -14,26 +14,26 @@ class Job extends Eloquent
     protected $fillable = [
         "name", "alias", "user_id", "emp_id", "city_id"
     ];
-    public function CV()
+    public function cv()
     {
         return $this->belongsToMany('App\CV','applies','job_id','cv_id');
     }
-    public function Cities()
+    public function cities()
     {
         return $this->belongsTo('App\Cities','city_id','id');
     }
-    public function Employer()
+    public function employer()
     {
         return $this->belongsTo('App\Employers','employer_id','_id');
     }
-    public function User()
+    public function user()
     {
         return $this->belongsTo('App\User','user_id','id');
     }
     // public function skills() {
     //     return $this->belongsToMany('App\Skills');
     // }
-    public function Applications(){
+    public function applications(){
         return $this->hasMany('App\Applications','job_id','id');
     }
     public function __toString(){

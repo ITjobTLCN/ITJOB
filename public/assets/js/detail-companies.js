@@ -5,7 +5,7 @@ $(document).ready(function(){
 	$('.list-job-hiring .fa-arrow-up').css({
 		'display':'none',
 	});
-	$('#up-down').click(function(){
+	$('#up-down').click(function() {
 		$("i", this).toggleClass("fa fa-arrow-up fa fa-arrow-down");
 		$('.loading').css({
 			'display':'block',
@@ -23,7 +23,8 @@ $(document).ready(function(){
 				'dem':0,
 				'emp_id':$('#company_id').val(),
 			},
-			success:function(data){
+			success:function(data) {
+				console.log(data);
 				$('.result-job-company').html(data);
 			}
 		});

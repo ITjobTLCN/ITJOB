@@ -18,10 +18,10 @@ Reviews of top companies on ITJob
 				<h3>Discover about companies and choose the best place to work for you.</h3>
 			</div>
 			<div class="search-widget clearfix">
-				<form class="form-inline" role="form" method="get" action="{{route('searchCompaniesbyname')}}">
+				<form class="form-inline" role="form" method="get" action="{{route('searchCompaniesByName')}}">
 					<div class="form-group col-sm-10 col-md-10 keyword-search">
 						<i class="fa fa-search" aria-hidden="true"></i>
-						<input type="text" name="company_name" id="company_name" class="typeahead form-control"  placeholder="Enter Company name">
+						<input type="text" name="q" id="company_name" class="typeahead form-control"  placeholder="Enter Company name">
 					</div>
 					<div class="form-group col-sm-2 col-md-2">
 						<input type="submit" value="Search" class="btn btn-default btn-search" formtarget="_blank">
@@ -32,7 +32,7 @@ Reviews of top companies on ITJob
 	</div>
 	<div class="clearfix"></div>
 </div>
-<div class="list-companies">
+<div class="list-companies" ng-controller="CompanyController">
 	<div class="companies-hiring-now container">
 		<div class="title">
 			<h1>Companies hiring now</h3>
@@ -41,34 +41,33 @@ Reviews of top companies on ITJob
 		<div class="list-companies clearfix">
 			@foreach($comHirring as $ch)
 			<div class="col-md-4 col-sm-4 col-lg-4">
-				<a href="{{route('getEmployers',$ch->alias)}}" class="company" target="_blank">
+				<a href="{{route('getEmployers', $ch->alias)}}" class="company" target="_blank">
 					<div class="company_banner">
-						<img src="uploads/emp/cover/{{$ch->cover}}" alt="Cover-photo" class="img-responsive image" title="{{$ch->name}}" class="property_img"/>
+						<img src="uploads/emp/cover/{{$ch->images['cover']}}" alt="Cover-photo" class="img-responsive image" title="{{$ch->name}}" class="property_img"/>
 					</div>
 					<div class="company_info">
 						<div class="company_header">
 							<div class="company_logo">
-								<img src="uploads/emp/logo/{{$ch->logo}}" alt="avatar-company">
+								<img src="uploads/emp/logo/{{$ch->images['avatar']}}" alt="avatar-company">
 							</div>
 							<div class="company_name">
 								{{$ch->name}}
 							</div>
 						</div>
-						<div class="company_desc">{{$ch->description}}</div>
+						<div class="company_desc">{{$ch->employer_info['description']}}</div>
 						<div class="company_footer">
 							<i class="fa fa-star" aria-hidden="true"></i>
 							<span class="company_start_rate"> {{$ch->rating}}</span>
 							<span class="company_city">
-								{{$ch->cn}}
+								{{$ch->address[0]['city']}}
 							</span>
 						</div>
 					</div>
 				</a>
 			</div>
 			@endforeach
-			<div class="more-hiring"></div>
 		</div>
-		<a href="" id="see-more-hiring" class="dotted">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<a href="" id="see-more-hiring" class="dotted" ng-click="seeMoreCompany('hirring')">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 	</div>
 	<div class="seperate"></div>
 	<div class="most-followed-companies container">
@@ -78,26 +77,26 @@ Reviews of top companies on ITJob
 		</div>
 		<div class="list-companies clearfix">
 			@foreach($comFollow as $cf)
-			<div class="col-md-4">
-				<a href="{{route('getEmployers',$cf->alias)}}" class="company">
+			<div class="col-md-4 col-sm-4 col-lg-4">
+				<a href="{{route('getEmployers', $cf->alias)}}" class="company" target="_blank">
 					<div class="company_banner">
-						<img src="uploads/emp/cover/{{$cf->cover}}" alt="Cover-photo" class="img-responsive image" title="{{$cf->name}}" class="property_img"/>
+						<img src="uploads/emp/cover/{{$cf->images['cover']}}" alt="Cover-photo" class="img-responsive image" title="{{$cf->name}}" class="property_img"/>
 					</div>
 					<div class="company_info">
 						<div class="company_header">
 							<div class="company_logo">
-								<img src="uploads/emp/logo/{{$cf->logo}}" alt="avatar-company">
+								<img src="uploads/emp/logo/{{$cf->images['avatar']}}" alt="avatar-company">
 							</div>
 							<div class="company_name">
 								{{$cf->name}}
 							</div>
 						</div>
-						<div class="company_desc">{{$cf->description}}</div>
+						<div class="company_desc">{{$cf->employer_info['description']}}</div>
 						<div class="company_footer">
 							<i class="fa fa-star" aria-hidden="true"></i>
 							<span class="company_start_rate"> {{$cf->rating}}</span>
 							<span class="company_city">
-								{{$cf->cn}}
+								{{$cf->address[0]['city']}}
 							</span>
 						</div>
 					</div>
@@ -106,13 +105,13 @@ Reviews of top companies on ITJob
 			@endforeach
 			<div class="more-most-followed"></div>
 		</div>
-		<a href="" id="see-more-most-followed" class="dotted">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		<a href="" id="see-more-most-followed" class="dotted" ng-click="seeMoreCompany('follow')">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 			</div>
 	</div>
 </div>
 @stop
 @section('footer.js')
-{{--  <script src="assets/js/myscript.js"></script>  --}}
 <script src="assets/js/typeahead.js"></script>
 <script src="assets/js/typeahead-autocomplete.js"></script>
+<script src="assets/controller/CompanyController.js"></script>
 @stop

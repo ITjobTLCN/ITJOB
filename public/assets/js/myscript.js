@@ -6,43 +6,7 @@ $(document).ready(function(){
 	$('.loading, #result-more-companies').css({
 		'display':'none',
 	});
-	var cHirring=0;
-	var cMostFollow=0;
 	var cNormal=0;
-	//see more companies hiring now
-	$('#see-more-hiring').click(function(){
-		cHirring+=6;
-		$.ajaxSetup({
-		    headers: {
-		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		    }
-		});
-		$.ajax({
-			type:'get',
-			url: 'more-companies/hiring',
-			data: {'cHirring':cHirring},
-			success:function(data){
-				$('.more-hiring').append(data);
-			}
-		});
-	});
-	//see more most followed companies
-	$('#see-more-most-followed').click(function(e){
-		cMostFollow+=6;
-		$.ajaxSetup({
-		    headers: {
-		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-		    }
-		});
-		$.ajax({
-			type:'get',
-			url: 'more-companies/most-followed',
-			data: {'cMostFollow':cMostFollow},
-			success:function(data){
-				$('.more-most-followed').append(data);
-			}
-		});
-	});
 	$('#see-more-companies').click(function(){
 		$('.loading').css({
 			'display':'block',

@@ -72,34 +72,38 @@ Route::get('list-jobs-company',[
 	'as'=>'list-jobs-company',
 	'uses'=>'CompanyController@getJobsCompany'
 ]);
+Route::get('demo', ['as' => 'demo', 'uses' => 'CompanyController@getDemo']);
 //get employers by id
-Route::group(['prefix' => 'companies'],function(){
-	Route::get('',['as' => 'companies','uses' => 'CompanyController@getIndex']);
-	Route::get('all-jobs-company',['as' => 'AllJobCompany','uses' => 'CompanyController@getListJobCompany']);
-	Route::get('list-skill',['as' => 'listskill','uses'=>'PageController@getAllSkills']);
-	Route::get('get-more-job',['as' => 'get-more-job','uses' => 'CompanyController@getMoreJob']);
+Route::group(['prefix' => 'companies'], function() {
+	Route::get('', ['as' => 'companies', 'uses' => 'CompanyController@getIndex']);
+	Route::get('all-jobs-company', ['as' => 'AllJobCompany', 'uses' => 'CompanyController@getListJobCompany']);
+	Route::get('list-skill', ['as' => 'listskill', 'uses'=>'PageController@getAllSkills']);
+	Route::get('get-more-job', ['as' => 'get-more-job', 'uses' => 'CompanyController@getMoreJob']);
 	
-	Route::get('search-companies', ['as' => 'searchCompanies','uses' => 'CompanyController@getCompaniesReview']);
-	Route::get('search-companies-by-name',['as' => 'searchCompaniesbyname','uses' => 'CompanyController@searchCompaniesByName']);
+	Route::match(['get', 'post'], 'search-companies/{limit?}/{offset?}', [
+		'as' => 'searchCompanies', 
+		'uses' => 'CompanyController@getCompaniesReview'
+	]);
+	Route::get('search-companies-by-name', ['as' => 'searchCompaniesByName', 'uses' => 'CompanyController@searchCompaniesByName']);
 	//click to follow conpany
-	Route::get('follow-company',['as' => 'followCompany','uses' => 'CompanyController@followCompany']);
+	Route::get('follow-company', ['as' => 'followCompany','uses' => 'CompanyController@followCompany']);
 	
 	//submit review companies
-	Route::post('review',['as' => 'submitReviewCompany','uses' => 'CompanyController@postReviewCompanies']);
+	Route::post('review', ['as' => 'submitReviewCompany','uses' => 'CompanyController@postReviewCompanies']);
 	//get details company
-	Route::get('{alias}',['as' => 'getEmployers','uses' => 'CompanyController@getDetailsCompanies']);
+	Route::get('{alias}', ['as' => 'getEmployers', 'uses' => 'CompanyController@getDetailsCompanies']);
 	//review
-	Route::get('{alias}/review',['as' => 'reviewCompany','uses' => 'CompanyController@getReviewCompanies'])->middleware('auth');
-	Route::post('{alias}/review',['as' => 'reviewCompany','uses' => 'CompanyController@postReviewCompanies'])->middleware('auth');
+	Route::get('{alias}/review', ['as' => 'reviewCompany','uses' => 'CompanyController@getReviewCompanies'])->middleware('auth');
+	Route::post('{alias}/review', ['as' => 'reviewCompany','uses' => 'CompanyController@postReviewCompanies'])->middleware('auth');
 });
 //get more companies
-Route::group(['prefix' => 'more-companies'],function(){
+Route::group(['prefix' => 'more-companies'], function() {
 	Route::get('', ['as' => 'more-companies', 'uses' => 'CompanyController@getMoreCompanies']);
 	Route::get('hiring', ['as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreHirring']);
 	Route::get('most-followed', ['as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreMostFollowed']);
 });
 //get attribute filter
-Route::get('all-attribute-filter',[
+Route::get('all-attribute-filter', [
 	'as'=>'all-attribute-filter',
 	'uses'=>'JobsController@getAttributeFilter'
 ]);
@@ -108,12 +112,12 @@ Route::post('filter-job', [
 	'uses' => 'JobsController@FilterJob'
 ]);
 //search jobs
-Route::get('search-job',[
+Route::get('search-job', [
 	'as'=>'seach-job',
 	'uses'=>'JobsController@getSearchJob'
 ]);
 //get skills by job_id
-Route::get('skill-by-job-id',[
+Route::get('skill-by-job-id', [
 	'as'=>'skill-by-job-id',
 	'uses'=>'JobsController@getSkillByJobId'
 ]);
@@ -148,9 +152,9 @@ Route::get('see-more-reviews',[
 	'as'=>'seeMoreReview',
 	'uses'=>'CompanyController@seeMoreReviews'
 ])->middleware('auth');
-Route::get('/demo',function(){
-	return view('layouts.demo');
-});
+// Route::get('/demo',function(){
+// 	return view('layouts.demo');
+// });
 //get list skills of job by job_id
 Route::get('list-skill-jobs', [
 	'as' => 'getListSkillJob',
@@ -256,7 +260,7 @@ Route::get('/markAsRead',function(){
 	auth()->user()->unreadnotifications->markAsRead();
 });
 /*-----------------END DAT ROUTER----------------------*/
-Route::get('/demo', [
-	'as' => 'demo',
-	'uses' => 'PageController@getDemo'
-]);
+// Route::get('/demo', [
+// 	'as' => 'demo',
+// 	'uses' => 'PageController@getDemo'
+// ]);

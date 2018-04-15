@@ -6,7 +6,7 @@
 	<base href="{{asset('')}}">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<meta name="author" content="">
-	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
+	<meta name="description" content="ITJOB For You"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
 	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
@@ -14,9 +14,9 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/emp.css">
 	<link rel="stylesheet/less" type="text/css" href="assets/less/styles.less">
 	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="assets/css/select2.css">    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.bootstrap3.css">
-	<link rel="stylesheet" href="assets/css/select.css">
+	<link rel="stylesheet" href="assets/css/ui-select/select2.css">    
+    <link rel="stylesheet" href="assets/css/ui-select/selectize.bootstrap3.css">
+	<link rel="stylesheet" href="assets/css/ui-select/select.css">
 	@yield('header.css')
 	<script type="text/javascript" src="assets/plugin/ckeditor/ckeditor.js"></script>
 	<script type="text/javascript" src="assets/js/jquery.js"></script>

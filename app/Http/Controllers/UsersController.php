@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Applications;
 use App\Employers;
+use App\Roles;
 use Auth;
 use Illuminate\Support\MessageBag;
 use Image;
@@ -44,17 +45,8 @@ class UsersController extends Controller
                              ->withInput();
         } else {
             if(Auth::attempt($credentials)) {
-                switch (Auth::user()->role_id) {
-                    case 1:
-                         return redirect()->route('profile');
-                         break;
-                    case 2:
-                        return redirect()->intended('admin/dashboard');
-                        break;
-                    default:
-                        return redirect()->route('getemp');
-                        break;
-                }
+                $role = Roles::where("_id", Auth::user()->role_id)->value('route');
+                return redirect()->route($role);
             } else {
                 $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']); 
                 return redirect()->back()

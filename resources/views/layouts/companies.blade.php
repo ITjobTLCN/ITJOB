@@ -18,10 +18,14 @@ All Companies in Vietnam
                 <h3>Discover about companies and choose the best place to work for you.</h3>
             </div>
             <div class="search-widget clearfix">
-                <form class="form-inline role="form" method="get" action="{{route('searchCompaniesbyname')}}">
+                <form class="form-inline" method="get" action="{{route('searchCompaniesByName')}}">
                     <div class="form-group col-sm-10 col-md-10 keyword-search">
                         <i class="fa fa-search" aria-hidden="true"></i>
-                        <input type="text" name="company_name" id="company_name" class="typeahead form-control" placeholder="Enter Company name">
+                        @if(Session::has('com_name'))
+                        <input type="text" name="q" id="company_name" value="{{Session::get('com_name', '')}}" class="typeahead form-control" placeholder="Enter Company name">
+                        @else
+                        <input type="text" name="q" id="company_name" class="typeahead form-control" placeholder="Enter Company name">
+                        @endif
                     </div>
                     <div class="form-group col-sm-2 col-md-2">
                         <button type="submit" class="btn btn-default btn-search" formtarget="_blank">Search</button>
@@ -36,9 +40,9 @@ All Companies in Vietnam
     <div class="companies">
         <div class="row">
            <div class="col-md-9" id="list-companies">
-            @if(Session::has('haveNotCompany'))
-            <h2>0 <span style="color: red">{{Session::get('haveNotCompany')}}</span> companies in Vietnam for you</h2>
-            @else
+                @if(!$match)
+                    <h2>Nothing</h2>
+                @else
                 <table class="table table-striped">
                     <tbody>
                         <div class="num-companies">
@@ -57,22 +61,22 @@ All Companies in Vietnam
                                         </div>
                                         <div class="col-xs-9 col-md-9 col-lg-9">
                                             <div class="companies-item-info">
-                                                <a href="{{route('getEmployers',$com->alias)}}" class="companies-title" target="_blank">{{$com->name}}</a>
+                                                <a href="{{route('getEmployers', $com->alias)}}" class="companies-title" target="_blank">{{$com->name}}</a>
                                                 <div class="company">
-                                                    <span class="job-search__location">{{$com->address}}</span>
+                                                    <span class="job-search__location">{{$com->address[0]['detail']}}</span>
                                                 </div>
                                                 <div class="description-job">
                                                     <h3>{{$com->description}}</h3>
                                                 </div>
                                                 <div class="company">
-                                                    <span class="people"><i class="fa fa-users" aria-hidden="true"></i> 100</span>
-                                                    <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->website}}</span>
+                                                    <span class="people"><i class="fa fa-users" aria-hidden="true"></i> {{$com->info['quantity_employee']}}</span>
+                                                    <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->info['website']}}</span>
                                                 </div>
                                                 <div id="skills">
                                                     <ul>
-                                                        @foreach (app(App\Http\Controllers\CompanyController::class)->getListSkillEmployers($com->id) as $key => $s)
+                                                        @foreach ($com->skills as $key => $s)
                                                         <li class="employer-skills__item">
-                                                            <a href="" target="_blank">{{$s}}</a>
+                                                            <a href="" target="_blank">{{$s['name']}}</a>
                                                         </li>
                                                         @endforeach
                                                     </ul>
@@ -104,7 +108,7 @@ All Companies in Vietnam
                 </div>
                 @endif
             </div>
-        @include('partials.top-emps')
+        {{-- @include('partials.top-emps') --}}
     </div>
 </div>
 </div>

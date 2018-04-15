@@ -35,18 +35,18 @@ class JobsController extends Controller
         if(Cache::has('listJobLastest')) {
             $listJobLastest = Cache::get('listJobLastest');
         } else {
-            $listJobLastest = Job::select($selects)->where('status', 1)
+            $listJobLastest = Job::with('employer')->select($selects)->where('status', 1)
                                                     ->orderBy('_id', 'desc')
                                                     ->offset($offset)
                                                     ->take($limit)
                                                     ->get();
             Cache::put('listJobLastest', $listJobLastest, config('constant.cacheTime'));
         }
-        $countjob = Job::count();
+        $countjob = count($listJobLastest);
         $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
             return Cities::all();
         });
-        return view('layouts.alljobs', ['countjob' => Job::count(), 
+        return view('layouts.alljobs', ['countjob' => $countjob,
                                         'listJobLastest' => $listJobLastest, 
                                         'cities' => $cities
                                     ]);
@@ -54,12 +54,12 @@ class JobsController extends Controller
     //return to detail-job page
     public function getDetailsJob(Request $req) {
         $job_id = $req->_id;
-        $jobs = Job::where('_id', $job_id)->first();
+        $jobs = Job::with('employer')->where('_id', $job_id)->first();
         $relatedJob = [];
         if(Cache::has('job'.$job_id)) {
             $relatedJob = Cache::get('job'.$job_id);
         } else {
-            $relatedJob = Job::where('_id', '!=', $job_id)
+            $relatedJob = Job::with('employer')->where('_id', '!=', $job_id)
                                 ->whereIn('skills', $jobs->skills)
                                 ->offset(0)
                                 ->take(6)

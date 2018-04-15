@@ -20,6 +20,9 @@ class Employers extends Eloquent
     }
 
     public function job() {
-        return $this->hasMany('App\Job');
+        return $this->hasMany('job');
     }
+    // public function skills() {
+    //     return $this->belongsToMany('App\Skills', 'skills', '_id');
+    // }
 }

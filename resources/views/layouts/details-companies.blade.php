@@ -7,20 +7,22 @@
     <div class="container">
         <section class="home-companies">
             <div class="cover-photo_company" id="home">
-                <img src="uploads/emp/cover/{{$company->cover}}" alt="" class="img-responsive">
+                <img src="uploads/emp/cover/{{$company->images['cover']}}" alt="" class="img-responsive">
             </div>
             <div class="profile-header_company">
                 <div class="row">
                     <div class="col-md-2 col-sm-3 col-xs-12">
                         <div class="logo-company">
-                            <img src="assets/img/logo/{{$company->logo}}" alt="" class="img-responsive">
+                            <img src="assets/img/logo/{{$company->images['avatar']}}" alt="" class="img-responsive">
                         </div>
                     </div>
                     <div class="col-md-7 col-sm-5 col-xs-12">
                         <div class="name-info">
                             <h2 id="name-company">{{$company->name}}</h2>
                             <div class="location">
-                                <span><i class="fa fa-location-arrow" aria-hidden="true"></i> {{$company->address}}</span>
+                                @foreach($company->address as $val)
+                                <i class="fa fa-location-arrow" aria-hidden="true"></i> {{$val['detail']}}
+                                @endforeach
                             </div>
                             <div class="num-employee">
                                 <span data-toggle="tooltip" title="Personel"><i class="fa fa-users" aria-hidden="true"></i> 100-200</span>
@@ -34,21 +36,23 @@
                         <div class="action_companies">
                             <div class="add_review">
                                 @if(Auth::check())
-                                <a href="{{route('reviewCompany',$company->alias)}}" class="btn btn-danger">Add Review</a> @else
-                                <a class="btn btn-danger" id="openLoginModal">Add Review</a> @endif
+                                <a href="{{route('reviewCompany', $company->alias)}}" class="btn btn-danger">Add Review</a> 
+                                @else
+                                <a class="btn btn-danger" id="openLoginModal">Add Review</a> 
+                                @endif
                             </div>
 
                             @if(Auth::check())
-                                <input type="hidden" value={{$company->id}} id="emp_id"> 
+                                <input type="hidden" value={{$company->_id}} id="emp_id"> 
                                 <div class="followed">
                                     @if($follow)
                                         <a class="btn btn-default" id="unfollowed">Following <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
                                     @else
-                                        <a class="btn btn-default">Follow ({{$company->follow}})<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
+                                        <a class="btn btn-default">Follow ({{$company->quantity_user_follow}})<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
                                     @endif 
                                 </div>
                             @else
-                            <a class="btn btn-default" id="openLoginModal">Follow ({{$company->follow}})</a>
+                            <a class="btn btn-default" id="openLoginModal">Follow ({{$company->quantity_user_follow}})</a>
                         </div>
                         @endif
                         @include('partials.modal-login')
@@ -92,7 +96,7 @@
                         <ul>
                             @foreach($skills as $skill)
                             <li class="employer-skills__item">
-                                <a href="{{route('seachjob',[$skill->alias,4])}}" target="_blank">{{$skill->name}}</a>
+                                <a href="{{route('quickJobBySkill', $skill->alias)}}" target="_blank">{{$skill->name}}</a>
                             </li>
                             @endforeach
                         </ul>
@@ -210,7 +214,7 @@
                     <span class="under-line"></span>
                 </div>
                 <div class="list-job-hiring">
-                    <input type="hidden" value="{{$company->id}}" id="company_id"> 
+                    <input type="hidden" value="{{$company->_id}}" id="company_id" name="company_id"> 
                     <div class="title">
                         <a data-toggle="collapse" id="up-down" href="#list-job-content">{{$jobs}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
                     </div>

@@ -54,12 +54,12 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 					@if(Session::has('match'))
 					<div id="no-results-message">
 						<h2 class="text-center">
-							So sorry, we could not find matching jobs for your search at this moment. 
-							There are still various awesome job opportunities for you.
-							Please try with a broader keyword choice.
+							<p>Oops!, we could not find matching jobs for your search at this moment. </p>
+							Please try with another keyword choice.
+							<p style="margin-top: 10px; font-size: 18px">Here are some new jobs for you.</p>
 						</h2>
-						<img src="" alt="">
 					</div>
+					@include('partials.recommend_jobs')
 					@else
 					<div class="box m-b-none">
 						<div class="job-search__top-nav">
@@ -125,7 +125,9 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 							</div>	
 						</div>
 						@endforeach
+						@if($countjob > 20)
 						<button id="show-more-jobs" ng-click="showMoreJob()">Show more...</button>
+						@endif
 					</div>
 					@endif
 				</div>

@@ -93,7 +93,9 @@
                                                 <span class="company-name text-lg"><strong>{{$jobs['employer']['name']}}</strong></span>
                                                 <div class="block">
                                                     <span title="Address"><i class="fa fa-home" aria-hidden="true"></i></span>
-                                                    <span class="employer-address">{{$jobs['address']}}</span>
+                                                    @foreach($jobs['employer']['address'] as $val)
+                                                    <span class="employer-address">{{$val['detail']}}</span>
+                                                    @endforeach
                                                 </div>
                                                 <div class="block">
                                                     <span title="Address"><i class="fa fa-cog" aria-hidden="true"></i></span>
@@ -120,13 +122,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                   {{--  <div class="col-md-4">
                                         <div class="row">
                                             <div class="action-apply">
-                                                <a href="{{route('getApplyJob',[$jobs['alias'],$jobs['employer']['alias'],$jobs['_id']])}}" class="btn btn-primary btn-xlg col-xs-12">Apply Now</a>
+                                                <a href="{{route('getApplyJob', [$jobs['alias'], $jobs['employer']['alias'], $jobs['_id']])}}" class="btn btn-primary btn-xlg col-xs-12">Apply Now</a>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -217,15 +219,17 @@
                     <div class="box">
                         <div class="col-md-12 col-sm-12 employer-logo">
                             <div class="responsive-container box-limit">
-                                <a href="{{route('getEmployers',$jobs['employer']['alias'])}}" target="_blank" title="{{$jobs['employer']['name']}}"><img src="uploads/emp/logo/{{$jobs['employer']['logo']}}" alt=""></a>
+                                <a href="{{route('getEmployers', $jobs['employer']['alias'])}}" target="_blank" title="{{$jobs['employer']['name']}}"><img src="uploads/emp/logo/{{$jobs['employer']['images']['avatar']}}" alt=""></a>
 
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-12 employer-info">
                             <h3 class="name">{{$jobs['employer']['name']}}</h3>
                             <div class="basic-info">
-                                <div class="short">{{$jobs['employer']['description']}}</div>
-                                <p><i class="fa fa-home" aria-hidden="true"></i> {{$jobs['address']}}</p>
+                                <div class="short">{{$jobs['employer']['info']['description']}}</div>
+                                @foreach($jobs['employer']['address'] as $key => $value)
+                                    <p><i class="fa fa-home" aria-hidden="true"></i> Chi nhánh {{$key + 1}}: {{$value['detail']}}</p>
+                                @endforeach
                                 <p><i class="fa fa-cog" aria-hidden="true"></i>Product</p>
                             </div>
                             <div class="more_jobs">

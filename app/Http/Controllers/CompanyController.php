@@ -17,16 +17,18 @@ class CompanyController extends Controller
 {
     public function getIndex() {
         $cCompanies = Employers::count();
-        $companies = Employers::orderBy('id','desc')
+        $companies = Employers::orderBy('id', 'desc')
                               ->offset(0)
                               ->take(10)
                               ->get();
-        
-        return view('layouts.companies', compact('companies', 'cCompanies'));
+        return view('layouts.companies', [ 'companies' => $companies, 
+                                            'cCompanies' => $cCompanies,
+                                            'match' => true
+                                        ]);
     }
     public function countJobCompany($emp_id) {
-        return Job::where('emp_id', $emp_id)->count();
-    }
+        return Job::where('employer_id', $emp_id)->count();
+    }   
     public function getMoreJob(Request $req) {
         $dem = $req->dem;
         $com_id = $req->com_id;
@@ -38,7 +40,7 @@ class CompanyController extends Controller
     }
     public function getJobsCompany(Request $req) {
         $output = "";
-        $jobs = Job::where('emp_id', $req->emp_id)
+        $jobs = Job::where('employer_id', $req->emp_id)
                     ->offset($req->dem)
                     ->take(10)
                     ->get();
@@ -59,7 +61,7 @@ class CompanyController extends Controller
                                     </div>
                                 </div>
                                 <div class="hidden-xs col-sm-2 col-md-2 col-lg-2 view-detail">
-                                    <a href="" target="_blank">Detail</a>
+                                    <a href="detai-jobs/'.$job->alias.'/'.$job->_id.'" target="_blank">Detail</a>
                                 </div>
                             </div>
                         </div>
@@ -68,19 +70,19 @@ class CompanyController extends Controller
         return $output;
     }
     public function getDetailsCompanies(Request $req) {
-        $company = Employers::where('alias',$req->alias)->first();
+        $com_alias = $req->alias;
+        $company = Employers::where('alias', $com_alias)->first();
+        
         if(empty($company)) {
-            Session::flash('haveNotCompany', $req->alias);
-            return view('layouts.companies');
+            Session::flash('com_name', $com_alias);
+            return view('layouts.companies', ['match' => false]);
         }
-        $jobs = Job::where('emp_id',$company->id)->count();
-        $skills = DB::table('skills as s')
-                    ->select('s.name', 's.alias')
-                    ->join(DB::raw('(select skill_id from skill_employers where emp_id='.$company['id'].') as a'),
-                        function($join){
-                            $join->on('s.id','=','a.skill_id');
-                        })
-                    ->get();
+        $jobs = Job::where('employer_id', $company->_id)->count();
+        $skills_id = [];
+        foreach ($company['skills'] as $key => $value) {
+            array_push($skills_id, $value['_id']);
+        }
+        $skills = Skills::whereIn('_id', $skills_id)->get();
         $reviews = Reviews::where('emp_id', $company['id'])
                             ->offset(0)
                             ->take(2)
@@ -96,173 +98,147 @@ class CompanyController extends Controller
                compact('company', 'skills', 'jobs', 'reviews')); 
     }
 
-    public function getCompaniesReview() {
-        $comHirring = DB::table('cities as c')
-                        ->select('a.*', 'c.name as cn')
-                        ->join(DB::raw('(select * from employers order by _id desc) as a'),
-                            function($join) {
-                                $join->on('c._id', '=', 'a.city_id');
-                            })
-                        ->get();
-        \Log::info('hirring', [$comHirring]);
-        $comFollow = DB::table('cities as c')
-                        ->select('a.id','a.alias','a.description','a.name','a.rating','a.logo','a.cover','c.name as cn')
-                        ->join(DB::raw('(select * from employers order by follow desc limit 0,6) as a'),
-                            function($join) {
-                                $join->on('c._id','=','a.city_id');
-                            })
-                        ->get();
+    public function getCompaniesReview(Request $req, $offset = null, $limit = null) {
+        $offset ? $offset : $offset = 0;
+        $limit ? $limit : $limit = config('constant.limitCompany');
+        $comHirring = Employers::orderBy('_id', 'desc')
+                                ->offset($offset)
+                                ->limit($limit)
+                                ->get();
+        $comFollow = Employers::orderBy('quantity_user_follow', 'desc')
+                                ->offset($offset)
+                                ->limit($limit)
+                                ->get();
         return view('layouts.companies-reviews', compact('comHirring', 'comFollow'));
     }
     //get more companies hirring now
-    public function getMoreHirring(Request $req) {
-       $count = $req->cHirring;
-       $output = "";
-       $employers = Employers::where('status', 1)
-                                ->orderBy('id', 'desc')
-                                ->offset($count)
-                                ->take(6)
-                                ->get();
-       foreach ($employers as $key => $emp) {
-           $output.= '<div class="col-md-4">
-                <a href="companies/'.$emp->alias.'" class="company">
-                    <div class="company_banner">
-                        <img src="uploads/emp/cover/'.$emp->cover.'" alt="Cover-photo" class="img-responsive image" title="" class="property_img"/>
-                    </div>
-                    <div class="company_info">
-                        <div class="company_header">
-                            <div class="company_logo">
-                                <img src="uploads/emp/logo/'.$emp->logo.'" alt="avatar-company">
-                            </div>
-                            <div class="company_name">'.$emp->name.'</div>
-                        </div>
-                        <div class="company_desc">'.$emp->description.'</div>
-                        <div class="company_footer">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <span class="company_start_rate">'.number_format($emp->rating,1).'</span>
-                            <span class="company_city">
-                                Ho Chi Minh
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>';
-       }
-       return $output;
+    public function getMoreHirring($offset = 0) {
+       return  Employers::orderBy('id', 'desc')
+                            ->offset((int)$offset)
+                            ->take(config('constant.moreCompany'))
+                            ->get();
     }
     //get more companies most followed
-    public function getMoreMostFollowed(Request $req) {
-       $count = $req->cMostFollow;
-       $output = "";
-       $employers = Employers::where('status', 1)
-                                ->orderBy('follow', 'desc')
-                                ->offset($count)
-                                ->take(6)
-                                ->get();
-
-       foreach ($employers as $key => $emp) {
-           $output.= '<div class="col-md-4">
-                <a href="companies/'.$emp->alias.'" class="company">
-                    <div class="company_banner">
-                        <img src="uploads/emp/cover/'.$emp->cover.'" alt="Cover-photo" class="img-responsive image" title="'.$emp->name.'" class="property_img"/>
-                    </div>
-                    <div class="company_info">
-                        <div class="company_header">
-                            <div class="company_logo">
-                                <img src="uploads/emp/logo/'.$emp->logo.'" alt="avatar-company" title="'.$emp->name.'">
-                            </div>
-                            <div class="company_name">'.$emp->name.'</div>
-                        </div>
-                        <div class="company_desc">'.$emp->description.'</div>
-                        <div class="company_footer">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <span class="company_start_rate">'.number_format($emp->rating,1).'</span>
-                            <span class="company_city">
-                                Ho Chi Minh
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>';
-       }
-       return $output;
+    public function getMoreMostFollowed($offset = 0) {
+       return  Employers::orderBy('quantity_user_follow', 'desc')
+                            ->offset((int)$offset)
+                            ->take(config('constant.moreCompany'))
+                            ->get();
     }
+
     public function getMoreCompanies(Request $req) {
-        $count = $req->cNormal;
         $output = "";
-        $employers = Employers::orderBy('id','desc')
-                                ->offset($count)
-                                ->take(10)
-                                ->get();
-        if(count($employers) == 0) {
-            return $output;
-        }
-        foreach ($employers as $key => $emp) {
-            $skills = $this->getListSkillEmployers($emp->id);
-            $numJobs = Job::where('emp_id',$emp->id)->count();
-            $skill = "";
-            foreach ($skills as $key => $s) {
-                $skill .= "<li class='employer-skills__item'>
-                            <a href='' target='_blank'>{$s}</a>
-                        </li>";
+        if($req->has('cNormal')) {
+     
+            $count = $req->cNormal;
+            $output = "";
+            $employers = Employers::orderBy('id','desc')
+                                    ->offset($count)
+                                    ->take(10)
+                                    ->get();
+            if(count($employers) == 0) {
+                return $output;
             }
-           $output .= "<div class='row'>
-                        <div class='col-xs-3 col-md-3 col-lg-2'>
-                            <div class='logo job-search__logo'>
-                                <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/logo/{$emp->logo}' alt=''>
-                                </a>
-                            </div>
-                        </div>
-                        <div class='col-xs-9 col-md-9 col-lg-9'>
-                            <div class='companies-item-info'>
-                                <a href='companies/{$emp->alias}' class='companies-title' target='_blank'>{$emp->name}</a>
-                                <div class='company text-clip'>
-                                    <span class='job-search__location'>{$emp->address}</span>
-                                </div>
-                                <div class='description-job'>
-                                    <h3>{$emp->description}</h3>
-                                </div>
-                                <div class='company text-clip'>
-                                    <span class='people'><i class='fa fa-users' aria-hidden='true'></i> 100</span>
-                                    <span class='website'><i class='fa fa-desktop' aria-hidden='true'></i>{$emp->website}</span>
-                                </div>
-                                <div id='skills'>
-                                    <ul>
-                                    {$skill}
-                                    </ul>
-                                </div>
-                                <div class='sum-job'>
-                                    <a href='companies/{$emp->alias}' id='job' class='dotted'>{$numJobs} jobs </a><i class='fa fa-caret-down' aria-hidden='true'></i>
+            foreach ($employers as $key => $emp) {
+                $skills = $this->getListSkillEmployers($emp->id);
+                $numJobs = Job::where('emp_id',$emp->id)->count();
+                $skill = "";
+                foreach ($skills as $key => $s) {
+                    $skill .= "<li class='employer-skills__item'>
+                                <a href='' target='_blank'>{$s}</a>
+                            </li>";
+                }
+               $output .= "<div class='row'>
+                            <div class='col-xs-3 col-md-3 col-lg-2'>
+                                <div class='logo job-search__logo'>
+                                    <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/logo/{$emp->logo}' alt=''>
+                                    </a>
                                 </div>
                             </div>
-                        </div>
-                    </div>";
-       }
+                            <div class='col-xs-9 col-md-9 col-lg-9'>
+                                <div class='companies-item-info'>
+                                    <a href='companies/{$emp->alias}' class='companies-title' target='_blank'>{$emp->name}</a>
+                                    <div class='company text-clip'>
+                                        <span class='job-search__location'>{$emp->address}</span>
+                                    </div>
+                                    <div class='description-job'>
+                                        <h3>{$emp->description}</h3>
+                                    </div>
+                                    <div class='company text-clip'>
+                                        <span class='people'><i class='fa fa-users' aria-hidden='true'></i> 100</span>
+                                        <span class='website'><i class='fa fa-desktop' aria-hidden='true'></i>{$emp->website}</span>
+                                    </div>
+                                    <div id='skills'>
+                                        <ul>
+                                        {$skill}
+                                        </ul>
+                                    </div>
+                                    <div class='sum-job'>
+                                        <a href='companies/{$emp->alias}' id='job' class='dotted'>{$numJobs} jobs </a><i class='fa fa-caret-down' aria-hidden='true'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>";
+           }
+        } else {
+            $type = $req->type;
+            $offset = $req->offset;
+            ($type == 'hirring') ? $company = $this->getMoreHirring($offset) : $company = $this->getMoreHirring($offset);
+            if(count($company) > 0) {
+                foreach ($company as $key => $emp) {
+                   $output.= '<div class="col-md-4 col-sm-4 col-lg-4">
+                        <a href="companies/'.$emp->alias.'" class="company">
+                            <div class="company_banner">
+                                <img src="uploads/emp/cover/'.$emp->images['cover'].'" alt="Cover-photo" class="img-responsive image" title="'.$emp->name.'" class="property_img"/>
+                            </div>
+                            <div class="company_info">
+                                <div class="company_header">
+                                    <div class="company_logo">
+                                        <img src="uploads/emp/logo/'.$emp->images['avatar'].'" alt="avatar-company" title="'.$emp->name.'">
+                                    </div>
+                                    <div class="company_name">'.$emp->name.'</div>
+                                </div>
+                                <div class="company_desc">'.$emp->info['description'].'</div>
+                                <div class="company_footer">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <span class="company_start_rate">'.$emp->rating.'</span>
+                                    <span class="company_city">
+                                        Ho Chi Minh
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>';
+                }
+            }
+        }
+       
        return $output;
     }
     public function searchCompany(Request $req) {
         $key = $req->search;
         $output = [];
         if($key != "") {
-            $companies = Employers::select('name', 'alias')
-                                    ->where('name', 'like', '%'.$key.'%')
+            $companies = Employers::where('name', 'like', '%'.$key.'%')
                                     ->get();
             foreach ($companies as $key => $com) {
-                $output[] = [
-                    "com_name" => $com->name, 
-                    "com_alias"=>$com->alias
-                ];
+                $output[] = [ "name" => $com->name ];
             }   
         }
         return response()->json($output);
     }
     public function searchCompaniesByName(Request $req) {
-        $com_name = $req->company_name;
+        $com_name = $req->q;
         $alias = Employers::where('name', $com_name)->value('alias');
-        if($alias == null) {
-            return redirect()->route('getEmployers', $com_name);
+        $match = false;
+        empty($alias) ? $match : $match = true;
+        if(!empty($alias)) {
+            return redirect()->route('getEmployers', $alias);
+        } else {
+            Session::flash('com_name', $com_name);
+            return view('layouts.companies', ['match' => false]);
         }
-        return redirect()->route('getEmployers', $alias);
+        
     }
     public function followCompany(Request $req) {
         $output = "";
@@ -376,5 +352,9 @@ class CompanyController extends Controller
         $skills = Skills::whereIn('_id', $listSkillCompany['skills'])->get();
         
         return $skills;
+    }
+    public function getDemo(Request $req)
+    {
+        return " ok";
     }
  }

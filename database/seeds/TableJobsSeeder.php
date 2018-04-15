@@ -11,7 +11,7 @@ class TableJobsSeeder extends Seeder
      */
     public function run()
     {
-        DB::collection('jobss')->insert([
+        DB::collection('job')->insert([
         	[
         		"name"=>"Công việc 1",
 	        	"alias"=>"cv-1",

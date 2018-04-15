@@ -1,18 +1,45 @@
 app.controller('CompanyController', function($scope,$http){
-	$scope.follow=function(emp_id){
-		var emp_id=emp_id;
+	$scope.follow = function(emp_id) {
+		var emp_id = emp_id;
 		$http({
-			type:'get',
-			url:'follow-company',
-			params:{emp_id:emp_id}
-		}).then(function(response){
+			type: 'get',
+			url: 'follow-company',
+			params: { emp_id: emp_id }
+		}).then(function(response) {
 			$('.followed').html(response.data);
-		},function(error){
+		},function(error) {
 			console.log(error,'can not get data');
 		});
 	}
-});
-app.directive('bsPopover', function() {
+
+  var offsetCompanyHirring = 6;
+  var offsetCompanyFllowing = 6;
+  $scope.seeMoreCompany = function(type) {
+   //alert(_.startCase(type));
+    var offset = 0;
+    (type == 'hirring') ? offset = offsetCompanyHirring : offset = offsetCompanyFllowing;
+    $http({
+        type: 'get',
+        url: 'more-companies',
+        params: {
+          type: type,
+          offset: offset,
+        }
+    }).then(function(response) {
+        console.log(response.data);
+        $('.list-companies').append(response.data);
+        (type == 'hirring') ? offsetCompanyHirring += 6 : offsetCompanyFllowing +=6;
+    }, function(error) {
+      console.log('error, can not get data');
+    });
+  }
+
+  $scope.listJobCompany = function(_id) {
+    alert("ok");
+  }
+    
+})
+.directive('bsPopover', function() {
     return function(scope, element, attrs) {
         element.find("a[rel=popover]").popover({ 
             trigger: "manual" , 
