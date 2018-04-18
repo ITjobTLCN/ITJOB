@@ -911,12 +911,11 @@ div#navbar ul li:hover .sub-menu-info {
         position: relative !important;
         z-index: 100 !important;
     }
-    .navbar-default .navbar-collapse,
-    .navbar-default .navbar-form {
-        position: unset !important;
-        z-index: 10 !important;
-        background: #fff;
-    }
+    // .navbar-default .navbar-collapse,
+    // .navbar-default .navbar-form {
+    //     position: unset !important;
+    //     z-index: 10 !important;
+    // }
     .listings ul.properties_list li {
         width: 46.36363636363636%;
         margin: 0 7.272727272727273% 7.272727272727273% 0;
@@ -965,7 +964,18 @@ div#navbar ul li:hover .sub-menu-info {
         width: 340px !important;
     }
     .name-info {
-        text-align: center;
+        padding: 0 45px !important;
+        #name-company {
+            text-align: center;
+        }
+        .location {
+            text-align: justify;
+        }
+    }
+    .logo-company {
+        margin-left: auto !important;
+        margin-right: auto;
+        left: 0 !important;
     }
 }
 @media (max-width: 770px) {
@@ -974,11 +984,6 @@ div#navbar ul li:hover .sub-menu-info {
     }
     #myFooter #maps iframe {
         width: 550px !important;
-    }
-    .profile-header_company .logo-company {
-        margin-left: auto;
-        margin-right: auto;
-        left: 0 !important;
     }
     .job-item-info {
         text-align: center;
@@ -1061,82 +1066,82 @@ div#navbar ul li:hover .sub-menu-info {
         width: 200px;
         height: 150px !important;
     }
+    .job-details .job-content .job-header__info {
+        .job-title {
+            font-size: 2em !important;
+        }
+        .employer_address {
+            text-align: justify;
+        }
+    } 
     .send_now{
         width: 100% !important;
     }
 }
 @media (max-width: 500px) {
-    /*    .hero {
-        height: 500px;
-        }*/
-
-        #mySidenav {
-            display: none !important;
-        }
-        .title h1 {
-            font-size: 30px;
-        }
-        .carousel-caption {
-            display: none;
-        }
-        #myFooter #maps iframe {
-            display: none;
-        }
-        .job-search #main-job-list {
-            width: 100% !important;
-        }
-        .hero .caption {
-            top: 40%;
-        }
-        .hero .caption h2 {
-            font-size: 20px;
-        }
-        .hero .caption h3 {
-            font-size: 16px;
-        }
-        .search #search {
-            width: 83%;
-        }
-        .header .navbar-nav .sign-in a,
-        .header .navbar-nav .employer_site a {
-            background-color: @mainColor;
-            color: #fff !important;
-            border: none;
-        }
-        .search-widget {
-            margin: 0 auto;
-        }
-        .listings ul.properties_list li {
-            width: 100%;
-            margin-bottom: 60px!important;
-        }
-        .listings ul.properties_list li:last-child {
-            margin-bottom: 0!important;
-        }
-        .listings ul.properties_list li:nth-child(3n+0),
-        .listings ul.properties_list li:nth-child(2n+0) {
-            margin: 0;
-        }
-        .listings .more_listing_btn {
-            display: block;
-            width: 100%;
-            padding-left: 0!important;
-            padding-right: 0!important;
-        }
-        .job-item-info {
-            text-align: center;
-        }
-        .logo img {
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-            margin-bottom: 10px;
-        }
-        #job-list .job-item .fa-heart-o {
-        /*text-align: center !important;
-        margin-left: auto !important;
-        margin-right: auto !important;*/
-        
+    #mySidenav {
+        display: none !important;
+    }
+    .title h1 {
+        font-size: 30px;
+    }
+    .carousel-caption {
+        display: none;
+    }
+    #myFooter #maps iframe {
+        display: none;
+    }
+    .job-search #main-job-list {
+        width: 100% !important;
+    }
+    .hero .caption {
+        top: 40%;
+    }
+    .hero .caption h2 {
+        font-size: 20px;
+    }
+    .hero .caption h3 {
+        font-size: 16px;
+    }
+    .search #search {
+        width: 83%;
+    }
+    .header .navbar-nav .sign-in a,
+    .header .navbar-nav .employer_site a {
+        background-color: @mainColor;
+        color: #fff !important;
+        border: none;
+    }
+    .search-widget {
+        margin: 0 auto;
+    }
+    .listings ul.properties_list li {
+        width: 100%;
+        margin-bottom: 60px!important;
+    }
+    .listings ul.properties_list li:last-child {
+        margin-bottom: 0!important;
+    }
+    .listings ul.properties_list li:nth-child(3n+0),
+    .listings ul.properties_list li:nth-child(2n+0) {
+        margin: 0;
+    }
+    .listings .more_listing_btn {
+        display: block;
+        width: 100%;
+        padding-left: 0!important;
+        padding-right: 0!important;
+    }
+    .job-item-info {
+        text-align: center;
+    }
+    .logo img {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 10px;
+    }
+    #job-list .job-item .fa-heart-o {
         font-size: 25px !important;
     }
     .footer ul.tag>li a {
@@ -1152,11 +1157,12 @@ div#navbar ul li:hover .sub-menu-info {
         text-align: center;
     }
     .profile-header_company .logo-company {
-        width: 140px !important;
-        height: 140px !important;
+        max-height: 150px !important;
     }
-    .name-info #name-company {
-        font-size: 25px;
+    .name-info {
+        .location {
+            font-size: 15px !important;
+        }
     }
     .name-info h3 {
         font-size: 15px !important;
@@ -1166,10 +1172,16 @@ div#navbar ul li:hover .sub-menu-info {
         background-color: @mainColor !important;
     }
     .action_companies a {
-        width: 70% !important;
+        width: 100% !important;
     }
     .job-header__list-photo a>img.modal-image{
         height: 100px !important;
+    }
+    .job-header__info {
+        line-height: 35px;
+    }
+    .row-salary a {
+        font-size: 13px !important;
     }
 
 }
@@ -1236,15 +1248,13 @@ div#navbar ul li:hover .sub-menu-info {
         bottom: 20px;
     }
 }
-@media (min-width: 1024px) {
+@media (max-width: 1230px) {
     .name-info {
-        padding: 10px 35px !important;
+        padding: 0 40px !important;
     }
     .cd-top {
-        height: 50px;
-        width: 50px;
-        right: 30px;
         bottom: 30px;
+        right: 2px !important;
     }
 }
 /*all jobs*/
@@ -1290,6 +1300,19 @@ div#navbar ul li:hover .sub-menu-info {
                 margin-bottom: 10px;
                 min-height: 515px;
                 
+            }
+        }
+        .job-item { 
+            .logo {
+                margin: auto;
+                text-align: center;
+                border: 0!important;
+                img {
+                    max-height: 70px;
+                    max-width: 100%;
+                    margin: 5px auto 0 auto;
+                    border-radius: 3px;
+                }
             }
         }
     }
@@ -1561,11 +1584,11 @@ div#navbar ul li:hover .sub-menu-info {
     margin-left: 15px;
     display: flex;
     align-items: center;
-    padding: 5px;
-}
-.profile-header_company .logo-company img {
-    width: 100%;
-    max-height: 150px;
+    padding: 20px;
+    img {
+        max-height: 100px;
+        max-width: 100%;
+    }
 }
 .name-info {
     font-size: 17px;

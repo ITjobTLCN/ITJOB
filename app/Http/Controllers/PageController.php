@@ -12,35 +12,20 @@ use Auth;
 use Cache;
 use Mail;
 use App\Events\SendMailContact;
+use App\Traits\LatestMethod;
+
 class PageController extends Controller
 {
+    use LatestMethod;
+
 	public function getIndex() {
         set_time_limit(-1);
-        $minutes = 10;
-        Cache::has('listLocation') ?
-            $cities = Cache::get('listLocation')
-            :
-            $cities = Cache::remember('listLocation', config('constant.cacheTime') , function() {
-                return Cities::all();  
-            });
-
-        $top_emps = Cache::remember('top_emps', config('constant.cacheTime'), function() {
-            return Employers::select('_id', 'name', 'alias', 'logo')
-                                ->orderBy('rating desc')
-                                ->orderBy('follow desc')
-                                ->offset(0)
-                                ->take(6)
-                                ->get();
-        }); 
-        
-        $top_jobs = Cache::remember('top_jobs', config('constant.cacheTime'), function(){
-            return DB::collection('employers as e')
-                        ->select('e.name as em','a._id','a.name','a.alias','e._id as ei')
-                        ->join(DB::raw('(select _id, name, alias, emp_id 
-                                        from job) as a'), function($join) {
-                            $join->on('a.emp_id','=','e._id');
-                        })->get();
+        $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
+            return Cities::all(); 
         });
+
+        $top_emps = $this->getTopEmployers();
+        $top_jobs = $this->getTopJobs();
 
         return view('layouts.trangchu', compact('cities',
                                                 'top_emps',

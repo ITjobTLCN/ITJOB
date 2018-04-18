@@ -33,7 +33,7 @@ class JobsController extends Controller
         $listJobLastest = [];
         $req->offset ? $offset = $req->offset : $offset;
         if(Cache::has('listJobLastest')) {
-            $listJobLastest = Cache::get('listJobLastest');
+            $listJobLastest = Cache::get('listJobLastest', '');
         } else {
             $listJobLastest = Job::with('employer')->select($selects)->where('status', 1)
                                                     ->orderBy('_id', 'desc')

@@ -5,7 +5,7 @@
 <div class="job-details" ng-controller="SkillsController">
     <section class="main-content container">
         <div class="job-header">
-            <div class="job-header__list-photo">
+            <div class="job-header__list-photo hidden-xs">
                 <div class="row">
                     <div class="col-md-4 col-sm-4 col-xs-4">
                         <a title="Image 1" href="#">
@@ -94,12 +94,12 @@
                                                 <div class="block">
                                                     <span title="Address"><i class="fa fa-home" aria-hidden="true"></i></span>
                                                     @foreach($jobs['employer']['address'] as $val)
-                                                    <span class="employer-address">{{$val['detail']}}</span>
+                                                    <span class="employer_address">{{$val['detail']}}</span>
                                                     @endforeach
                                                 </div>
                                                 <div class="block">
                                                     <span title="Address"><i class="fa fa-cog" aria-hidden="true"></i></span>
-                                                    <span class="employer-address"><strong>Product</strong></span>
+                                                    <span class="employer_address"><strong>Product</strong></span>
                                                 </div>
                                                 <div class="block">
                                                     <span title="Location"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
@@ -122,13 +122,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                   {{--  <div class="col-md-4">
+                                    <div class="col-md-4">
                                         <div class="row">
                                             <div class="action-apply">
                                                 <a href="{{route('getApplyJob', [$jobs['alias'], $jobs['employer']['alias'], $jobs['_id']])}}" class="btn btn-primary btn-xlg col-xs-12">Apply Now</a>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>

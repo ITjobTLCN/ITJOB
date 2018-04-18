@@ -59,15 +59,15 @@ ITJob - Top Job IT For You
 		<section class="top_employers">
 			<h1 class="title text-center">Top Employees</h1>
 			<div class="row top-employers__list">
-				@foreach($top_emps as $te)
+				@foreach($top_emps as $top_emp)
 			    <div class="col-md-2 col-xs-6 col-sm-4 col-lg-2">
 			        <div class="item">
 			            <div class="top-employer__logo text-center">
-			                <a href="{{route('getEmployers',$te->alias)}}" target="_blank"><img src="uploads/emp/logo/{{$te->logo}}" alt="" title="" class="property_img"/>
+			                <a href="{{route('getEmployers', $top_emp->alias)}}" target="_blank"><img src="uploads/emp/logo/{{$top_emp->images['avatar']}}" alt="" title="" class="property_img"/>
 			                </a>
 			            </div>
 			            <div class="property_details text-center">
-			                <a href="{{route('getEmployers',$te->alias)}}" class="top-employer__name" target="_blank">{{$te->name}}</a>
+			                <a href="{{route('getEmployers', $top_emp->alias)}}" class="top-employer__name" target="_blank">{{$top_emp->name}}</a>
 			            </div>
 			        </div>
 			    </div>
@@ -87,12 +87,13 @@ ITJob - Top Job IT For You
 									<div class="panel-content">
 										<div class="job-list">
 											<ul>
-												@foreach($top_jobs as $tj)
+												@foreach($top_jobs as $top_job)
 												<li>
-													<a href="{{route('detailjob',[$tj->alias,$tj->id])}}" title="{{$tj->name}}">
+													<a href="{{route('detailjob', [$top_job->alias, $top_job->_id])}}" title="{{$top_job->name}}">
 											            <span class="job-title">
-											            	<strong class="text-clip">{{$tj->name}}</strong>
-											            <em class="text-clip">{{$tj->em}}</em></span>
+											            	<strong class="text-clip">{{$top_job->name}}</strong>
+											            	<em class="text-clip">{{$top_job->employer['name']}}</em>
+											            </span>
 										 			</a>
 												</li>
 												@endforeach

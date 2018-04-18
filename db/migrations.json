@@ -1,0 +1,15 @@
+{ 
+    "_id" : ObjectId("5ac85f2cb9068c1cac002092"), 
+    "migration" : "2014_10_12_000000_create_users_table", 
+    "batch" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("5ac85f2cb9068c1cac002093"), 
+    "migration" : "2014_10_12_100000_create_password_resets_table", 
+    "batch" : NumberInt(1)
+}
+{ 
+    "_id" : ObjectId("5ac85f2db9068c1cac002094"), 
+    "migration" : "2018_03_23_202741_create_jobs_table", 
+    "batch" : NumberInt(1)
+}

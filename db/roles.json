@@ -1,0 +1,32 @@
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d9c"), 
+    "name" : "candidate", 
+    "detail" : "Ứng viên", 
+    "route" : "profile", 
+    "created_at" : ISODate("2018-04-07T06:04:01.914+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.914+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d9d"), 
+    "name" : "admin", 
+    "detail" : "Người quản trị", 
+    "route" : "admin/dashboard", 
+    "created_at" : ISODate("2018-04-07T06:04:01.914+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.914+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d9e"), 
+    "name" : "employer", 
+    "detail" : "Công ty", 
+    "route" : "getemp", 
+    "created_at" : ISODate("2018-04-07T06:04:01.914+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.914+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d9f"), 
+    "name" : "employee", 
+    "detail" : "Nhân viên", 
+    "route" : "getemp", 
+    "created_at" : ISODate("2018-04-07T06:04:01.914+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.914+0000")
+}

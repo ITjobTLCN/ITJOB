@@ -1,0 +1,21 @@
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d92"), 
+    "name" : "Hồ Chí Minh", 
+    "alias" : "ho-chi-minh", 
+    "created_at" : ISODate("2018-04-07T06:04:01.183+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.201+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d93"), 
+    "name" : "Hà Nội", 
+    "alias" : "ha-noi", 
+    "created_at" : ISODate("2018-04-07T06:04:01.201+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.201+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d94"), 
+    "name" : "Đà Nẵng", 
+    "alias" : "da-nang", 
+    "created_at" : ISODate("2018-04-07T06:04:01.201+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.201+0000")
+}

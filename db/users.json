@@ -1,0 +1,44 @@
+{ 
+    "_id" : ObjectId("5ac85f53b9068c2384007da7"), 
+    "name" : "Trần Thanh Phong", 
+    "email" : "phong.kelvin1608@gmail.com", 
+    "password" : "$2y$10$59PO7CU/SPPFU3tSuD9tB.MWZtq44GCBytx5vHScpR4BGM9ZsYLMi", 
+    "role_id" : "5ac85f51b9068c2384007d9c", 
+    "jobs_followed" : {
+
+    }, 
+    "employers_followed" : {
+
+    }, 
+    "created_at" : ISODate("2018-04-07T06:04:03.098+0000"), 
+    "updated_at" : ISODate("2018-04-11T03:53:05.000+0000"), 
+    "lastlogin" : "2018-04-11 10:53:05", 
+    "remember_token" : "V1HmaBNHmQ7dQX8LevtWC0JiWoWf9tS1LqSsTjLHLWbPVKiOI71rEMYWXwDW"
+}
+{ 
+    "_id" : ObjectId("5ac85f53b9068c2384007da8"), 
+    "name" : "Nguyễn Bá Đạt", 
+    "email" : "datnguyen.ute@gmail.com", 
+    "password" : "$2y$10$IIdn9G0DPcNWtDwY3WLdMOVgGd0wy2iWMtj4Ng/RxpWdSaOW4JT1q", 
+    "role_id" : "5ac85f51b9068c2384007d9c", 
+    "created_at" : ISODate("2018-04-07T06:04:03.182+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:03.182+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f53b9068c2384007da9"), 
+    "name" : "kelvin", 
+    "email" : "tranthanhphong1608@gmail.com", 
+    "password" : "$2y$10$XLsDzWX8J7qkST4Sro6Sn.MZv5eRgHuIlgNBvC4aEPO/bHWVJBAGC", 
+    "role_id" : "5ac85f51b9068c2384007d9e", 
+    "created_at" : ISODate("2018-04-07T06:04:03.260+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:03.260+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f53b9068c2384007daa"), 
+    "name" : "phong", 
+    "email" : "company@gmail.com", 
+    "password" : "$2y$10$dV9g5CMIM8VaJu62RVUjr.jacQmBc/ux8NYsabk9cFlLQD5IOc6v.", 
+    "role_id" : "5ac85f51b9068c2384007d9f", 
+    "created_at" : ISODate("2018-04-07T06:04:03.336+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:03.336+0000")
+}

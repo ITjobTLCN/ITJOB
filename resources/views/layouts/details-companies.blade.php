@@ -13,15 +13,15 @@
                 <div class="row">
                     <div class="col-md-2 col-sm-3 col-xs-12">
                         <div class="logo-company">
-                            <img src="assets/img/logo/{{$company->images['avatar']}}" alt="" class="img-responsive">
+                            <img src="uploads/emp/logo/{{$company->images['avatar']}}" alt="" class="img-responsive">
                         </div>
                     </div>
-                    <div class="col-md-7 col-sm-5 col-xs-12">
+                    <div class="col-md-7 col-sm-9 col-xs-12">
                         <div class="name-info">
                             <h2 id="name-company">{{$company->name}}</h2>
                             <div class="location">
                                 @foreach($company->address as $val)
-                                <i class="fa fa-location-arrow" aria-hidden="true"></i> {{$val['detail']}}
+                                <i class="fa fa-location-arrow" aria-hidden="true"></i> {{$val['detail']}} <br>
                                 @endforeach
                             </div>
                             <div class="num-employee">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-sm-4 col-xs-12">
+                    <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="action_companies">
                             <div class="add_review">
                                 @if(Auth::check())

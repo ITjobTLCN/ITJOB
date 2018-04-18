@@ -1,0 +1,172 @@
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d95"), 
+    "name" : "Global CyberSoft", 
+    "alias" : "global-cyber-soft", 
+    "address" : [
+        {
+            "_id" : "123", 
+            "city" : "Hồ Chí Minh", 
+            "detail" : "Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh"
+        }, 
+        {
+            "_id" : "1234", 
+            "city" : "Hà Nội", 
+            "detail" : "Ba Đình, Hà Nội"
+        }
+    ], 
+    "quantity_user_follow" : NumberInt(0), 
+    "info" : {
+        "description" : "This is description", 
+        "quantity_employee" : NumberInt(100), 
+        "website" : ""
+    }, 
+    "images" : {
+        "avatar" : "global-cybersoft-logo-170-151.jpg", 
+        "cover" : "global-cybersoft-headline-photo-compress.jpg", 
+        "details" : [
+
+        ]
+    }, 
+    "skills" : [
+        {
+            "_id" : "5ac85f52b9068c2384007da0", 
+            "name" : "Android"
+        }, 
+        {
+            "_id" : "5ac85f52b9068c2384007da1", 
+            "name" : "Java"
+        }
+    ], 
+    "rating" : NumberDecimal("0.0"), 
+    "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.498+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d96"), 
+    "name" : "FPT Software", 
+    "alias" : "fpt-software", 
+    "address" : [
+        {
+            "_id" : "123", 
+            "city" : "Hồ Chí Minh", 
+            "detail" : "Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh"
+        }, 
+        {
+            "_id" : "1234", 
+            "city" : "Hà Nội", 
+            "detail" : "Ba Đình, Hà Nội"
+        }
+    ], 
+    "quantity_user_follow" : NumberInt(0), 
+    "info" : {
+        "description" : "This is description", 
+        "quantity_employee" : NumberInt(100), 
+        "website" : ""
+    }, 
+    "images" : {
+        "avatar" : "fpt-software-logo-65-65.png", 
+        "cover" : "fpt-shop-headline-photo-compress.jpg", 
+        "details" : [
+
+        ]
+    }, 
+    "skills" : [
+        {
+            "_id" : "5ac85f52b9068c2384007da0", 
+            "name" : "Android"
+        }, 
+        {
+            "_id" : "5ac85f52b9068c2384007da1", 
+            "name" : "Java"
+        }
+    ], 
+    "rating" : NumberDecimal("0.0"), 
+    "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.498+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d97"), 
+    "name" : "Episerver", 
+    "alias" : "episerver", 
+    "address" : [
+        {
+            "_id" : "123", 
+            "city" : "Hồ Chí Minh", 
+            "detail" : "Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh"
+        }, 
+        {
+            "_id" : "1234", 
+            "city" : "Hà Nội", 
+            "detail" : "Ba Đình, Hà Nội"
+        }
+    ], 
+    "quantity_user_follow" : NumberInt(0), 
+    "info" : {
+        "description" : "This is description", 
+        "quantity_employee" : NumberInt(100), 
+        "website" : ""
+    }, 
+    "images" : {
+        "avatar" : "episerver-logo-170-151.png", 
+        "cover" : "episerver-headline-photo-compress.jpg", 
+        "details" : [
+
+        ]
+    }, 
+    "skills" : [
+        {
+            "_id" : "5ac85f52b9068c2384007da0", 
+            "name" : "Android"
+        }, 
+        {
+            "_id" : "5ac85f52b9068c2384007da1", 
+            "name" : "Java"
+        }
+    ], 
+    "rating" : NumberDecimal("0.0"), 
+    "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.498+0000")
+}
+{ 
+    "_id" : ObjectId("5ac85f51b9068c2384007d98"), 
+    "name" : "IFI Solution - An NTT Data Company", 
+    "alias" : "ifi-solution-an-ntt-data-company", 
+    "address" : [
+        {
+            "_id" : "123", 
+            "city" : "Hồ Chí Minh", 
+            "detail" : "Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh"
+        }, 
+        {
+            "_id" : "1234", 
+            "city" : "Hà Nội", 
+            "detail" : "Ba Đình, Hà Nội"
+        }
+    ], 
+    "quantity_user_follow" : NumberInt(0), 
+    "images" : {
+        "avatar" : "ifi-solution-an-ntt-data-company-logo-170-151.png", 
+        "cover" : "ifi-solution-an-ntt-data-company-headline-photo-compress.jpg", 
+        "details" : [
+
+        ]
+    }, 
+    "skills" : [
+        {
+            "_id" : "5ac85f52b9068c2384007da0", 
+            "name" : "Android"
+        }, 
+        {
+            "_id" : "5ac85f52b9068c2384007da1", 
+            "name" : "Java"
+        }
+    ], 
+    "rating" : NumberDecimal("0.0"), 
+    "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
+    "updated_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
+    "info" : {
+        "description" : "This is description", 
+        "quantity_employee" : NumberInt(100), 
+        "website" : ""
+    }
+}
