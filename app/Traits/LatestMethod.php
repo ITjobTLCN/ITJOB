@@ -17,10 +17,12 @@ trait LatestMethod
          });
          return $top_emps;
 	}
+
 	public function getTopJobs()
 	{
 		$top_jobs = Cache::remember('top_jobs', config('constant.cacheTime'), function() {
-            return Job::where('status', 1)
+            return Job::with('employer')
+                        ->where('status', 1)
             			->orderBy('_id desc')
             			->orderBy('quantity_user_follow desc')
                         ->offset(0)
@@ -29,4 +31,20 @@ trait LatestMethod
         });
         return $top_jobs;
 	}
+
+    private function getListJobLatest() {
+        if(Cache::has('listJobLastest')) {
+            $listJobLastest = Cache::get('listJobLastest', '');
+        } else {
+            $selects = [
+                'name', 'alias', 'city', 'employer', 'skills', 'expired', 'employer_id'
+            ];
+            $listJobLastest = Job::with('employer')->select($selects)->where('status', 1)
+                                                    ->orderBy('_id', 'desc')
+                                                    ->offset(0)
+                                                    ->take(config('constant.limitJob'))
+                                                    ->get();
+            Cache::put('listJobLastest', $listJobLastest, config('constant.cacheTime'));
+        }
+    }
 }

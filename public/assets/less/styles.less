@@ -2248,9 +2248,9 @@ a:visited {
     ul{ 
         li{
             border-top: 1px solid #eff0f1;
-            .title{
+            .title-job {
                 font-weight: 550;
-                font-size: 14px;
+                font-size: 15px;
                 display: block;
                 cursor: pointer;
                 color: #be5656;
@@ -2258,8 +2258,8 @@ a:visited {
                 text-transform: capitalize;
                 margin-top: 8px;
             }
-            .company{
-                font-size: 12px;
+            .company {
+                font-size: 13px;
                 color: #505050;
                 margin-right: 7px;
             }
@@ -2292,9 +2292,10 @@ a:visited {
         }
     }
     
-    .wrap{
-        padding: 12px;
-    }
+    
+}
+.wrap{
+    padding: 12px;
 }
 .push-top-sm{
     margin-top: 15px;
@@ -2371,23 +2372,46 @@ label.error{
   margin: -25px;
 }
 // application
-.application-wrapper{
-    margin-top: @margin-top;
+.application-wrapper {
+    margin-top: 60px;
+    padding-top: 20px;
     background: #eee;
-    .application{
-        margin-top: 10px;
+    .application {
+        padding-top: 20px;
         background: #fff;
+        .ja-info {
+            font-size: 17px;
+            padding: 10px 20px;
+            background: #d94127;
+            color: #fff;
+        }
     }
 }
-.content{
-    padding: 10px 50px;
+.top-jobs {
+    margin-top: 9px;
+    .title {
+        padding: 10px 20px;
+        background: #d94127;
+        color: #fff;
+    }
+    .content {
+        margin-top: 10px;
+        border-bottom: 2px solid @mainColor;
+    }
+}
+.wrapper-form-apply {
+    margin: 10px 0;
+    border: 2px dotted #eee;
+    .form-apply {
+        padding: 0 20px;
+    }
 }
 .send_now{
     .button-apply;
     color: #fff;
     width: 100px;
-    height: 50px;
     font-size: 16px;
+    margin-bottom: 10px;
 }
 #btnSubmit{
     background: @mainColor;
@@ -2519,6 +2543,7 @@ label.error{
     -webkit-transition: color .3s;
     transition: color .3s;
 }
+
 
 
 

@@ -216,7 +216,7 @@
                 <div class="list-job-hiring">
                     <input type="hidden" value="{{$company->_id}}" id="company_id" name="company_id"> 
                     <div class="title">
-                        <a data-toggle="collapse" id="up-down" href="#list-job-content">{{$jobs}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
+                        <a data-toggle="collapse" id="see-jobs-company" href="#list-job-content">{{$quantityJobs}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
                     </div>
                     <div id="list-job-content" class="panel-collapse collapse">
                         <div class="result-job-company"></div>

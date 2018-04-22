@@ -51,7 +51,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 					<div class="clearfix"></div>
 				</div>
 				<div id="main-job-list" class="col-sm-7 col-md-7 col-lg-8">
-					@if(Session::has('match'))
+					@if(!$match)
 					<div id="no-results-message">
 						<h2 class="text-center">
 							<p>Oops!, we could not find matching jobs for your search at this moment. </p>

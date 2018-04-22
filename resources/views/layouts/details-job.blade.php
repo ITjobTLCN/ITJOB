@@ -125,7 +125,7 @@
                                     <div class="col-md-4">
                                         <div class="row">
                                             <div class="action-apply">
-                                                <a href="{{route('getApplyJob', [$jobs['alias'], $jobs['employer']['alias'], $jobs['_id']])}}" class="btn btn-primary btn-xlg col-xs-12">Apply Now</a>
+                                                <a href="{{route('getApplyJob', [$jobs['alias'], $jobs['_id']])}}" class="btn btn-primary btn-xlg col-xs-12">Apply Now</a>
                                             </div>
                                         </div>
                                     </div>
@@ -250,7 +250,7 @@
                                 @foreach($relatedJob as $rl)
                                 <li class="item-job">
                                     <a href="{{route('detailjob',[$rl->alias,$rl->_id])}}" title="{{$rl->name}}">
-                                        <div class="title">{{$rl->name}}</div>
+                                        <div class="title-job">{{$rl->name}}</div>
                                         <div>
                                             <span class="company">{{$rl->employer->name}}</span>
                                             <span class="location"><i class="fa fa-map-marker"></i> {{$rl->city}}</span>

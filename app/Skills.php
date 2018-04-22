@@ -12,8 +12,8 @@ class Skills extends Eloquent
 
     protected $collection = 'skills';
 
-    public function Jobs()
-    {
-    return $this->belongsToMany('App\Jobs','skill_job','skill_id','job_id');
-    }
+    // public function Jobs()
+    // {
+    // 	return $this->belongsToMany('App\Jobs','skill_job','skill_id','job_id');
+    // }
 }

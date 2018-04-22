@@ -72,6 +72,10 @@ Route::get('list-jobs-company',[
 	'as'=>'list-jobs-company',
 	'uses'=>'CompanyController@getJobsCompany'
 ]);
+Route::get('more-jobs-company',[
+	'as'=>'moreJobsCompany',
+	'uses'=>'JobsController@getJobsCompany'
+]);
 Route::get('demo', ['as' => 'demo', 'uses' => 'CompanyController@getDemo']);
 //get employers by id
 Route::group(['prefix' => 'companies'], function() {
@@ -130,9 +134,13 @@ Route::group(['prefix' => 'it-job'], function(){
 	Route::get('{jobAlias}/{cityAlias}', ['as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption']);
 	Route::get('{alias}', ['as' => 'quickJobBySkill','uses' => 'JobsController@getQuickJobBySkill'])
 		->where(['alias' => '[a-z]+']);
-	Route::get('{alias}-{employer}/{id}/apply',['as' => 'getApplyJob','uses' => 'JobsController@getApplyJob'])
-	->where(['alias' => '[0-9a-z]+']);
+	
 });
+
+//get apply 
+Route::get('{alias}/{id}/apply',['as' => 'getApplyJob', 'uses' => 'JobsController@getApplyJob'])
+	->where(['id' => '[0-9a-z]+']);
+
 Route::get('detai-jobs/{alias}/{_id}', [
 	'as' => 'detailjob',
 	'uses' => 'JobsController@getDetailsJob'
@@ -162,6 +170,15 @@ Route::get('list-skill-jobs', [
 ]);
 //get list skills of employer by emp_id
 Route::get('list-skill-emp', ['as' => 'getListSkillEmployer', 'uses' => 'CompanyController@getListSkillEmployer']);
+//Clear Cache facade value:
+Route::get('/cache/flushall', function() {
+    $exitCode = Artisan::call('cache:clear');
+    return '<h1>Cache facade value cleared</h1>';
+});
+Route::get('cache/flush/all', [
+	'as' => 'clearAllCache',
+	'uses' => 'PageController@clearAllCache'
+]);
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------
 */

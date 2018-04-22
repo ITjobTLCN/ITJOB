@@ -5,7 +5,7 @@ $(document).ready(function(){
 	$('.list-job-hiring .fa-arrow-up').css({
 		'display':'none',
 	});
-	$('#up-down').click(function() {
+	$('#see-jobs-company').click(function() {
 		$("i", this).toggleClass("fa fa-arrow-up fa fa-arrow-down");
 		$('.loading').css({
 			'display':'block',
@@ -16,26 +16,25 @@ $(document).ready(function(){
 		    }
 		});
 		$.ajax({
-			type:'get',
-			url:'list-jobs-company',
-			cache:true,
-			data:{
-				'dem':0,
-				'emp_id':$('#company_id').val(),
+			type: 'get',
+			url: 'list-jobs-company',
+			cache: true,
+			data: {
+				'offset': 0,
+				'emp_id': $('#company_id').val(),
 			},
 			success:function(data) {
-				console.log(data);
 				$('.result-job-company').html(data);
 			}
 		});
 	});
 	//see-more jobs in company
-	var dem = 0;
-	$('#see-more-job-company').click(function(){
+	var offset = 0;
+	$('#see-more-job-company').click(function() {
 		$('.loading').css({
 			'display':'block',
 		});
-		dem += 10;
+		offset += 20;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43,12 +42,12 @@ $(document).ready(function(){
 		});
 		$.ajax({
 			type: 'get',
-			url: 'list-jobs-company',
+			url: 'more-jobs-company',
 			data:{
-				'dem': dem,
+				'offset': offset,
 				'emp_id': $('#company_id').val()
 			},
-			success:function(data){
+			success:function(data) {
 				$('.result-job-company').append(data);
 			}
 		});

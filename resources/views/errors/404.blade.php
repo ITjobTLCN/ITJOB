@@ -9,7 +9,7 @@
 				<meta name="author" content="Lukasz Holeczek">
 				<meta name="keyword" content="CoreUI Bootstrap 4 Admin Template">
 				
-				<title>CoreUI Bootstrap 4 Admin Template</title>
+				<title>ITJOB - PAGE NOT FOUND</title>
 				
 				<link href="assets/css/404.css" rel="stylesheet">
 				</head>

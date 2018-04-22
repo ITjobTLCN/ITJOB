@@ -146,27 +146,27 @@ $(document).ready(function(){
       });
 	$('#formApply').validate({
 		rules:{
-			fullname:{
-				required:true,
+			fullname: {
+				required: true,
 			},
-			email:{
-				required:true,
-				email:true,
+			email: {
+				required: true,
+				email: true,
 			},
-			new_cv:{
-				required:true,
+			new_cv: {
+				required: true,
 				extension: "pdf|doc|docx",
 			}
 		},
-		messages:{
-			fullname:{
+		messages: {
+			fullname: {
 				required:"Vui lòng nhập tên của bạn",
 			},
-			email:{
+			email: {
 				required:"Vui lòng nhập email",
 				email:"Email không đúng định dạng",
 			},
-			new_cv:{
+			new_cv: {
 				required:"Vui lòng đính kèm CV",
 				extension:"Vui lòng đính kèm file .doc .docx hoặc .pdf"
 			}

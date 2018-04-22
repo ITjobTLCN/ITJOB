@@ -28,7 +28,8 @@ class CompanyController extends Controller
     }
     public function countJobCompany($emp_id) {
         return Job::where('employer_id', $emp_id)->count();
-    }   
+    }
+
     public function getMoreJob(Request $req) {
         $dem = $req->dem;
         $com_id = $req->com_id;
@@ -40,33 +41,41 @@ class CompanyController extends Controller
     }
     public function getJobsCompany(Request $req) {
         $output = "";
-        $jobs = Job::where('employer_id', $req->emp_id)
-                    ->offset($req->dem)
-                    ->take(10)
+        $emp_id = $req->emp_id;
+        if(Cache::has('job-hirring'.$emp_id)) {
+            $output = Cache::get('job-hirring'.$emp_id, '');
+        } else {
+            $jobs = Job::where('employer_id', $emp_id)
+                    ->offset($req->offset)
+                    ->take(config('constant.limitJob'))
                     ->get();
-        foreach ($jobs as $key => $job) {
-           $output.= '<div class="job-item">
-                        <div class="job-item-info">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
-                                    <h3>
-                                        <a href="" class="job-title" target="_blank">'.$job->name.'</a>
-                                    </h3>
-                                    <ul>
-                                        <li><i class="fa fa-calendar" aria-hidden="true"></i>'.$job->created_at->format('d-M Y').'</li>
-                                        <li><a href="" class="salary-job"><i class="fa fa-money " aria-hidden="true"></i> Login to see salary</a></li>
-                                        <li></li>
-                                    </ul>
-                                    <div class="company text-clip">
+            foreach ($jobs as $key => $job) {
+               $output.= "<div class='job-item'>
+                            <div class='job-item-info'>
+                                <div class='row'>
+                                    <div class='col-xs-12 col-sm-10 col-md-10 col-lg-10'>
+                                        <h3>
+                                            <a href='detai-jobs/$job->alias/$job->_id' class='job-title' target='_blank'>$job->name</a>
+                                        </h3>
+                                        <ul>
+                                            <li><i class='fa fa-calendar' aria-hidden='true'></i>".$job->created_at->format('d-M Y')."</li>
+                                            <li><a href='' class='salary-job'><i class='fa fa-money' aria-hidden='true'></i> Login to see salary</a></li>
+                                            <li></li>
+                                        </ul>
+                                        <div class='company text-clip'>
+                                        </div>
+                                    </div>
+                                    <div class='hidden-xs col-sm-2 col-md-2 col-lg-2 view-detail'>
+                                        <a href='detai-jobs/$job->alias/$job->_id' target=_blank>Detail</a>
                                     </div>
                                 </div>
-                                <div class="hidden-xs col-sm-2 col-md-2 col-lg-2 view-detail">
-                                    <a href="detai-jobs/'.$job->alias.'/'.$job->_id.'" target="_blank">Detail</a>
-                                </div>
                             </div>
-                        </div>
-                    </div>';
+                        </div>";
+            }
+
+            Cache::put('job-hirring'.$emp_id, $output, config('constant.cacheTime'));
         }
+
         return $output;
     }
     public function getDetailsCompanies(Request $req) {
@@ -77,10 +86,10 @@ class CompanyController extends Controller
             Session::flash('com_name', $com_alias);
             return view('layouts.companies', ['match' => false]);
         }
-        $jobs = Job::where('employer_id', $company->_id)->count();
+        $quantityJobs = Job::where('employer_id', $company->_id)->count();
         $skills_id = [];
-        foreach ($company['skills'] as $key => $value) {
-            array_push($skills_id, $value['_id']);
+        foreach ($company['skills'] as $key => $skill) {
+            array_push($skills_id, $skill['_id']);
         }
         $skills = Skills::whereIn('_id', $skills_id)->get();
         $reviews = Reviews::where('emp_id', $company['id'])
@@ -95,7 +104,7 @@ class CompanyController extends Controller
                    compact('company', 'skills', 'jobs', 'follow', 'reviews'));
         }
         return view('layouts.details-companies', 
-               compact('company', 'skills', 'jobs', 'reviews')); 
+               compact('company', 'skills', 'quantityJobs', 'reviews')); 
     }
 
     public function getCompaniesReview(Request $req, $offset = null, $limit = null) {

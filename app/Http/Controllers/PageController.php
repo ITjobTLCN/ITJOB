@@ -13,7 +13,6 @@ use Cache;
 use Mail;
 use App\Events\SendMailContact;
 use App\Traits\LatestMethod;
-
 class PageController extends Controller
 {
     use LatestMethod;
@@ -26,7 +25,7 @@ class PageController extends Controller
 
         $top_emps = $this->getTopEmployers();
         $top_jobs = $this->getTopJobs();
-
+        $this->getListJobLatest();
         return view('layouts.trangchu', compact('cities',
                                                 'top_emps',
                                                 'top_jobs'));
@@ -62,5 +61,11 @@ class PageController extends Controller
         });
 
         return $skills;
+    }
+    // clear all cache
+    public function clearAllCache() {
+        Cache::flush();
+
+        return "Cache are cleared successful";
     }
 }
