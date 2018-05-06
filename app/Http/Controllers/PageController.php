@@ -20,7 +20,7 @@ class PageController extends Controller
 	public function getIndex() {
         set_time_limit(-1);
         $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
-            return Cities::all(); 
+            return Cities::all();
         });
 
         $top_emps = $this->getTopEmployers();
@@ -67,5 +67,32 @@ class PageController extends Controller
         Cache::flush();
 
         return "Cache are cleared successful";
+    }
+
+    public function getDemo()
+    {
+        $employer = Employers::where('_id', "5ac85f51b9068c2384007d95")->first();
+        
+        $where = [
+            '_id' => $employer['_id'],
+            'alias' => 'demo'
+        ];
+        $employers = new Employers();
+        $update = [
+            'address' => [
+                [
+                    "_id" => "123", 
+                    "city" => "Hồ Chí Minh", 
+                    "detail" => "Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh"
+                ],
+                [
+                    "_id" => "123", 
+                    "city" => "Hồ Chí Minh", 
+                    "detail" => "Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh"
+                ],
+                
+            ]
+        ];
+        dd($employers->where($where)->update($update));
     }
 }

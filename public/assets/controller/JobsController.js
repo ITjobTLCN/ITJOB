@@ -1,8 +1,8 @@
-app.controller('JobsController', function($scope,$http){
+app.controller('JobsController', function($scope,$http) {
 	$http({
 		method: 'GET',
 		url: 'all-attribute-filter',
-	}).then(function(response){
+	}).then(function(response) {
 		$scope.myCountry = {
 			    selected:{}
 			};
@@ -23,11 +23,10 @@ app.controller('JobsController', function($scope,$http){
                   'id': data._id,
                   'name': data.name,
                   'alias': data.alias,
-                  'type': type
             }
             if(event.target.checked) {
                   dem++;
-                  if(data.type === "cities") {
+                  if(type === "cities") {
                         id_city[i] = data.id;
                         i++;
                   }else {
@@ -41,10 +40,10 @@ app.controller('JobsController', function($scope,$http){
                   $('.list-filter-att').css({
                         'display':'block'
                   });
-            }else {
+            } else {
                   dem--;
                   var id = data.id;
-                  if(data.type == "cities") {
+                  if(type == "cities") {
                         i--;
                         for(var k = 0; k < id_city.length; k++) {
                               if(id_city[k] === id) {
@@ -64,7 +63,6 @@ app.controller('JobsController', function($scope,$http){
                         }
                   }
                   $('span#'+data.alias).remove();
-                  
             }
             if(dem == 0) {
                   $('.edition-filter').empty();
@@ -111,7 +109,7 @@ app.controller('JobsController', function($scope,$http){
                 }
             });
             $.ajax({
-                  type: 'get',
+                  type: 'post',
                   url: 'filter-job',
                   data: {
                         'info_skill':"",

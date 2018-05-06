@@ -1,4 +1,11 @@
-$(document).ready(function(){
+$(document).ready(function() {
+	//followed
+    $('.followed .unfollowed').mouseover(function() {
+        $(this).text("Un Followed");
+    });
+    $('.unfollowed').mouseleave(function(){
+        $(this).text("Following");
+    });
 	$('.followed i').css({
 		'display':'none',
 	});
@@ -52,12 +59,13 @@ $(document).ready(function(){
 			}
 		});
 	});
-	$('a#openLoginModal').click(function(e){
+	$('a#openLoginModal').click(function(e) {
+		e.preventDefault();
         $('#loginModal').modal();
     });
 	//flowed companies
-	$('.followed').click(function() {
-		var emp_id = $('#emp_id').val();
+	$('.followed #followed').click(function(e) {
+		e.preventDefault();
 		$('.followed i').css({
 			'display': 'inline-block',
 		});
@@ -70,10 +78,10 @@ $(document).ready(function(){
 			type:'get',
 			url:'companies/follow-company',
 			data: {
-				emp_id: emp_id,
+				emp_id: $('#emp_id').val(),
 			},
-			success : function(data){
-				
+			success : function(data) {
+				console.log(data);
 				$('.followed').html(data);
 			}
 		});
@@ -115,7 +123,6 @@ $(document).ready(function(){
 		});
 		e.preventDefault();
 	});
-	
 });
 $(document).ajaxComplete(function(){
 	$('.loading').css({
@@ -127,5 +134,33 @@ $(document).ajaxComplete(function(){
 	$('.salary-job').click(function(e){
 		$('#loginModal').modal();
 		e.preventDefault();
+	});
+	$('.unfollowed').mouseover(function() {
+        $(this).text("Un Followed");
+    });
+    $('.unfollowed').mouseleave(function(){
+        $(this).text("Following");
+    });
+	$('.followed #followed').click(function(e) {
+		e.preventDefault();
+		$('.followed i').css({
+			'display': 'inline-block',
+		});
+		$.ajaxSetup({
+		    headers: {
+		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		    }
+		});
+		$.ajax({
+			type:'get',
+			url:'companies/follow-company',
+			data: {
+				emp_id: $('#emp_id').val(),
+			},
+			success : function(data) {
+				console.log(data);
+				$('.followed').html(data);
+			}
+		});
 	});
 });

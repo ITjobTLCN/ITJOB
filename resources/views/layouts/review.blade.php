@@ -16,7 +16,7 @@ Review Company | ITJob
 					<div class="panel-body" ng-controller="CompanyController">
 						<p><i class="fa fa-quote-left fa-3x fa-pull-left fa-border" aria-hidden="true"></i> Bạn chỉ mất 1 phút để hoàn thành bảng đánh giá này. </p>
 						<p>Ý kiến của bạn sẽ giúp ích rất nhiều cho cộng đồng Developer đang tìm việc.</p>
-						<form class="review-form" action="{{route('reviewCompany',$company->alias)}}" method="POST">
+						<form class="review-form" action="{{route('reviewCompany', $company->alias)}}" method="POST">
 							{{csrf_field()}}
 							<div class="form-group">
 								@if(session('message'))
@@ -24,8 +24,8 @@ Review Company | ITJob
 								@endif
 								<label for="title">Đánh giá tổng quát</label>
 								<div class="br-widget">
-									<input type="hidden" name="cStar"  id="cStar" value="1">
-									<input type="hidden" name="emp_id" id="emp_id" value="{{$company->id}}">
+									<input type="hidden" name="rating"  id="rating" value="1">
+									<input type="hidden" name="emp_id" id="emp_id" value="{{$company->_id}}">
 									<a href="" class="btn btn-default" id="add-star">+</a>
 									<div class="star-review">
 										<a href="" id="star1"><i class="fa fa-star" aria-hidden="true"></i></a>

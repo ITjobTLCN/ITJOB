@@ -35,7 +35,7 @@ class Job extends Eloquent
     public function skills() {
         return $this->hasMany('App\Skills', 'skills_id', '_id');
     }
-    public function __toString() {
-        return $this->id;
-    }
+    // public function __toString() {
+    //     return $this->id;
+    // }
 }

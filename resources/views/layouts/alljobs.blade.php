@@ -2,7 +2,7 @@
 @section('title')
 Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 @stop
-@section('body.content')	
+@section('body.content')
 <div class="all-jobs" ng-controller="JobsController">
 	<div class="search-widget container clearfix">
 		<div id="serach-widget ">
@@ -32,7 +32,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 							<div id="list-locations" class="collapse in">
 								<ul>
 									<li ng-repeat="city in cities">
-										<input type="checkbox" ng-click="toggleSelection($event,'cities',city.id,city.name,city.alias)" ng-model="city.selected"><span><%city.name%></span>
+										<input type="checkbox" ng-click="filterJob($event, 'cities', city)" ng-model="city.selected"><span><%city.name%></span>
 									</li>
 								</ul>
 							</div>
@@ -42,7 +42,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 							<div id="list-skills" class="collapse in">
 								<ul>
 									<li ng-repeat="skill in skills">
-										<input type="checkbox" ng-click=" toggleSelection($event,'skills',skill.id,skill.name,skill.alias)" ng-model="skill.selected"><span><%skill.name%></span>
+										<input type="checkbox" ng-click="filterJob($event, 'skills', skill)" ng-model="skill.selected"><span><%skill.name%></span>
 									</li>
 								</ul>
 							</div>
@@ -93,7 +93,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 										<div class="company text-clip">
 											<span class="salary-job">
 												@if(Auth::check())
-												{{$ljlt->salary}}
+												{{$ljlt->detail['salary']}} $
 												@else
 												<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
 												@endif
@@ -102,7 +102,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 											<span class="">@if(date('d-m-Y') == date('d-m-Y', strtotime($ljlt->created_at))) Today @else {{date('d-m-Y', strtotime($ljlt->created_at))}}@endif</span>
 										</div>
 										<div class="job__skill">
-											@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->id) as $key => $s)
+											@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->_id) as $key => $s)
 											<a href=""><span>{{$s->name}}</span></a>
 											@endforeach
 										</div>
@@ -111,8 +111,8 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 								</div>
 								<div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">
 									@if(Auth::check())
-									<div class="follow{{$ljlt->id}}" id="followJob" emp_id="{{$ljlt->emp_id}}" job_id="{{$ljlt->id}}">
-										@if(app(App\Http\Controllers\JobsController::class)->getJobFollowed($ljlt->id)==1)
+									<div class="follow{{$ljlt->_id}}" id="followJob" emp_id="{{$ljlt->employer_id}}" job_id="{{$ljlt->_id}}">
+										@if(app(App\Http\Controllers\JobsController::class)->getJobFollowed($ljlt->_id))
 										<i class="fa fa-heart" aria-hidden="true" title="UnFollow"></i>
 										@else
 										<i class="fa fa-heart-o" aria-hidden="true" title="Follow"></i>
@@ -122,7 +122,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 									<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>
 									@endif
 								</div>
-							</div>	
+							</div>
 						</div>
 						@endforeach
 						@if($countjob > 20)
@@ -134,7 +134,6 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 				<div id="right-column" class="hidden-xs hidden-sm col-md-2 col-lg-2">
 					<div class="box m-b-none">
 						<div class="job-search__adver">
-							
 						</div>
 					</div>
 				</div>

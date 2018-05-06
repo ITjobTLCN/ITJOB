@@ -36,10 +36,7 @@ trait LatestMethod
         if(Cache::has('listJobLastest')) {
             $listJobLastest = Cache::get('listJobLastest', '');
         } else {
-            $selects = [
-                'name', 'alias', 'city', 'employer', 'skills', 'expired', 'employer_id'
-            ];
-            $listJobLastest = Job::with('employer')->select($selects)->where('status', 1)
+            $listJobLastest = Job::with('employer')->where('status', 1)
                                                     ->orderBy('_id', 'desc')
                                                     ->offset(0)
                                                     ->take(config('constant.limitJob'))

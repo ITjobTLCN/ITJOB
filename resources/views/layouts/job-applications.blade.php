@@ -4,7 +4,18 @@ Application Jobs | ITJob
 @endsection
 @section('body.content')
 <div class="job-applications" ng-controller="JobsController">
-	@include('partials.search-job')
+	<div class="search-widget container clearfix">
+		<div id="serach-widget ">
+			<div class="bg-blue container">
+				<div class="row">
+					<h2>Find your dream jobs. Be success!</h2>
+				</div>
+				<div class="row" id="search-form">
+					@include('partials.search-job')
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="applied-jobs container">
 		<div id="save-jobs" class="col-md-9 col-sm-12">
 			@if(count($jobApplications) == 0)
@@ -23,24 +34,24 @@ Application Jobs | ITJob
 					<div class="row" >
 						<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 							<div class="logo job-search__logo jb-search__result">
-								<a href=""><img title="{{$ja->en}}" class="img-responsive" src="assets/img/logo/{{$ja->logo}}" alt="">
+								<a href=""><img title="{{$ja->employer['name']}}" class="img-responsive" src="uploads/emp/logo/{{$ja->employer['images']['avatar']}}" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 							<div class="job-item-info" >
 								<h3 class="bold-red">
-									<a href="{{route('detailjob',[$ja->alias,$ja->id])}}" class="job-title" title="{{$ja->name}}">{{$ja->name}}</a>
+									<a href="{{route('detailjob', [$ja->alias, $ja->_id])}}" class="job-title" title="{{$ja->name}}">{{$ja->name}}</a>
 								</h3>
 								<div class="company">
-									<span class="job-search__company">{{$ja->en}}</span>
+									<span class="job-search__company">{{$ja->employer['name']}}</span>
 									<span class="separator">|</span>
-									<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ja->cn}}</span>
+									<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ja->city}}</span>
 								</div>
 								<div class="company text-clip">
 									<span class="salary-job">
 										@if(Auth::check())
-										{{$ja->salary}}
+										{{$ja->detail['salary']}} $
 										@else
 										<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
 										@endif
@@ -49,9 +60,9 @@ Application Jobs | ITJob
 									<span class="">@if(date('d-m-Y') == date('d-m-Y', strtotime($ja->created_at))) Today @else {{date('d-m-Y', strtotime($ja->created_at))}}@endif</span>
 								</div>
 								<div class="job__skill">
-									{{-- @foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->id) as $key => $s)
+									@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ja->_id) as $key => $s)
 									<a href=""><span>{{$s->name}}</span></a>
-									@endforeach --}}
+									@endforeach
 								</div>
 							</div>
 							<div class="clearfix"></div>
@@ -67,5 +78,8 @@ Application Jobs | ITJob
 </div>
 @endsection
 @section('footer.js')
+<script src="assets/controller/SearchController.js"></script>
 <script src="assets/controller/JobsController.js"></script>
+<script src="assets/js/typeahead.js"></script>
+<script src="assets/js/typeahead-autocomplete.js"></script>
 @endsection

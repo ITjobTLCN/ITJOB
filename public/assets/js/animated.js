@@ -1,9 +1,7 @@
 
 $(document).ready(function(){
-    
     $(function() {
         var offsettop = 100;
-        
         $(window).scroll(function(){
             var main = $('.main').outerHeight();
             if($(window).scrollTop() > offsettop && $(window).scrollTop() < main){
@@ -17,13 +15,6 @@ $(document).ready(function(){
             }
         });
     });
-    //followed
-    $('#unfollowed').mouseover(function(){
-        $(this).text("Unfollow");
-    });
-    $('#unfollowed').mouseleave(function(){
-        $(this).text("Following");
-    }); 
     $(document).ajaxComplete(function(){
         $('.followed i').css({
             'display':'none'

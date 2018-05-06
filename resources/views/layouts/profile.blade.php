@@ -16,9 +16,9 @@ Thông tin cá nhân | ITJob
 						
 						<div class="avatar_profile">
 							@if($user->password !="")
-							<img src="uploads/user/avatar/{{$user->image}}" alt="" class="img-responsive" width="150px" height="150px">
+							<img src="uploads/avatar/{{$user->avatar}}" alt="" class="img-responsive" width="150px" height="150px">
 							@else
-							<img src="{{$user->image}}" alt="" class="img-responsive" width="150px" height="150px">
+							<img src="{{$user->avatar}}" alt="" class="img-responsive" width="150px" height="150px">
 							@endif
 						</div>
 						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">

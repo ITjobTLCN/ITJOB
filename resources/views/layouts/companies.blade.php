@@ -55,7 +55,7 @@ All Companies in Vietnam
                                     <div class="row">
                                         <div class="col-xs-3 col-md-3 col-lg-2">
                                             <div class="logo job-search__logo">
-                                                <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/{{$com->logo}}" alt="">
+                                                <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/{{$com->images['avatar']}}" alt="">
                                                 </a>
                                             </div>
                                         </div>

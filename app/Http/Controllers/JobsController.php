@@ -7,36 +7,30 @@ use App\Cities;
 use App\Skills;
 use App\Employers;
 use App\Job;
-use App\Skill_job;
-use App\Follow_jobs;
 use App\Reviews;
 use App\User;
-use App\Applications;
+use App\Follows;
 use DB;
-use View;
 use Session;
 use Cache;
 use Auth;
-use DateTime;
-use Illuminate\Database\Eloquent\Collection;
 use Carbon\Carbon;
 use MongoDB\BSON\UTCDateTime;
 use App\Traits\AliasTrait;
 use App\Traits\LatestMethod;
+use App\Traits\Job\JobMethod;
+use App\Traits\CommonMethod;
 class JobsController extends Controller
 {
-    use AliasTrait, LatestMethod;
+    use CommonMethod, AliasTrait, LatestMethod, JobMethod;
 
     public function getIndex(Request $req, $limit = 20, $offset = 0) {
-        $selects = [
-            'name', 'alias', 'city', 'employer', 'skills_id', 'expired', 'employer_id'
-        ];
         $listJobLastest = [];
         $req->offset ? $offset = $req->offset : $offset;
         if(Cache::has('listJobLastest')) {
             $listJobLastest = Cache::get('listJobLastest', '');
         } else {
-            $listJobLastest = Job::with('employer')->select($selects)->where('status', 1)
+            $listJobLastest = Job::with('employer')->where('status', 1)
                                                     ->orderBy('_id', 'desc')
                                                     ->offset($offset)
                                                     ->take($limit)
@@ -56,19 +50,19 @@ class JobsController extends Controller
     //return to detail-job page
     public function getDetailsJob(Request $req) {
         $job_id = $req->_id;
-        $jobs = Job::with('employer')->where('_id', $job_id)->first();
+        $job = Job::with('employer')->where('_id', $job_id)->first();
         $relatedJob = [];
         if(Cache::has('job'.$job_id)) {
             $relatedJob = Cache::get('job'.$job_id);
         } else {
             $relatedJob = Job::with('employer')->where('_id', '!=', $job_id)
-                                ->whereIn('skills_id', $jobs->skills_id)
+                                ->whereIn('skills_id', $job->skills_id)
                                 ->offset(0)
                                 ->take(6)
                                 ->get();
             Cache::put('job'.$job_id, $relatedJob, config('constant.cacheTime'));
         }
-        return view('layouts.details-job', compact(['jobs', 'relatedJob']));
+        return view('layouts.details-job', compact(['job', 'relatedJob']));
     }
     //get list skills and locations to filter jobs
     public function getAttributeFilter() {
@@ -77,84 +71,68 @@ class JobsController extends Controller
     	return response()->json(['locations' => $locations, 'skills' => $skills]);
     }
     //filter job by skills and locations
-    public function FilterJob(Request $req) {
+    public function filterJob(Request $req) {
         $output = [];
         $city_a = [];
         $skill_a = [];
         $result = "";
         $info_skill = $req->info_skill;
         $info_city = $req->info_city;
-        if(Session::has('city_id')) {
+        if (Session::has('city_id')) {
            $city_a[] = Session::get('city_id');
         }
-        if(Session::has('skill_id')) {
+        if (Session::has('skill_id')) {
             $skill_a[] = Session::get('skill_id');
         }
-        if(!empty($info_city) || !empty($info_skill)) {
+        if (!empty($info_city) || !empty($info_skill)) {
             if(!empty($info_city) && empty($info_skill)) {
                  foreach ($info_city as $key => $value) {
-                    $jobs = Job::where('city._id', $value)
+                    $city = Cities::where('_id', $value)->first();
+                    $jobs = Job::with('employer')->where('city', $city['name'])
                                 ->where('status', 1)
                                 ->get();
                     if(!empty($jobs)) {
                         foreach ($jobs as $key => $value) {
                             $output[] = $value;
-                        }   
+                        }
                     }
                 }
-            }elseif(empty($info_city) && !empty($info_skill)) {
-                $jobs = Job::whereIn('skill', $info_skill)->get();
-                if(!empty($jobs)) {
+            } elseif (empty($info_city) && !empty($info_skill)) {
+                $jobs = Job::with('employer')->whereIn('skills_id', $info_skill)->get();
+                if (!empty($jobs)) {
                     foreach ($jobs as $key => $value) {
                         $output[] = $value;
-                    }   
+                    }
                 }
             } else {
                 foreach ($info_city as $key => $ca) {
-                        $jobs = Job::where('city._id', $ca)->whereIn('skill', $info_skill)->get();
-                        // $jobs = DB::table('job as j')
-                        //                 ->select('j.id','j.name','j.alias','j.salary','j.city_id','j.emp_id','j.created_at')
-                        //                 ->where('j.city_id', $ca)
-                        //                 ->where('j.status', 1)
-                        //                 ->join(DB::raw('(select job_id from skill_job where skill_id='.$sid.') as a'),function($join){
-                        //                     $join->on('j.id','=','a.job_id');
-                        //                 })->get();
-                        if(!empty($jobs)) {
-                            foreach ($jobs as $key => $value) {
-                                $output[] = $value;
-                            }   
+                    $city = Cities::where('_id', $ca)->first();
+                    $jobs = Job::with('employer')->where('city', $city['name'])
+                                                ->whereIn('skills_id', $info_skill)
+                                                ->get();
+                    if(!empty($jobs)) {
+                        foreach ($jobs as $key => $value) {
+                            $output[] = $value;
                         }
-                   
+                    }
                 }
             }
         } else {
              $listJobLastest = Cache::get('listJobSearch', Cache::get('listJobLastest'));
-                foreach ($listJobLastest as $key => $tmp) {
-                    $output[] = $tmp;
+                foreach ($listJobLastest as $key => $job) {
+                    $output[$key] = $job;
             }
         }
-        $uniques = array();
-        foreach ($output as $key => $temp) {
-            if(!in_array($temp, $uniques)){
-                $uniques[] = $temp;
-            }
-        }
-
-        foreach ($uniques as $key => $job) {
-            $location = Cities::where('id',$job->city_id)->value('name');
-            $cn = Employers::where('id',$job->emp_id)->first();
+        array_unique($output);
+        foreach ($output as $key => $job) {
             $date = Carbon::parse($job->created_at)->format('d-m-Y');
             $today = date('d-m-Y');
-            $skills = DB::table('skills as s')
-                        ->select('s.name','s.id')
-                        ->join(DB::raw('(select skill_id from skill_job where job_id='.$job->id.') as a'),function($join){
-                            $join->on('s.id','=','a.skill_id');
-                        })->get();
+            $skills = Skills::whereIn('_id', $job['skills_id'])->get();
             $result.='<div class="job-item">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
                                     <div class="logo job-search__logo">
-                                        <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/'.$cn->logo.'" alt="">
+                                        <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/'.$job->employer['images']['avatar'].'" alt="">
                                         </a>
                                     </div>
                                 </div>
@@ -164,13 +142,13 @@ class JobsController extends Controller
                                             <a href="it-job/'.$job->alias.'/'.$job->id.'" class="job-title" target="_blank" title="'.$job->name.'">'.$job->name.'</a>
                                         </h3>
                                         <div class="company">
-                                            <span class="job-search__company">'.$cn->name.' </span>
+                                            <span class="job-search__company">'.$job->employer['name'].' </span>
                                             <span class="separator">|</span>
-                                            <span class="job-search__location">'.$location.'</span>
+                                            <span class="job-search__location">'.$job->city.'</span>
                                         </div>
                                             <div class="company text-clip">';
                                             if(Auth::check()){
-                                                $result.='<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">'.$job->salary.'</a></span>';
+                                                $result.='<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">'.$job->details['salary'].'</a></span>';
                                             }else{
                                                 $result.='<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương</a></span>';
                                             }
@@ -186,9 +164,9 @@ class JobsController extends Controller
                     $result.='<a href=""><span>'.$s->name.'</span></a>';
                 }
                 $result.='</div></div></div><div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">';
-                if(Auth::check()){
-                    $result.='<div class="follow'.$job->id.'" id="followJob" job_id="'.$job->id.'" emp_id="'.$job->emp_id.'">';
-                    if($this->getJobFollowed($job->id)){
+                if(Auth::check()) {
+                    $result.='<div class="follow'.$job->_id.'" id="followJob" job_id="'.$job->_id.'" emp_id="'.$job->employer_id.'">';
+                    if($this->getJobFollowed($job->id)) {
                         $result.='<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>';
                     }else{
                         $result.='<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>';
@@ -198,7 +176,7 @@ class JobsController extends Controller
                 }
                 $result.='</div></div></div></div>';
         }
-       return Response([$result,count($uniques)]);
+       return Response([$result, count($output)]);
     }
     //get name and alias companies or skills to search job
     public function getSearchJob(Request $req) {
@@ -220,11 +198,11 @@ class JobsController extends Controller
                 foreach ($jobs as $key => $job) {
                     $output[] = [ "name" => $job->name ];
                 }
-            } 
+            }
             if(!empty($companies)) {
                 foreach ($companies as $key => $company) {
                     $output[] = [ "name" => $company->name ];
-                }   
+                }
             }
         }
         return $output;
@@ -243,7 +221,7 @@ class JobsController extends Controller
             }
             $emp = $this->getEmployerByKey($key);
             if(!empty($emp)) {
-                return redirect()->route('getEmployers', $emp->alias);  
+                return redirect()->route('getEmployers', $emp->alias);
             } else {
                 $job = $this->getJobByKey($key);
                 Session::flash('jobname', $key);
@@ -258,7 +236,7 @@ class JobsController extends Controller
                 } else {
                     return redirect()->route('seachJobFullOption', [ $job->alias, $city_alias ]);
                 }
-            }         
+            }
         }
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
@@ -306,7 +284,7 @@ class JobsController extends Controller
             Session::flash('jobname', $req->alias);
         } else {
             $listJobLastest = Job::whereIn('skills_id', [$skill->_id])->get();
-            Session::flash('jobname', $skill->name);            
+            Session::flash('jobname', $skill->name);
         }
 
         Cache::put('listJobSearch', $listJobLastest, config('constant.cacheTime'));
@@ -326,52 +304,52 @@ class JobsController extends Controller
     public function followJob(Request $req) {
         $job_id = $req->job_id;
         $com_id = $req->com_id;
-        $user_id = Auth::user()->id;
-        
-        $follow = Follow_jobs::where('user_id', $user_id)
-                                ->where('job_id', $job_id)
-                                ->first();
-        $job = new Job();
-        $job = Job::find($job_id);
-        if($follow) {
-            $follow = Follow_jobs::where('user_id', $user_id)
-                                    ->where('job_id', $job_id)
-                                    ->delete();
-            $job->follows -= 1;
-            $job->save();
-            return "delete";
+        $user_id = Auth::id();
+        $where = [
+            'user_id' => $user_id,
+            'followed_info._id' => [
+                '$eq' => $job_id,
+                '$exists' => true
+            ]
+        ];
+        $objFollow = new Follows();
+        $follow = $this->findFollow($job_id, 'job');
+        if(!empty($follow)) {
+            $deleted = $follow['followed_info']['deleted'];
+            $this->jobUpdateQuantityFollowed($job_id, $deleted);
+            try {
+                $objFollow->where($where)->update(['followed_info.deleted' => !$deleted]);
+            } catch(\Exception $ex){}
+            return response()->json([
+                'insert' => $deleted
+            ]);
         } else {
-            $table = new Follow_jobs();
-            $table->user_id = $user_id;
-            $table->job_id = $job_id;
-            $table->created_at =  new UTCDateTime(round(microtime(true) * 1000));
-            $table->updated_at =  new UTCDateTime(round(microtime(true) * 1000));
-            $table->save();
-
-            $job->follows + 1;
-            $job->save();
-
-            return "add";
+            try {
+                $this->userSaveFollowJob($user_id, $job_id);
+            } catch(\Exception $ex) {}
         }
+        return response()->json([
+                'insert' => true
+            ]);
     }
 
-    public function getJobFollowed($job_id) {
-        $follow = Follow_jobs::where('job_id', $job_id)
-                                ->where('user_id', Auth::user()->id)
-                                ->first();
-        if($follow) {
-            return true;
-        }
+    public function getJobFollowed($jobId) {
+        $wheres = [
+            'user_id' => Auth::id(),
+            'followed_info' => [
+                '_id' => $jobId,
+                'deleted' => false
+            ],
+            'type' => 'job'
+        ];
+        $follow = Follows::where($wheres)->first();
 
-        return false;
+        return !is_null($follow) || !empty($follow);
     }
 
     public function getListSkillJobv($job_id) {
-        $skills = DB::table('skills as s')
-                    ->select('s.name')
-                    ->join(DB::raw('(select skill_id from skill_job where job_id='.$job_id.') as a'),function($join){
-                        $join->on('s.id', '=', 'a.skill_id');
-                    })->get();
+        $skillsId = Job::select('skills_id')->where('_id', $job_id)->first();
+        $skills = Skills::whereIn('_id', $skillsId['skills_id'])->get();
         return $skills;
     }
 
@@ -397,36 +375,18 @@ class JobsController extends Controller
     }
 
     public function applyJob(Request $req) {
-        $application = new Applications();
-        Auth::check() ?
-            $application->user_id = Auth::id()
-            :
-            $application->user_id = 0;
-
-        $temp = Applications::where('user_id', Auth::id())
-                                ->where('job_id', $req->job_id)
-                                ->first();
-        if($temp) {
+        $checkAlreadyApply = $this->checkUserAlreadyApply($req->email, $req->job_id);
+        if($checkAlreadyApply->getData()->error) {
             return redirect()->back()
-                             ->with(['hasApply' => 'Bạn đã apply công việc này rồi']);
+                            ->with(['message' => $checkAlreadyApply->getData()->message]);
         }
+        $data = $req->only([
+            'job_id', 'fullname', 'email', 'new_cv', 'note'
+        ]);
+        $arrResponse = $this->saveApplication($req, $data);
 
-        $application->job_id = $req->job_id;
-        $application->name = $req->fullname;
-        $application->email = $req->email;
-
-        if($req->hasFile('new_cv')) {
-            $cv = $req->file('new_cv');
-            $filename = $cv->getClientOriginalName();
-            $application->cv = $filename;
-            $cv->move('uploads/emp/cv/', $filename);
-        }
-
-        $application->note = $req->note;
-        
-        $application->save();
         return redirect()->back()
-                         ->with(['success' => 'Nộp CV thành công']);
+                ->with(['message' => $arrResponse->getData()->message]);
     }
 
     public function getJobsCompany(Request $req) {

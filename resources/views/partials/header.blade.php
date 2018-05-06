@@ -36,7 +36,6 @@
                     @forelse(auth()->user()->unreadnotifications as $notification)
                     <li class="notification-all">
                       @include('partials.notification.'.snake_case(class_basename($notification->type)))
-                      
                     </li>
                     @empty
                       <li class="notification-all"><a href="">No new notification</a></li>
@@ -53,7 +52,7 @@
             <li>
                 <a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar">
                     @if(Auth::user()->password !="")
-                    <img src="uploads/user/avatar/{{Auth::user()->image}}" alt="" class="user-avatar img-responsive" width="150px" height="150px">
+                    <img src="uploads/avatar/{{Auth::user()->avatar}}" alt="" class="user-avatar img-responsive" width="150px" height="150px">
                     @else
                     <img src="{{Auth::user()->image}}" alt="" class="user-avatar img-responsive" width="150px" height="150px">
                     @endif

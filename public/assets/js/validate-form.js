@@ -1,58 +1,57 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	$('.review-form').validate({
-		
-		rules:{
-			title:{
+		rules: {
+			title: {
 				required:true
 			},
-			like:{
+			like: {
 				required:true
 			},
-			unlike:{
+			unlike: {
 				required:true
 			},
 		},
-		messages:{
-			title:{
+		messages: {
+			title: {
 				required:"<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
 			},
-			like:{
+			like: {
 				required:"<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
 			},
-			unlike:{
+			unlike: {
 				required:"<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
 			}
 		},
-		submitHandler:function(form){
+		submitHandler:function(form) {
 			form.submit();
 		}
 	});
-	$('#email').keyup(function(){
+	$('#email').keyup(function() {
 		$('.errorLogin').hide();
 	});
-	$('#password').keyup(function(){
+	$('#password').keyup(function() {
 		$('.errorLogin').hide();
 	});
 	$('#frmLogin').validate({
             rules:{
-                  email:{
+                  email: {
                         required:true,
                         email:true,
                   },
-                  password:{
+                  password: {
                         required:true,
                   }
             },
-            messages:{
-                  email:{
+            messages: {
+                  email: {
                         required: "Email không được để trống",
                         email: "Email không đúng định dạng"
                   },
-                  password:{
+                  password: {
                         required:"Mật khẩu không được để trống"
                   }
             },
-            submitHandler:function(){
+            submitHandler:function() {
             	$.ajaxSetup({
 	                headers: {
 	                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -61,12 +60,15 @@ $(document).ready(function(){
 	            $.ajax({
 	            	type:'post',
 	            	url:'login-modal',
-	            	data:{'email':$('#email').val(),'password':$('#password').val()},
-	            	success:function(data){
-	            		if(data.error==true){
+	            	data:{
+	            		'email':$('#email').val(),
+	            		'password':$('#password').val()
+	            	},
+	            	success: function(data) {
+	            		if (data.error == true) {
 	            			$('.errorLogin').show().text(data.message);
 	            			$('#password').val("");
-	            		}else{
+	            		} else {
 	            			 location.reload();
 	            		}
 	            	}
@@ -118,9 +120,9 @@ $(document).ready(function(){
 	            	type:'post',
 	            	url:'/dang-ky',
 	            	data: { 
-						'email':$('#email').val(),
-						'password':$('#password').val(),
-						'name':$('#name').val()
+						'email': $('#email').val(),
+						'password': $('#password').val(),
+						'name': $('#name').val()
 					},
 	            	success: function(data) {
 						$('.alert').hide();
@@ -138,7 +140,6 @@ $(document).ready(function(){
 							setTimeout(function() {
 								window.location.href = location.protocol + "//" + location.host;
 							}, 1000);
-	            			
 	            		}
 	            	}
 	            });
@@ -207,7 +208,6 @@ $(document).ready(function(){
 			}
 		},
 		submitHandler: function(){
-			
 		}
 	});
 });

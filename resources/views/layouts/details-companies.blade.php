@@ -36,25 +36,24 @@
                         <div class="action_companies">
                             <div class="add_review">
                                 @if(Auth::check())
-                                <a href="{{route('reviewCompany', $company->alias)}}" class="btn btn-danger">Add Review</a> 
+                                <a href="{{route('reviewCompany', $company->alias)}}" class="btn btn-danger">Add Review</a>
                                 @else
-                                <a class="btn btn-danger" id="openLoginModal">Add Review</a> 
+                                <a class="btn btn-danger" id="openLoginModal">Add Review</a>
                                 @endif
                             </div>
-
-                            @if(Auth::check())
-                                <input type="hidden" value={{$company->_id}} id="emp_id"> 
-                                <div class="followed">
-                                    @if($follow)
-                                        <a class="btn btn-default" id="unfollowed">Following <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
+                            <input type="hidden" value={{$company->_id}} id="emp_id">
+                            <div class="followed">
+                                @if(Auth::check())
+                                    @if(!empty($follow))
+                                        <a class="btn btn-default unfollowed" id="followed">Following <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
                                     @else
-                                        <a class="btn btn-default">Follow ({{$company->quantity_user_follow}})<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
-                                    @endif 
-                                </div>
-                            @else
-                            <a class="btn btn-default" id="openLoginModal">Follow ({{$company->quantity_user_follow}})</a>
+                                        <a class="btn btn-default" id="followed">Follow ({{$company->quantity_user_follow}})<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>
+                                    @endif
+                                @else
+                                <a class="btn btn-danger" id="openLoginModal">Follow ({{$company->quantity_user_follow}})</a>
+                                @endif
+                            </div>
                         </div>
-                        @endif
                         @include('partials.modal-login')
                         @include('partials.modal-register')
                     </div>
@@ -111,8 +110,8 @@
             <div id="ratings">
                 
                 <div class="header-section">
-                    @if(count($reviews)!=0)
-                    <p>Ratings <span>(Có {{count($reviews)}} bài đánh giá)</span></p>
+                    @if(count($company->reviews) != 0)
+                    <p>Ratings <span>(Có {{count($company->reviews)}} bài đánh giá)</span></p>
                     
                     <span class="under-line"></span>
                 </div>
@@ -121,25 +120,25 @@
                         <div class="panel panel-default">
                             <div class="panel-body ">
                             	<div class="result-reviews">
-                            		@foreach($reviews as $rv)
+                            		@foreach($company->reviews as $rv)
                                 <div class="content-of-review">
                                     <div class="short-summary">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <h3 class="short-title">{{$rv->title}}</h3>
+                                                <h3 class="short-title">{{$rv['title']}}</h3>
                                                 <div class="stars-and-recommend">
                                                     <span class="rating-stars-box">
-                                                    	@for($i = 0; $i < $rv->rating; $i++)
+                                                    	@for($i = 0; $i < $rv['rating']; $i++)
 														<a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
 														@endfor
 													</span>
-													@if($rv->recommend==1)
+													@if($rv['recommend'] == 'yes')
                                                     <span class="recommend"><i class="fa fa-thumbs-o-up"></i> Recommend</span>
                                                     @else
 													<span class="recommend"><i class="fa fa-thumbs-o-down"></i>UnRecommend</span>
                                                     @endif
                                                 </div>
-                                                <div class="date">{{$rv->created_at->format('d-M Y')}}</div>
+                                                <div class="date">{{$rv['reviewed_at']}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -147,13 +146,13 @@
                                         <div class="what-you-liked">
                                             <h3>Điều tôi thích</h3>
                                             <div class="content paragraph">
-                                                <p>{{$rv->like}}</p>
+                                                <p>{{$rv['like']}}</p>
                                             </div>
                                         </div>
                                         <div class="feedback">
                                             <h3>Đề nghị cải thiện</h3>
                                             <div class="content paragraph">
-                                                <p>{{$rv->suggests}}</p>
+                                                <p>{{$rv['suggest']}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -176,12 +175,12 @@
                                 <div class="panel-body disable-user-select">
                                     <span class="rating-stars-box">
 										<div class="star-review">
-											@for($i = 0; $i < $company->rating; $i++)
+											@for($i = 0; $i < (int)$company->rating; $i++)
                                              <a href="" ><i class="fa fa-star" aria-hidden="true"></i></a>
                                             @endfor
 										</div>
 									</span>
-                                    <span class="company-ratings__star-point">{{number_format($company->rating,1)}}</span>
+                                    <span class="company-ratings__star-point">{{(int)$company->rating}}</span>
                                     <hr class="divider">
                                     <table class="company-rating-info__chart-recommend clearfix">
                                         <tbody>
@@ -216,20 +215,21 @@
                 <div class="list-job-hiring">
                     <input type="hidden" value="{{$company->_id}}" id="company_id" name="company_id"> 
                     <div class="title">
-                        <a data-toggle="collapse" id="see-jobs-company" href="#list-job-content">{{$quantityJobs}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
+                        <a data-toggle="collapse" id="see-jobs-company" href="#list-job-content">{{$company['quantity_job.hirring']}} Jobs waiting for you <span><i class="fa fa-arrow-down" aria-hidden="true"></i></span></a>
                     </div>
                     <div id="list-job-content" class="panel-collapse collapse">
                         <div class="result-job-company"></div>
                         <div class="loading text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
+                        @if($company['quantity_job.hirring'] > 20)
                         <div class="load-more">
                             <a href="" id="see-more-job-company">See more</a>
                         </div>
+                        @endif
                     </div>
                     <div id="result-jobs"></div>
                 </div>
             </div>
             <!-- End row -->
-            
         </section>
     </div>
 </div>

@@ -18,17 +18,15 @@ Application
 				<div class="form-apply">
 					<form id="formApply" enctype="multipart/form-data" method="post" action="{{route('applyJob')}}">
 						<div class="form-group">
-							<div class="col-sm-offset-2">
-								@if(Session::has('success'))
-									<div class="alert alert-success alert-dismissable">
+							@if(session('message'))
+								<div class="alert alert-success alert-dismissable">
 										<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-										{{Session::get('success')}}
+										{{session('message')}}
 									</div>
 								@endif
 								@if(Session::has('hasApply'))
 									<span class="label label-danger" style="font-size: 15px">{{Session::get('hasApply')}}</span>
 								@endif
-							</div>
 						</div>
 						<div class="form-group">
 							<label class="inputName" for="email">Your name:</label>

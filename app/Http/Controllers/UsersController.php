@@ -15,10 +15,16 @@ use Validator;
 use DB;
 use Cache;
 use Hash;
+use App\Job;
+use App\Traits\User\UserMethod;
+use App\Traits\CommonMethod;
+
 class UsersController extends Controller
 {
+    use UserMethod, CommonMethod;
+
     public function getLogin() {
-        if(Auth::check()) 
+        if(Auth::check())
             return redirect()->route('/');
     	return  view('layouts.dangnhap');
     }
@@ -62,23 +68,23 @@ class UsersController extends Controller
     }
 
     public function register(Request $req) {
-        if($req->isMethod('get')) {
+        if ($req->isMethod('get')) {
             return view('layouts.dangky');
         } else {
             $user = User::where('email', $req->email)->first();
-
-            if($user) {
+            if (!is_null($user) || !empty($user)) {
                 return response()->json([
                     'error' => true,
                     'message' => 'Email đã tồn tại'
-                ], 200);
+                ], 500);
             } else {
-                $user = User::create([
-                    'name' => $req->name,
-                    'email' => $req->email,
-                    'password' => Hash::make($req->password),
-                    'role_id' => 1
-                ]);
+                $data = $req->only([ 'name', 'email', 'password' ]);
+                try { 
+                    $this->insertUser($data);
+                } catch(\Exception $e) {
+                     return $e->getMessage();
+                }
+                
                 //event(new SendMail($user));
                 return response()->json([
                     'error' => false,
@@ -180,18 +186,20 @@ class UsersController extends Controller
     }
 
     public function getJobApplicationsOfUser() {
-        $jobApplications = DB::table('job as j')
-                                ->select('j.*','c.name as cn','e.name as en','e.logo')
-                                ->join(DB::raw('(select job_id from applications where user_id='.Auth::id().') as a'),function($join){
-                                    $join->on('j.id','=','a.job_id');
-                                })
-                                ->join('cities as c','j.city_id','=','c.id')
-                                ->join('employers as e','j.emp_id','=','e.id')
-                                ->orderBy('j.id','desc')
+        $topEmployers = [];
+        $jobApplications = Job::with('employer')
+                                ->where('apply_info.user_id', Auth::id())
                                 ->get();
-        $top_emps = Cache::remember('top_emps', 10, function() {
-            return Employers::select('id','name','alias','logo')->orderByRaw('rating desc,follow desc')->offset(0)->take(12)->get();
-        });                        
-        return view('layouts.job-applications',compact('jobApplications','top_emps'));
+        if ( !empty($jobApplications)) {
+            $topEmployers = Cache::remember('topEmployer', config('constant.cacheTime'), function() {
+                return Employers::select('name', 'alias', 'images.avatar')
+                                    ->orderBy('rating desc')
+                                    ->orderBy('quantity_user_follow desc')
+                                    ->offset(0)
+                                    ->take(config('constant.limitCompany'))
+                                    ->get();
+            });
+        }
+        return view('layouts.job-applications', compact('jobApplications', 'topEmployers'));
     }
 }

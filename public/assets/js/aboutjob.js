@@ -2,8 +2,7 @@ $(document).ready(function(){
 
       //xóa toàn bộ tag dùng để filter job
 	$('p#loca').click(function(){
-		$loca=$(this).text();
-		$('#nametp').val($loca);
+		$('#nametp').val($(this).text());
 	});
       $('i#openLoginModal').click(function(e){
             $('#loginModal').modal();
@@ -13,32 +12,31 @@ $(document).ready(function(){
                   $('#close i').attr('style', 'display: inline !important')
                   :
                   $('#close i').attr('style', 'display: none !important')
-            
-            
       });
       $('#close i').click(function() {
             $('#keyword').val("");
             $(this).attr('style', 'display: none !important')
       });
-      $(document).on('click','div#followJob',function(){
-            var job_id=$(this).attr('job_id');
-            var emp_id=$(this).attr('emp_id');
+      $(document).on('click', 'div#followJob', function(e) {
+            e.preventDefault();
+            var job_id = $(this).attr('job_id');
+            var emp_id = $(this).attr('emp_id');
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
             $.ajax({
-                  type: 'get',
+                  type: 'post',
                   url: 'follow-job',
                   data: {
                         job_id: job_id,
-                        com_id: emp_id
+                        com_id: emp_id,
                   },
                   success: function(response) {
-                        if(response === "add") {
+                        if(response.insert) {
                               $('.follow'+job_id).html('<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>');
-                        }else{
+                        } else {
                               $('.follow'+job_id).html('<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>');
                         }
                   }
@@ -49,6 +47,5 @@ $(document).ready(function(){
                   $('#loginModal').modal();
                   e.preventDefault();
             });
- 	
       });
 });

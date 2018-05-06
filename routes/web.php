@@ -53,12 +53,12 @@ Route::group(['prefix'=>'users', 'middleware'=>'auth'],function() {
 });
 
 //list cities
-Route::get('list-city',[
+Route::get('list-city', [
 	'as'=>'listcity',
 	'uses'=>'PageController@getAllCities'
 ]);
 //list skills
-Route::get('list-skill',[
+Route::get('list-skill', [
 	'as'=>'listskill',
 	'uses'=>'PageController@getAllSkills'
 ]);
@@ -68,11 +68,11 @@ Route::get('search-companies', [
 	'uses'=>'CompanyController@searchCompany'
 ]);
 //get jobs of company by ajax
-Route::get('list-jobs-company',[
+Route::get('list-jobs-company', [
 	'as'=>'list-jobs-company',
 	'uses'=>'CompanyController@getJobsCompany'
 ]);
-Route::get('more-jobs-company',[
+Route::get('more-jobs-company', [
 	'as'=>'moreJobsCompany',
 	'uses'=>'JobsController@getJobsCompany'
 ]);
@@ -83,15 +83,13 @@ Route::group(['prefix' => 'companies'], function() {
 	Route::get('all-jobs-company', ['as' => 'AllJobCompany', 'uses' => 'CompanyController@getListJobCompany']);
 	Route::get('list-skill', ['as' => 'listskill', 'uses'=>'PageController@getAllSkills']);
 	Route::get('get-more-job', ['as' => 'get-more-job', 'uses' => 'CompanyController@getMoreJob']);
-	
 	Route::match(['get', 'post'], 'search-companies/{limit?}/{offset?}', [
-		'as' => 'searchCompanies', 
+		'as' => 'searchCompanies',
 		'uses' => 'CompanyController@getCompaniesReview'
 	]);
 	Route::get('search-companies-by-name', ['as' => 'searchCompaniesByName', 'uses' => 'CompanyController@searchCompaniesByName']);
 	//click to follow conpany
 	Route::get('follow-company', ['as' => 'followCompany','uses' => 'CompanyController@followCompany']);
-	
 	//submit review companies
 	Route::post('review', ['as' => 'submitReviewCompany','uses' => 'CompanyController@postReviewCompanies']);
 	//get details company
@@ -113,7 +111,7 @@ Route::get('all-attribute-filter', [
 ]);
 Route::post('filter-job', [
 	'as' => 'filter-job',
-	'uses' => 'JobsController@FilterJob'
+	'uses' => 'JobsController@filterJob'
 ]);
 //search jobs
 Route::get('search-job', [
@@ -128,16 +126,14 @@ Route::get('skill-by-job-id', [
 //jobs
 Route::group(['prefix' => 'it-job'], function(){
 	Route::match(['get', 'post'], '/', ['as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch']);
-	Route::get('all-jobs/{offset?}/{limit?}', ['as' => 'alljobs','uses' => 'JobsController@getIndex']);
-	Route::get('work-at-{alias}', ['as' => 'seachJobByCity','uses'=>'JobsController@getListJobByCity'])
-	->where(['alias' => '[a-z]+']);
+	Route::get('all-jobs/{offset?}/{limit?}', ['as' => 'alljobs', 'uses' => 'JobsController@getIndex']);
+	Route::get('work-at-{alias:[a-z]+}', ['as' => 'seachJobByCity', 'uses'=>'JobsController@getListJobByCity']);
 	Route::get('{jobAlias}/{cityAlias}', ['as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption']);
-	Route::get('{alias}', ['as' => 'quickJobBySkill','uses' => 'JobsController@getQuickJobBySkill'])
+	Route::get('{alias}', ['as' => 'quickJobBySkill', 'uses' => 'JobsController@getQuickJobBySkill'])
 		->where(['alias' => '[a-z]+']);
-	
 });
 
-//get apply 
+//get apply
 Route::get('{alias}/{id}/apply',['as' => 'getApplyJob', 'uses' => 'JobsController@getApplyJob'])
 	->where(['id' => '[0-9a-z]+']);
 
@@ -146,7 +142,7 @@ Route::get('detai-jobs/{alias}/{_id}', [
 	'uses' => 'JobsController@getDetailsJob'
 ]);
 Route::post('apply-job', ['as' => 'applyJob', 'uses' => 'JobsController@applyJob']);
-Route::get('follow-job', ['as' => 'follow-job', 'uses' => 'JobsController@followJob']);
+Route::post('follow-job', ['as' => 'follow-job', 'uses' => 'JobsController@followJob']);
 //get job followed of user
 Route::get('check-job-followed', [ 'as' => 'check-job-followed', 'uses' => 'JobsController@getJobFollowed']);
 
@@ -160,9 +156,10 @@ Route::get('see-more-reviews',[
 	'as'=>'seeMoreReview',
 	'uses'=>'CompanyController@seeMoreReviews'
 ])->middleware('auth');
-// Route::get('/demo',function(){
-// 	return view('layouts.demo');
-// });
+Route::get('/demo', [
+	'as' => 'demo',
+	'uses' => 'PageController@getDemo'
+]);
 //get list skills of job by job_id
 Route::get('list-skill-jobs', [
 	'as' => 'getListSkillJob',

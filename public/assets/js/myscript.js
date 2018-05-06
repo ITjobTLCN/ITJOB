@@ -1,5 +1,4 @@
 $(document).ready(function(){
-	
 	$('.active i').css({
 		'color':'#365899'
 	});
@@ -31,39 +30,36 @@ $(document).ready(function(){
 			}
 		});
 	});
-	
-	
 	//add star reviews companies
-	var cStar=1;
-	var temp=['phân vân','Cần cải thiện nhiều','Tốt','Rất tốt','Tuyệt vời'];
-	$('#add-star').click(function(){
-		if(cStar<5){
+	var rating = 1;
+	var temp = ['Phân vân', 'Cần cải thiện nhiều', 'Tốt', 'Rất tốt', 'Tuyệt vời'];
+	$('#add-star').click(function() {
+		if (rating < 5){
 			$('#sub-star').removeClass('disabled');
-			cStar++;
-			$('#type-review').text(temp[cStar]);
-			
-			$('#cStar').val(cStar);
-			$('.star-review').append('<a href="" id="star'+cStar+'"><i class="fa fa-star" aria-hidden="true"></i></a>');
-			if(cStar==5){
+			rating++;
+			$('#type-review').text(temp[rating]);
+			$('#rating').val(rating);
+			$('.star-review').append('<a href="" id = "star' + rating + '"><i class = "fa fa-star" aria-hidden = "true"></i></a>');
+			if (rating == 5) {
 				$(this).addClass('disabled');
 			}
 		}
 	});
 	//sub star reviews companies
 	$('#sub-star').click(function(){
-		if(cStar>1){
+		if(rating > 1) {
 			$('#add-star').removeClass('disabled');
-			$('a#star'+cStar).remove();
-			cStar--;
-			$('#type-review').text(temp[cStar-1]);
-			$('#cStar').val(cStar);
-			if(cStar==1){
+			$('a#star' + rating).remove();
+			rating--;
+			$('#type-review').text(temp[rating-1]);
+			$('#rating').val(rating);
+			if(rating == 1) {
 				$(this).addClass('disabled');
 			}
 		}
 	});
 	//recommend to friends
-	$('#yes').click(function(){
+	$('#yes').click(function() {
 		$('#recommend').val(1);
 		$('.yes i').css({
 			'color':'#365899',

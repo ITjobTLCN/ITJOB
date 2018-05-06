@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Employers;
 use App\Job;
-use App\Follow_employers;
+use App\Follows;
 use App\Reviews;
 use App\Skills;
 use DB;
@@ -13,8 +13,14 @@ use Auth;
 use DateTime;
 use Session;
 use Cache;
+use App\Traits\AliasTrait;
+use App\Traits\Company\CompanyMethod;
+use App\Traits\CommonMethod;
+
 class CompanyController extends Controller
 {
+    use AliasTrait, CommonMethod, CompanyMethod;
+
     public function getIndex() {
         $cCompanies = Employers::count();
         $companies = Employers::orderBy('id', 'desc')
@@ -79,32 +85,32 @@ class CompanyController extends Controller
         return $output;
     }
     public function getDetailsCompanies(Request $req) {
-        $com_alias = $req->alias;
-        $company = Employers::where('alias', $com_alias)->first();
-        
-        if(empty($company)) {
-            Session::flash('com_name', $com_alias);
+        $company = $this->getEmployerByKey($req->alias);
+        if(empty($company) || is_null($company)) {
             return view('layouts.companies', ['match' => false]);
         }
-        $quantityJobs = Job::where('employer_id', $company->_id)->count();
-        $skills_id = [];
+
+        $skillsId = [];
         foreach ($company['skills'] as $key => $skill) {
-            array_push($skills_id, $skill['_id']);
+            array_push($skillsId, $skill['_id']);
         }
-        $skills = Skills::whereIn('_id', $skills_id)->get();
-        $reviews = Reviews::where('emp_id', $company['id'])
-                            ->offset(0)
-                            ->take(2)
-                            ->get();
+        $skills = Skills::whereIn('_id', $skillsId)->get();
+        $follow = [];
+
         if(Auth::check()) {
-            $follow = Follow_employers::where('emp_id', $company['id'])
-                                        ->where('user_id', Auth::user()->id)
-                                        ->first();
-            return view('layouts.details-companies', 
-                   compact('company', 'skills', 'jobs', 'follow', 'reviews'));
+            $wheres = [
+                    'user_id' => Auth::id(),
+                    'followed_info' => [
+                        '_id' => $company['_id'],
+                        'deleted' => false,
+                    ],
+                    'type' => 'company'
+                ];
+            $objFollow = new Follows();
+            $follow = $objFollow->where($wheres)->first();
         }
-        return view('layouts.details-companies', 
-               compact('company', 'skills', 'quantityJobs', 'reviews')); 
+        return view('layouts.details-companies',
+               compact('company', 'skills', 'follow'));
     }
 
     public function getCompaniesReview(Request $req, $offset = null, $limit = null) {
@@ -221,9 +227,9 @@ class CompanyController extends Controller
                 }
             }
         }
-       
        return $output;
     }
+
     public function searchCompany(Request $req) {
         $key = $req->search;
         $output = [];
@@ -232,10 +238,11 @@ class CompanyController extends Controller
                                     ->get();
             foreach ($companies as $key => $com) {
                 $output[] = [ "name" => $com->name ];
-            }   
+            }
         }
         return response()->json($output);
     }
+
     public function searchCompaniesByName(Request $req) {
         $com_name = $req->q;
         $alias = Employers::where('name', $com_name)->value('alias');
@@ -247,70 +254,61 @@ class CompanyController extends Controller
             Session::flash('com_name', $com_name);
             return view('layouts.companies', ['match' => false]);
         }
-        
     }
+
     public function followCompany(Request $req) {
         $output = "";
         $emp_id = $req->emp_id;
-        $temp = Follow_employers::where('emp_id',$emp_id)
-                                ->where('user_id', Auth::user()->id)
-                                ->first();
-        
-        $company = Employers::find($emp_id);
-        if($temp) {
-            $curr = $company->follow;
-            $company->follow = $curr-1;
-            $company->save();
-            $temp = Follow_employers::where('emp_id',$emp_id)
-                                    ->where('user_id', Auth::user()->id)
-                                    ->delete();
-            $output.= '<a class="btn btn-default">Follow ('.$company->follow.')
+        $arrFollow = $this->findFollow($emp_id, 'company');
+        if(!empty($arrFollow) || !is_null($arrFollow)) {
+            $deleted = $arrFollow->followed_info['deleted'];
+            $countFollow = $this->companyUpdateQuantityFollowed($emp_id, $deleted);
+            try {
+                $wheres = [
+                    'user_id' => Auth::id(),
+                    'followed_info._id' => [
+                        '$eq' => $emp_id,
+                        '$exists' => true
+                    ],
+                    'type' => 'company'
+                ];
+                $objFollow = new Follows();
+                $objFollow->where($wheres)->update(['followed_info.deleted' => !$deleted]);
+            } catch(\Exception $ex){}
+            if($deleted) {
+                $output.= '<a class="btn btn-default unfollowed" id="followed">Following<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
+            } else {
+                $output.= '<a class="btn btn-default" id="followed">Follow ('.$countFollow.')
                     <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
+            }
         } else {
-            $curr = $company->follow;
-            $company->follow = $curr + 1;
-            $company->save();
-            $temp = new Follow_employers();
-            $temp->user_id = Auth::user()->id;
-            $temp->emp_id = $emp_id;
-            $temp->created_at = new DateTime();
-            $temp->save();
-            $output.= '<a class="btn btn-default" id="unfollowed">Following 
-                    <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
+            try {
+                $this->userSaveFollowCompany($emp_id);
+                $output.= '<a class="btn btn-default unfollowed" id="followed">Following<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
+            } catch(\Exception $ex) {}
         }
         return $output;
     }
+
     public function getReviewCompanies($alias) {
-        $company = Employers::where('alias', $alias)->first();
-        return view('layouts.review', compact('company'));
+        return view('layouts.review', [ 'company' => $this->getEmployerByKey($alias) ]);
     }
+
     public function postReviewCompanies(Request $req) {
-        //get value from form
-        $title = $req->title;
-        $like = $req->like;
-        $unlike = $req->unlike;
-        $rating = $req->cStar;
-        $suggest = $req->suggest;
-        $recommend = $req->recommend;
-        $emp_id = $req->emp_id;
-        //create a review
-        $table = new Reviews();
-        $table->rating = $rating;
-        $table->title = $title;
-        $table->like = $like;
-        $table->unlike = $unlike;
-        $table->suggests = $suggest;
-        $table->user_id = Auth::id();
-        $table->emp_id = $emp_id;
-        $table->recommend = $recommend;
-        $table->save();
-        //update rating of company
-        Employers::where('id', $req->emp_id)
-                ->update(['rating' => Reviews::where('emp_id', $emp_id)
-                ->avg('rating')]);
+        // $validate = $this->validator($req);
+        $data = $req->only([
+            'title', 'like', 'unlike', 'rating', 'suggest', 'recommend'
+        ]);
+
+        $arrResponse = $this->storeReview($data, $req->emp_id);
+        if($arrResponse->getData()->error) {
+            return redirect()->back()
+                         ->with('message', $arrResponse->getData()->message);
+        }
         return redirect()->back()
                          ->with('message', 'Cảm ơn bài đánh giá của bạn');
     }
+
     public function seeMoreReviews(Request $req) {
         $output = "";
         $reviews = Reviews::where('emp_id', $req->emp_id)
