@@ -5,12 +5,14 @@ namespace App\Traits\Company;
 use App\Employers;
 use App\Follows;
 use App\Job;
+use App\Registration;
+use App\Cities;
 use MongoDB\BSON\UTCDateTime;
 use Auth;
 
 trait CompanyMethod
 {
-    public function storeReview($data, $empId) {
+    protected function storeReview($data, $empId) {
     	$objEmployer = new Employers();
     	$where = [
     		'_id' => $empId
@@ -106,6 +108,70 @@ trait CompanyMethod
             ]);
         }
         return false;
+    }
+
+    protected function saveEmployer($data) {
+         $emp = new Employers();
+         $city = Cities::where('_id', $data['city_id'])->first();
+         $arrInsert = [
+            'name' => $data['name'],
+            'alias' => $this->changToAlias($data['name']),
+            'city_id' => $data['city_id'],
+            'address' => [
+                [
+                    '_id' => $data['city_id'],
+                    'city' => $city['name'],
+                    'detail' => $data['address'][0]['detail']
+                ]
+            ],
+            'info' => [
+                'webiste' => $data['website'],
+            ],
+            'employee' => [
+                Auth::id()
+            ],
+            'quantity_user_follow' => 0,
+            'rating' => "0.0",
+            'quantity_job' => [
+                'hirring' => 0,
+                'deleted' => 0
+            ],
+            'status' => 0
+         ];
+
+        try {
+            $this->formatInputToSave($arrInsert);
+             return $emp->insert($arrInsert);
+        } catch(\Exception $e) {}
+    }
+
+    protected function saveRegisterEmployer($data = []) {
+        $res = new Registration();
+        $arrInsert = [
+            'user_id' => Auth::id(),
+            'emp_id' => $data['emp_id'],
+            'status' => $data['type']
+        ];
+
+        try {
+            $this->formatInputToSave($arrInsert);
+            $res->insert($arrInsert);
+
+            $where = [
+                '_id' => $data['emp_id']
+            ];
+            $objEmployer = Employers::where($where)->first();
+            if ( !empty($objEmployer)) {
+                $employee = $objEmployer['employee'];
+                array_push($employee, Auth::id());
+                $arrUpdate = [
+                    'employee' => $employee
+                ];
+                Employers::where($where)->update($arrUpdate);
+            }
+        } catch(\Exception $ex) { return $ex->getMessages(); }
+
+        return true;
     }
 
 }

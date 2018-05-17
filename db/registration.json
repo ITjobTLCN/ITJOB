@@ -1,0 +1,9 @@
+{ 
+    "_id" : ObjectId("5afc11f5b9068c2c34002f47"), 
+    "user_id" : "5ae9c1fdb9068c0678007ae6", 
+    "emp_id" : true, 
+    "status" : NumberInt(0), 
+    "created_at" : ISODate("2018-05-16T11:11:49.030+0000"), 
+    "updated_at" : ISODate("2018-05-16T11:11:49.030+0000"), 
+    "deleted" : false
+}

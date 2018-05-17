@@ -35,18 +35,17 @@ app.filter('propsFilter', function() {
       localStorage.setItem('city', item.name);
     };
     vm.scity = localStorage.getItem('city');
-    vm.scity ? 
+    vm.scity ?
         vm.city = {selected : vm.scity}
         :
         vm.city = {selected : "Hồ Chí Minh"};
-    
     vm.cities = [];
     $http({
         method: 'GET',
-        url: 'list-city',	
+        url: 'list-city',
     }).then(function(response) {
         vm.cities = response.data;
-    },function(error) {
+    }, function(error) {
         console.log(error,'can not get data');
     });
     $timeout(function() {

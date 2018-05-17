@@ -25,7 +25,10 @@
 					<div class="login_content ">
 						<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
 						<form role="form" name="frmLogin" id="frmLogin">
-							<p style="color: red;display: none;" class="error errorLogin"></p>
+							<div class="alert alert-danger alert-dismissible error">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							 	<span class="errorLogin"></span>
+							</div>
 							<div class="form-group">
 
 								<input type="email" class="form-control" name="email" id="email" placeholder="Email">

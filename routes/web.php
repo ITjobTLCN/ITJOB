@@ -10,104 +10,104 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/',[
-	'as'=>'/',
-	'uses'=>'PageController@getIndex'
+Route::get('/', [
+	'as' => '/',
+	'uses' => 'PageController@getIndex'
 ]);
 //contact
-Route::get('lien-he',[
-	'as'=>'contact',
-	'uses'=>'PageController@getContact'
+Route::get('lien-he', [
+	'as' => 'contact',
+	'uses' => 'PageController@getContact'
 ]);
-Route::post('lien-he',[
+Route::post('lien-he', [
 	'as' => 'contact',
 	'uses' => 'PageController@postContact'
 ]);
 //login
-Route::get('dang-nhap',[
-	'as'=>'login',
-	'uses'=>'UsersController@getLogin'
+Route::get('dang-nhap', [
+	'as' => 'login',
+	'uses' => 'UsersController@getLogin'
 ]);
-Route::post('dang-nhap',[
-	'as'=>'login',
-	'uses'=>'UsersController@postLogin'
+Route::post('dang-nhap', [
+	'as' => 'login',
+	'uses' => 'UsersController@postLogin'
 ]);
 //register
-Route::any('dang-ky', [ 
+Route::any('dang-ky', [
 	'as' => 'register',
 	'uses' => 'UsersController@register',
 ]);
 
 //logout
-Route::get('dang-xuat',[
-	'as'=>'logout',
-	'uses'=>'UsersController@logout'
+Route::get('dang-xuat', [
+	'as' => 'logout',
+	'uses' => 'UsersController@logout'
 ]);
 //profile candidate
-Route::group(['prefix'=>'users', 'middleware'=>'auth'],function() {
-	Route::get('profile',['as'=>'profile','uses'=>'UsersController@getProfile']);
-	Route::post('profile',['as'=>'postAvatar','uses'=>'UsersController@postAvatar']);
-	Route::post('edit-email',['as'=>'editEmail', 'uses'=>'UsersController@editEmail']);
-	Route::post('editProfile',['as'=>'editProfile', 'uses'=>'UsersController@editProfile']);
-	Route::get('job-applications',['as'=>'jobApplications','uses'=>'UsersController@getJobApplicationsOfUser']);
+Route::group([ 'prefix' => 'users', 'middleware' => 'auth'], function() {
+	Route::get('profile', [ 'as' => 'profile', 'uses' => 'UsersController@getProfile' ]);
+	Route::post('profile', [ 'as' => 'postAvatar', 'uses' => 'UsersController@postAvatar' ]);
+	Route::post('edit-email', [ 'as' => 'editEmail', 'uses' => 'UsersController@editEmail' ]);
+	Route::post('editProfile', [ 'as' => 'editProfile', 'uses' => 'UsersController@editProfile' ]);
+	Route::get('job-applications', [ 'as' => 'jobApplications', 'uses' => 'UsersController@getJobApplicationsOfUser' ]);
 });
 
 //list cities
 Route::get('list-city', [
-	'as'=>'listcity',
-	'uses'=>'PageController@getAllCities'
+	'as' => 'listCities',
+	'uses' => 'PageController@getAllCities'
 ]);
 //list skills
 Route::get('list-skill', [
-	'as'=>'listskill',
-	'uses'=>'PageController@getAllSkills'
+	'as' => 'listskill',
+	'uses' => 'PageController@getAllSkills'
 ]);
 //search company default
 Route::get('search-companies', [
-	'as'=>'search-companies',
-	'uses'=>'CompanyController@searchCompany'
+	'as' => 'search-companies',
+	'uses' => 'CompanyController@searchCompany'
 ]);
 //get jobs of company by ajax
 Route::get('list-jobs-company', [
-	'as'=>'list-jobs-company',
-	'uses'=>'CompanyController@getJobsCompany'
+	'as' => 'list-jobs-company',
+	'uses' => 'CompanyController@getJaobsCompany'
 ]);
 Route::get('more-jobs-company', [
-	'as'=>'moreJobsCompany',
-	'uses'=>'JobsController@getJobsCompany'
+	'as' => 'moreJobsCompany',
+	'uses' => 'JobsController@getJobsCompany'
 ]);
-Route::get('demo', ['as' => 'demo', 'uses' => 'CompanyController@getDemo']);
+Route::get('demo', [ 'as' => 'demo', 'uses' => 'CompanyController@getDemo' ]);
 //get employers by id
-Route::group(['prefix' => 'companies'], function() {
-	Route::get('', ['as' => 'companies', 'uses' => 'CompanyController@getIndex']);
-	Route::get('all-jobs-company', ['as' => 'AllJobCompany', 'uses' => 'CompanyController@getListJobCompany']);
-	Route::get('list-skill', ['as' => 'listskill', 'uses'=>'PageController@getAllSkills']);
-	Route::get('get-more-job', ['as' => 'get-more-job', 'uses' => 'CompanyController@getMoreJob']);
-	Route::match(['get', 'post'], 'search-companies/{limit?}/{offset?}', [
+Route::group([ 'prefix' => 'companies'], function() {
+	Route::get('', [ 'as' => 'companies', 'uses' => 'CompanyController@getIndex' ]);
+	Route::get('all-jobs-company', [ 'as' => 'AllJobCompany', 'uses' => 'CompanyController@getListJobCompany' ]);
+	Route::get('list-skill', [ 'as' => 'listskill', 'uses' => 'PageController@getAllSkills' ]);
+	Route::get('get-more-job', [ 'as' => 'get-more-job', 'uses' => 'CompanyController@getMoreJob' ]);
+	Route::match([ 'get', 'post'], 'search-companies/{limit?}/{offset?}', [
 		'as' => 'searchCompanies',
 		'uses' => 'CompanyController@getCompaniesReview'
 	]);
-	Route::get('search-companies-by-name', ['as' => 'searchCompaniesByName', 'uses' => 'CompanyController@searchCompaniesByName']);
+	Route::get('search-companies-by-name', [ 'as' => 'searchCompaniesByName', 'uses' => 'CompanyController@searchCompaniesByName' ]);
 	//click to follow conpany
-	Route::get('follow-company', ['as' => 'followCompany','uses' => 'CompanyController@followCompany']);
+	Route::get('follow-company', [ 'as' => 'followCompany', 'uses' => 'CompanyController@followCompany' ]);
 	//submit review companies
-	Route::post('review', ['as' => 'submitReviewCompany','uses' => 'CompanyController@postReviewCompanies']);
+	Route::post('review', [ 'as' => 'submitReviewCompany', 'uses' => 'CompanyController@postReviewCompanies' ]);
 	//get details company
-	Route::get('{alias}', ['as' => 'getEmployers', 'uses' => 'CompanyController@getDetailsCompanies']);
+	Route::get('{alias}', [ 'as' => 'getEmployers', 'uses' => 'CompanyController@getDetailsCompanies' ]);
 	//review
-	Route::get('{alias}/review', ['as' => 'reviewCompany','uses' => 'CompanyController@getReviewCompanies'])->middleware('auth');
-	Route::post('{alias}/review', ['as' => 'reviewCompany','uses' => 'CompanyController@postReviewCompanies'])->middleware('auth');
+	Route::get('{alias}/review', [ 'as' => 'reviewCompany', 'uses' => 'CompanyController@getReviewCompanies' ])->middleware('auth');
+	Route::post('{alias}/review', [ 'as' => 'reviewCompany', 'uses' => 'CompanyController@postReviewCompanies' ])->middleware('auth');
 });
 //get more companies
-Route::group(['prefix' => 'more-companies'], function() {
-	Route::get('', ['as' => 'more-companies', 'uses' => 'CompanyController@getMoreCompanies']);
-	Route::get('hiring', ['as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreHirring']);
-	Route::get('most-followed', ['as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreMostFollowed']);
+Route::group([ 'prefix' => 'more-companies'], function() {
+	Route::get('', [ 'as' => 'more-companies', 'uses' => 'CompanyController@getMoreCompanies' ]);
+	Route::get('hiring', [ 'as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreHirring' ]);
+	Route::get('most-followed', [ 'as' => 'more-hiring-companies', 'uses' => 'CompanyController@getMoreMostFollowed' ]);
 });
 //get attribute filter
 Route::get('all-attribute-filter', [
-	'as'=>'all-attribute-filter',
-	'uses'=>'JobsController@getAttributeFilter'
+	'as' => 'all-attribute-filter',
+	'uses' => 'JobsController@getAttributeFilter'
 ]);
 Route::post('filter-job', [
 	'as' => 'filter-job',
@@ -115,46 +115,46 @@ Route::post('filter-job', [
 ]);
 //search jobs
 Route::get('search-job', [
-	'as'=>'seach-job',
-	'uses'=>'JobsController@getSearchJob'
+	'as' => 'seach-job',
+	'uses' => 'JobsController@getSearchJob'
 ]);
 //get skills by job_id
 Route::get('skill-by-job-id', [
-	'as'=>'skill-by-job-id',
-	'uses'=>'JobsController@getSkillByJobId'
+	'as' => 'skill-by-job-id',
+	'uses' => 'JobsController@getSkillByJobId'
 ]);
 //jobs
-Route::group(['prefix' => 'it-job'], function(){
-	Route::match(['get', 'post'], '/', ['as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch']);
-	Route::get('all-jobs/{offset?}/{limit?}', ['as' => 'alljobs', 'uses' => 'JobsController@getIndex']);
-	Route::get('work-at-{alias:[a-z]+}', ['as' => 'seachJobByCity', 'uses'=>'JobsController@getListJobByCity']);
-	Route::get('{jobAlias}/{cityAlias}', ['as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption']);
-	Route::get('{alias}', ['as' => 'quickJobBySkill', 'uses' => 'JobsController@getQuickJobBySkill'])
-		->where(['alias' => '[a-z]+']);
+Route::group([ 'prefix' => 'it-job'], function() {
+	Route::match([ 'get', 'post'], '/', [ 'as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch' ]);
+	Route::get('all-jobs/{offset?}/{limit?}', [ 'as' => 'alljobs', 'uses' => 'JobsController@getIndex' ]);
+	Route::get('work-at-{alias:[a-z]+}', [ 'as' => 'seachJobByCity', 'uses' => 'JobsController@getListJobByCity' ]);
+	Route::get('{jobAlias}/{cityAlias}', [ 'as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption' ]);
+	Route::get('{alias}', [ 'as' => 'quickJobBySkill', 'uses' => 'JobsController@getQuickJobBySkill' ])
+		->where([ 'alias' => '[a-z]+' ]);
 });
 
 //get apply
-Route::get('{alias}/{id}/apply',['as' => 'getApplyJob', 'uses' => 'JobsController@getApplyJob'])
-	->where(['id' => '[0-9a-z]+']);
+Route::get('{alias}/{id}/apply', [ 'as' => 'getApplyJob', 'uses' => 'JobsController@getApplyJob' ])
+	->where([ 'id' => '[0-9a-z]+' ]);
 
 Route::get('detai-jobs/{alias}/{_id}', [
 	'as' => 'detailjob',
 	'uses' => 'JobsController@getDetailsJob'
 ]);
-Route::post('apply-job', ['as' => 'applyJob', 'uses' => 'JobsController@applyJob']);
-Route::post('follow-job', ['as' => 'follow-job', 'uses' => 'JobsController@followJob']);
+Route::post('apply-job', [ 'as' => 'applyJob', 'uses' => 'JobsController@applyJob' ]);
+Route::post('follow-job', [ 'as' => 'follow-job', 'uses' => 'JobsController@followJob' ]);
 //get job followed of user
-Route::get('check-job-followed', [ 'as' => 'check-job-followed', 'uses' => 'JobsController@getJobFollowed']);
+Route::get('check-job-followed', [ 'as' => 'check-job-followed', 'uses' => 'JobsController@getJobFollowed' ]);
 
-Route::post('register-modal', ['as' => 'registerModal', 'uses' => 'UsersController@postRegisterModal']);
+Route::post('register-modal', [ 'as' => 'registerModal', 'uses' => 'UsersController@postRegisterModal' ]);
 
 //login with social
-Route::get('login/{provider}', ['as' => 'loginProvider', 'uses' => 'AuthController@redirectToProvider']);
+Route::get('login/{provider}', [ 'as' => 'loginProvider', 'uses' => 'AuthController@redirectToProvider' ]);
 Route::get('login/{provider}/callback', 'AuthController@handleProviderCallback');
 
-Route::get('see-more-reviews',[
-	'as'=>'seeMoreReview',
-	'uses'=>'CompanyController@seeMoreReviews'
+Route::get('see-more-reviews', [
+	'as' => 'seeMoreReview',
+	'uses' => 'CompanyController@seeMoreReviews'
 ])->middleware('auth');
 Route::get('/demo', [
 	'as' => 'demo',
@@ -166,7 +166,7 @@ Route::get('list-skill-jobs', [
 	'uses' => 'JobsController@getListSkillJob'
 ]);
 //get list skills of employer by emp_id
-Route::get('list-skill-emp', ['as' => 'getListSkillEmployer', 'uses' => 'CompanyController@getListSkillEmployer']);
+Route::get('list-skill-emp', [ 'as' => 'getListSkillEmployer', 'uses' => 'CompanyController@getListSkillEmployer' ]);
 //Clear Cache facade value:
 Route::get('/cache/flushall', function() {
     $exitCode = Artisan::call('cache:clear');
@@ -183,94 +183,91 @@ Route::get('cache/flush/all', [
 	|---I'm using Laravel-Excel  on --------------------
 	|----https://github.com/Maatwebsite/Laravel-Excel---
 	*/
-Route::get('/import',function(){
+Route::get('/import', function() {
 	return view('admin.import');
 });
-	
-Route::get('login',['as'=>'getlogin',function(){
+Route::get('login', [ 'as' => 'getlogin', function() {
 	return redirect()->route('login');
 }]);
-Route::post('login-modal',[
-	'as'=>'loginModal',
-	'uses'=>'UsersController@postLoginModal'
-]);
-
-Route::get('logout',['as'=>'getlogout','uses'=>'HomeController@getLogOut']);
-
-Route::post('nglogin',['as'=>'ngpostlogin','uses'=>'HomeController@ngPostLogin']);
-
-Route::get('ngloadreg',['as'=>'ngloadreg','uses'=>'HomeController@ngLoadReg']);
-Route::get('registeremp',['as'=>'getregisteremp','uses'=>'HomeController@getRegisterEmp'])->middleware('auth');
-Route::post('registeremp',['as'=>'postregisteremp','uses'=>'HomeController@postRegisterEmp'])->middleware('auth');
-
+Route::post('login-modal', [ 'as' => 'loginModal', 'uses' => 'UsersController@postLoginModal' ]);
+Route::get('logout', [ 'as' => 'getlogout', 'uses' => 'HomeController@getLogOut' ]);
+Route::post('nglogin', [ 'as' => 'ngpostlogin', 'uses' => 'HomeController@ngPostLogin' ]);
+Route::get('ngload/register-employer', [ 'as' => 'loadRegisterEmployer', 'uses' => 'HomeController@loadRegisterEmployer' ]);
+Route::get('register/employer', [
+	'as' => 'getRegisterEmployer',
+	'uses' => 'HomeController@getRegisterEmployer'
+])->middleware('auth');
+Route::post('register/employer', [
+	'as' => 'postRegisterEmployer',
+	'uses' => 'HomeController@postRegisterEmployer'
+])->middleware('auth');
 	/**--------------ADMIN ROUTE--------------------*/
-Route::group(['prefix'=>'admin','middleware'=>'admin'],function(){
-	Route::get('users',['as'=>'getadminusers','uses'=>'AdminController@getListUsers']);
-	Route::get('emps',['as'=>'getadminemps','uses'=>'AdminController@getListEmps']);
-	Route::get('dashboard',['as'=>'getadmindashboard','uses'=>'AdminController@getDashBoard']);
-	Route::post('import',['as'=>'postimport','uses'=>'AdminController@postImport']);
-	Route::get('export/{type}',['as'=>'getexport','uses'=>'AdminController@getExport']);
+Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
+	Route::get('users', [ 'as' => 'getadminusers', 'uses' => 'AdminController@getListUsers' ]);
+	Route::get('emps', [ 'as' => 'getadminemps', 'uses' => 'AdminController@getListEmps' ]);
+	Route::get('dashboard', [ 'as' => 'getadmindashboard', 'uses' => 'AdminController@getDashBoard' ]);
+	Route::post('import', [ 'as' => 'postimport', 'uses' => 'AdminController@postImport' ]);
+	Route::get('export/{type}', [ 'as' => 'getexport', 'uses' => 'AdminController@getExport' ]);
 
 		/*angular-using*/
-	Route::get('ngusers',['as'=>'nggetusers','uses'=>'AdminController@ngGetUsers']);
-	Route::get('nguser/{id}',['as'=>'nggetuser','uses'=>'AdminController@ngGetUser']);
-	Route::get('ngroles',['as'=>'nggetroles','uses'=>'AdminController@ngGetRoles']);
-	Route::post('ngcreateuser',['as'=>'ngpostcreateuser','uses'=>'AdminController@ngPostCreateUser']);
-	Route::post('ngedituser/{id}',['as'=>'ngpostedituser','uses'=>'AdminController@ngPostEditUser']);
-	Route::get('ngdeleteuser/{id}',['as'=>'nggetdeleteuser','uses'=>'AdminController@ngGetDeleteUser']);
+	Route::get('ngusers', [ 'as' => 'nggetusers', 'uses' => 'AdminController@ngGetUsers' ]);
+	Route::get('nguser/{id}', [ 'as' => 'nggetuser', 'uses' => 'AdminController@ngGetUser' ]);
+	Route::get('ngroles', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRoles' ]);
+	Route::post('ngcreateuser', [ 'as' => 'ngpostcreateuser', 'uses' => 'AdminController@ngPostCreateUser' ]);
+	Route::post('ngedituser/{id}', [ 'as' => 'ngpostedituser', 'uses' => 'AdminController@ngPostEditUser' ]);
+	Route::get('ngdeleteuser/{id}', [ 'as' => 'nggetdeleteuser', 'uses' => 'AdminController@ngGetDeleteUser' ]);
 
 
 		/*admin dashboard  --- output: json*/
-	Route::get('ngnumber',['as'=>'nggetnumber','uses'=>'AdminController@ngGetNumber']);
+	Route::get('ngnumber', [ 'as' => 'nggetnumber', 'uses' => 'AdminController@ngGetNumber' ]);
 
 		/*admin employers  --- output: json*/
-	Route::get('ngemps',['as'=>'nggetemps','uses'=>'AdminController@ngGetEmps']);
-	Route::get('ngemp/{id}',['as'=>'nggetemp','uses'=>'AdminController@ngGetEmp']);
-	Route::post('ngcreateemp',['as'=>'ngpostcreateemp','uses'=>'AdminController@ngPostCreateEmp']);
-	Route::post('ngeditemp/{id}',['as'=>'ngposteditemp','uses'=>'AdminController@ngPostEditEmp']);
-	Route::get('ngdeleteemp/{id}',['as'=>'nggetdeleteemp','uses'=>'AdminController@ngGetDeleteEmp']);
-	Route::get('ngconfirmemp/{id}',['as'=>'nggetconfirmemp','uses'=>'AdminController@ngGetConfirmEmp']);
-	Route::get('ngdenyemp/{id}',['as'=>'nggetdenyemp','uses'=>'AdminController@ngGetDenyEmp']);
+	Route::get('ngemps', [ 'as' => 'nggetemps', 'uses' => 'AdminController@ngGetEmps' ]);
+	Route::get('ngemp/{id}', [ 'as' => 'nggetemp', 'uses' => 'AdminController@ngGetEmp' ]);
+	Route::post('ngcreateemp', [ 'as' => 'ngpostcreateemp', 'uses' => 'AdminController@ngPostCreateEmp' ]);
+	Route::post('ngeditemp/{id}', [ 'as' => 'ngposteditemp', 'uses' => 'AdminController@ngPostEditEmp' ]);
+	Route::get('ngdeleteemp/{id}', [ 'as' => 'nggetdeleteemp', 'uses' => 'AdminController@ngGetDeleteEmp' ]);
+	Route::get('ngconfirmemp/{id}', [ 'as' => 'nggetconfirmemp', 'uses' => 'AdminController@ngGetConfirmEmp' ]);
+	Route::get('ngdenyemp/{id}', [ 'as' => 'nggetdenyemp', 'uses' => 'AdminController@ngGetDenyEmp' ]);
 
 		//Send notification
-	Route::get('notification','AdminController@getAdminNotification')->name('getadminnotification');
-	Route::post('createnotification','AdminController@createNotification')->name('createnotification');
+	Route::get('notification', 'AdminController@getAdminNotification')->name('getadminnotification');
+	Route::post('createnotification', 'AdminController@createNotification')->name('createnotification');
 
 });
 
 	/**--------------EMPLOYER ROUTE--------------------*/
-Route::group(['prefix'=>'emp','middleware'=>'emp'],function(){
+Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/
-	Route::get('/',['as'=>'getemp','uses'=>'EmpController@getIndex']);
-	Route::get('advance',['as'=>'getempadvance','uses'=>'EmpController@getAdvance']);
+	Route::get('/', [ 'as' => 'getemp', 'uses' => 'EmployerController@getIndex' ]);
+	Route::get('advance', [ 'as' => 'getempadvance', 'uses' => 'EmployerController@getAdvance' ]);
 
 		/*employer manage  --- output: json*/
-	Route::get('ngadvance/{id}',['as'=>'nggetadvance','uses'=>'EmpController@ngGetAdvance']);
-	Route::get('ngconfirmass/{id}/{user_id}',['as'=>'nggetconfirmass','uses'=>'EmpController@ngGetConfirmAss']);
-	Route::get('ngdenyass/{id}/{user_id}',['as'=>'nggetdenyass','uses'=>'EmpController@ngGetDenyAss']);
+	Route::get('ngadvance/{id}', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
+	Route::get('ngconfirmass/{id}/{user_id}', [ 'as' => 'nggetconfirmass', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
+	Route::get('ngdenyass/{id}/{user_id}', [ 'as' => 'nggetdenyass', 'uses' => 'EmployerController@ngGetDenyAss' ]);
 		/*Update info*/
-	Route::post('ngupdateinfo/{id}',['as'=>'ngupdateempinfo','uses'=>'EmpController@ngGetUpdateEmpInfo']);
+	Route::post('ngupdateinfo/{id}', [ 'as' => 'ngupdateempinfo', 'uses' => 'EmployerController@ngGetUpdateEmpInfo' ]);
 		/*Change logo-cover using Laravel - Reload page*/
-	Route::post('changelogocover/{empid}/{type}',['as'=>'postChangeLogoCover','uses'=>'EmpController@postChangeLogoCoverEmp']);
+	Route::post('changelogocover/{empid}/{type}', [ 'as' => 'postChangeLogoCover', 'uses' => 'EmployerController@postChangeLogoCoverEmp' ]);
 
 		/*Employer Basic*/
-	Route::get('basic',['as'=>'getempbasic','uses'=>'EmpController@getBasic']);
-	Route::get('ngbasic/{id}',['as'=>'nggetbasic','uses'=>'EmpController@ngGetBasic']);
-	Route::post('ngcreatepost/{empid}',['as'=>'ngcreatepost','uses'=>'EmpController@ngCreatePost']);
-	Route::get('nggetpost/{id}',['as'=>'nggetpost','uses'=>'EmpController@ngGetPost']);
-	Route::post('ngeditpost/{empid}/{id}',['as'=>'ngeditpost','uses'=>'EmpController@ngEditPost']);
-	Route::get('ngtrashpost/{id}',['as'=>'ngtrashpost','uses'=>'EmpController@ngTrashPost']);
-	Route::get('ngpushpost/{id}',['as'=>'ngpushpost','uses'=>'EmpController@ngPushPost']);
-	Route::get('ngconfirmpost/{id}',['as'=>'ngconfirmpost','uses'=>'EmpController@ngConfirmPost']);
-	Route::get('ngdenypost/{id}',['as'=>'ngdenypost','uses'=>'EmpController@ngDenyPost']);
+	Route::get('basic', [ 'as' => 'getEmpBasic', 'uses' => 'EmployerController@getEmpBasic' ]);
+	Route::get('ngbasic/{id}', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
+	Route::post('ngcreatepost/{empid}', [ 'as' => 'ngcreatepost', 'uses' => 'EmployerController@ngCreatePost' ]);
+	Route::get('nggetpost/{id}', [ 'as' => 'nggetpost', 'uses' => 'EmployerController@ngGetPost' ]);
+	Route::post('ngeditpost/{empid}/{id}', [ 'as' => 'ngeditpost', 'uses' => 'EmployerController@ngEditPost' ]);
+	Route::get('ngtrashpost/{id}', [ 'as' => 'ngtrashpost', 'uses' => 'EmployerController@ngTrashPost' ]);
+	Route::get('ngpushpost/{id}', [ 'as' => 'ngpushpost', 'uses' => 'EmployerController@ngPushPost' ]);
+	Route::get('ngconfirmpost/{id}', [ 'as' => 'ngconfirmpost', 'uses' => 'EmployerController@ngConfirmPost' ]);
+	Route::get('ngdenypost/{id}', [ 'as' => 'ngdenypost', 'uses' => 'EmployerController@ngDenyPost' ]);
 });
-	
-	/*download aplication's CV*/
-Route::get('downloadcv/{name}',['as'=>'getempdownloadcv','uses'=>'HomeController@getDownloadEmpCV']);
+/*download aplication's CV*/
+Route::get('downloadcv/{name}', [ 'as' => 'getempdownloadcv', 'uses' => 'HomeController@getDownloadEmpCV' ]);
 
 	/*send Email*/
-Route::post('sendemail',['as'=>'postsendemail','uses'=>'EmpController@postSendEmail']);
-Route::get('/markAsRead',function(){
+Route::post('sendemail', [ 'as' => 'postsendemail', 'uses' => 'EmployerController@postSendEmail' ]);
+Route::get('/markAsRead', function() {
 	auth()->user()->unreadnotifications->markAsRead();
 });
 /*-----------------END DAT ROUTER----------------------*/

@@ -10,14 +10,14 @@ class Registration extends Eloquent
     //
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    
-    protected $collection = "registration";
+    protected $collection = 'registration';
 
     protected $primaryKey = ('user_id');
-    public function user(){
+    public function user() {
     	return $this->belongsTo('App\User','user_id','id');
     }
-    public function employer(){
+    
+    public function employer() {
     	return $this->belongsTo('App\Employers','emp_id','id');
     }
 }

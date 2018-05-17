@@ -34,11 +34,11 @@ app.controller('EmpMngController',function($http,$scope,$filter){
 		$scope.sortReversePost = true;
 	}
 	/*---------Load page Basic ---------------------------------*/
-	$scope.loadBasic = function(id){
+	$scope.loadBasic = function(id) {
 		$scope.empid = id;
-		$scope.job=null;
+		$scope.job = null;
 		$scope.selection = [];
-		$http.get('emp/ngbasic/'+$scope.empid).then(function(response){
+		$http.get('emp/ngbasic/'+ $scope.empid).then(function(response) {
 			console.log(response.data);
 			//chung
 			$scope.emp = response.data.emp;

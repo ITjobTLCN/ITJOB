@@ -1,4 +1,7 @@
 $(document).ready(function() {
+	$('.error').css({
+		'display' : 'none'
+	});
 	$('.review-form').validate({
 		rules: {
 			title: {
@@ -13,13 +16,13 @@ $(document).ready(function() {
 		},
 		messages: {
 			title: {
-				required:"<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
+				required: "<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
 			},
 			like: {
-				required:"<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
+				required: "<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
 			},
 			unlike: {
-				required:"<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
+				required: "<i class='fa fa-times' aria-hidden='true'></i>Thêm nội dung"
 			}
 		},
 		submitHandler:function(form) {
@@ -33,13 +36,14 @@ $(document).ready(function() {
 		$('.errorLogin').hide();
 	});
 	$('#frmLogin').validate({
-            rules:{
+            rules: {
                   email: {
-                        required:true,
-                        email:true,
+                        required: true,
+                        email: true,
                   },
                   password: {
-                        required:true,
+                        required: true,
+                        minlength: 6
                   }
             },
             messages: {
@@ -48,25 +52,30 @@ $(document).ready(function() {
                         email: "Email không đúng định dạng"
                   },
                   password: {
-                        required:"Mật khẩu không được để trống"
+                        required: "Mật khẩu không được để trống",
+                        minlength: "Mật khẩu có ít nhất 6 ký tự"
                   }
             },
-            submitHandler:function() {
+            submitHandler: function() {
             	$.ajaxSetup({
 	                headers: {
 	                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 	                }
 	            });
 	            $.ajax({
-	            	type:'post',
-	            	url:'login-modal',
-	            	data:{
-	            		'email':$('#email').val(),
-	            		'password':$('#password').val()
+	            	type: 'post',
+	            	url: 'login-modal',
+	            	data: {
+	            		'email': $('#email').val(),
+	            		'password': $('#password').val()
 	            	},
 	            	success: function(data) {
-	            		if (data.error == true) {
+	            		if (data.error) {
+	            			$('.error').css({
+								'display' : 'block'
+							});
 	            			$('.errorLogin').show().text(data.message);
+	            			$('#email').val("");
 	            			$('#password').val("");
 	            		} else {
 	            			 location.reload();
@@ -102,7 +111,7 @@ $(document).ready(function() {
 					email: "Email không đúng định dạng"
               	},
               	password: {
-					required:"Mật khẩu không được để trống",
+					required: "Mật khẩu không được để trống",
 					minlength: "Mật khẩu ít nhất 6 ký tự"
 				},
 				repeatPassword: {
@@ -117,9 +126,9 @@ $(document).ready(function() {
 	                }
 	            });
 	            $.ajax({
-	            	type:'post',
-	            	url:'/dang-ky',
-	            	data: { 
+	            	type: 'post',
+	            	url: '/dang-ky',
+	            	data: {
 						'email': $('#email').val(),
 						'password': $('#password').val(),
 						'name': $('#name').val()
@@ -146,7 +155,7 @@ $(document).ready(function() {
             }
       });
 	$('#formApply').validate({
-		rules:{
+		rules: {
 			fullname: {
 				required: true,
 			},
@@ -161,15 +170,15 @@ $(document).ready(function() {
 		},
 		messages: {
 			fullname: {
-				required:"Vui lòng nhập tên của bạn",
+				required: "Vui lòng nhập tên của bạn",
 			},
 			email: {
-				required:"Vui lòng nhập email",
-				email:"Email không đúng định dạng",
+				required: "Vui lòng nhập email",
+				email: "Email không đúng định dạng",
 			},
 			new_cv: {
-				required:"Vui lòng đính kèm CV",
-				extension:"Vui lòng đính kèm file .doc .docx hoặc .pdf"
+				required: "Vui lòng đính kèm CV",
+				extension: "Vui lòng đính kèm file .doc .docx hoặc .pdf"
 			}
 		},
 		submitHandler:function() {
@@ -192,19 +201,19 @@ $(document).ready(function() {
 				required: true
 			}
 		},
-		messages:{
-			email:{
-				required:"Vui lòng nhập email",
-				email:"Email không đúng định dạng",
+		messages: {
+			email: {
+				required: "Vui lòng nhập email",
+				email: "Email không đúng định dạng",
 			},
-			name:{
-				required:"Vui lòng nhập tên",
+			name: {
+				required: "Vui lòng nhập tên",
 			},
-			subtitle:{
-				required:"Vui lòng nhập tiêu đề",
+			subtitle: {
+				required: "Vui lòng nhập tiêu đề",
 			},
-			content:{
-				required:"Vui lòng nhập nội dung",
+			content: {
+				required: "Vui lòng nhập nội dung",
 			}
 		},
 		submitHandler: function(){

@@ -51,7 +51,7 @@ class UsersController extends Controller
                              ->withInput();
         } else {
             if(Auth::attempt($credentials)) {
-                $role = Roles::where("_id", Auth::user()->role_id)->value('route');
+                $role = Roles::where('_id', Auth::user()->role_id)->value('route');
                 return redirect()->route($role);
             } else {
                 $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']); 
@@ -79,12 +79,11 @@ class UsersController extends Controller
                 ], 500);
             } else {
                 $data = $req->only([ 'name', 'email', 'password' ]);
-                try { 
+                try {
                     $this->insertUser($data);
                 } catch(\Exception $e) {
                      return $e->getMessage();
                 }
-                
                 //event(new SendMail($user));
                 return response()->json([
                     'error' => false,
@@ -114,7 +113,6 @@ class UsersController extends Controller
     }
     public function editEmail(Request $req) {
         $email = $req->newEmail;
-        
         if($email != Auth::user()->email){
             $find = User::where('email',$email);
              return response()->json([
@@ -137,7 +135,7 @@ class UsersController extends Controller
             $cv = $req->file('cv');
             $filename = $cv->getClientOriginalName();
             $cv->move('uploads/user/cv/' , $filename);
-            $user->cv = $filename;      
+            $user->cv = $filename;
         }
 
         $user->name = $req->name;
@@ -148,18 +146,16 @@ class UsersController extends Controller
 
     public function postLoginModal(Request $req) {
         $credentials = $req->only('email', 'password');
-
         if(Auth::attempt($credentials)) {
             return response()->json([
                     'error' => false,
                     'message' => 'Đăng nhập thành công'
                     ], 200);
         }
-
         return response()->json([
                 'error' => true,
                 'message' => 'Email hoặc mật khẩu không đúng'
-            ], 401);
+            ]);
     }
 
     public function postRegisterModal(Request $req) {

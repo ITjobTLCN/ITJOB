@@ -43,7 +43,6 @@ Login | ITJob
 								</div>
 								{{ csrf_field() }}
 								<button type="submit" class="btn btn-primary btn-login br-0">Đăng nhập</button>
-								
 							</form>
 						</div>
 					</div>

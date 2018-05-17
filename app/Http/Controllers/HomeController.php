@@ -21,9 +21,13 @@ use File;
 use Hash;
 use Storage;
 use DateTime;
+use App\Traits\CommonMethod;
+use App\Traits\Company\CompanyMethod;
 
 class HomeController extends Controller
 {
+    use CommonMethod, CompanyMethod;
+
     public function getLogOut() {
         Auth::logout();
         return redirect()->route('getlogin');
@@ -33,15 +37,15 @@ class HomeController extends Controller
         $email = $req->email;
         $password = $req->password;
 
-        if(Auth::attempt(['email' => $email, 'password' => $password])) {
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
             $url = "";
             $role_id = Auth::user()->role_id;
-            if($role_id == 2) {
+            if ($role_id == 2) {
                 $url = "admin/dashboard";
             }
             return response()->json(['status' => true,
                                       'message' => 'Đăng nhập thành công',
-                                      'url' => $url]); 
+                                      'url' => $url]);
         } else {
             return response()->json(['status' => false,
                                      'errors' => 'Email hoặc mật khẩu không đúng']);
@@ -57,67 +61,55 @@ class HomeController extends Controller
     }
 
     /**--------------REGISTER A EMPLOYER - Master Or Assitant-------------------*/
-    public function ngLoadReg() {
-        $cities = Cities::all();
-        $emps = Employers::where('status', 1)->get();
-
+    public function loadRegisterEmployer() {
+        $cities = $this->getAllCities();
+        $emps = Employers::where('deleted', false)->get();
         return response()->json(['cities' => $cities, 'emps' => $emps]);
     }
-
-    public function getRegisterEmp() {
+    public function getRegisterEmployer(Request $request) {
         return view('layouts.registeremp');
     }
+    public function postRegisterEmployer(Request $request) {
+        //check
+        if ( !empty(Registration::where('user_id', Auth::id())->first())) {
+            return response()->json(['status' => false, 'message' => 'You have registered 1 employer']);
+        }
+        $flag = true;
+        //case Master and Assistant
+        //construct
+        $emp_id = 0;
+        //0:master reg  10:assis reg
+        ( !isset($request->_id) || empty($request->_id)) ? $type = 0 : $type = 10;
+        switch ($type) {
+            case 0:
+               //create employers //NAME,CITY,ADDRESS,WEBSITE ->
+                $data = $request->only(['name', 'city_id', 'address', 'website']);
+                $id = $this->saveEmployer($data);
+                if ($id) {
+                    // update role user
+                    User::where('_id', Auth::id())
+                        ->update(['role_id' => config('constant.roles.employer')]);
+                    $emp_id = $id;
+                }
+                break;
+            case 10:
+                $emp_id = $request->_id;
+                break;
+            default:
+                $flag = false;
+                break;
+        }
 
-    public function postRegisterEmp(Request $request) {
-        try {
-            //check
-            $type = (!Employers::where('id', $request->id)->first()) ? 0 : 10; //0:master reg  10:assis reg
-            //data
-            $user = User::findOrFail(Auth::user()->id);
-            $check = (Registration::where('user_id', $user->id)->first()) ? false : true; //de su dung sau
-            if(!$check) {
-                return response()->json(['status' => false, 'message' => 'You have registered 1 employer']);
-                // return redirect()->back()->withErrors('You have registered 1 employer');
+        if ($flag) {
+            //create registration
+            $data = [
+                'emp_id' => $emp_id,
+                'type' => $type
+            ];
+            if ($this->saveRegisterEmployer($data)) {
+                return response()->json(['status' => true, 'message' => 'Register successfully']);
             }
-            $flag = true;
-            //validate
-            //success
-
-            //case Master and Assistant
-            //construct
-            $res = new Registration();
-
-            switch ($type) {
-                case 0:
-                   //create employers //NAME,CITY,ADDRESS,WEBSITE ->
-                    $emp = new Employers();
-                    $emp->status = 0; //not yet confirm
-                    $emp->name= $request->name;         //nam
-                    $emp->city_id  = $request->city_id; 
-                    $emp->address = $request->address; 
-                    $emp->website = $request->website;
-                    $emp->save();
-
-                    $res->emp_id = $emp->id;
-                    break;
-                case 10:
-                    $res->emp_id = $request->id;
-                    break;
-                default:
-                    $flag = false;
-                    break;
-            }
-                
-            if($flag) {
-                //create registration
-                $res->user_id = $user->id;
-                $res->status = $type;//master:0   assis:10 - waiting confirm
-                $res->save();
-            }
-
-            return response()->json(['status' => true,'message' => 'Register successfully']);
-        } catch(Exception $e) {
-            return response()->json(['status' => false,'message' => 'Register failed']);
+            return response()->json(['status' => false, 'message' => 'Register failed']);
         }
     }
 }

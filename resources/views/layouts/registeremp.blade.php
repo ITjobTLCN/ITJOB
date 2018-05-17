@@ -19,19 +19,16 @@
 					@endif
 					@if ($errors->any())
 					<div class="alert alert-danger">
-						{{ $errors->first()}}       
+						{{ $errors->first()}}
 					</div>
 					@endif
-					
-					
-
 					<form action="#" method="POST" id="register_emp_form">
 						<input type="hidden" name="empid" ng-model="curemp.empid" value="<%curemp.id%>">
 						<div class="form-group">
 							<label for="">Choose one:</label>
 							<div class="row">
 								<div class="col-md-8">
-									<select ng-model="curemp" id="curemp" ng-options="emp.name for emp in emps track by emp.id" class="form-control" ng-change="new=false"></select>
+									<select ng-model="curemp" id="curemp" ng-options="emp.name for emp in emps track by emp._id" class="form-control" ng-change="new=false"></select>
 								</div>
 								<div class="col-md-4">
 									<button type="button" class="btn btn-default btn-sm" ng-click="reset()">Reset</button>
@@ -45,17 +42,16 @@
 						</div>
 						<div class="form-group">
 							<label for="">City</label>
-							<select name="city_id" id="city_id" class="form-control" ng-options="item.id as item.name for item in cities" ng-readonly="!new" ng-model="curemp.city_id"></select>
+							<select name="city_id" id="city_id" class="form-control" ng-options="item._id as item.name for item in cities" ng-readonly="!new" ng-model="curemp.city_id"></select>
 						</div>
 						<div class="form-group">
 							<label for="address">Address:</label>
-							<input type="text" name="address" class="form-control" placeholder="Address" ng-readonly="!new" ng-model="curemp.address">
-						</div>	
+							<input type="text" name="address" class="form-control" placeholder="Address" ng-readonly="!new" ng-model="curemp.address[0]['detail']">
+						</div>
 						<div class="form-group">
 							<label for="website">Employer Website:</label>
 							<input type="text" name="website" class="form-control" placeholder="Link website" ng-readonly="!new" ng-model="curemp.website">
 						</div>
-						
 						<input type="hidden" name="_token" value="{{csrf_token()}}">
 						<div class="form-group">
 							<div class="text-center ">

@@ -9,7 +9,7 @@ use App\Job;
 use App\Follows;
 trait JobMethod
 {
-	public function checkUserAlreadyApply($email, $jobId) {
+	protected function checkUserAlreadyApply($email, $jobId) {
 		$temp = Job::where('_id', $jobId)
 					->where('apply_info.email', $email)
                     ->first();
@@ -21,7 +21,7 @@ trait JobMethod
     	}
 	}
 
-	public function saveApplication($data) {
+	protected function saveApplication($data) {
 		$objJob = new Job();
 		$filename = "";
 		if(!empty($data['new_cv'])) {

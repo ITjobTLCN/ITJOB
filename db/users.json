@@ -4,16 +4,20 @@
     "email" : "phong.kelvin1608@gmail.com", 
     "password" : "$2y$10$59PO7CU/SPPFU3tSuD9tB.MWZtq44GCBytx5vHScpR4BGM9ZsYLMi", 
     "role_id" : "5ac85f51b9068c2384007d9c", 
-    "jobs_followed" : {
-
-    }, 
+    "jobs_followed" : [
+        {
+            "_id" : "5ac85f98b9068c0688004594", 
+            "followed_at" : ISODate("2018-04-07T06:04:03.098+0000")
+        }
+    ], 
     "employers_followed" : {
 
     }, 
+    "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.098+0000"), 
-    "updated_at" : ISODate("2018-04-11T03:53:05.000+0000"), 
-    "lastlogin" : "2018-04-11 10:53:05", 
-    "remember_token" : "V1HmaBNHmQ7dQX8LevtWC0JiWoWf9tS1LqSsTjLHLWbPVKiOI71rEMYWXwDW"
+    "updated_at" : ISODate("2018-05-16T09:49:48.000+0000"), 
+    "lastlogin" : "2018-05-16 16:49:48", 
+    "remember_token" : "61LWhwN9g4aThJ3WP9UQr3fMmtqKfAUn4tLhr7TFtjoy2Oc9IiPxRkZ8iV5J"
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007da8"), 
@@ -21,24 +25,51 @@
     "email" : "datnguyen.ute@gmail.com", 
     "password" : "$2y$10$IIdn9G0DPcNWtDwY3WLdMOVgGd0wy2iWMtj4Ng/RxpWdSaOW4JT1q", 
     "role_id" : "5ac85f51b9068c2384007d9c", 
+    "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.182+0000"), 
     "updated_at" : ISODate("2018-04-07T06:04:03.182+0000")
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007da9"), 
     "name" : "kelvin", 
-    "email" : "tranthanhphong1608@gmail.com", 
+    "email" : "employer@gmail.com", 
     "password" : "$2y$10$XLsDzWX8J7qkST4Sro6Sn.MZv5eRgHuIlgNBvC4aEPO/bHWVJBAGC", 
     "role_id" : "5ac85f51b9068c2384007d9e", 
+    "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.260+0000"), 
-    "updated_at" : ISODate("2018-04-07T06:04:03.260+0000")
+    "updated_at" : ISODate("2018-05-16T10:37:55.000+0000"), 
+    "lastlogin" : "2018-05-16 17:37:55", 
+    "remember_token" : "nR0Smkfzxwva7d1UkVLhn8zWBPIYznv5y8xl26P6jTkmwZSy2omIewWuXXxS"
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007daa"), 
     "name" : "phong", 
-    "email" : "company@gmail.com", 
+    "email" : "employee@gmail.com", 
     "password" : "$2y$10$dV9g5CMIM8VaJu62RVUjr.jacQmBc/ux8NYsabk9cFlLQD5IOc6v.", 
     "role_id" : "5ac85f51b9068c2384007d9f", 
+    "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.336+0000"), 
     "updated_at" : ISODate("2018-04-07T06:04:03.336+0000")
+}
+{ 
+    "_id" : ObjectId("5ae9c1fdb9068c0678007ae6"), 
+    "email" : "phong.kelvin16g08@gmail.com", 
+    "name" : "ththt", 
+    "password" : "$2y$10$tEBPufNjwJ7Rls0WQolsC.1/FIK59U.0gEi7mtF1AmPg9HqAe01DS", 
+    "role_id" : "5ac85f51b9068c2384007d9e", 
+    "avatar" : "default.jpg", 
+    "created_at" : ISODate("2018-05-02T13:49:49.723+0000"), 
+    "updated_at" : ISODate("2018-05-16T11:11:49.000+0000"), 
+    "lastlogin" : "2018-05-16 18:04:29", 
+    "remember_token" : "gcIKyxSqX4Z2273VMvoHhUmgRDmNtDdMyMJMn6ZSDrGfV5cevp0Ues6UFYlD"
+}
+{ 
+    "_id" : ObjectId("5aed282eb9068c109c0012e5"), 
+    "email" : "phong.kelvin168@gmail.com", 
+    "name" : "Thanh Phong", 
+    "image" : "https://graph.facebook.com/v2.10/1074423966032596/picture?type=normal", 
+    "role_id" : "1", 
+    "updated_at" : ISODate("2018-05-05T03:42:39.000+0000"), 
+    "created_at" : ISODate("2018-05-05T03:42:38.000+0000"), 
+    "lastlogin" : "2018-05-05 10:42:39"
 }

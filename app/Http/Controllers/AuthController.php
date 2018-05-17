@@ -31,7 +31,6 @@ class AuthController extends Controller
             return redirect('/');
         }
         //checks if we have logged provider
-        
         $socialProvider = SocialProvider::where('provider_id', $socialUser->getId())->first();
         if(!$socialProvider) {
             $user = User::where('email', $socialUser->getEmail())->first();

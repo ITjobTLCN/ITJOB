@@ -17,15 +17,14 @@ class checkEmp
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check()){
-            if(Auth::user()->role_id==3 || Auth::user()->role_id==4){
+        if (Auth::check()) {
+            if (in_array(Auth::user()->role_id, config('constant.roleEmployer'))) {
                 return $next($request);
-            }else{
-                return Redirect::route('getregisteremp');//không có quyền employer
+            } else {
+                return Redirect::route('getRegisterEmployer'); //không có quyền employer
             }
-        }else{
+        } else {
             return Redirect::route('/')->with('error_code', 1); // 1: chưa đăng nhập
         }
-        
     }
 }

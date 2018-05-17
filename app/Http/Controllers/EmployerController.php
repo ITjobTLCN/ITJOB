@@ -27,17 +27,18 @@ use Session;
 use App\Notifications\ConfirmAssistant;
 use App\Notifications\ConfirmPost;
 use App\Notifications\NotifyNewPost;
-class EmpController extends Controller
+
+class EmployerController extends Controller
 {
 	 /*Function change from name to alias and remove Vietnamese*/
-    public function changToAlias($str){
+    public function changToAlias($str) {
     	$str = strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
         $str =   str_replace('?', '',strtolower($str));
         return  str_replace(' ', '-',strtolower($str));
     }
-	//Load trang 
+	//Load trang
    	public function getIndex() {
-        return redirect()->route('getempbasic');
+        return redirect()->route('getEmpBasic');
     }
    	public function getAdvance() {
         $empid = Auth::user()->emp_id;
@@ -240,8 +241,8 @@ class EmpController extends Controller
 
 
     /*----------------BASIC:Dashboar và post bài + quản lý bài mình post-----------*/
-    public function getBasic() {
-        $empid = Auth::user()->emp_id; 
+    public function getEmpBasic() {
+        $empid = Employers::whereIn('employee', [Auth::id()])->first();
         return view('employer.basic', compact('empid'));
     }
         /*-----Get data when load page Basic----------*/
@@ -350,7 +351,7 @@ class EmpController extends Controller
                 }
             }
             return response()->json(['status' => true, 'message' => 'Saved post']);
-        }catch(Exception $e){
+        }catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to save this post']);
         }
     }
@@ -406,7 +407,7 @@ class EmpController extends Controller
             }
 
             return response()->json(['status' => true, 'message' => 'Saved post']);
-        }catch(Exception $e){
+        }catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to save this post']);
         }
     }
@@ -457,7 +458,7 @@ class EmpController extends Controller
             }
 
             return response()->json(['status' => true, 'message' => 'Confirm Successfully']);
-        }catch(Exception $e){
+        }catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Confirm failed']);
         }
     }
