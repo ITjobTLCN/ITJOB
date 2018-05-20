@@ -158,7 +158,7 @@ Route::get('see-more-reviews', [
 ])->middleware('auth');
 Route::get('/demo', [
 	'as' => 'demo',
-	'uses' => 'PageController@getDemo'
+	'uses' => 'CompanyController@getDemo'
 ]);
 //get list skills of job by job_id
 Route::get('list-skill-jobs', [
@@ -235,7 +235,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::post('createnotification', 'AdminController@createNotification')->name('createnotification');
 
 });
-
+// Route::get('ngbasic/{id}', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/

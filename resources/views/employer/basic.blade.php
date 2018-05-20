@@ -3,9 +3,9 @@
 Manage Basic
 @endsection
 @section('empcontent')
-	<div ng-controller="EmpMngController" ng-init="loadBasic({{$empid}})">
-		<div id="emp-dashboard" class="emp-section">
-			<div class="row" >
+	<div ng-controller="EmployerManagerController">
+		<div id="emp-dashboard" class="emp-section" ng-init="loadBasic({{$employer}})">
+			<div class="row">
 	            <div class="col-lg-3 col-md-6">
 	                <div class="panel panel-primary">
 	                    <div class="panel-heading">
@@ -14,7 +14,7 @@ Manage Basic
 	                                <i class="fa fa-newspaper-o fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><%countposts%><span class="huge-new">(<%countposttoday%> new)</span>
+	                                <div class="huge"><% count(options['posts']) %><span class="huge-new">(<%options['countPostToday']%> new)</span>
 	                                </div>
 	                                <div>Post!</div>
 	                            </div>
@@ -37,7 +37,7 @@ Manage Basic
 	                                <i class="fa fa-file-code-o fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><%countapplis%><span class="huge-new">(<%countapplitoday%> new)</span></div>
+	                                <div class="huge"><% count(options['applies'])%><span class="huge-new">(<% options['countApplyToday'] %> new)</span></div>
 	                                <div>Application!</div>
 	                            </div>
 	                        </div>
@@ -59,7 +59,7 @@ Manage Basic
 	                                <i class="fa fa-list-ul fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><%countreviews%><span class="huge-new">(<%countreviewtoday%> new)</span></div>
+	                                <div class="huge"><% count(options['reviews']) %><span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
 	                                <div>Review!</div>
 	                            </div>
 	                        </div>
@@ -81,7 +81,7 @@ Manage Basic
 	                                <i class="fa fa-heart "></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><%countfollows%><span class="huge-new"></span></div>
+	                                <div class="huge"><% count(options['follows']) %><span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
 	                                <div>Follow!</div>
 	                            </div>
 	                        </div>
@@ -108,7 +108,7 @@ Manage Basic
 	            			</tr>
 	            		</thead>
 	            		<tbody>
-	            			<tr dir-paginate="post in posts|orderBy:created_at:true|itemsPerPage:5" pagination-id="post">
+	            			<tr dir-paginate="post in options['posts']|orderBy:created_at:true|itemsPerPage:5" pagination-id="post">
 	            				<td><a href=""><%post.name%></a></td>
 	            				<td><%post.user.name%></td>
 	            				<td><%post.created_at%></td>
@@ -138,7 +138,7 @@ Manage Basic
 	            			</tr>
 	            		</thead>
 	            		<tbody>
-	            			<tr dir-paginate="apply in applis|orderBy:created_at:true|itemsPerPage:5" pagination-id="application">
+	            			<tr dir-paginate="apply in options['applies']|orderBy:created_at:true|itemsPerPage:5" pagination-id="application">
 	            				<td><%apply.name%></td>
 	            				<td><%apply.email%></td>
 	            				<td><%apply.created_at%></td>
@@ -168,7 +168,7 @@ Manage Basic
 	            			</tr>
 	            		</thead>
 	            		<tbody>
-	            			<tr dir-paginate="re in reviews|orderBy:created_at:true|itemsPerPage:5" pagination-id="review">
+	            			<tr dir-paginate="re in options['reviews']|orderBy:created_at:true|itemsPerPage:5" pagination-id="review">
 	            				<td><%re.user.name%></td>
 	            				<td><%re.title%></td>
 	            				<td><%re.rating%></td>
@@ -187,7 +187,7 @@ Manage Basic
 	            			</tr>
 	            		</tbody>
 	            	</table>
-	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendflag==true && expendtype=='follow'"> 
+	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendflag==true && expendtype=='follow'">
 	            		<thead >
 	            			<tr class="info">
 	            				<th>User</th>
@@ -195,14 +195,14 @@ Manage Basic
 	            			</tr>
 	            		</thead>
 	            		<tbody>
-	            			<tr dir-paginate="fol in follows|orderBy:created_at:true|itemsPerPage:5" pagination-id="follow">
+	            			<tr dir-paginate="fol in options['follows']|orderBy:created_at:true|itemsPerPage:5" pagination-id="follow">
 	            				<td><%fol.user.name%></td>
 	            				<td><%fol.created_at%></td>
 	            			</tr>
 	            			<tr>
 	            				<td colspan="100%" class="text-center" >
 	            					<dir-pagination-controls pagination-id="follow"
-	            					max-size="5" 
+	            					max-size="5"
 	            					direction="true"
 	            					boundary-links="true">
 	            					</dir-pagination-controls>
@@ -234,7 +234,7 @@ Manage Basic
 							</tr>
 						</thead>
 						<tbody>
-							<tr dir-paginate="post in myposts|itemsPerPage:3" pagination-id="mypost">
+							<tr dir-paginate="post in options['myPosts']|itemsPerPage:3" pagination-id="mypost">
 								<td><%post.name%></td>
 								<td><%post.created_at%></td>
 								<td>
@@ -256,9 +256,7 @@ Manage Basic
 									<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
 								</td>
 							</tr>
-							
 						</tbody>
-
 					</table>
 					<div class="text-center">
 						<dir-pagination-controls pagination-id="mypost"
@@ -283,7 +281,7 @@ Manage Basic
 									<div class="col-lg-4">
 										<label>Post expire:</label>
 										<input type="datetime-local" name="date_expire" ng-model="job.date_expire" class="form-control" >
-									</div>									
+									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-lg-4">

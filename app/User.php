@@ -36,11 +36,12 @@ class User extends Eloquent implements Authenticatable
     protected $hidden = [
         'password', 'remember_token'
     ];
-    public function socialProviders()
-    {
+
+    public function socialProviders() {
         return $this->hasMany(SocialProvider::class);
     }
-    public function isOnline(){
+    
+    public function isOnline() {
         return Cache::has('user-is-online-'.$this->id);
     }
 }

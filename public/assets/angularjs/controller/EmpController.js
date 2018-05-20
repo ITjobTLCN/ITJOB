@@ -136,6 +136,5 @@ app.controller('EmpController',function($scope,$http){
 		}else{
 			$scope.flagStatus = !$scope.flagStatus;
 		}
-		
 	}
 });

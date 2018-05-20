@@ -20,9 +20,7 @@ $(document).ready(function() {
 			displayKey: 'name',
 			source: lstCompany.ttAdapter(),
 			templates: {
-				empty:function() {
-					
-				},
+				empty:function() { },
 				suggestion:function(companies) {
 					var string = '<li class="typeahead-search"><span>' + companies.name +'</span></li>';
 					return string;
@@ -42,7 +40,6 @@ $(document).ready(function() {
 		});
 		
 		lstJobs.initialize();
-		
 		$('#keyword').typeahead({
 			hint: true,
 			highlight: true,
@@ -54,8 +51,7 @@ $(document).ready(function() {
 			source: lstJobs.ttAdapter(),
 			limit: 20,
 			templates: {
-				empty:function(){
-				},
+				empty:function(){ },
 				suggestion:function(data) {
 					return '<li class="typeahead-search"><span>' + data.name +'</span></li>';
 				}

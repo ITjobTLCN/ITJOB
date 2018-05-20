@@ -27,7 +27,7 @@ class CompanyController extends Controller
                               ->offset(0)
                               ->take(10)
                               ->get();
-        return view('layouts.companies', [ 'companies' => $companies, 
+        return view('layouts.companies', [ 'companies' => $companies,
                                             'cCompanies' => $cCompanies,
                                             'match' => true
                                         ]);
@@ -48,7 +48,7 @@ class CompanyController extends Controller
     public function getJobsCompany(Request $req) {
         $output = "";
         $emp_id = $req->emp_id;
-        if(Cache::has('job-hirring'.$emp_id)) {
+        if (Cache::has('job-hirring'.$emp_id)) {
             $output = Cache::get('job-hirring'.$emp_id, '');
         } else {
             $jobs = Job::where('employer_id', $emp_id)
@@ -86,7 +86,7 @@ class CompanyController extends Controller
     }
     public function getDetailsCompanies(Request $req) {
         $company = $this->getEmployerByKey($req->alias);
-        if(empty($company) || is_null($company)) {
+        if (empty($company) || is_null($company)) {
             return view('layouts.companies', ['match' => false]);
         }
 
@@ -97,7 +97,7 @@ class CompanyController extends Controller
         $skills = Skills::whereIn('_id', $skillsId)->get();
         $follow = [];
 
-        if(Auth::check()) {
+        if (Auth::check()) {
             $wheres = [
                     'user_id' => Auth::id(),
                     'followed_info' => [
@@ -143,27 +143,26 @@ class CompanyController extends Controller
 
     public function getMoreCompanies(Request $req) {
         $output = "";
-        if($req->has('cNormal')) {
-     
+        if ($req->has('cNormal')) {
             $count = $req->cNormal;
             $output = "";
             $employers = Employers::orderBy('id','desc')
                                     ->offset($count)
                                     ->take(10)
                                     ->get();
-            if(count($employers) == 0) {
+            if (count($employers) == 0) {
                 return $output;
             }
             foreach ($employers as $key => $emp) {
                 $skills = $this->getListSkillEmployers($emp->id);
-                $numJobs = Job::where('emp_id',$emp->id)->count();
+                $numJobs = Job::where('emp_id', $emp->id)->count();
                 $skill = "";
                 foreach ($skills as $key => $s) {
                     $skill .= "<li class='employer-skills__item'>
                                 <a href='' target='_blank'>{$s}</a>
                             </li>";
                 }
-               $output .= "<div class='row'>
+                $output .= "<div class='row'>
                             <div class='col-xs-3 col-md-3 col-lg-2'>
                                 <div class='logo job-search__logo'>
                                     <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/logo/{$emp->logo}' alt=''>
@@ -199,7 +198,7 @@ class CompanyController extends Controller
             $type = $req->type;
             $offset = $req->offset;
             ($type == 'hirring') ? $company = $this->getMoreHirring($offset) : $company = $this->getMoreHirring($offset);
-            if(count($company) > 0) {
+            if (count($company) > 0) {
                 foreach ($company as $key => $emp) {
                    $output.= '<div class="col-md-4 col-sm-4 col-lg-4">
                         <a href="companies/'.$emp->alias.'" class="company">
@@ -233,7 +232,7 @@ class CompanyController extends Controller
     public function searchCompany(Request $req) {
         $key = $req->search;
         $output = [];
-        if($key != "") {
+        if ($key != "") {
             $companies = Employers::where('name', 'like', '%'.$key.'%')
                                     ->get();
             foreach ($companies as $key => $com) {
@@ -248,7 +247,7 @@ class CompanyController extends Controller
         $alias = Employers::where('name', $com_name)->value('alias');
         $match = false;
         empty($alias) ? $match : $match = true;
-        if(!empty($alias)) {
+        if (!empty($alias)) {
             return redirect()->route('getEmployers', $alias);
         } else {
             Session::flash('com_name', $com_name);
@@ -260,7 +259,7 @@ class CompanyController extends Controller
         $output = "";
         $emp_id = $req->emp_id;
         $arrFollow = $this->findFollow($emp_id, 'company');
-        if(!empty($arrFollow) || !is_null($arrFollow)) {
+        if (!empty($arrFollow) || !is_null($arrFollow)) {
             $deleted = $arrFollow->followed_info['deleted'];
             $countFollow = $this->companyUpdateQuantityFollowed($emp_id, $deleted);
             try {
@@ -275,7 +274,7 @@ class CompanyController extends Controller
                 $objFollow = new Follows();
                 $objFollow->where($wheres)->update(['followed_info.deleted' => !$deleted]);
             } catch(\Exception $ex){}
-            if($deleted) {
+            if ($deleted) {
                 $output.= '<a class="btn btn-default unfollowed" id="followed">Following<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
             } else {
                 $output.= '<a class="btn btn-default" id="followed">Follow ('.$countFollow.')
@@ -301,7 +300,7 @@ class CompanyController extends Controller
         ]);
 
         $arrResponse = $this->storeReview($data, $req->emp_id);
-        if($arrResponse->getData()->error) {
+        if ($arrResponse->getData()->error) {
             return redirect()->back()
                          ->with('message', $arrResponse->getData()->message);
         }
@@ -327,7 +326,7 @@ class CompanyController extends Controller
                                     <h3 class='short-title'>$rv->title</h3>
                                     <div class='stars-and-recommend'>
                                         <span class='rating-stars-box'>$rating</span>";
-            if($rv->recommend == 1) {
+            if ($rv->recommend == 1) {
                 $output.= '<span class="recommend"><i class="fa fa-thumbs-o-up"></i> Recommend</span>';
             }else{
                 $output.= '<span class="recommend"><i class="fa fa-thumbs-o-down"></i>UnRecommend</span>';
@@ -348,7 +347,7 @@ class CompanyController extends Controller
                         <p>'.$rv->suggests.'</p>
                     </div>
                 </div>
-            </div></div>';                                          
+            </div></div>';
         }
         return $output;
     }

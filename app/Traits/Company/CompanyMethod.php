@@ -137,8 +137,7 @@ trait CompanyMethod
                 'deleted' => 0
             ],
             'status' => 0
-         ];
-
+        ];
         try {
             $this->formatInputToSave($arrInsert);
              return $emp->insert($arrInsert);
@@ -172,6 +171,44 @@ trait CompanyMethod
         } catch(\Exception $ex) { return $ex->getMessages(); }
 
         return true;
+    }
+
+    public function getJobOfByCompany($empId = null) {
+        if (is_null($empId) || empty($empId)) {
+            return;
+        }
+        $listJob = Job::with('user', 'applications')
+                        ->where('employer_id', $empId)
+                        ->where(function($q) {
+                            $q->orWhere('status', 1);
+                            $q->orWhere('status', 11);
+                        })->get();
+
+        return $listJob;
+    }
+
+    public function getReviewOfCompany($empId = null) {
+        if (is_null($empId) || empty($empId)) {
+            return;
+        }
+
+        $listReviews = Employers::select('reviews')
+                        ->where('_id', $empId)
+                        ->first();
+        return $listReviews;
+    }
+
+    public function getReviewTodayOfCompany($empId = null, $today = null) {
+        $arrReviews = $this->getReviewOfCompany($empId);
+        if ( is_null($today) || empty($arrReviews['reviews'])) {
+            return;
+        }
+        $result = [];
+        foreach ($arrReviews['reviews'] as $key => $value) {
+            if($value['reviewed_at'] < $today) continue;
+            $result[] = $value;
+        }
+        return $result;
     }
 
 }

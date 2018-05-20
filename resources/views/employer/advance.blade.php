@@ -3,7 +3,7 @@
 Manage Advance
 @endsection
 @section('empcontent')
-<div  ng-controller="EmpMngController" ng-init="load({{$empid}})">
+<div  ng-controller="EmployerManagerController" ng-init="load({{$empid}})">
 	<div class="emp-section" id="emp-info">
 		<div class="info-ct">
 			<h1>Your employer's infomation</h1>

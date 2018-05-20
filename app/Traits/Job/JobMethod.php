@@ -3,6 +3,7 @@
 namespace App\Traits\Job;
 
 use App\Employers;
+use App\Applications
 use MongoDB\BSON\UTCDateTime;
 use Auth;
 use App\Job;
@@ -19,35 +20,6 @@ trait JobMethod
         		'message' => 'Bạn đã apply công việc này rồi'
         	], 500);
     	}
-	}
-
-	protected function saveApplication($data) {
-		$objJob = new Job();
-		$filename = "";
-		if(!empty($data['new_cv'])) {
-            $cv = $data['new_cv'];
-            $filename = $cv->getClientOriginalName();
-            $cv->move('uploads/emp/cv/', $filename);
-        }
-
-		$arrData = [
-			'user_id' => Auth::check() ? Auth::id() : 0,
-			'fullname' => $data['fullname'],
-			'email' => $data['email'],
-			'note' => $data['note'],
-			'cv' => $filename
-		];
-       	if ($objJob->where('_id', $data['job_id'])->push('apply_info', $arrData)) {
-       		return  response()->json([
-		    		'message' => 'Save application successful',
-		    		'error' => false
-		    	], 200);
-       	}
-
-        return  response()->json([
-			    		'message' => 'Can NOT Save application',
-			    		'error' => true
-			    	], 500);
 	}
 
 	protected function userSaveFollowJob($userId, $jobId) {
@@ -89,5 +61,13 @@ trait JobMethod
 	            'quantity_user_follow' => intval($job['quantity_user_follow'] + $amount)
         	]);
 		} catch(\Exception $ex){}
+	}
+
+	public function getCompanyByJob($jobId = null) {
+		if (is_null($jobId) || empty($jobId)) {
+			return;
+		}
+
+		return Job::select('employer_id')->where('_id', $jobId)->first();
 	}
 }

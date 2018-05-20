@@ -3,6 +3,7 @@
 namespace App\Traits\User;
 
 use App\User;
+use App\Job;
 use Hash;
 
 trait UserMethod {
@@ -27,5 +28,4 @@ trait UserMethod {
 
 		return false;
 	}
-
 }

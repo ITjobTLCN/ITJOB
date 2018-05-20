@@ -27,19 +27,27 @@ use Session;
 use App\Notifications\ConfirmAssistant;
 use App\Notifications\ConfirmPost;
 use App\Notifications\NotifyNewPost;
+use App\Traits\Company\CompanyMethod;
+use App\Traits\User\ApplyMethod;
 
 class EmployerController extends Controller
 {
-	 /*Function change from name to alias and remove Vietnamese*/
+    use CompanyMethod, ApplyMethod;
+
+	/**
+     * Function change from name to alias and remove Vietnamese
+     */
     public function changToAlias($str) {
     	$str = strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
         $str =   str_replace('?', '',strtolower($str));
         return  str_replace(' ', '-',strtolower($str));
     }
+
 	//Load trang
    	public function getIndex() {
         return redirect()->route('getEmpBasic');
     }
+
    	public function getAdvance() {
         $empid = Auth::user()->emp_id;
    		return view('employer.advance', compact('empid'));
@@ -86,6 +94,7 @@ class EmployerController extends Controller
 	}
 
 		/*CONFIRM/DENY pending Employee*/
+
     public function ngGetConfirmAss($id,$user_id) {	//id: employer_id 
         try {
             $user = User::findOrFail($user_id);
@@ -111,11 +120,12 @@ class EmployerController extends Controller
             return response()->json(['status' => true, 
                                      'message' => 'Confirm Successfully', 
                                      'assis' => $assis]);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false,
                                      'message' => 'Confirm failed']);
         }
     }
+
     public function ngGetDenyAss($id, $user_id) {
         try {
             $user = User::findOrFail($user_id);
@@ -137,7 +147,7 @@ class EmployerController extends Controller
             return response()->json(['status' => true, 
                                      'message' => 'Deny Successfully', 
                                      'assis' => $assis]);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false,
                                      'message' => 'Deny failed']);
         }
@@ -163,7 +173,7 @@ class EmployerController extends Controller
 
             //xóa các skill cũ -> add lại skill mới
             Skill_employer::where('emp_id', $id)->delete();
-            if(sizeof($request->skills) > 0) {
+            if (sizeof($request->skills) > 0) {
                 foreach($request->skills as $skill) {
                     $ski = new Skill_employer();
                     $ski->emp_id = $id;
@@ -174,7 +184,7 @@ class EmployerController extends Controller
             return response()->json(['status' => true, 
                                         'message' => 'Update Successfully']);
             
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false, 
                                         'message' => 'Failed']);
         }
@@ -191,26 +201,26 @@ class EmployerController extends Controller
                                 following type:jpg, jpeg, bmp, png');
         }
         // dd($request->all());
-        if(Input::hasfile('file') && $empid && $type) {
+        if (Input::hasfile('file') && $empid && $type) {
             try {
                 $file = Input::file('file');
                 //get extension of a image
                 $file_extension = File::extension($file->getClientOriginalName());
                 $employer = Employers::findOrFail($empid);
 
-                if($type ==1 ) {
+                if ($type ==1 ) {
                     $filename = "cover_employer_".$empid.".".$file_extension;
                     $file->move('uploads/emp/cover', $filename);
                     $employer->cover = $filename;
                 } else {
-                    if($type == 2) {
+                    if ($type == 2) {
                         $filename = "logo_employer_".$empid.".".$file_extension;
                         $file->move('uploads/emp/logo', $filename);
                         $employer->logo = $filename;
                     }
                 }
                 $employer->save();
-            }catch(\Exception $e) {
+            } catch(\Exception $e) {
                     return redirect()->back()->withErrors('Error while save!');
             }
         }else{
@@ -218,7 +228,10 @@ class EmployerController extends Controller
         }
         return redirect()->back()->with(['message' => 'Change successful!']);
     }
-    /*function get list assistant by EmployerId*/
+
+    /**
+     * function get list assistant by EmployerId
+     */
    	public function ngGetAssistantByEmpId($id) {
         $assis = Registration::where('registration.emp_id',$id)
                              ->where(function($q) {
@@ -228,84 +241,74 @@ class EmployerController extends Controller
                                 })
                              ->join('users','users.id', '=', 'registration.user_id')
                              ->select('users.*', 'registration.*')
-                             ->get();	
+                             ->get();
 		return ['assis' => $assis];
 	}
-    /*function get user by id*/
+
+    /**
+     * function get user by id
+     */
     public function getUser($id) {
         return User::findOrFail($id);
     }
 
-
    	/*------------------------------END TRANG QUẢN TRỊ-----------------------------*/
 
-
-    /*----------------BASIC:Dashboar và post bài + quản lý bài mình post-----------*/
+    /**
+     * BASIC:Dashboar và post bài + quản lý bài mình post
+     */
     public function getEmpBasic() {
-        $empid = Employers::whereIn('employee', [Auth::id()])->first();
-        return view('employer.basic', compact('empid'));
+        $employer = Employers::whereIn('employee', [Auth::id()])->first();
+        return view('employer.basic', compact('employer'));
     }
-        /*-----Get data when load page Basic----------*/
-    public function ngGetBasic($id) {
-        //chung
+
+    /**
+     * Get data when load page Basic
+     */
+    public function ngGetBasic($empId) {
         $cities = Cities::all();
         $skills = Skills::all();
-        $emp = Employers::findOrFail($id);
-        $today = Carbon::today();
+        $emp = Employers::findOrFail($empId);
+        $today = Carbon::now()->startOfDay();
         //riêng
-        $myposts = Job::with('applications')
-                      ->where('user_id', Auth::user()->id)
+        $myPosts = Job::with('applications')
+                      ->where('user_id', Auth::id())
                       ->orderBy('created_at', 'desc')
                       ->get();
-
         //Dashboard
         //posts
-        $posts = Job::with('user','applications')
-                    ->where('emp_id',$id)
-                    ->where(function($q) {
-                            $q->orWhere('status', 1);
-                            $q->orWhere('status', 11);
-                        })
-                    ->get();
-        $posttoday = Job::where('emp_id',$id)
-                        ->where('status',1)
-                        ->where('created_at', '>', $today)
+        $listPost = $this->getJobOfByCompany($empId);
+        $postToday = Job::where('employer_id', $empId)
+                        ->where('status', 1)
+                        ->where(['created_at' => ['$lte' => $today]])
                         ->get();
-        $countposttoday = $posttoday->count();
-            //applications
-        $applis = Applications::join('job', 'applications.job_id', '=', 'job.id')
-                              ->where('job.emp_id', $id)
-                              ->where('applications.status', 1)
-                              ->select('applications.*', 'job.name as jobname')
-                              ->get();
-        $applitoday = Applications::where('status', 1)
-                                  ->where('created_at', '>', $today)
-                                  ->get();
-        $countapplitoday = $applitoday->count();
-            //reviews
-        $reviews = Reviews::with('user')
-                          ->where('emp_id', $id)
-                          ->get();
-        $reviewtoday = Reviews::where('created_at', '>', $today)->get();
-        $countreviewtoday = $reviewtoday->count();
+        //applications
+        $listApply = $this->getApplicationByCompany($empId);
+        //reviews
+        $reviews = $this->getReviewOfCompany($empId);
+        $reviewToday = $this->getReviewTodayOfCompany($empId, $today);
             //follow
-        $follows = Follow_employers::with('user')
-                                   ->where('emp_id', $id)
-                                   ->get();
-
-        return response()->json(['cities' => $cities, 
-                                'skills' => $skills, 
-                                'myposts' => $myposts,
-                                'countposttoday' => $countposttoday,
-                                'countapplitoday' => $countapplitoday,
-                                'countreviewtoday' => $countreviewtoday,
+        // $follows = Follow_employers::with('user')
+        //                            ->where('emp_id', $id)
+        //                            ->get();
+        $follows = [];
+        $listApplyToday = $this->getApplicationByCompany($empId, $today);
+        return response()->json(['cities' => $cities,
+                                'skills' => $skills,
+                                'myPosts' => $myPosts,
+                                'countPostToday' => count($postToday),
+                                'countApplyToday' => count($listApplyToday),
+                                'countReviewToday' => count($reviewToday),
                                 'follows' => $follows,
-                                'posts' => $posts, 
-                                'applis '=> $applis,
+                                'posts' => $listPost,
+                                'applies'=> $listApply,
                                 'reviews' => $reviews,
                                 'emp' => $emp]);
     }
-        /*--------------------------Create a job (post)---------------------*/
+
+    /**
+     * Create a job (post)
+     */
     public function ngCreatePost(Request $request, $empid) {
         $user_id = Auth::user()->id;
         /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
@@ -313,18 +316,18 @@ class EmployerController extends Controller
             $job = new Job();
             $job->name = $request->job['name'];
             $job->alias = $this->changToAlias($request->job['name']);
-            if(!empty($request->job['salary']))
+            if ( !empty($request->job['salary']))
                 $job->salary = $request->job['salary'];
-            if(!empty($request->job['description']))
+            if ( !empty($request->job['description']))
                 $job->description = $request->job['description'];
-            if(!empty($request->job['require']))
+            if ( !empty($request->job['require']))
                 $job->require = $request->job['require'];
-            if(!empty($request->job['treatment']))
+            if ( !empty($request->job['treatment']))
                 $job->treatment = $request->job['treatment'];
-            if(!empty($request->job['quantity']))
+            if ( !empty($request->job['quantity']))
                 $job->quantity = $request->job['quantity'];
 
-            if(!empty($request->job['date_expire'])) {
+            if ( !empty($request->job['date_expire'])) {
                 // $date =strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
                 //Loại bỏ cái trong ngoặc (Altai Standard Time)
                 $substr = substr($request->job['date_expire'],0,strpos($request->job['date_expire'],"("));
@@ -342,7 +345,7 @@ class EmployerController extends Controller
 
             //xóa các skill cũ -> add lại skill mới
             Skill_job::where('job_id', $job->id)->delete();
-            if(sizeof($request->skills)>0) {
+            if (sizeof($request->skills) > 0) {
                 foreach($request->skills as $skill) {
                     $ski = new Skill_job();
                     $ski->job_id = $job->id;
@@ -351,7 +354,7 @@ class EmployerController extends Controller
                 }
             }
             return response()->json(['status' => true, 'message' => 'Saved post']);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to save this post']);
         }
     }
@@ -365,18 +368,18 @@ class EmployerController extends Controller
 
             $job->name = $request->job['name'];
             $job->alias = $this->changToAlias($request->job['name']);
-            if(!empty($request->job['salary']))
+            if ( !empty($request->job['salary']))
                 $job->salary = $request->job['salary'];
-            if(!empty($request->job['description']))
+            if ( !empty($request->job['description']))
                 $job->description = $request->job['description'];
-            if(!empty($request->job['require']))
+            if ( !empty($request->job['require']))
                 $job->require = $request->job['require'];
-            if(!empty($request->job['treatment']))
+            if ( !empty($request->job['treatment']))
                 $job->treatment = $request->job['treatment'];
-            if(!empty($request->job['quantity']))
+            if ( !empty($request->job['quantity']))
                 $job->quantity = $request->job['quantity'];
 
-            if(!empty($request->job['date_expire'])) {
+            if ( !empty($request->job['date_expire'])) {
                 // $date =strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
                 //Loại bỏ cái trong ngoặc (Altai Standard Time)
                 $substr = substr($request->job['date_expire'], 0, strpos($request->job['date_expire'], "("));
@@ -387,7 +390,7 @@ class EmployerController extends Controller
             $job->city_id = $request->job['city_id'];
 
             //check user và emp
-            if($job->emp_id != $empid || $job->user_id != $user_id) {
+            if ($job->emp_id != $empid || $job->user_id != $user_id) {
                 return response()->json(['status' => false,'message' => 'Employer or User is invalid']);
             }
 
@@ -397,7 +400,7 @@ class EmployerController extends Controller
 
             //xóa các skill cũ -> add lại skill mới
             Skill_job::where('job_id', $job->id)->delete();
-            if(sizeof($request->skills) > 0) {
+            if (sizeof($request->skills) > 0) {
                 foreach($request->skills as $skill) {
                     $ski = new Skill_job();
                     $ski->job_id = $job->id;
@@ -407,11 +410,14 @@ class EmployerController extends Controller
             }
 
             return response()->json(['status' => true, 'message' => 'Saved post']);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to save this post']);
         }
     }
-        /*------------------Get post by id---------------*/
+
+    /**
+     * Get post by id
+     */
     public function ngGetPost($id) {
         $post = Job::findOrFail($id);
         //post's skills
@@ -421,28 +427,33 @@ class EmployerController extends Controller
                                 ->get();
         return response()->json(['post' => $post, 'postskills' => $postskills]);
     }
-        /*-----------------Trash and Push posts--------------------*/
+
+    /**
+     * Trash and Push posts
+     */
     public function ngTrashPost($id) {
         try {
             $post = Job::findOrFail($id);
             $post->status = 2;
             $post->save();
             return response()->json(['status' => true, 'message' => 'Moved post to trash']);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to delete']);
         }
     }
+
     public function ngPushPost($id) {
         try {
             $post = Job::findOrFail($id);
             $post->status = 10;
             $post->save();
             return response()->json(['status' => true, 'message' => 'Pushed and waiting to confirm']);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to push']);
         }
     }
         /*--------------Confirm/Deny posts-------------------------*/
+
     public function ngConfirmPost($id) {
         try {
             $post = Job::findOrFail($id);
@@ -458,10 +469,11 @@ class EmployerController extends Controller
             }
 
             return response()->json(['status' => true, 'message' => 'Confirm Successfully']);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Confirm failed']);
         }
     }
+
     public function ngDenyPost($id) {
         try {
             $post = Job::findOrFail($id);
@@ -473,12 +485,10 @@ class EmployerController extends Controller
             $post->user->notify(new ConfirmPost($post,false));
 
             return response()->json(['status' => true, 'message' => 'Deny Successfully']);
-        }catch(Exception $e) {
+        } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Deny failed']);
         }
     }
-
-
 
     /*
     |                   SEND EMAIL TO CANDIDATE AND SET UP DATE: 

@@ -8,11 +8,11 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 class Job extends Eloquent
 {
     use SoftDeletes;
-    protected $dates = ['deleted_at', 'created_at'];
+    protected $dates = ['deleted_at'];
     private $id;
     protected $collection = 'job';
     protected $fillable = [
-        "name", "alias", "user_id", "emp_id", "city_id"
+        "name", "alias", "user_id", "employer_id", "city"
     ];
     public function cv() {
         return $this->belongsToMany('App\CV','applies','job_id','cv_id');

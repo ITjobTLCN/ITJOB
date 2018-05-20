@@ -19,10 +19,11 @@ use MongoDB\BSON\UTCDateTime;
 use App\Traits\AliasTrait;
 use App\Traits\LatestMethod;
 use App\Traits\Job\JobMethod;
+use App\Traits\User\ApplyMethod;
 use App\Traits\CommonMethod;
 class JobsController extends Controller
 {
-    use CommonMethod, AliasTrait, LatestMethod, JobMethod;
+    use CommonMethod, AliasTrait, LatestMethod, JobMethod, ApplyMethod;
 
     public function getIndex(Request $req, $limit = 20, $offset = 0) {
         $listJobLastest = [];
@@ -368,7 +369,7 @@ class JobsController extends Controller
         $employer = $job->employer;
 
         Auth::check() ?
-            $user = Auth::user() 
+            $user = Auth::user()
             : $user = new User();
         $topJob = $this->getTopJobs();
         return view('layouts.apply', compact('user', 'job', 'employer', 'topJob'));
@@ -383,7 +384,7 @@ class JobsController extends Controller
         $data = $req->only([
             'job_id', 'fullname', 'email', 'new_cv', 'note'
         ]);
-        $arrResponse = $this->saveApplication($req, $data);
+        $arrResponse = $this->saveApplication($data);
 
         return redirect()->back()
                 ->with(['message' => $arrResponse->getData()->message]);
