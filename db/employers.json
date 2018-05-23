@@ -38,12 +38,6 @@
             "name" : "Java"
         }
     ], 
-    "reviews" : [
-
-    ], 
-    "follow_info" : [
-
-    ], 
     "rating" : "0.0", 
     "quantity_job" : {
         "hirring" : NumberInt(1), 
@@ -95,12 +89,6 @@
             "_id" : "5ac85f52b9068c2384007da1", 
             "name" : "Java"
         }
-    ], 
-    "reviews" : [
-
-    ], 
-    "follow_info" : [
-
     ], 
     "rating" : "0.0", 
     "quantity_job" : {
@@ -213,9 +201,6 @@
             "reviewed_by" : "phong.kelvin168@gmail.com"
         }
     ], 
-    "follow_info" : [
-
-    ], 
     "rating" : "3.5", 
     "quantity_job" : {
         "hirring" : NumberInt(1), 
@@ -259,12 +244,6 @@
             "_id" : "5ac85f52b9068c2384007da1", 
             "name" : "Java"
         }
-    ], 
-    "reviews" : [
-
-    ], 
-    "follow_info" : [
-
     ], 
     "rating" : "0.0", 
     "quantity_job" : {

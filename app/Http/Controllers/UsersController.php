@@ -84,7 +84,8 @@ class UsersController extends Controller
                 } catch(\Exception $e) {
                      return $e->getMessage();
                 }
-                //event(new SendMail($user));
+                $user = User::where('email', $data['email'])->first();
+                dispatch(new \App\Jobs\SendMail($user));
                 return response()->json([
                     'error' => false,
                     'message'=>'Tạo thành công tài khoản'

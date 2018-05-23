@@ -10,7 +10,7 @@ use App\User;
 class VerifyRegister extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+    protected $user;
     /**
      * Create a new message instance.
      *
@@ -19,7 +19,7 @@ class VerifyRegister extends Mailable
     public function __construct(User $user)
     {
         //
-        $this->user=$user;
+        $this->user = $user;
     }
 
     /**

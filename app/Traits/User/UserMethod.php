@@ -14,14 +14,13 @@ trait UserMethod {
 			'email' => $data['email'],
 			'name' => $data['name'],
 			'password' => Hash::make($data['password']),
-			'role_id' => 1,
+			'role_id' => config('constant.roles.candidate'),
 			'avatar' => 'default.jpg'
 		];
+		$this->formatInputToSave($arrData);
 		$objUser = new User();
-
 		try {
-			$this->formatInputToSave($arrData);
-			$objUser->insert($arrData);
+			return $objUser->insert($arrData);
 		} catch(\Exception $e) {
 			return $e->getMessage();
 		}

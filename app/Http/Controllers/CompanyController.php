@@ -361,6 +361,7 @@ class CompanyController extends Controller
     }
     public function getDemo(Request $req)
     {
+        dispatch(new \App\Jobs\SendMail(Auth::user()));
         return " ok";
     }
  }
