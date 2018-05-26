@@ -5,6 +5,7 @@ use MongoDB\BSON\UTCDateTime;
 use App\Follows;
 use Auth;
 use App\Cities;
+use App\Skills;
 use Cache;
 
 trait CommonMethod {
@@ -40,5 +41,13 @@ trait CommonMethod {
         $str = strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
         $str =   str_replace('?', '',strtolower($str));
         return  str_replace(' ', '-',strtolower($str));
+    }
+
+    protected function getAllSkills() {
+        $locations = Cache::remember('listSkill', config('constant.cacheTime'), function() {
+            return Skills::all();
+        });
+
+        return $locations;
     }
 }

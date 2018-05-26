@@ -367,7 +367,6 @@ class JobsController extends Controller
             return view('errors.404');
         }
         $employer = $job->employer;
-
         Auth::check() ?
             $user = Auth::user()
             : $user = new User();
@@ -377,7 +376,7 @@ class JobsController extends Controller
 
     public function applyJob(Request $req) {
         $checkAlreadyApply = $this->checkUserAlreadyApply($req->email, $req->job_id);
-        if($checkAlreadyApply->getData()->error) {
+        if (!is_null($checkAlreadyApply) && $checkAlreadyApply->getData()->error) {
             return redirect()->back()
                             ->with(['message' => $checkAlreadyApply->getData()->message]);
         }

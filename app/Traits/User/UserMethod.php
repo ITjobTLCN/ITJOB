@@ -5,6 +5,7 @@ namespace App\Traits\User;
 use App\User;
 use App\Job;
 use Hash;
+use Auth;
 
 trait UserMethod {
 
@@ -26,5 +27,18 @@ trait UserMethod {
 		}
 
 		return false;
+	}
+
+	public function listPostOfUser()
+	{
+		$listPost = [];
+		if (Auth::check()) {
+			$listPost = Job::with('applications')
+	                      ->where('user_id', Auth::id())
+	                      ->orderBy('_id', 'desc')
+	                      ->get();
+		}
+
+        return $listPost;
 	}
 }

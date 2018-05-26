@@ -7,6 +7,7 @@ use App\Job;
 use App\Applications;
 use Hash;
 use MongoDB\BSON\UTCDateTime;
+use Auth;
 
 trait ApplyMethod {
 	protected function saveApplication($data) {
@@ -26,11 +27,10 @@ trait ApplyMethod {
 			'cv' => $filename,
 			'created_at' => new UTCDateTime(round(microtime(true) * 1000))
 		];
-		$empId = $this->getCompanyByJob($data['job_id']);
-		if ( !empty($empId)) {
-			$data['employer_id'] = $empId;
+		$job = Job::where('_id', $data['job_id'])->first();
+		if ( !empty($job)) {
+			$arrData['employer_id'] = $job['employer_id'];
 		}
-
 		$objApplication = new Applications();
 		$id = $objApplication->insert($this->formatInputToSave($arrData));
        	if ( !empty($id)) {
@@ -50,11 +50,11 @@ trait ApplyMethod {
 		if (is_null($empId) || empty($empId)) return;
 		$arrWheres = [
 			'employer_id' => $empId,
-			'delete' => false
+			'deleted' => false
 		];
 		if ( !is_null($today)) {
 			$arrWheres['created_at'] = [
-				'$eq' => $today
+				'$lte' => $today
 			];
 		}
 

@@ -361,7 +361,25 @@ class CompanyController extends Controller
     }
     public function getDemo(Request $req)
     {
-        dispatch(new \App\Jobs\SendMail(Auth::user()));
-        return " ok";
+        $temp = ["name", "code", "ip"];
+        $data = [
+            "_id" => "1",
+            "name" => "a, b, c",
+            "code" => "1, 2, 3",
+            "ip" => "123, 456, 789"
+        ];
+        $arrname = [];
+        foreach ($temp as $key => $value) {
+            $arrname[] = explode(", ", $data[$value]);
+        }
+        $k = 0;
+        for ($i = 0; $i < count($arrname[0]); $i++) {
+            $result[$k] = [];
+            foreach ($arrname as $key => $value) {
+                array_push($result[$k], $arrname[$key][$i]);
+            }
+            $k++;
+        }
+        dd($result);
     }
  }

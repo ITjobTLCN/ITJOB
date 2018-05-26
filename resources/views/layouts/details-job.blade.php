@@ -1,6 +1,6 @@
-@extends('layouts.master') 
-@section('title') {{$job['name']}} at {{$job->employer['name']}} 
-@endsection 
+@extends('layouts.master')
+@section('title') {{$job['name']}} at {{$job->employer['name']}}
+@endsection
 @section('body.content')
 <div class="job-details" ng-controller="SkillsController">
     <section class="main-content container">
@@ -113,7 +113,6 @@
         										@else <a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
         										@endif
         									</strong>
-   
         									</span>
                                         </div>
                                         <div class="row">

@@ -3,18 +3,24 @@
 namespace App\Traits\Job;
 
 use App\Employers;
-use App\Applications
+use App\Applications;
 use MongoDB\BSON\UTCDateTime;
 use Auth;
 use App\Job;
 use App\Follows;
+use Carbon\Carbon;
+
 trait JobMethod
 {
 	protected function checkUserAlreadyApply($email, $jobId) {
-		$temp = Job::where('_id', $jobId)
-					->where('apply_info.email', $email)
-                    ->first();
-        if(!empty($temp)) {
+		$arrWhere = [
+			'_id' => $jobId,
+			'apply_info' => [
+				'email' => $email
+			]
+		];
+		$temp = Job::where($arrWhere)->first();
+        if (!empty($temp)) {
         	return response()->json([
         		'error' => true,
         		'message' => 'Bạn đã apply công việc này rồi'
@@ -69,5 +75,22 @@ trait JobMethod
 		}
 
 		return Job::select('employer_id')->where('_id', $jobId)->first();
+	}
+
+	public function getJobsToday($empId)
+	{
+		$today = Carbon::now()->startOfDay();
+		$arrWhere = [
+			'employer_id' => $empId,
+			'deleted' => false,
+			'created_at' => [
+				'$lte' => $today
+			]
+		];
+
+		$objJob = new Job();
+		$objJob = Job::where($arrWhere)->get();
+
+		return $objJob;
 	}
 }

@@ -14,7 +14,7 @@ Manage Basic
 	                                <i class="fa fa-newspaper-o fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><% count(options['posts']) %><span class="huge-new">(<%options['countPostToday']%> new)</span>
+	                                <div class="huge"><% options['posts'].length %><span class="huge-new">(<%options['countPostToday']%> new)</span>
 	                                </div>
 	                                <div>Post!</div>
 	                            </div>
@@ -37,7 +37,7 @@ Manage Basic
 	                                <i class="fa fa-file-code-o fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><% count(options['applies'])%><span class="huge-new">(<% options['countApplyToday'] %> new)</span></div>
+	                                <div class="huge"><% options['applies'].length %><span class="huge-new">(<% options['countApplyToday'] %> new)</span></div>
 	                                <div>Application!</div>
 	                            </div>
 	                        </div>
@@ -59,7 +59,7 @@ Manage Basic
 	                                <i class="fa fa-list-ul fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><% count(options['reviews']) %><span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
+	                                <div class="huge">{{count($employer['reviews'])}}<span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
 	                                <div>Review!</div>
 	                            </div>
 	                        </div>
@@ -97,7 +97,7 @@ Manage Basic
 	            </div>
 	            <div class="col-md-12" >
 	            	<table class="table table-bordered table-striped table-responsive"
-	            	ng-if="expendflag==true && expendtype=='post'">
+	            	ng-if="expendFlag && expendType == 'post'">
 	            		<thead >
 	            			<tr class="info">
 	            				<th>Title</th>
@@ -109,12 +109,12 @@ Manage Basic
 	            		</thead>
 	            		<tbody>
 	            			<tr dir-paginate="post in options['posts']|orderBy:created_at:true|itemsPerPage:5" pagination-id="post">
-	            				<td><a href=""><%post.name%></a></td>
-	            				<td><%post.user.name%></td>
-	            				<td><%post.created_at%></td>
-	            				<td><%post.date_expire%></td>
-	            				<td><%post.applications.length%>/<%post.quantity%>
-									<span ng-if="post.quantity==null">all</span></td>
+	            				<td><a href=""><% post.name %></a></td>
+	            				<td><% post.user.name %></td>
+	            				<td><% post.created_at %></td>
+	            				<td><% post.date_expire %></td>
+	            				<td><% post.applications.length %>/<% post.detail.quantity %>
+									<span ng-if="post.detail.quantity == null">all</span></td>
 	            			</tr>
 	            			<tr>
 	            				<td colspan="100%" class="text-center">
@@ -127,7 +127,7 @@ Manage Basic
 	            			</tr>
 	            		</tbody>
 	            	</table>
-	            	<table class="table table-bordered table-striped table-responsive" ng-if="expendflag==true && expendtype=='apply'">
+	            	<table class="table table-bordered table-striped table-responsive" ng-if="expendFlag && expendType == 'apply'">
 	            		<thead >
 	            			<tr class="info">
 	            				<th>Name</th>
@@ -139,11 +139,11 @@ Manage Basic
 	            		</thead>
 	            		<tbody>
 	            			<tr dir-paginate="apply in options['applies']|orderBy:created_at:true|itemsPerPage:5" pagination-id="application">
-	            				<td><%apply.name%></td>
-	            				<td><%apply.email%></td>
-	            				<td><%apply.created_at%></td>
-	            				<td><%apply.jobname%></td>
-	            				<td><a href=""><%apply.cv%></a></td>
+	            				<td><% apply.fullname %></td>
+	            				<td><% apply.email %></td>
+	            				<td><% apply.created_at %></td>
+	            				<td><% apply.jobname %></td>
+	            				<td><a href=""><% apply.cv %></a></td>
 	            			</tr>
 	            			<tr>
 	            				<td colspan="100%" class="text-center">
@@ -156,7 +156,7 @@ Manage Basic
 	            			</tr>
 	            		</tbody>
 	            	</table>
-	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendflag==true && expendtype=='review'">
+	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendFlag==true && expendType=='review'">
 	            		<thead >
 	            			<tr class="info">
 	            				<th>User</th>
@@ -187,7 +187,7 @@ Manage Basic
 	            			</tr>
 	            		</tbody>
 	            	</table>
-	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendflag==true && expendtype=='follow'">
+	            	<table class="table table-bordered table-striped table-responsive"  ng-if="expendFlag==true && expendType=='follow'">
 	            		<thead >
 	            			<tr class="info">
 	            				<th>User</th>
@@ -213,7 +213,7 @@ Manage Basic
 	            </div>
 	            <div class="row text-right">
 	            	<div class="col-md-12">
-	            		<button type="button" ng-show="expendflag==true" ng-click="expendflag=false" class="">Close</button>
+	            		<button type="button" ng-show="expendFlag == true" ng-click="expendFlag = !expendFlag" class="btn btn-danger">Close</button>
 	            	</div>
 	            </div>
 	        </div>

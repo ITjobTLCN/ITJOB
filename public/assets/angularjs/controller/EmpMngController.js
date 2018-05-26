@@ -425,8 +425,8 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	/*-----------FOR DASHBOARD--------------*/
 	$scope.expend = function(type) {
-		$scope.expendflag = true;
-		$scope.expendtype = type;
+		$scope.expendFlag = true;
+		$scope.expendType = type;
 	}
 
 	/*S---------FOR EMAIL------------------*/

@@ -192,22 +192,45 @@ trait CompanyMethod
             return;
         }
 
-        $listReviews = Employers::select('reviews')
-                        ->where('_id', $empId)
-                        ->first();
-        return $listReviews;
+        $employer = Employers::where('_id', $empId)->first();
+        if (empty($employer['reviews'])) {
+            return;
+        }
+        return $employer['reviews'];
     }
 
     public function getReviewTodayOfCompany($empId = null, $today = null) {
-        $arrReviews = $this->getReviewOfCompany($empId);
-        if ( is_null($today) || empty($arrReviews['reviews'])) {
+        $listReview = $this->getReviewOfCompany($empId);
+        if ( is_null($today) || empty($listReview)) {
             return;
         }
         $result = [];
-        foreach ($arrReviews['reviews'] as $key => $value) {
-            if($value['reviewed_at'] < $today) continue;
-            $result[] = $value;
+        foreach ($listReview as $key => $item) {
+            if($item['reviewed_at'] < $today) continue;
+
+            $result[] = $item;
         }
+
+        return $result;
+    }
+
+    public function getFollow($empId) {
+        if (is_null($empId) || empty($empId)) {
+            return;
+        }
+        $result = [];
+        $arrWhere = [
+            'type' => 'company',
+            'followed_info' => [
+                '_id' => $empId,
+                'deleted' => false
+            ]
+        ];
+        $listFollowed = Follows::where($arrWhere)->get();
+        if ( !empty($listFollowed)) {
+            $result = $listFollowed;
+        }
+
         return $result;
     }
 

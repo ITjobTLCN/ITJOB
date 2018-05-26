@@ -9,6 +9,7 @@ use App\Registration;
 use Auth;
 use App\User;
 use App\Follow_employers;
+use App\Follows;
 use App\Applications;
 use App\Employers;
 use App\Skills;
@@ -29,10 +30,13 @@ use App\Notifications\ConfirmPost;
 use App\Notifications\NotifyNewPost;
 use App\Traits\Company\CompanyMethod;
 use App\Traits\User\ApplyMethod;
+use App\Traits\CommonMethod;
+use App\Traits\User\UserMethod;
+use App\Traits\Job\JobMethod;
 
 class EmployerController extends Controller
 {
-    use CompanyMethod, ApplyMethod;
+    use CompanyMethod, ApplyMethod, CommonMethod, UserMethod, JobMethod;
 
 	/**
      * Function change from name to alias and remove Vietnamese
@@ -266,33 +270,23 @@ class EmployerController extends Controller
      * Get data when load page Basic
      */
     public function ngGetBasic($empId) {
-        $cities = Cities::all();
-        $skills = Skills::all();
-        $emp = Employers::findOrFail($empId);
+        $cities = $this->getAllCities();
+        $skills = $this->getAllSkills();
         $today = Carbon::now()->startOfDay();
         //riêng
-        $myPosts = Job::with('applications')
-                      ->where('user_id', Auth::id())
-                      ->orderBy('created_at', 'desc')
-                      ->get();
+        $myPosts = $this->listPostOfUser();
         //Dashboard
         //posts
         $listPost = $this->getJobOfByCompany($empId);
-        $postToday = Job::where('employer_id', $empId)
-                        ->where('status', 1)
-                        ->where(['created_at' => ['$lte' => $today]])
-                        ->get();
+        $postToday = $this->getJobsToday($empId);
         //applications
         $listApply = $this->getApplicationByCompany($empId);
+        $listApplyToday = $this->getApplicationByCompany($empId, $today);
         //reviews
         $reviews = $this->getReviewOfCompany($empId);
         $reviewToday = $this->getReviewTodayOfCompany($empId, $today);
-            //follow
-        // $follows = Follow_employers::with('user')
-        //                            ->where('emp_id', $id)
-        //                            ->get();
-        $follows = [];
-        $listApplyToday = $this->getApplicationByCompany($empId, $today);
+        //follow
+        $follows = $this->getFollow($empId);
         return response()->json(['cities' => $cities,
                                 'skills' => $skills,
                                 'myPosts' => $myPosts,
@@ -302,8 +296,8 @@ class EmployerController extends Controller
                                 'follows' => $follows,
                                 'posts' => $listPost,
                                 'applies'=> $listApply,
-                                'reviews' => $reviews,
-                                'emp' => $emp]);
+                                'reviews' => $reviews
+                            ]);
     }
 
     /**
