@@ -25,7 +25,7 @@ trait ApplyMethod {
 			'email' => $data['email'],
 			'note' => $data['note'],
 			'cv' => $filename,
-			'created_at' => new UTCDateTime(round(microtime(true) * 1000))
+			'enable' => true,
 		];
 		$job = Job::where('_id', $data['job_id'])->first();
 		if ( !empty($job)) {
@@ -54,7 +54,7 @@ trait ApplyMethod {
 		];
 		if ( !is_null($today)) {
 			$arrWheres['created_at'] = [
-				'$lte' => $today
+				'$gte' => $today->subDays(2)
 			];
 		}
 

@@ -69,7 +69,7 @@ trait JobMethod
 		} catch(\Exception $ex){}
 	}
 
-	public function getCompanyByJob($jobId = null) {
+	protected function getCompanyByJob($jobId = null) {
 		if (is_null($jobId) || empty($jobId)) {
 			return;
 		}
@@ -77,7 +77,7 @@ trait JobMethod
 		return Job::select('employer_id')->where('_id', $jobId)->first();
 	}
 
-	public function getJobsToday($empId)
+	protected function getJobsToday($empId)
 	{
 		$today = Carbon::now()->startOfDay();
 		$arrWhere = [
@@ -92,5 +92,19 @@ trait JobMethod
 		$objJob = Job::where($arrWhere)->get();
 
 		return $objJob;
+	}
+
+	protected function getRelatedJob($job)
+	{
+		if (is_null($job) || empty($job)) {
+			return [];
+		}
+
+		return Job::with('employer')
+				            ->where('_id', '!=', $job->_id)
+				            ->whereIn('skills_id', $job->skills_id)
+				            ->offset(0)
+				            ->take(config('constant.limit.relatedJob'))
+				            ->get();
 	}
 }

@@ -11,4 +11,12 @@ class Applications extends Eloquent
     protected $dates = ['deleted_at'];
     
     protected $collection = "applications";
+
+    public function employer() {
+        return $this->belongsTo('App\Employers','employer_id','_id');
+    }
+
+    public function job() {
+    	return $this->belongsTo('App\Job', 'job_id', '_id');
+    }
 }

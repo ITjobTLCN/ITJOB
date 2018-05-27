@@ -30,7 +30,7 @@
 						<span class="">@if(date('d-m-Y') == date('d-m-Y', strtotime($ljlt->created_at))) Today @else {{date('d-m-Y', strtotime($ljlt->created_at))}}@endif</span>
 					</div>
 					<div class="job__skill">
-						@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->id) as $key => $s)
+						@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->skills_id) as $key => $s)
 						<a href=""><span>{{$s->name}}</span></a>
 						@endforeach
 					</div>

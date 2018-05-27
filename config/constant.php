@@ -2,9 +2,12 @@
 
 return [
     'cacheTime' => 30,
-    'limitCompany' => 6,
+    'limit' => [
+        'company' => 6,
+        'job' => 20,
+        'relatedJob' => 6
+    ],
     'moreCompany' => 15,
-    'limitJob' => 20,
     'roleEmployer' => [
     	'5ac85f51b9068c2384007d9e',
     	'5ac85f51b9068c2384007d9f'

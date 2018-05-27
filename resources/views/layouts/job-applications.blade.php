@@ -51,7 +51,7 @@ Application Jobs | ITJob
 								<div class="company text-clip">
 									<span class="salary-job">
 										@if(Auth::check())
-										{{$ja->detail['salary']}} $
+										{{ $ja->job['detail']['salary'] }} $
 										@else
 										<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
 										@endif
@@ -60,14 +60,14 @@ Application Jobs | ITJob
 									<span class="">@if(date('d-m-Y') == date('d-m-Y', strtotime($ja->created_at))) Today @else {{date('d-m-Y', strtotime($ja->created_at))}}@endif</span>
 								</div>
 								<div class="job__skill">
-									@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ja->_id) as $key => $s)
-									<a href=""><span>{{$s->name}}</span></a>
+									@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ja->job['skills_id']) as $key => $s)
+									<a href=""><span>{{ $s->name }}</span></a>
 									@endforeach
 								</div>
 							</div>
 							<div class="clearfix"></div>
 						</div>
-					</div>	
+					</div>
 				</div>
 				@endforeach
 			</div>

@@ -12,7 +12,7 @@ trait LatestMethod
             return Employers::orderBy('rating desc')
             				->orderBy('quantity_user_follow desc')
             				->offset(0)
-                        	->take(config('constant.limitCompany'))
+                        	->take(config('constant.limit.company'))
                             ->get();
          });
          return $top_emps;
@@ -26,7 +26,7 @@ trait LatestMethod
             			->orderBy('_id desc')
             			->orderBy('quantity_user_follow desc')
                         ->offset(0)
-                        ->take(config('constant.limitJob'))
+                        ->take(config('constant.limit.job'))
                         ->get();
         });
         return $top_jobs;
@@ -39,7 +39,7 @@ trait LatestMethod
             $listJobLastest = Job::with('employer')->where('status', 1)
                                                     ->orderBy('_id', 'desc')
                                                     ->offset(0)
-                                                    ->take(config('constant.limitJob'))
+                                                    ->take(config('constant.limit.job'))
                                                     ->get();
             Cache::put('listJobLastest', $listJobLastest, config('constant.cacheTime'));
         }

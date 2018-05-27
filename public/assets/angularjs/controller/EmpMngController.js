@@ -35,7 +35,6 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	}
 	/*---------Load page Basic ---------------------------------*/
 	$scope.loadBasic = function(employer) {
-		console.log(employer);
 		$scope.empid = employer['_id'];
 		$scope.job = null;
 		$scope.selection = [];

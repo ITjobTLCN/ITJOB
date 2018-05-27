@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') {{$job['name']}} at {{$job->employer['name']}}
+@section('title') {{ $job['name'] }} at {{ $job->employer['name'] }}
 @endsection
 @section('body.content')
 <div class="job-details" ng-controller="SkillsController">
@@ -88,13 +88,13 @@
                                         <div class="row">
                                             <div class="job-header__info">
                                                 <h1 class="job-title">
-                                                    {{$job['name']}}
+                                                    {{ $job['name'] }}
                                                 </h1>
-                                                <span class="company-name text-lg"><strong>{{$job->employer['name']}}</strong></span>
+                                                <span class="company-name text-lg"><strong>{{ $job->employer['name'] }}</strong></span>
                                                 <div class="block">
                                                     <span title="Address"><i class="fa fa-home" aria-hidden="true"></i></span>
                                                     @foreach($job->employer['address'] as $val)
-                                                        <span class="employer_address">{{$val['detail']}}</span>
+                                                        <span class="employer_address">{{ $val['detail'] }}</span>
                                                     @endforeach
                                                 </div>
                                                 <div class="block">
@@ -103,20 +103,20 @@
                                                 </div>
                                                 <div class="block">
                                                     <span title="Location"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-                                                    <span class="employer-location"> {{$job['city']}}</span>
+                                                    <span class="employer-location"> {{ $job['city'] }}</span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row row-salary">
                                             <span class="tag-salary">Salary: <strong class="">
-        										@if(Auth::check()) {{$job->detail['salary']}}
+        										@if(Auth::check()) {{ $job->detail['salary'] }}
         										@else <a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
         										@endif
         									</strong>
         									</span>
                                         </div>
                                         <div class="row">
-                                            <div ng-init="listSkillJob('{{$job['_id']}}')">
+                                            <div ng-init="listSkillJob('{{ $job['_id'] }}')">
                                                 <span class="tag-skill" title="<% skill.name %>" ng-repeat="skill in skillsjob"><% skill.name %></span>
                                             </div>
                                         </div>
@@ -143,7 +143,7 @@
                             {{-- Job Requirement --}}
                             <h2>Your Skills and Experience</h2>
                             <div id="job-requirement" class="job-info">
-                                {{$job['policy']['required']}}
+                                {{ $job['policy']['required'] }}
                             </div>
                             <h2 class="pull-left">Benifit</h2>
                             <div class="clearfix"></div>
@@ -199,13 +199,13 @@
                                                 <div class="benefit-name">Studying and working with cutting edge technologies.</div>
                                             </div>
                                         </div>
-                                        {{$job['policy']['treatment']}}
+                                        {{ $job['policy']['treatment'] }}
                                     </div>
                                 </div>
                             </div>
                             <h2>Technologies We're using</h2>
                             <div id="Technology">
-                                <div ng-init="listSkillCompanies('{{$job['employer_id']}}')">
+                                <div ng-init="listSkillCompanies('{{ $job['employer_id'] }}')">
                                     <span class="tag-skill" title="<% skill.name %>" ng-repeat="skill in skillsemp"><% skill.name %></span>
                                 </div>
                             </div>
@@ -218,16 +218,16 @@
                     <div class="box">
                         <div class="col-md-12 col-sm-12 employer-logo">
                             <div class="responsive-container box-limit">
-                                <a href="{{route('getEmployers', $job->employer['alias'])}}" target="_blank" title="{{$job->employer['name']}}"><img src="uploads/emp/logo/{{$job->employer['images']['avatar']}}" alt=""></a>
+                                <a href="{{route('getEmployers', $job->employer['alias'])}}" target="_blank" title="{{ $job->employer['name'] }}"><img src="uploads/emp/logo/{{ $job->employer['images']['avatar'] }}" alt=""></a>
 
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-12 employer-info">
-                            <h3 class="name">{{$job->employer['name']}}</h3>
+                            <h3 class="name">{{ $job->employer['name'] }}</h3>
                             <div class="basic-info">
-                                <div class="short">{{$job->employer['info']['description']}}</div>
+                                <div class="short">{{ $job->employer['info']['description'] }}</div>
                                 @foreach($job->employer['address'] as $key => $value)
-                                    <p><i class="fa fa-home" aria-hidden="true"></i> Chi nhánh {{$key + 1}}: {{$value['detail']}}</p>
+                                    <p><i class="fa fa-home" aria-hidden="true"></i> Chi nhánh {{ $key + 1}}: {{ $value['detail'] }}</p>
                                 @endforeach
                                 <p><i class="fa fa-cog" aria-hidden="true"></i>Product</p>
                             </div>
@@ -248,23 +248,22 @@
                             <ul class="job">
                                 @foreach($relatedJob as $rl)
                                 <li class="item-job">
-                                    <a href="{{route('detailjob', [$rl->alias, $rl->_id])}}" title="{{$rl->name}}">
-                                        <div class="title-job">{{$rl->name}}</div>
+                                    <a href="{{route('detailjob', [$rl->alias, $rl->_id])}}" title="{{ $rl->name}}">
+                                        <div class="title-job">{{ $rl->name}}</div>
                                         <div>
-                                            <span class="company">{{$rl->employer['name']}}</span>
-                                            <span class="location"><i class="fa fa-map-marker"></i> {{$rl->city}}</span>
+                                            <span class="company">{{ $rl->employer['name'] }}</span>
+                                            <span class="location"><i class="fa fa-map-marker"></i> {{ $rl->city}}</span>
                                         </div>
                                         <div>
-                                            <span class="salary"><i class="fa fa-wifi" aria-hidden="true"></i> @if(Auth::check()){{$rl->detail['salary']}}
-												@else 
+                                            <span class="salary"><i class="fa fa-wifi" aria-hidden="true"></i> @if(Auth::check()){{ $rl->detail['salary'] }}
+												@else
 												<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
-												
 												@endif
 											</span>
                                         </div>
                                         <div>
                                             @foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($rl->_id) as $key => $s)
-                                            <a href=""><span class="tag-skill">{{$s->name}}</span></a>
+                                            <a href=""><span class="tag-skill">{{ $s->name}}</span></a>
                                             @endforeach
                                         </div>
                                     </a>

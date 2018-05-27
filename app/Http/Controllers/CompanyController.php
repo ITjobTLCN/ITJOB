@@ -53,7 +53,7 @@ class CompanyController extends Controller
         } else {
             $jobs = Job::where('employer_id', $emp_id)
                     ->offset($req->offset)
-                    ->take(config('constant.limitJob'))
+                    ->take(config('constant.limit.job'))
                     ->get();
             foreach ($jobs as $key => $job) {
                $output.= "<div class='job-item'>
@@ -115,7 +115,7 @@ class CompanyController extends Controller
 
     public function getCompaniesReview(Request $req, $offset = null, $limit = null) {
         $offset ? $offset : $offset = 0;
-        $limit ? $limit : $limit = config('constant.limitCompany');
+        $limit ? $limit : $limit = config('constant.limit.company');
         $comHirring = Employers::orderBy('_id', 'desc')
                                 ->offset($offset)
                                 ->limit($limit)
