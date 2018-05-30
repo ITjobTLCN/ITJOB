@@ -101,12 +101,12 @@ class UsersController extends Controller
 
     public function postAvatar(Request $req) {
         if($req->hasFile('avatar')) {
-            $avatar=$req->file('avatar');
-            $filename=time().'.'.$avatar->getClientOriginalExtension();
-            Image::make($avatar)->resize(300,300)->save(public_path('/uploads/user/avatar/'.$filename));
+            $avatar = $req->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            Image::make($avatar)->resize(300, 300)->save(public_path('/uploads/avatar/' . $filename));
 
-            $user=Auth::user();
-            $user->image=$filename;
+            $user = Auth::user();
+            $user->avatar = $filename;
             $user->save();
         }
 
