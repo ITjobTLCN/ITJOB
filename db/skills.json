@@ -1,7 +1,7 @@
 { 
     "_id" : ObjectId("5ac85f52b9068c2384007da0"), 
     "name" : "Android", 
-    "alias" : "demo", 
+    "alias" : "android", 
     "created_at" : ISODate("2018-04-07T06:04:02.427+0000"), 
     "updated_at" : ISODate("2018-04-07T06:04:02.427+0000")
 }

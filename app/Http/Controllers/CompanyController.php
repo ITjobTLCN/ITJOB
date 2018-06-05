@@ -27,6 +27,7 @@ class CompanyController extends Controller
                               ->offset(0)
                               ->take(10)
                               ->get();
+
         return view('layouts.companies', [ 'companies' => $companies,
                                             'cCompanies' => $cCompanies,
                                             'match' => true
@@ -43,6 +44,7 @@ class CompanyController extends Controller
                     ->offset($dem)
                     ->take(10)
                     ->get();
+
         return $dem;
     }
     public function getJobsCompany(Request $req) {
@@ -56,7 +58,7 @@ class CompanyController extends Controller
                     ->take(config('constant.limit.job'))
                     ->get();
             foreach ($jobs as $key => $job) {
-               $output.= "<div class='job-item'>
+               $output .= "<div class='job-item'>
                             <div class='job-item-info'>
                                 <div class='row'>
                                     <div class='col-xs-12 col-sm-10 col-md-10 col-lg-10'>
@@ -64,7 +66,7 @@ class CompanyController extends Controller
                                             <a href='detai-jobs/$job->alias/$job->_id' class='job-title' target='_blank'>$job->name</a>
                                         </h3>
                                         <ul>
-                                            <li><i class='fa fa-calendar' aria-hidden='true'></i>".$job->created_at->format('d-M Y')."</li>
+                                            <li><i class='fa fa-calendar' aria-hidden='true'></i>" . $job->created_at->format('d-M Y') . "</li>
                                             <li><a href='' class='salary-job'><i class='fa fa-money' aria-hidden='true'></i> Login to see salary</a></li>
                                             <li></li>
                                         </ul>
@@ -79,11 +81,12 @@ class CompanyController extends Controller
                         </div>";
             }
 
-            Cache::put('job-hirring'.$emp_id, $output, config('constant.cacheTime'));
+            Cache::put('job-hirring' . $emp_id, $output, config('constant.cacheTime'));
         }
 
         return $output;
     }
+
     public function getDetailsCompanies(Request $req) {
         $company = $this->getEmployerByKey($req->alias);
         if (empty($company) || is_null($company)) {
@@ -109,6 +112,7 @@ class CompanyController extends Controller
             $objFollow = new Follows();
             $follow = $objFollow->where($wheres)->first();
         }
+
         return view('layouts.details-companies',
                compact('company', 'skills', 'follow'));
     }
@@ -124,6 +128,7 @@ class CompanyController extends Controller
                                 ->offset($offset)
                                 ->limit($limit)
                                 ->get();
+                                
         return view('layouts.companies-reviews', compact('comHirring', 'comFollow'));
     }
     //get more companies hirring now
@@ -356,7 +361,7 @@ class CompanyController extends Controller
                                         ->where('_id', $req->emp_id)
                                         ->first();
         $skills = Skills::whereIn('_id', $listSkillCompany['skills'])->get();
-        
+
         return $skills;
     }
     public function getDemo(Request $req)

@@ -12,6 +12,13 @@ use Carbon\Carbon;
 
 trait JobMethod
 {
+	protected function indexJob() {
+		return Job::where('status', 1)
+                    ->offset(0)
+                    ->take(config('constant.limit.job'))
+                    ->get();
+	}
+
 	protected function checkUserAlreadyApply($email, $jobId) {
 		$arrWhere = [
 			'_id' => $jobId,

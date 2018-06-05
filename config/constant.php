@@ -16,5 +16,14 @@ return [
         'candidate' => '5ac85f51b9068c2384007d9c',
     	'employer' => '5ac85f51b9068c2384007d9e',
     	'employee' => '5ac85f51b9068c2384007d9f'
+    ],
+    'skills' => [
+        'android',
+        'java',
+        'php',
+        'ios',
+        'net',
+        'tester',
+        'wordpress'
     ]
 ];

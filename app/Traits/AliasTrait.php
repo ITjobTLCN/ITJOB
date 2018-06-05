@@ -13,7 +13,12 @@ trait AliasTrait
     	return Cities::where('name', $key)->orWhere('alias', $key)->first();
     }
     public function getJobByKey($key) {
-    	return Job::where('name', $key)->orWhere('alias', $key)->first();
+        $wheres = [
+            '$text' => [
+                '$search' => $key
+            ]
+        ];
+    	return Job::where($wheres)->get();
     }
     public function getEmployerByKey($key) {
     	return Employers::where('name', $key)->orWhere('alias', $key)->first();

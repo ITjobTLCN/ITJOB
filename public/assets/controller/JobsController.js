@@ -6,54 +6,65 @@ app.controller('JobsController', function($scope,$http) {
 		$scope.myCountry = {
 			    selected:{}
 			};
-		$scope.cities=response.data.locations;
-		$scope.skills=response.data.skills;
-	},function(error){
+            $scope.salary = {
+                  'thấp' : {
+                        _id : '1',
+                        name : 'thấp',
+                        alias : 'thấp',
+                        label : '0 - 500',
+                        value : '0-500'
+                  },
+                  'vừa' : {
+                        _id : '2',
+                        name : 'vừa',
+                        alias : 'vừa',
+                        label : '500 - 1000',
+                        value : '500-1000',
+                  },
+                  'cao' : {
+                        _id : '3',
+                        name : 'cao',
+                        alias : 'cao',
+                        label : '1000 - 2000',
+                        value : '1000-2000'
+                  }
+            };
+		$scope.cities = response.data.locations;
+		$scope.skills = response.data.skills;
+	},function(error) {
 		console.log(error, 'can not get data.');
 	});
       //filter job by locations and skills
 	var i = 0;
-	var j = 0;
-	var id_city = [];
+	var salary = [];
       var id_skill = [];
       var dem = 0;
 	$scope.filterJob = function(event, type, data) {
-      // how to check if checkbox is selected or not
-            var data = {
+      // how to chesalarycheckbox is selected or not
+            var arrData = {
                   'id': data._id,
                   'name': data.name,
                   'alias': data.alias,
             }
-            if(event.target.checked) {
-                  dem++;
-                  if(type === "cities") {
-                        id_city[i] = data.id;
+            if (event.target.type === 'radio') {
+                  salary[0] = data.value;
+            }
+            if(event.target.type === 'checkbox') {
+                  if(event.target.checked) {
+                        dem++;
+                        id_skill[i] = arrData.id;
                         i++;
-                  }else {
-                        id_skill[j] = data.id;
-                        j++;
-                  }
-                  $('.edition-filter').append('<span id='+ data.alias +'>'+ data.name +'</span>');
-                  $('.clear-all-filter-att').css({
-                        'display':'block'
-                  });
-                  $('.list-filter-att').css({
-                        'display':'block'
-                  });
-            } else {
-                  dem--;
-                  var id = data.id;
-                  if(type == "cities") {
+                        // $('.edition-filter').append('<span id='+ arrData.alias +'>'+ arrData.name +'</span>');
+                        // $('.clear-all-filter-att').css({
+                        //       'display':'block'
+                        // });
+                        // $('.list-filter-att').css({
+                        //       'display':'block'
+                        // });
+                  } else {
+                        dem--;
+                        var id = arrData.id;
                         i--;
-                        for(var k = 0; k < id_city.length; k++) {
-                              if(id_city[k] === id) {
-                                    id_city = $.grep(id_city, function(value) {
-                                          return value != id;
-                                    });
-                              }
-                        }
-                  }else {
-                        j--;
                         for(var k = 0; k < id_skill.length; k++) {
                               if(id_skill[k] === id) {
                                     id_skill = $.grep(id_skill, function(value) {
@@ -61,10 +72,11 @@ app.controller('JobsController', function($scope,$http) {
                                     });
                               }
                         }
+                        $('span#' + data.alias).remove();
                   }
-                  $('span#'+data.alias).remove();
             }
-            if(dem == 0) {
+            console.log('info_skill', id_skill);
+            if(dem === 0) {
                   $('.edition-filter').empty();
                   $('.clear-all-filter-att').css({
                         'display':'none'
@@ -73,6 +85,7 @@ app.controller('JobsController', function($scope,$http) {
                         'display':'none'
                   });
             }
+            console.log('salary', salary);
             $.ajaxSetup({
                   headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -83,21 +96,30 @@ app.controller('JobsController', function($scope,$http) {
                   url: 'filter-job',
                   data: {
                         'info_skill': id_skill,
-                        'info_city': id_city,
+                        'info_salary': salary,
                   },
                   success : function(data) {
+                        console.log('data', data);
+                        if(data[2] == true) {
+                              $('#no-results-message').css({
+                                    'display' : 'none'
+                              });
+                              $('#countjob').css({
+                                    'display' : 'block'
+                              });
+                        }
                         $('.jb-search__result').html(data[0]);
                         $('.countjob').show().text(data[1]);
                   }
             });
       };
-      $scope.clearAll = function(){
+      $scope.clearAll = function() {
             dem = 0;
             angular.forEach($scope.skills, function(skill_id) {
                   skill_id.selected = false;
             });
-            angular.forEach($scope.cities, function(city_id) {
-                  city_id.selected = false;
+            angular.forEach($scope.salary, function(sala) {
+                  sala.selected = false;
             });
             $('.edition-filter').empty();
             $('.list-filter-att').css({
@@ -113,7 +135,7 @@ app.controller('JobsController', function($scope,$http) {
                   url: 'filter-job',
                   data: {
                         'info_skill':"",
-                        'info_city':"",
+                        'info_salary':"",
                   },
                   success : function(data) {
                         $('.jb-search__result').html(data[0]);

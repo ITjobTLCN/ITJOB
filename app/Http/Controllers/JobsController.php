@@ -76,61 +76,69 @@ class JobsController extends Controller
     public function filterJob(Request $req) {
         $output = [];
         $city_a = [];
-        $skill_a = [];
         $result = "";
         $info_skill = $req->info_skill;
-        $info_city = $req->info_city;
-        if (Session::has('city_id')) {
+        $info_salary = $req->info_salary;
+        $key = "";
+        $arrWheres = [];
+        if (Session::has('city')) {
            $city_a[] = Session::get('city_id');
         }
-        if (Session::has('skill_id')) {
-            $skill_a[] = Session::get('skill_id');
+        if (Session::has('jobname')) {
+            $key = Session::get('jobname');
         }
-        if (!empty($info_city) || !empty($info_skill)) {
-            if (!empty($info_city) && empty($info_skill)) {
-                 foreach ($info_city as $key => $value) {
-                    $city = Cities::where('_id', $value)->first();
-                    $jobs = Job::with('employer')->where('city', $city['name'])
-                                ->where('status', 1)
-                                ->get();
-                    if (!empty($jobs)) {
-                        foreach ($jobs as $key => $value) {
-                            $output[] = $value;
-                        }
-                    }
+
+        $arrWheres = [
+            'status' => 1
+        ];
+        if (Cache::has('key')) {
+            $key = Cache::get('key');
+            if (in_array($key, config('constant.skills'))) {
+                $skill = $this->getSkillByKey($key);
+                if(empty($info_skill)) {
+                    $info_skill = [];
                 }
-            } elseif (empty($info_city) && !empty($info_skill)) {
-                $jobs = Job::with('employer')->whereIn('skills_id', $info_skill)->get();
-                if (!empty($jobs)) {
-                    foreach ($jobs as $key => $value) {
-                        $output[] = $value;
-                    }
-                }
+                array_push($info_skill, $skill->_id);
             } else {
-                foreach ($info_city as $key => $ca) {
-                    $city = Cities::where('_id', $ca)->first();
-                    $jobs = Job::with('employer')->where('city', $city['name'])
-                                                ->whereIn('skills_id', $info_skill)
-                                                ->get();
-                    if (!empty($jobs)) {
-                        foreach ($jobs as $key => $value) {
-                            $output[] = $value;
-                        }
-                    }
-                }
-            }
-        } else {
-             $listJobLastest = Cache::get('listJobSearch', Cache::get('listJobLastest'));
-                foreach ($listJobLastest as $key => $job) {
-                    $output[$key] = $job;
+                $arrWheres['$text'] = [
+                    '$search' => $key
+                ];
             }
         }
+        if (Cache::has('city')) {
+            $arrWheres['city'] = Cache::get('city');
+        }
+        if (!empty($info_salary)) {
+            $arrSalary = explode('-', $info_salary[0]);
+            $arrWheres['detail.salary'] = [
+                '$gte' => intval($arrSalary[0]),
+                '$lt' => intval($arrSalary[1])
+            ];
+        }
+        if (!empty($info_skill)) {
+            $arrWheres['skills_id'] = [
+                '$in' => array_unique($info_skill)
+            ];
+        }
+        // return $arrWheres;
+        $jobs = Job::with('employer')
+                    ->where($arrWheres)
+                    ->get();
+        foreach ($jobs as $key => $job) {
+            $output[] = $job;
+        }
+        // if (empty($info_salary) && empty($info_skill)) {
+        //     $listJobLastest = Cache::get('listJobSearch', Cache::get('listJobLastest'));
+        //         foreach ($listJobLastest as $key => $job) {
+        //             $output[] = $job;
+        //     }
+        // }
         array_unique($output);
         foreach ($output as $key => $job) {
             $date = Carbon::parse($job->created_at)->format('d-m-Y');
             $today = date('d-m-Y');
             $skills = Skills::whereIn('_id', $job['skills_id'])->get();
-            $result.='<div class="job-item">
+            $result .= '<div class="job-item">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
                                     <div class="logo job-search__logo">
@@ -178,7 +186,7 @@ class JobsController extends Controller
                 }
                 $result.='</div></div></div></div>';
         }
-       return Response([$result, count($output)]);
+       return Response([$result, count($output), true]);
     }
     //get name and alias companies or skills to search job
     public function getSearchJob(Request $req) {
@@ -190,33 +198,43 @@ class JobsController extends Controller
             ]
         ];
         if (!empty($key)) {
-            $companies = Employers::select('name')
-                                    ->where($wheres)
+            $companies = Employers::where($wheres)
                                     ->get();
-            $jobs = Job::select('name')
-                                ->where($wheres)
+            $jobs = Job::where($wheres)
                                 ->get();
             if (!empty($jobs)) {
                 foreach ($jobs as $key => $job) {
-                    $output[] = [ "name" => $job->name ];
+                    $output[] = [ 'name' => $job->name ];
                 }
             }
             if (!empty($companies)) {
                 foreach ($companies as $key => $company) {
-                    $output[] = [ "name" => $company->name ];
+                    $output[] = [ 'name' => $company->name ];
                 }
             }
         }
+
         return $output;
     }
     public function getListJobSearch(Request $req) {
         Cache::forget('listJobSearch');
+        Session::flush();
+        $jobs = $this->indexJob();
+
+        return view('layouts.alljobs', ['countjob' => count($jobs),
+                                        'listJobLastest' => $jobs,
+                                        'match' => true]);
+    }
+
+    public function postListJobSearch(Request $req) {
+        Cache::forget('listJobSearch');
         $match = true;
         $key = $req->q;
         $city_alias = $req->calias;
+
         $jobs = new Job();
         if (empty($key) && empty($city_alias)) {
-            $jobs = Job::offset(0)->take(10)->get();
+            $jobs = $this->indexJob();
         } else {
             if (empty($key)) {
                 return redirect()->route('seachJobByCity', $city_alias);
@@ -227,19 +245,24 @@ class JobsController extends Controller
             } else {
                 $job = $this->getJobByKey($key);
                 Session::flash('jobname', $key);
-                if (empty($job)) {
+                Session::flash('city', $city_alias);
+                if (count($job) == 0) {
                     $skill = $this->getSkillByKey($key);
-                    if (empty($skill)) {
+                    if (is_null($skill) || count($skill) == 0) {
                         $match = false;
                     } else {
                         Session::flash('jobname', $key);
                         $jobs =  Job::whereIn('skills_id', [$skill->_id])->get();
                     }
+                    $city = $this->getCityByKey($city_alias);
+                    Cache::put('city', $city->name, 10);
+                    Cache::put('key', $key, 10);
                 } else {
-                    return redirect()->route('seachJobFullOption', [ $job->alias, $city_alias ]);
+                    return redirect()->route('seachJobFullOption', [ $key, $city_alias ]);
                 }
             }
         }
+
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
                                         'match' => $match]);
@@ -251,17 +274,24 @@ class JobsController extends Controller
         if (empty($this->getJobByKey($req->jobAlias)) || empty($city)) {
            $match = false;
         } else {
-            $jobs = Job::where('alias', $req->jobAlias)
-                        ->where('city', $city->name)
-                        ->get();
+            $arrWheres = [
+                '$text' => [
+                    '$search' => $req->jobAlias
+                ],
+                'city' => $city->name
+            ];
+            $jobs = Job::where($arrWheres)->get();
         }
-        Session::flash('jobname', Session::get('jobname', ''));
+        Session::flash('jobname', $req->jobAlias);
+        Cache::put('key', $req->jobAlias, 10);
+        Cache::put('city', $city->name, 10);
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
                                         'match' => $match]);
     }
     //get list job by location
     public function getListJobByCity(Request $req) {
+        Cache::forget('key');
         $city = Cities::where('alias', $req->alias)->first();
         $match = true;
         $jobs = new Job();
@@ -273,6 +303,7 @@ class JobsController extends Controller
            $match = false;
         }
         Session::flash('city', $city->name);
+        Cache::put('city', $city->name, 10);
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
                                         'match' => $match]);
@@ -354,6 +385,7 @@ class JobsController extends Controller
         if ( !is_array($skillsId) || empty($skillsId)) {
             return $skills;
         }
+
         $skills = Skills::whereIn('_id', $skillsId)->get();
 
         return $skills;

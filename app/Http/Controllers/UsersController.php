@@ -76,7 +76,7 @@ class UsersController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => 'Email đã tồn tại'
-                ], 500);
+                ], 200);
             } else {
                 $data = $req->only([ 'name', 'email', 'password' ]);
                 try {

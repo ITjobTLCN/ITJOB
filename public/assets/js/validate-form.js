@@ -141,6 +141,8 @@ $(document).ready(function() {
 							});
 	            			$('.errRegister').show().text(data.message);
 	            			$('#email').val("");
+	            			$('#password').val("");
+	            			$('#repeatPassword').val("");
 	            		} else {
 							$('.alert-success').css({
 								'display': 'block',

@@ -2,7 +2,7 @@
     <div class="form-group col-sm-6 col-md-6 col-lg-7 keyword-search">
         <i class="fa fa-search" aria-hidden="true"></i> @if(Session::has('jobname'))
         <input type="text" id="keyword" name="q" class="typeahead form-control" value="{{Session::get('jobname')}}" placeholder="Keyword job title, company..."> @else
-        <input type="text" id="keyword" name="q" class="typeahead form-control" placeholder="Keyword job title, company..."> @endif
+        <input type="text" value="" id="keyword" name="q" class="typeahead form-control" placeholder="Keyword job title, company..."> @endif
         <span id="close"><i class="fa fa-times" aria-hidden="true"></i></span>
     </div>
     <div class="form-group col-sm-3 col-md-3 col-lg-3 location-search" ng-controller="SearchController as ctrl">

@@ -28,11 +28,11 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 						</div>
 
 						<div id="locations" class="facet">
-							<h5 data-target="#list-locations" data-toggle="collapse">locations </h5>
+							<h5 data-target="#list-locations" data-toggle="collapse">salary </h5>
 							<div id="list-locations" class="collapse in">
 								<ul>
-									<li ng-repeat="city in cities">
-										<input type="checkbox" ng-click="filterJob($event, 'cities', city)" ng-model="city.selected"><span><%city.name%></span>
+									<li ng-repeat="sala in salary">
+										<input type="radio" name="salary" ng-click="filterJob($event, 'salary', sala)" ng-model="sala.selected"><span><% sala.label %></span>
 									</li>
 								</ul>
 							</div>
@@ -61,7 +61,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 					</div>
 					@include('partials.recommend_jobs')
 					@else
-					<div class="box m-b-none">
+					<div class="box m-b-none" id="countjob">
 						<div class="job-search__top-nav">
 							<div class="row">
 								<div class="col-xs-12 col-md-6 col-lg-12">
@@ -102,7 +102,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 											<span class="">@if(date('d-m-Y') == date('d-m-Y', strtotime($ljlt->created_at))) Today @else {{date('d-m-Y', strtotime($ljlt->created_at))}}@endif</span>
 										</div>
 										<div class="job__skill">
-											@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->_id) as $key => $s)
+											@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->skills_id) as $key => $s)
 											<a href=""><span>{{$s->name}}</span></a>
 											@endforeach
 										</div>
