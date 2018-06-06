@@ -3,11 +3,11 @@
 	<div class="container" ng-controller="DashBoardController" ng-init="loadDashboard()">
 		<div class="row">
 			<div class="col">
-				<div  class="title-admin">DashBoard</div>	
+				<div  class="title-admin">DashBoard</div>
 			</div>
-            <h3 >Today: <span><%clock | date:'dd-MM-yyyy HH:mm:ss'%></span></h3>
+            <h3 >Today: <span><% clock | date:'dd-MM-yyyy HH:mm:ss'%></span></h3>
 		</div>
-        <%now%>
+        <% now %>
 		<div class="row">
             <div class="col-lg-3 col-md-6">
                 <div class="panel panel-primary">
@@ -129,7 +129,7 @@
         				</table>
         				<div>
         					<label class="label-show-items">
-        						<span>Show by</span> 
+        						<span>Show by</span>
 								<select name="" id="select-admin-panel" class="form-control">
 									<option value="" selected>All</option>
 									<option value="" >Day</option>
@@ -172,7 +172,7 @@
                         </table>
                         <div>
                             <label class="label-show-items">
-                                <span>Show by</span> 
+                                <span>Show by</span>
                                 <select name="" id="select-admin-panel" class="form-control">
                                     <option value="" selected>All</option>
                                     <option value="" >Day</option>
@@ -209,5 +209,4 @@
             </div>
         </div>
 	</div>
-    
 @endsection

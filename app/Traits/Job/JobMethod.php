@@ -12,8 +12,16 @@ use Carbon\Carbon;
 
 trait JobMethod
 {
-	protected function indexJob() {
-		return Job::where('status', 1)
+	protected function indexJob($wheres = []) {
+		$arrWhere = [
+			'status' => 1
+		];
+		if (!empty($wheres) || count($wheres) > 0) {
+			$arrWhere = array_merge($arrWhere, $wheres);
+		}
+
+		return Job::with('employer')
+					->where($arrWhere)
                     ->offset(0)
                     ->take(config('constant.limit.job'))
                     ->get();
@@ -84,8 +92,7 @@ trait JobMethod
 		return Job::select('employer_id')->where('_id', $jobId)->first();
 	}
 
-	protected function getJobsToday($empId)
-	{
+	protected function getJobsToday($empId) {
 		$today = Carbon::now()->startOfDay();
 		$arrWhere = [
 			'employer_id' => $empId,
@@ -101,8 +108,7 @@ trait JobMethod
 		return $objJob;
 	}
 
-	protected function getRelatedJob($job)
-	{
+	protected function getRelatedJob($job) {
 		if (is_null($job) || empty($job)) {
 			return [];
 		}

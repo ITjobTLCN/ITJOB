@@ -8,7 +8,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{route('getadmindashboard')}}">IT Job Admin</a>
+                <a class="navbar-brand" href="{{route('getAdminDashboard')}}">IT Job Admin</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -71,10 +71,10 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                {{-- <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
                     <ul class="dropdown-menu alert-dropdown">
-                        @foreach(auth()->user()->notifications as $notification)
+                        @foreach(Auth::user()->notifications as $notification)
                         <li >
                             @include('partials.notification.'.snake_case(class_basename($notification->type)))
                         </li>
@@ -83,11 +83,10 @@
                         <li>
                             <a href="#">View All</a>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-                
                         <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
@@ -106,6 +105,5 @@
                     </ul>
                 </li>
             </ul>
-            
             <!-- /.navbar-collapse -->
         </nav>

@@ -25,6 +25,9 @@
 					<form action="#" method="POST" id="register_emp_form">
 						<input type="hidden" name="empid" ng-model="curemp.empid" value="<%curemp.id%>">
 						<div class="form-group">
+							@if(Session::has('success'))
+							<span>{{Session::get('success')}}</span>
+							@endif
 							<label for="">Choose one:</label>
 							<div class="row">
 								<div class="col-md-8">

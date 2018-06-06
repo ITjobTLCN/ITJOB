@@ -23,6 +23,7 @@ use Storage;
 use DateTime;
 use App\Traits\CommonMethod;
 use App\Traits\Company\CompanyMethod;
+use Session;
 
 class HomeController extends Controller
 {
@@ -79,7 +80,7 @@ class HomeController extends Controller
         //construct
         $emp_id = 0;
         //0:master reg  10:assis reg
-        ( !isset($request->_id) || empty($request->_id)) ? $type = 0 : $type = 10;
+        (!isset($request->_id) || empty($request->_id)) ? $type = 0 : $type = 10;
         switch ($type) {
             case 0:
                //create employers //NAME,CITY,ADDRESS,WEBSITE ->
@@ -107,9 +108,13 @@ class HomeController extends Controller
                 'type' => $type
             ];
             if ($this->saveRegisterEmployer($data)) {
+                Session::put('success', 'Register successfully');
                 return response()->json(['status' => true, 'message' => 'Register successfully']);
             }
+
             return response()->json(['status' => false, 'message' => 'Register failed']);
         }
+        
+        return false;
     }
 }

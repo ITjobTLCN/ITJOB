@@ -10,13 +10,17 @@ use Cache;
 
 trait CommonMethod {
 
-	protected function formatInputToSave(&$arrData)
-	{
+	protected function formatInputToSave(&$arrData) {
 		$arrData['created_at'] = new UTCDateTime(round(microtime(true) * 1000));
 		$arrData['updated_at'] = new UTCDateTime(round(microtime(true) * 1000));
         $arrData['deleted'] = false;
 		return $arrData;
 	}
+
+    protected function formatCondition(&$arrData) {
+        $arrData['deleted'] = false;
+        return $arrData;
+    }
 
 	protected function findFollow($typeId, $type) {
 		$wheres = [

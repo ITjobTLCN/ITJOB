@@ -2,7 +2,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="{{route('getadmindashboard')}}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="{{route('getAdminDashboard')}}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="{{route('getadminusers')}}"><i class="fa fa-fw fa-bar-chart-o"></i> Manage Account</a>

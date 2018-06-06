@@ -206,7 +206,7 @@ Route::post('register/employer', [
 Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('users', [ 'as' => 'getadminusers', 'uses' => 'AdminController@getListUsers' ]);
 	Route::get('emps', [ 'as' => 'getadminemps', 'uses' => 'AdminController@getListEmps' ]);
-	Route::get('dashboard', [ 'as' => 'getadmindashboard', 'uses' => 'AdminController@getDashBoard' ]);
+	Route::get('dashboard', [ 'as' => 'getAdminDashboard', 'uses' => 'AdminController@getDashBoard' ]);
 	Route::post('import', [ 'as' => 'postimport', 'uses' => 'AdminController@postImport' ]);
 	Route::get('export/{type}', [ 'as' => 'getexport', 'uses' => 'AdminController@getExport' ]);
 
@@ -272,7 +272,3 @@ Route::get('/markAsRead', function() {
 	auth()->user()->unreadnotifications->markAsRead();
 });
 /*-----------------END DAT ROUTER----------------------*/
-// Route::get('/demo', [
-// 	'as' => 'demo',
-// 	'uses' => 'PageController@getDemo'
-// ]);

@@ -9,6 +9,7 @@ use App\Registration;
 use App\Cities;
 use MongoDB\BSON\UTCDateTime;
 use Auth;
+use Carbon\Carbon;
 
 trait CompanyMethod
 {
@@ -132,6 +133,7 @@ trait CompanyMethod
             ],
             'quantity_user_follow' => 0,
             'rating' => "0.0",
+            'skills' => [],
             'quantity_job' => [
                 'hirring' => 0,
                 'deleted' => 0
@@ -173,7 +175,7 @@ trait CompanyMethod
         return true;
     }
 
-    public function getJobOfByCompany($empId = null) {
+    protected function getJobOfByCompany($empId = null) {
         if (is_null($empId) || empty($empId)) {
             return;
         }
@@ -187,7 +189,7 @@ trait CompanyMethod
         return $listJob;
     }
 
-    public function getReviewOfCompany($empId = null) {
+    protected function getReviewOfCompany($empId = null) {
         if (is_null($empId) || empty($empId)) {
             return;
         }
@@ -199,14 +201,14 @@ trait CompanyMethod
         return $employer['reviews'];
     }
 
-    public function getReviewTodayOfCompany($empId = null, $today = null) {
+    protected function getReviewTodayOfCompany($empId = null, $today = null) {
         $listReview = $this->getReviewOfCompany($empId);
         if ( is_null($today) || empty($listReview)) {
             return;
         }
         $result = [];
         foreach ($listReview as $key => $item) {
-            if($item['reviewed_at'] < $today) continue;
+            if($item['reviewed_at'] < $Minh) continue;
 
             $result[] = $item;
         }
@@ -214,7 +216,7 @@ trait CompanyMethod
         return $result;
     }
 
-    public function getFollow($empId) {
+    protected function getFollow($empId) {
         if (is_null($empId) || empty($empId)) {
             return;
         }
@@ -232,6 +234,31 @@ trait CompanyMethod
         }
 
         return $result;
+    }
+
+    protected function getCompanyHirring($offset = 0, $limit = null) {
+        $arrWhere = [
+            'info.quantity_employee' => [
+                '$gt' => 0
+            ]
+        ];
+        $this->formatCondition($arrWhere);
+        return Employers::where($arrWhere)
+                                ->orderBy('_id', 'desc')
+                                ->offset($offset)
+                                ->limit($limit)
+                                ->get();
+    }
+
+    protected function getCompanyMostFollow($offset = 0, $limit = null) {
+        $arrWhere = [];
+        $this->formatCondition($arrWhere);
+
+        return Employers::where($arrWhere)
+                                ->orderBy('quantity_user_follow', 'desc')
+                                ->offset($offset)
+                                ->limit($limit)
+                                ->get();
     }
 
 }

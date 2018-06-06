@@ -67,7 +67,9 @@ Reviews of top companies on ITJob
 			</div>
 			@endforeach
 		</div>
+		@if(count($comHirring) > 6)
 		<a href="" id="see-more-hiring" class="dotted" ng-click="seeMoreCompany('hirring')">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		@endif
 	</div>
 	<div class="seperate"></div>
 	<div class="most-followed-companies container">
@@ -105,7 +107,9 @@ Reviews of top companies on ITJob
 			@endforeach
 			<div class="more-most-followed"></div>
 		</div>
+		@if(count($comFollow) > 6)
 		<a href="" id="see-more-most-followed" class="dotted" ng-click="seeMoreCompany('follow')">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+		@endif
 			</div>
 	</div>
 </div>

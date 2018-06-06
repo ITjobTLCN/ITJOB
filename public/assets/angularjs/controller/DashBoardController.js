@@ -1,7 +1,7 @@
-app.controller('DashBoardController',function($scope,$http,$interval){
-	$scope.loadDashboard = function(){
+app.controller('DashBoardController',function($scope,$http,$interval) {
+	$scope.loadDashboard = function() {
 		$scope.clock = "loading...";
-		$http.get('admin/ngnumber').then(function(response){
+		$http.get('admin/ngnumber').then(function(response) {
 			// console.log(response);
 			$scope.countallusers = response.data.countallusers;
 			$scope.countusers = response.data.countusers;
@@ -29,7 +29,7 @@ app.controller('DashBoardController',function($scope,$http,$interval){
 
 			//count online user
 			$scope.useronline  = response.data.user_online;
-		},function(error){
+		}, function(error) {
 			alert("Can't get data!");
 		});
 	}

@@ -30,21 +30,20 @@ class JobsController extends Controller
         if (Cache::has('listJobLastest')) {
             $listJobLastest = Cache::get('listJobLastest', '');
         } else {
-            $listJobLastest = Job::with('employer')->where('status', 1)
+            $arrWheres = [
+                'status' => 1,
+                'city' => config('constant.defaultCity')
+            ];
+            $listJobLastest = Job::with('employer')->where($arrWheres)
                                                     ->orderBy('_id', 'desc')
                                                     ->offset($offset)
                                                     ->take($limit)
                                                     ->get();
             Cache::put('listJobLastest', $listJobLastest, config('constant.cacheTime'));
         }
-        $countjob = count($listJobLastest);
-        $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
-            return Cities::all();
-        });
 
-        return view('layouts.alljobs', ['countjob' => $countjob,
+        return view('layouts.alljobs', ['countjob' => count($listJobLastest),
                                         'listJobLastest' => $listJobLastest,
-                                        'cities' => $cities,
                                         'match' => true
                                     ]);
     }
@@ -72,28 +71,17 @@ class JobsController extends Controller
         $skills = Cache::get('listSkill');
     	return response()->json(['locations' => $locations, 'skills' => $skills]);
     }
-    //filter job by skills and locations
+    //filter job by skills and salary
     public function filterJob(Request $req) {
         $output = [];
-        $city_a = [];
         $result = "";
         $info_skill = $req->info_skill;
         $info_salary = $req->info_salary;
         $key = "";
         $arrWheres = [];
-        if (Session::has('city')) {
-           $city_a[] = Session::get('city_id');
-        }
-        if (Session::has('jobname')) {
-            $key = Session::get('jobname');
-        }
-
-        $arrWheres = [
-            'status' => 1
-        ];
         if (Cache::has('key')) {
             $key = Cache::get('key');
-            if (in_array($key, config('constant.skills'))) {
+            if (in_array(strtolower($key), config('constant.skills'))) {
                 $skill = $this->getSkillByKey($key);
                 if(empty($info_skill)) {
                     $info_skill = [];
@@ -107,7 +95,10 @@ class JobsController extends Controller
         }
         if (Cache::has('city')) {
             $arrWheres['city'] = Cache::get('city');
+        } else {
+            $arrWheres['city'] = config('constant.defaultCity');
         }
+
         if (!empty($info_salary)) {
             $arrSalary = explode('-', $info_salary[0]);
             $arrWheres['detail.salary'] = [
@@ -115,78 +106,73 @@ class JobsController extends Controller
                 '$lt' => intval($arrSalary[1])
             ];
         }
+
         if (!empty($info_skill)) {
             $arrWheres['skills_id'] = [
                 '$in' => array_unique($info_skill)
             ];
         }
         // return $arrWheres;
-        $jobs = Job::with('employer')
-                    ->where($arrWheres)
-                    ->get();
+        $jobs = $this->indexJob($arrWheres);
         foreach ($jobs as $key => $job) {
             $output[] = $job;
         }
-        // if (empty($info_salary) && empty($info_skill)) {
-        //     $listJobLastest = Cache::get('listJobSearch', Cache::get('listJobLastest'));
-        //         foreach ($listJobLastest as $key => $job) {
-        //             $output[] = $job;
-        //     }
-        // }
+
         array_unique($output);
         foreach ($output as $key => $job) {
             $date = Carbon::parse($job->created_at)->format('d-m-Y');
             $today = date('d-m-Y');
             $skills = Skills::whereIn('_id', $job['skills_id'])->get();
-            $result .= '<div class="job-item">
+            $result  .=  '<div class="job-item">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
                                     <div class="logo job-search__logo">
-                                        <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/'.$job->employer['images']['avatar'].'" alt="">
+                                        <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/'. $job->employer['images']['avatar'] . '" alt="">
                                         </a>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
                                     <div class="job-item-info">
                                         <h3 class="bold-red">
-                                            <a href="it-job/'.$job->alias.'/'.$job->id.'" class="job-title" target="_blank" title="'.$job->name.'">'.$job->name.'</a>
+                                            <a href="it-job/' . $job->alias . '/' . $job->id . '" class="job-title" target="_blank" title="'. $job->name . '">' . $job->name . '</a>
                                         </h3>
                                         <div class="company">
-                                            <span class="job-search__company">'.$job->employer['name'].' </span>
+                                            <span class="job-search__company">' . $job->employer['name'] . ' </span>
                                             <span class="separator">|</span>
-                                            <span class="job-search__location">'.$job->city.'</span>
+                                            <span class="job-search__location">' . $job->city . '</span>
                                         </div>
                                             <div class="company text-clip">';
                                             if (Auth::check()){
-                                                $result.='<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">'.$job->details['salary'].'</a></span>';
-                                            }else{
-                                                $result.='<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương</a></span>';
+                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">' . $job->details['salary'] . '</a></span>';
+                                            } else {
+                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương</a></span>';
                                             }
-                                            $result.='<span class="separator">|</span>';
+                                            $result .= '<span class="separator">|</span>';
                                             if ($date == $today){
-                                                $result.='<span class="">Today</span>';
-                                            }else{
-                                                $result.='<span class="">'.$date.'</span>';
+                                                $result .= '<span class="">Today</span>';
+                                            } else {
+                                                $result .= '<span class="">' . $date . '</span>';
                                             }
-                                            $result.='</div>
+                                            $result .= '</div>
                                         <div class="job__skill">';
-                foreach ($skills as $key => $s) {
-                    $result.='<a href=""><span>'.$s->name.'</span></a>';
+                foreach ($this->getListSkillJobv($job->skills_id) as $key => $s) {
+                    $result .= '<a href=""><span>' . $s->name . '</span></a>';
                 }
-                $result.='</div></div></div><div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">';
+                $result .= '</div></div></div><div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">';
                 if (Auth::check()) {
-                    $result.='<div class="follow'.$job->_id.'" id="followJob" job_id="'.$job->_id.'" emp_id="'.$job->employer_id.'">';
+                    $result .= '<div class="follow' . $job->_id . '" id="followJob" job_id="'. $job->_id . '" emp_id="' . $job->employer_id . '">';
                     if ($this->getJobFollowed($job->id)) {
-                        $result.='<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>';
+                        $result .= '<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>';
                     }else{
-                        $result.='<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>';
+                        $result .= '<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>';
                     }
-                }else{
-                    $result.='<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>';
+                } else {
+                    $result .= '<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>';
                 }
-                $result.='</div></div></div></div>';
+                $result .= '</div></div></div></div>';
         }
-       return Response([$result, count($output), true]);
+
+        return Response([$result, count($output), true]);
     }
     //get name and alias companies or skills to search job
     public function getSearchJob(Request $req) {
@@ -319,7 +305,7 @@ class JobsController extends Controller
             $listJobLastest = Job::whereIn('skills_id', [$skill->_id])->get();
             Session::flash('jobname', $skill->name);
         }
-
+        Cache::put('key', Session::get('jobname'), 10);
         Cache::put('listJobSearch', $listJobLastest, config('constant.cacheTime'));
         return view('layouts.alljobs', ['countjob' => count($listJobLastest),
                                         'listJobLastest' => $listJobLastest,
@@ -436,7 +422,7 @@ class JobsController extends Controller
                     ->get();
         return $jobs;
         foreach ($jobs as $key => $job) {
-           $output.= "<div class='job-item'>
+           $output .=  "<div class='job-item'>
                         <div class='job-item-info'>
                             <div class='row'>
                                 <div class='col-xs-12 col-sm-10 col-md-10 col-lg-10'>
@@ -444,7 +430,7 @@ class JobsController extends Controller
                                         <a href='detai-jobs/$job->alias/$job->_id' class='job-title' target='_blank'>$job->name</a>
                                     </h3>
                                     <ul>
-                                        <li><i class='fa fa-calendar' aria-hidden='true'></i>".$job->created_at->format('d-M Y')."</li>
+                                        <li><i class='fa fa-calendar' aria-hidden='true'></i>". $job->created_at->format('d-M Y')."</li>
                                         <li><a href='' class='salary-job'><i class='fa fa-money' aria-hidden='true'></i> Login to see salary</a></li>
                                         <li></li>
                                     </ul>

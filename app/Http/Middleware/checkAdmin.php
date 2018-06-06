@@ -17,9 +17,9 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Auth::user()->role_id==2){//is Admin
+        if (Auth::check() && Auth::user()->role_id == '5ac85f51b9068c2384007d9d' ) {
             return $next($request);
-        }else{
+        } else {
             return Redirect::route('/')->with('error_code', 1);
             // return Redirect::back()->with('error_code', 1);  
         }

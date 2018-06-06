@@ -42,7 +42,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<h4 class="text-center">Bạn chưa có tài khoản? <a id="clickModalRegister" href="#" style="color: #337ab7">Đăng ký ngay</a></h4>
+					<h4 class="text-center">Bạn chưa có tài khoản? <a href="{{route('register')}}" style="color: #337ab7">Đăng ký ngay</a></h4>
 				</div>
 			</div>
 		</div>

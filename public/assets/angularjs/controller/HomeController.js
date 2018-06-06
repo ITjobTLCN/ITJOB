@@ -26,7 +26,7 @@ app.controller('HomeController', function($scope, $http) {
 			if (response.data.status) {
 				$scope.editable = false;
 			}
-			alert(response.data.message);
+			location.reload();
 		}, function(error) {
 			console.log('erros', 'cannot post data to server');
 		});

@@ -25,5 +25,7 @@ return [
         'net',
         'tester',
         'wordpress'
-    ]
+    ],
+
+    'defaultCity' => 'Hồ Chí Minh'
 ];

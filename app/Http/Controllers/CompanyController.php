@@ -120,15 +120,10 @@ class CompanyController extends Controller
     public function getCompaniesReview(Request $req, $offset = null, $limit = null) {
         $offset ? $offset : $offset = 0;
         $limit ? $limit : $limit = config('constant.limit.company');
-        $comHirring = Employers::orderBy('_id', 'desc')
-                                ->offset($offset)
-                                ->limit($limit)
-                                ->get();
-        $comFollow = Employers::orderBy('quantity_user_follow', 'desc')
-                                ->offset($offset)
-                                ->limit($limit)
-                                ->get();
-                                
+
+        $comHirring = $this->getCompanyHirring($offset, $limit);
+        $comFollow = $this->getCompanyMostFollow($offset, $limit);
+
         return view('layouts.companies-reviews', compact('comHirring', 'comFollow'));
     }
     //get more companies hirring now
