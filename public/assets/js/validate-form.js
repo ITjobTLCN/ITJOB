@@ -218,7 +218,8 @@ $(document).ready(function() {
 				required: "Vui lòng nhập nội dung",
 			}
 		},
-		submitHandler: function(){
+		submitHandler: function(form) {
+			form.submit();
 		}
 	});
 });

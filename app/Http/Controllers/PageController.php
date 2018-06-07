@@ -38,10 +38,7 @@ class PageController extends Controller
     }
 
     public function postContact(Request $req) {
-        event(new SendMailContact($req->email,
-                                 $req->name,
-                                 $req->subtitle,
-                                 $req->content));
+        dispatch(new \App\Jobs\ContactMail($req->email, $req->name, $req->subtitle,  $req->content));
         return redirect()->back();
     }
 
