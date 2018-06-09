@@ -120,4 +120,21 @@ trait JobMethod
 				            ->take(config('constant.limit.relatedJob'))
 				            ->get();
 	}
+
+	public function getJobsOfCompany($empId)
+	{
+		$arrWhere = [
+			'employer_id' => $empId,
+			'$or' => [
+				[
+					'status' => [
+						'$in' => config('constant.statusJob')
+					]
+				]
+			]
+		];
+
+		return Job::with('user', 'applications')
+                     ->where($arrWhere)->get();
+	}
 }

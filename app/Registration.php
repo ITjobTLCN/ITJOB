@@ -13,8 +13,9 @@ class Registration extends Eloquent
     protected $collection = 'registration';
 
     protected $primaryKey = ('user_id');
+    
     public function user() {
-    	return $this->belongsTo('App\User','user_id','id');
+    	return $this->belongsTo('App\User','user_id','_id');
     }
     
     public function employer() {

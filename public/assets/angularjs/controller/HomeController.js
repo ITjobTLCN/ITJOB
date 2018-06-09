@@ -24,9 +24,17 @@ app.controller('HomeController', function($scope, $http) {
 		$http(req).then(function(response) {
 			console.log(response.data);
 			if (response.data.status) {
+				$('#reg-message-result').css({
+					'display' : 'block'
+				});
+				$scope.message = response.data.message;
 				$scope.editable = false;
+				$scope.reset();
+			} else {
+				alert('WARNING ' + response.data.message);
+				$scope.reset();
 			}
-			location.reload();
+			//location.reload();
 		}, function(error) {
 			console.log('erros', 'cannot post data to server');
 		});

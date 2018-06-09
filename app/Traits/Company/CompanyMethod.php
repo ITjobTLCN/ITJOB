@@ -13,6 +13,12 @@ use Carbon\Carbon;
 
 trait CompanyMethod
 {
+    protected function getCompanyWithUser() {
+        // if (!Auth::check()) {
+        //     return;
+        // }
+        return Employers::whereIn('master', ["5ac85f53b9068c2384007da9"])->first();
+    }
     protected function storeReview($data, $empId) {
     	$objEmployer = new Employers();
     	$where = [
@@ -128,9 +134,6 @@ trait CompanyMethod
             'info' => [
                 'webiste' => $data['website'],
             ],
-            'employee' => [
-                Auth::id()
-            ],
             'quantity_user_follow' => 0,
             'rating' => "0.0",
             'skills' => [],
@@ -158,19 +161,21 @@ trait CompanyMethod
             $this->formatInputToSave($arrInsert);
             $res->insert($arrInsert);
 
-            $where = [
-                '_id' => $data['emp_id']
-            ];
-            $objEmployer = Employers::where($where)->first();
-            if ( !empty($objEmployer)) {
-                $employee = $objEmployer['employee'];
-                array_push($employee, Auth::id());
-                $arrUpdate = [
-                    'employee' => $employee
-                ];
-                Employers::where($where)->update($arrUpdate);
-            }
-        } catch(\Exception $ex) { return $ex->getMessages(); }
+            // $where = [
+            //     '_id' => $data['emp_id']
+            // ];
+            // $objEmployer = Employers::where($where)->first();
+            // if ( !empty($objEmployer)) {
+            //     $employee = $objEmployer['employee'] ?? [];
+            //     array_push($employee, Auth::id());
+            //     $arrUpdate = [
+            //         'employee' => $employee
+            //     ];
+            //     return Employers::where($where)->update($arrUpdate);
+            // }
+        } catch(\Exception $ex) { 
+            return false;
+        }
 
         return true;
     }

@@ -4,33 +4,30 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		$scope.load(id);
 	}
 	/*---------Load page and get empid from Laravel----------*/
-	$scope.load = function(id) {
-		$scope.empid = id;
+	$scope.load = function() {
 		$scope.editable = false;
 		$scope.selection = [];
-		console.log($scope.empid);
 
-		$http.get('emp/ngadvance/'+ $scope.empid).then(function(response) {
-			console.log(response.data);
-			$scope.assis = response.data.assis;
-			$scope.emp = response.data.emp;
+		$http.get('emp/ngadvance').then(function(response) {
+			console.log(response.data.employer);
+			$scope.assistant = response.data.assis;
+			$scope.employer = response.data.employer;
 			$scope.myskills = response.data.myskills;
-			$scope.mycity = response.data.city;
 			$scope.cities = response.data.cities;
 			$scope.skills = response.data.skills;
 			$scope.posts = response.data.posts;
-
+			console.log('posts', $scope.posts);
 			//add skill selection
 			$scope.myskills.forEach(function(value) {
-				$scope.selection.push({id:value.id,name:value.name});
+				$scope.selection.push({id:value._id,name:value.name});
 			});
 			console.log($scope.selection);
 		}, function(error) {
 			alert('ERROR');
 		});
-		$scope.sortTypePost = 'id';
+		$scope.sortTypePost = '_id';
 		$scope.sortReverse = true;
-		$scope.sortType = 'id';
+		$scope.sortType = '_id';
 		$scope.sortReversePost = true;
 	}
 	/*---------Load page Basic ---------------------------------*/
@@ -430,14 +427,14 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	/*S---------FOR EMAIL------------------*/
 	$scope.emailName ="default Tên";
-	$scope.getAppli = function(name,email) {
+	$scope.getAppli = function(name, email) {
 		$scope.emailName = name;
 		$scope.emailEmail = email;
 
 		$scope.emailContent = `
 		<h3><span style="font-family:Tahoma,Geneva,sans-serif">Chào <em><strong id="email-name">` + $scope.emailName + `</strong>!</em></span></h3>
 
-		<p><span style="font-family:Tahoma,Geneva,sans-serif">Chúng tôi đến từ công ty <em><strong><span style="color:#2980b9">` + $scope.emp.name + `<span style="font-size:16px"></span></span> </strong></em> đã xem xét đơn xin việc của bạn và cảm thấy bạn đã đủ điều kiện để chúng tôi kiểm tra Technical cùng với kỹ năng làm việc. Chúng tôi hi vọng bạn sắp xếp thời gian công việc để đến tham dự buổi phỏng vấn của công ty chúng tôi.</span></p>
+		<p><span style="font-family:Tahoma,Geneva,sans-serif">Chúng tôi đến từ công ty <em><strong><span style="color:#2980b9">` + $scope.employer.name + `<span style="font-size:16px"></span></span> </strong></em> đã xem xét đơn xin việc của bạn và cảm thấy bạn đã đủ điều kiện để chúng tôi kiểm tra Technical cùng với kỹ năng làm việc. Chúng tôi hi vọng bạn sắp xếp thời gian công việc để đến tham dự buổi phỏng vấn của công ty chúng tôi.</span></p>
 
 		<h4><span style="font-family:Tahoma,Geneva,sans-serif">Tên công việc bạn đã apply: <span style="color:#c0392b"><strong>` + $scope.curPost.name + `</strong></span></span></h4>
 

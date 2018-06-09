@@ -27,5 +27,13 @@ return [
         'wordpress'
     ],
 
-    'defaultCity' => 'Hồ Chí Minh'
+    'defaultCity' => 'Hồ Chí Minh',
+
+    'statusAssistant' => [
+        10, 11, 12
+    ],
+
+    'statusJob' => [
+        1, 10, 11, 12
+    ],
 ];

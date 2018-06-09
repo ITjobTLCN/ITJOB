@@ -86,12 +86,12 @@ class HomeController extends Controller
                //create employers //NAME,CITY,ADDRESS,WEBSITE ->
                 $data = $request->only(['name', 'city_id', 'address', 'website']);
                 $id = $this->saveEmployer($data);
-                if ($id) {
-                    // update role user
-                    User::where('_id', Auth::id())
-                        ->update(['role_id' => config('constant.roles.employer')]);
-                    $emp_id = $id;
-                }
+                // if ($id) {
+                //     // update role user
+                //     User::where('_id', Auth::id())
+                //         ->update(['role_id' => config('constant.roles.employer')]);
+                //     $emp_id = $id;
+                // }
                 break;
             case 10:
                 $emp_id = $request->_id;
@@ -108,7 +108,6 @@ class HomeController extends Controller
                 'type' => $type
             ];
             if ($this->saveRegisterEmployer($data)) {
-                Session::put('success', 'Register successfully');
                 return response()->json(['status' => true, 'message' => 'Register successfully']);
             }
 

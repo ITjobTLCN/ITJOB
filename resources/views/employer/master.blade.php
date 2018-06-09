@@ -19,10 +19,10 @@ Employer
 						<a class="sb-b" href="emp/basic#emp-yourpost"><i class="fa fa-sticky-note-o"></i> Your post</a>
 					</div>
 				</div>
-				@if(Auth::user()->role_id==3)
+				@if(Auth::user()->role_id == '5ac85f51b9068c2384007d9e')
 				<div class="sb-block">
 					<div class="sb-head">
-						<a class="sb-a" href="{{route('getempadvance')}}">Advance</a>
+						<a class="sb-a" href="{{route('getEmpAdvance')}}">Advance</a>
 					</div>
 					<div class="sb-detail">
 						<a class="sb-b" href="emp/advance#emp-info"><i class="fa fa-info-circle"></i> Emp Info</a>

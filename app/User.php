@@ -11,14 +11,14 @@ use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 use Cache;
 class User extends Eloquent implements Authenticatable
 {
-    use Notifiable,  
+    use Notifiable,
         SoftDeletes,
         AuthenticableTrait;
 
-    protected $collection = "users";
+    protected $collection = 'users';
 
     protected $dates = ['deleted_at'];
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -27,7 +27,7 @@ class User extends Eloquent implements Authenticatable
     protected $fillable = [
         'name', 'email', 'password', 'role_id'
     ];
-    
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -40,7 +40,7 @@ class User extends Eloquent implements Authenticatable
     public function socialProviders() {
         return $this->hasMany(SocialProvider::class);
     }
-    
+
     public function isOnline() {
         return Cache::has('user-is-online-'.$this->id);
     }

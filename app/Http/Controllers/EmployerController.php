@@ -38,6 +38,9 @@ class EmployerController extends Controller
 {
     use CompanyMethod, ApplyMethod, CommonMethod, UserMethod, JobMethod;
 
+    // public function __construct() {
+    //     $this->middleware('auth');
+    // }
 	/**
      * Function change from name to alias and remove Vietnamese
      */
@@ -53,8 +56,8 @@ class EmployerController extends Controller
     }
 
    	public function getAdvance() {
-        $empid = Auth::user()->emp_id;
-   		return view('employer.advance', compact('empid'));
+        $employer = $this->getCompanyWithUser();
+   		return view('employer.advance' ,compact('employer'));
    	}
 
    	/*-----------------TRANG QUẢN TRỊ CỦA EMPLOYER--------------------------
@@ -62,36 +65,23 @@ class EmployerController extends Controller
 	*--Chấp nhận hoặc từ chối sự tham gia hỗ trợ đăng bài của thành viên----
    	*------------------Chỉnh sửa thông tin của Employer---------------------
    	*------------------------Route này của master---------------------------*/
-	public function ngGetAdvance($id) {
+	public function ngGetAdvance() {
+        //info employer
+        $employer = $this->getCompanyWithUser();
         //list city,skills  -- các danh sách chung
-        $cities = Cities::all();
-        $skills = Skills::all();
+        $cities = $this->getAllCities();
+        $skills = $this->getAllSkills();
         //
-		$dataassis = $this->ngGetAssistantByEmpId($id);
-		$assis = $dataassis['assis'];
-		//info employer
-		$emp = Employers::find($id);
-		$city = $emp->city;
+		$assis = $this->ngGetAssistantByEmpId($employer['_id']);
 		//list skill
-        $myskills = Skill_employer::where('skill_employers.emp_id', $id)
-                                  ->join('skills','skills.id', '=', 'skill_employers.skill_id')
-                                  ->select('skills.*')
-                                  ->get();
+        $myskills = $employer['skills'];
 
-        //Get list posts of Employer (pending-publish-expire-masterdeleted) ->Khong lay save va2 delete cua Assis
-        $posts = Job::with('User', 'Applications')
-                     ->where('emp_id', $id)
-                     ->where(function($q) {
-                        $q->orWhere('status', 10);   //->pending
-                        $q->orWhere('status', 1);    //->publisher
-                        $q->orWhere('status', 11);   //->expire
-                        $q->orWhere('status', 12);   //->master deleted
-                    })->get();
+        //Get list posts of Employer (pending-publish-expire-masterdeleted) -> Khong lay save va delete cua Assis
+        $posts = $this->getJobsOfCompany($employer['_id']);
 
         return response()->json(['assis' => $assis,
-                                 'emp' => $emp,
+                                 'employer' => $employer,
                                  'myskills' => $myskills,
-                                 'city' => $city,
                                  'cities' => $cities,
                                  'skills' => $skills,
                                  'posts' => $posts]);
@@ -236,17 +226,21 @@ class EmployerController extends Controller
     /**
      * function get list assistant by EmployerId
      */
-   	public function ngGetAssistantByEmpId($id) {
-        $assis = Registration::where('registration.emp_id',$id)
-                             ->where(function($q) {
-                                    $q->orWhere('registration.status', 10);
-                                    $q->orWhere('registration.status', 11);
-                                    $q->orWhere('registration.status', 12);
-                                })
-                             ->join('users','users.id', '=', 'registration.user_id')
-                             ->select('users.*', 'registration.*')
-                             ->get();
-		return ['assis' => $assis];
+   	public function ngGetAssistantByEmpId($empId) {
+        $arrWheres = [
+            'emp_id' => $empId,
+            '$or' => [
+                [
+                    'status' => [
+                        '$in' => config('constant.statusAssistant')
+                    ]
+                ]
+            ]
+        ];
+
+        return Registration::with('user')
+                            ->where($arrWheres)
+                            ->get();
 	}
 
     /**

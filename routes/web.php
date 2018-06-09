@@ -237,14 +237,15 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 
 });
 //Route::get('ngbasic/{id}', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
+//Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/
-	Route::get('/', [ 'as' => 'getemp', 'uses' => 'EmployerController@getIndex' ]);
-	Route::get('advance', [ 'as' => 'getempadvance', 'uses' => 'EmployerController@getAdvance' ]);
+	Route::get('/', [ 'as' => 'getEmp', 'uses' => 'EmployerController@getIndex' ]);
+	Route::get('advance', [ 'as' => 'getEmpAdvance', 'uses' => 'EmployerController@getAdvance' ]);
 
 		/*employer manage  --- output: json*/
-	Route::get('ngadvance/{id}', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
+	Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
 	Route::get('ngconfirmass/{id}/{user_id}', [ 'as' => 'nggetconfirmass', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
 	Route::get('ngdenyass/{id}/{user_id}', [ 'as' => 'nggetdenyass', 'uses' => 'EmployerController@ngGetDenyAss' ]);
 		/*Update info*/
