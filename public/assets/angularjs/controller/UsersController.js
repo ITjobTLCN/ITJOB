@@ -4,16 +4,15 @@ app.controller('UsersController',function($scope,$http){
 		method:'GET',
 		url:'admin/ngusers'
 	}).then(function(response){
-		// console.log(response);
 		$scope.users = response.data.users;
 	},function(error){
-		alert('500 (Internal Server Error)');
+		alert(error.message);
 	});
 
-	
+
 
 	/*open modal to edit/create  --using route getuser ----method AdminController@ngGetUser*/
-	 $scope.modal = function(state,id){
+	$scope.modal = function(state,id){
 		$scope.change = true;
 		$('#block-changepassword').show();
 		$scope.state = state;
@@ -31,7 +30,6 @@ app.controller('UsersController',function($scope,$http){
 
 		switch(state){
 			case 'add':
-				// $scope.user = "";
 				$scope.titleModal="Create a account";
 				break;
 			case 'edit':
@@ -77,13 +75,13 @@ app.controller('UsersController',function($scope,$http){
 				$http({
 					method:"post",
 					url: "admin/ngcreateuser",
-					data:data,
+					data: data,
 					headers: {'Content-type':'application/x-www-form-urlencoded'}
 				}).then(function(response){
-					if(response.data.status==true){
+					if(response.data.status == true){
 						alert(response.data.message);
-						//push user to scope user 
-						$scope.users.push(response.data.item);
+						//push user to scope user
+						$scope.users.splice(0,0,response.data.user);
 						//close modal
 						$('#modal-create-user').modal('hide');
 					}else{
@@ -96,16 +94,16 @@ app.controller('UsersController',function($scope,$http){
 				break;
 			case 'edit':
 				$http({
-					method:"post",
+					method: "post",
 					url: "admin/ngedituser/"+id,
-					data:data,
+					data: data,
 					headers: {'Content-type':'application/x-www-form-urlencoded'}
 				}).then(function(response){
-					if(response.data.status==true){
-						alert(response.data.message);	
-						
-						//update list user
-						$scope.users = response.data.items;
+					if(response.data.status == true){
+						alert(response.data.message);
+
+						// Update list user
+						$scope.users = response.data.users;
 						//close modal
 						$('#modal-create-user').modal('hide');
 					}else{
@@ -125,13 +123,13 @@ app.controller('UsersController',function($scope,$http){
 	 $scope.deleteUser = function(id){
 		if(confirm('Delete this row?')){
 			$http({
-			method:'get',
-			url:'admin/ngdeleteuser/'+id,
+			method: 'get',
+			url: 'admin/ngdeleteuser/' + id,
 			}).then(function(response){
-				if(response.data.status==true){
+				if(response.data.status == true){
 					alert(response.data.message);
 					//delete then load list user send to scope user
-					$scope.users = response.data.items;		
+					$scope.users = response.data.users;
 				}else{
 					alert(response.data.message);
 				}
@@ -143,9 +141,25 @@ app.controller('UsersController',function($scope,$http){
 
 	/*sort-filer-search TABLE with angular */
 	$scope.showitems = '3';
-	$scope.sort = function(keyname){
-		$scope.sortType = keyname;
-		$scope.sortReverse = !$scope.sortReverse;
+	$scope.sort = function(keyname) {
+		// Old result
+		if (keyname === $scope.sortType) {
+			// Check if sort ASCENDING
+			if ($scope.sortReverse == false) {
+				$scope.frezingOrder();
+			} else {
+				$scope.sortReverse = false;
+			}
+		} else {
+			$scope.sortType = keyname;
+			$scope.sortReverse = true;
+		}
+	}
+
+	// Freezing default to feild: created_at, desc
+	$scope.frezingOrder = function() {
+		$scope.sortType = 'created_at';
+		$scope.sortReverse = true;
 	}
 
 });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Applications;
 use App\User;
 use App\Roles;
+use Validator;
 use App\Job;
 use App\Employers;
 use App\Cities;
@@ -22,50 +23,50 @@ use App\Notifications\SendNotify;
 class AdminController extends Controller
 {
      /*Function change from name to alias and remove Vietnamese*/
-    function stripAccents($str) {
-        return strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
-    }
     public function changToAlias($str){
+        //Remove Vietnamese
+        $str = strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
+        //
         $str =   str_replace('?', '',strtolower($str));
         return  str_replace(' ', '-',strtolower($str));
     }
-    
+
     /*Import and export*/
-     public function postImport(){
+    public function postImport(){
         try{
             $type = Input::has('type')?Input::get('type'):-1;
 
             if(Input::hasFile('file')){
 
                 Excel::load(Input::file('file'),function($reader) use ($type){
-                    
+
                     $reader->each(function($sheet) use ($type){
 
                         switch ($type) {
                             case 1:
-                                User::firstOrCreate($sheet->toArray()); 
-                                break;  
-                            // case 2: 
+                                User::firstOrCreate($sheet->toArray());
+                                break;
+                            // case 2:
                             //     Cities::firstOrCreate($sheet->toArray());
-                            //     break;          
-                            // case 3: 
+                            //     break;
+                            // case 3:
                             //     Job::firstOrCreate($sheet->toArray());
-                            //     break;  
-                            // case 4: 
+                            //     break;
+                            // case 4:
                             //     Employers::firstOrCreate($sheet->toArray());
-                            //     break;  
-                            // case 5: 
+                            //     break;
+                            // case 5:
                             //     Skills::firstOrCreate($sheet->toArray());
-                            //     break;      
-                            // case 6: 
+                            //     break;
+                            // case 6:
                             //     Skill_Job::firstOrCreate($sheet->toArray());
-                            //     break;      
-                            // case 7: 
+                            //     break;
+                            // case 7:
                             //     Applications::firstOrCreate($sheet->toArray());
-                            //     break;    
-                            case 8: 
+                            //     break;
+                            case 8:
                                 Roles::firstOrCreate($sheet->toArray());
-                                break;   
+                                break;
                             default:
                                 return redirect()->back()->with(['message'=>'ERRORS']);
                                 break;
@@ -76,14 +77,14 @@ class AdminController extends Controller
             }else{
                 return redirect()->back()->with(['message'=>'File not found']);
             }
-            
+
         }catch(\Exception $e){
             dd($e);
             return redirect()->back()->with(['message'=>'ERRORS TRY CATCH']);
         }
     }
     /*xuất bảng dữ liệu*/
-     public function getExport($type){
+    public function getExport($type){
         $export ='';
         $name = 'Export_Data_';
         switch ($type) {
@@ -133,8 +134,6 @@ class AdminController extends Controller
     /*END Database Import-Export*/
 
 
-
-
     /*
     |       ----------------ADMIN---------------------
     |       -----------get List Users-----------------
@@ -142,57 +141,92 @@ class AdminController extends Controller
     */
 
        /*-------Page loading by Laravel-------*/
-    public function getDashBoard(){return view('admin.dashboard');}
-    public function getListUsers(){
+    public function getDashBoard() {
+        return view('admin.dashboard');
+    }
+    public function getListUsers() {
         $user = User::get();
         $count_user_online = 0;
-        foreach($user as $u){
+        foreach ($user as $u) {
             if(Cache::has('user-is-online-'.$u->id))
                 $count_user_online++;
         }
-        return view('admin.users',compact('count_user_online'));}
-    public function getListEmps(){return view('admin.employers');}
-    /*
-    |-------Angular using --------
-    */
+        return view('admin.users',compact('count_user_online'));
+    }
+    public function getListEmps() {
+        return view('admin.employers');
+    }
+    /**
+     * ANGULAR USING
+     * @return json for angular JS
+     * Note: A object when delete: deleted_at field has value
+     * So: when get list or user, check deleted_at is null
+     */
             //----SHOW ALL----
-    public function ngGetUsers(){
-        $users=User::get();
-        return response()->json(['users'=>$users]);
+    public function ngGetUsers() {
+        $users = $this->get_list_users();
+        return response()->json([config('constant.USERS') => $users]);
     }
             //----SHOW BY ID----
     public function ngGetUser($id){
-        try{
-            $user = User::findOrFail($id);
-            return response()->json(['user'=>$user]);
-        }catch(\Exception $e){
-
-        } 
+        $user = User::findOrFail($id);
+        return response()->json([config('constant.USER') => $user]);
     }
             //----CREATE USER----
     public function ngPostCreateUser(Request $request){
+        // Form validation
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required',
+            'name' => 'required',
+            'role_id' => 'required'
+        ]);
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $validator]);
+        }
+
         $email = $request->email;
         $password = $request->password;
         $name = $request->name;
         $role_id = $request->role_id;
-        $status = $request->status;
+        $status = ($request->exists('status'))? $request->status :
+            config('constant.STATUS_DEFAULT');
 
-         if(User::where('email',$email)->first()){
-             return response()->json(['status'=>false,'errors'=>"This email has already exists"]);
+        if(User::where('email',$email)->first()){
+            return response()->json([config('constant.STATUS') => FALSE,
+                config('constant.ERROR') => config('constant.ERROR_EMAIL_EXIST')]);
         }
 
-        $user = new User();
-        $user->name=$name;
-        $user->email=$email;
-        $user->password=bcrypt($password);
-        $user->role_id=$role_id;
-        $user->status=$status;
+        $user = new User;
+        $user->name = $name;
+        $user->email = $email;
+        $user->password = bcrypt($password);
+        $user->role_id = $role_id;
+        $user->status = $status;
         $user->save();
 
-        return response()->json(['status'=>true,'message'=>'Create Successfully','item'=>$user]);
+        return response()->json([config('constant.STATUS') => TRUE,
+        config('constant.MESSAGE') => config('constant.SUCCESS_CREATE_USER'),
+            config('constant.USER') => $user]);
     }
+
             //----EDIT USER----
-    public function ngPostEditUser(Request $request,$id){
+    public function ngPostEditUser(Request $request, $id) {
+        // Form validation
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'name' => 'required',
+            'role_id' => 'required'
+        ]);
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $validator]);
+        }
+
+        // Get user
         $user = User::findOrFail($id);
 
         $email = $request->email;
@@ -200,13 +234,15 @@ class AdminController extends Controller
         $role_id = $request->role_id;
         $status = $request->status;
 
-         if(User::where('email',$email)->where('email','<>',$user->email)->first()){
-             return response()->json(['status'=>false,'errors'=>"This email has already exists"]);
+        if(User::where('email',$email)->where('email','<>',$user->email)->first()) {
+            return response()->json([config('constant.STATUS') => FALSE,
+                config('constant.ERROR') => config('constant.ERROR_EMAIL_EXIST')]);
         }
-        
+
+        // Update user
         if($request->has('password')){
             $password = $request->password;
-            $user->password=bcrypt($password);
+            $user->password = bcrypt($password);
         }
         $user->name=$name;
         $user->email=$email;
@@ -214,27 +250,48 @@ class AdminController extends Controller
         $user->status=$status;
         $user->save();
 
-        //get list users to Update by Table
-        $users = User::get();
-        return response()->json(['status'=>true,'message'=>'Edit Successfully','items'=>$users]);
+        // Get list users to Update in View
+        $users = $this->get_list_users();
+        return response()->json([config('constant.STATUS') => TRUE,
+            config('constant.MESSAGE') => config('constant.SUCCESS_EDIT_USER'),
+            config('constant.USERS') => $users]);
     }
-            //-----GET ROLE-----
-    public function ngGetRoles(){
-        $roles = Roles::get();
-        return  response()->json(['roles'=>$roles]);
-    }
-            //----DELETE USER---
-    public function ngGetDeleteUser($id){
+
+        //----DELETE USER---
+    public function ngGetDeleteUser($id) {
         try{
             $user = User::findOrFail($id);
             $user->delete();
              //get list users to Update by Table
-            $users = User::get();
-             return response()->json(['status'=>true,'message'=>'Delete Successfully','items'=>$users]);
+            $users = $this->get_list_users();
+            return response()->json([config('constant.STATUS') => TRUE,
+                config('constant.MESSAGE') => config('constant.SUCCESS_DELETE_USER'), config('constant.USERS') => $users]);
         }catch(Exception $e){
-            return response()->json(['status'=>false,'message'=>'Delete failed']);
+            return response()->json([config('constant.STATUS') => FALSE,
+                config('constant.MESSAGE') => config('constant.FAIL_DELETE_USER')]);
         }
     }
+
+
+            //-----GET ROLE-----
+    public function ngGetRoles() {
+        $roles = Roles::get();
+        return  response()->json(['roles'=>$roles]);
+    }
+    public function ngGetRole($id) {
+        $role = Roles::find();
+        return  response()->json(['role'=>$role]);
+    }
+    public function ngAddRole() {
+
+    }
+    public function ngEditRole() {
+
+    }
+    public function ngDeleteRole() {
+
+    }
+
 
     /*------------------END USER---------------------*/
 
@@ -295,7 +352,7 @@ class AdminController extends Controller
         /* Employers*/
             //new approved in today
         $newemps = Employers::join('registration','employers.id','=','registration.emp_id')->where('employers.status',1)->where('registration.status',1)->where('registration.created_at','>',$today)->select('emp_id')->get()->count();
-        
+
         //count online user
         $user = User::get();$user_online = 0;
         foreach($user as $u){
@@ -303,7 +360,7 @@ class AdminController extends Controller
                 $user_online++;
         }
 
-        return response()->json(['status'=>true,'countallusers'=>$countallusers,'countadmins'=>$countadmins,
+        return response()->json(['status'=>TRUE,'countallusers'=>$countallusers,'countadmins'=>$countadmins,
             'countusers'=>$countusers,'countemployers'=>$countemployers,'countmasters'=>$countmasters,
             'countassistants'=>$countassistants,
             'countemps'=>$countemps, 'countpendingemps'=>$countpendingemps,
@@ -318,7 +375,7 @@ class AdminController extends Controller
         /**---------------EMPLOYERS----------------------
     * A some function in Employer, used in EmpController.js
     * function: confirm/deny waiting employer
-    * list employer - CRUD - sort search limit  
+    * list employer - CRUD - sort search limit
     * Number of masters and assistants, CRUD - sort search limit
     * Number of posts - total -current - expire - waiting POSTs
     */
@@ -326,7 +383,7 @@ class AdminController extends Controller
     public function ngGetEmps(){
         $emps = Employers::get();
         $cities = Cities::get();
-        
+
         $regis = Registration::join('users','registration.user_id','=','users.id')->select('users.*','registration.*')->get();
         return response()->json(['emps'=>$emps,'cities'=>$cities,'regis'=>$regis]);
     }
@@ -338,7 +395,7 @@ class AdminController extends Controller
         try{
             $emp = new Employers();
             $emp->name = $request->name;
-            $emp->alias = $this->changToAlias($this->stripAccents($request->name));
+            $emp->alias = $this->changToAlias($request->name);
             $emp->city_id = $request->city_id;
             $emp->address = $request->address;
             $emp->website = $request->website;
@@ -349,16 +406,16 @@ class AdminController extends Controller
 
             //get all data and send to update table
             $emps = Employers::all();
-            return response()->json(['status'=>true,'message'=>'Create Successfully','emps'=>$emps]);
+            return response()->json(['status'=>TRUE,'message'=>'Create Successfully','emps'=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>false,'message'=>'Create failed','req'=>$request->all()]);
+            return response()->json(['status'=>FALSE,'message'=>'Create failed','req'=>$request->all()]);
         }
     }
     public function ngPostEditEmp(Request $request,$id){
         try{
             $emp = Employers::findOrFail($id);
             $emp->name = $request->name;
-            $emp->alias = $this->changToAlias($this->stripAccents($request->name));
+            $emp->alias = $this->changToAlias($request->name);
             $emp->city_id = $request->city_id;
             $emp->address = $request->address;
             $emp->website = $request->website;
@@ -367,9 +424,9 @@ class AdminController extends Controller
             $emp->save();
             //get all data and send to update table
             $emps = Employers::all();
-            return response()->json(['status'=>true,'message'=>'Edit Successfully','emps'=>$emps]);
+            return response()->json(['status'=>TRUE,'message'=>'Edit Successfully','emps'=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>false,'message'=>'Edit failed']);
+            return response()->json(['status'=>FALSE,'message'=>'Edit failed']);
         }
     }
     public function ngGetDeleteEmp($id){
@@ -378,9 +435,9 @@ class AdminController extends Controller
             $emp->delete();
 
             $emps = Employers::all();
-            return response()->json(['status'=>true,'message'=>'Delete Successfully','emps'=>$emps]);
+            return response()->json(['status'=>TRUE,'message'=>'Delete Successfully','emps'=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>false,'message'=>'Delete failed']);
+            return response()->json(['status'=>FALSE,'message'=>'Delete failed']);
         }
     }
         /*END CRUD Employer*/
@@ -405,11 +462,11 @@ class AdminController extends Controller
             $emps = Employers::all();
 
             //send notification
-            $user->notify(new ConfirmEmployer($emp,true));
+            $user->notify(new ConfirmEmployer($emp,TRUE));
 
-            return response()->json(['status'=>true,'message'=>'Confirm Successfully','emps'=>$emps]);
+            return response()->json(['status'=>TRUE,'message'=>'Confirm Successfully','emps'=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>false,'message'=>'Confirm failed']);
+            return response()->json(['status'=>FALSE,'message'=>'Confirm failed']);
         }
     }
 
@@ -428,11 +485,11 @@ class AdminController extends Controller
 
             $emps = Employers::all();
 
-            $user->notify(new ConfirmEmployer($emp,false));
+            $user->notify(new ConfirmEmployer($emp,FALSE));
 
-            return response()->json(['status'=>true,'message'=>'Deny Successfully','emps'=>$emps]);
+            return response()->json(['status'=>TRUE,'message'=>'Deny Successfully','emps'=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>false,'message'=>'Deny failed']);
+            return response()->json(['status'=>FALSE,'message'=>'Deny failed']);
         }
     }
         /*END CONFIRM/DENY pending Employer*/
@@ -464,5 +521,14 @@ class AdminController extends Controller
             }
         }
         return redirect()->back();
+    }
+
+
+    /**
+     * Common function: Get list users
+     * Order: Desc
+     */
+    private function get_list_users() {
+        return User::orderBy('created_at','desc')->get();
     }
 }
