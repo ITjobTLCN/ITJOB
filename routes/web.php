@@ -238,6 +238,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 });
 //Route::get('ngbasic/{id}', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 //Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
+//Route::get('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/
@@ -246,7 +247,7 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 
 		/*employer manage  --- output: json*/
 	Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
-	Route::get('ngconfirmass/{id}/{user_id}', [ 'as' => 'nggetconfirmass', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
+	Route::post('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
 	Route::get('ngdenyass/{id}/{user_id}', [ 'as' => 'nggetdenyass', 'uses' => 'EmployerController@ngGetDenyAss' ]);
 		/*Update info*/
 	Route::post('ngupdateinfo/{id}', [ 'as' => 'ngupdateempinfo', 'uses' => 'EmployerController@ngGetUpdateEmpInfo' ]);
@@ -255,7 +256,7 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 
 		/*Employer Basic*/
 	Route::get('basic', [ 'as' => 'getEmpBasic', 'uses' => 'EmployerController@getEmpBasic' ]);
-	Route::get('ngbasic/{id}', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
+	Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 	Route::post('ngcreatepost/{empid}', [ 'as' => 'ngcreatepost', 'uses' => 'EmployerController@ngCreatePost' ]);
 	Route::get('nggetpost/{id}', [ 'as' => 'nggetpost', 'uses' => 'EmployerController@ngGetPost' ]);
 	Route::post('ngeditpost/{empid}/{id}', [ 'as' => 'ngeditpost', 'uses' => 'EmployerController@ngEditPost' ]);

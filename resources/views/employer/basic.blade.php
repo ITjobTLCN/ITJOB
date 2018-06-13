@@ -4,7 +4,7 @@ Manage Basic
 @endsection
 @section('empcontent')
 	<div ng-controller="EmployerManagerController">
-		<div id="emp-dashboard" class="emp-section" ng-init="loadBasic({{$employer}})">
+		<div id="emp-dashboard" class="emp-section" ng-init="loadBasic()">
 			<div class="row">
 	            <div class="col-lg-3 col-md-6">
 	                <div class="panel panel-primary">
@@ -59,7 +59,7 @@ Manage Basic
 	                                <i class="fa fa-list-ul fa-5x"></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge">{{count($employer['reviews'])}}<span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
+	                                <div class="huge"><% options['reviews'].length %><span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
 	                                <div>Review!</div>
 	                            </div>
 	                        </div>

@@ -46,8 +46,8 @@ class EmployerController extends Controller
      */
     public function changToAlias($str) {
     	$str = strtr(utf8_decode($str), utf8_decode('àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ'), 'aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
-        $str =   str_replace('?', '',strtolower($str));
-        return  str_replace(' ', '-',strtolower($str));
+        $str =   str_replace('?', '', strtolower($str));
+        return  str_replace(' ', '-', strtolower($str));
     }
 
 	//Load trang
@@ -56,8 +56,8 @@ class EmployerController extends Controller
     }
 
    	public function getAdvance() {
-        $employer = $this->getCompanyWithUser();
-   		return view('employer.advance' ,compact('employer'));
+        $employer = $this->getCompanyWithUser('master');
+   		return view('employer.advance', compact('employer'));
    	}
 
    	/*-----------------TRANG QUẢN TRỊ CỦA EMPLOYER--------------------------
@@ -67,7 +67,7 @@ class EmployerController extends Controller
    	*------------------------Route này của master---------------------------*/
 	public function ngGetAdvance() {
         //info employer
-        $employer = $this->getCompanyWithUser();
+        $employer = $this->getCompanyWithUser('master');
         //list city,skills  -- các danh sách chung
         $cities = $this->getAllCities();
         $skills = $this->getAllSkills();
@@ -89,30 +89,32 @@ class EmployerController extends Controller
 
 		/*CONFIRM/DENY pending Employee*/
 
-    public function ngGetConfirmAss($id,$user_id) {	//id: employer_id 
+    public function ngGetConfirmAss(Request $req) {	//id: employer_id
         try {
-            $user = User::findOrFail($user_id);
-            $emp = Employers::findOrFail($id);
+            $user = User::where('_id', $req->userId)->first();
+            $emp = Employers::findOrFail($req->empId);
             //with assistant
-            $regis = Registration::where('emp_id', $id)
-                                 ->where('user_id', $user_id)
-                                 ->first();
+            $register = Registration::where('emp_id', $req->empId)
+                                    ->where('user_id', $req->userId)
+                                    ->first();
             //
-            $regis->status = 11;
-            $regis->save();
+            $register->status = 11;
+            $register->save();
             //
-            $user->role_id = 4;
-            $user->emp_id = $id;
+            $user->role_id = '5ac85f51b9068c2384007d9f';
             $user->save();
+            $employee = $emp->employee;
+            array_push($employee, $req->userId);
+            $emp->employee = array_unique($employee);
+            $emp->save();
 
-            $data = $this->ngGetAssistantByEmpId($id);
-            $assis = $data['assis'];
+            $assis = $this->ngGetAssistantByEmpId($req->empId);
 
             //send notification to this person
-            $user->notify(new ConfirmAssistant($emp, true));
+            //$user->notify(new ConfirmAssistant($emp, true));
 
-            return response()->json(['status' => true, 
-                                     'message' => 'Confirm Successfully', 
+            return response()->json(['status' => true,
+                                     'message' => 'Confirm Successfully',
                                      'assis' => $assis]);
         } catch(Exception $e) {
             return response()->json(['status' => false,
@@ -138,8 +140,8 @@ class EmployerController extends Controller
             //send notification to this person
             $user->notify(new ConfirmAssistant($emp, true));
 
-            return response()->json(['status' => true, 
-                                     'message' => 'Deny Successfully', 
+            return response()->json(['status' => true,
+                                     'message' => 'Deny Successfully',
                                      'assis' => $assis]);
         } catch(Exception $e) {
             return response()->json(['status' => false,
@@ -175,11 +177,11 @@ class EmployerController extends Controller
                     $ski->save();
                 }
             }
-            return response()->json(['status' => true, 
+            return response()->json(['status' => true,
                                         'message' => 'Update Successfully']);
-            
+
         } catch(Exception $e) {
-            return response()->json(['status' => false, 
+            return response()->json(['status' => false,
                                         'message' => 'Failed']);
         }
     }
@@ -191,7 +193,7 @@ class EmployerController extends Controller
         ]);
         if ($validator->fails()) {
             return redirect()->back()
-                                ->withErrors('Size of image too large or is not the 
+                                ->withErrors('Size of image too large or is not the
                                 following type:jpg, jpeg, bmp, png');
         }
         // dd($request->all());
@@ -256,14 +258,16 @@ class EmployerController extends Controller
      * BASIC:Dashboar và post bài + quản lý bài mình post
      */
     public function getEmpBasic() {
-        $employer = Employers::whereIn('employee', [Auth::id()])->first();
+        $employer = $this->getCompanyWithUser('employee');
         return view('employer.basic', compact('employer'));
     }
 
     /**
      * Get data when load page Basic
      */
-    public function ngGetBasic($empId) {
+    public function ngGetBasic() {
+        $employer = $this->getCompanyWithUser('employee');
+        $empId = $employer['_id'];
         $cities = $this->getAllCities();
         $skills = $this->getAllSkills();
         $today = Carbon::now()->startOfDay();
@@ -479,8 +483,8 @@ class EmployerController extends Controller
     }
 
     /*
-    |                   SEND EMAIL TO CANDIDATE AND SET UP DATE: 
-    |                       (date,hour,address)  
+    |                   SEND EMAIL TO CANDIDATE AND SET UP DATE:
+    |                       (date,hour,address)
     |---------------------------------------------------------------------
     |                       Send email by SWIFTMAILER
     */
@@ -497,7 +501,7 @@ class EmployerController extends Controller
     /*
     |-------------SEND NOTIFICATION----------------
     |For: Employer
-    |Case:  co người apply, có người follow-review, 
+    |Case:  co người apply, có người follow-review,
     |       confirm assistant, comfirm post
     |For: User
     |Case: Công ty đã follow có post(publisher)
@@ -508,9 +512,9 @@ class EmployerController extends Controller
     |       confirm emp => add noti for admin, user
     |
     |       confirm/deny assistant=> add noti for assistant
-    |   
+    |
     |       apply => add noti for emp đã apply
     |       follow-review => add noti for emp đã apply
-    |       
+    |
     */
 }

@@ -1,4 +1,5 @@
 app.controller('EmployerManagerController', function($http, $scope, $filter) {
+	$scope.empid = "";
 	/*-----------Reset function-----------------------*/
 	$scope.resetAd = function(id) {
 		$scope.load(id);
@@ -31,11 +32,12 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		$scope.sortReversePost = true;
 	}
 	/*---------Load page Basic ---------------------------------*/
-	$scope.loadBasic = function(employer) {
-		$scope.empid = employer['_id'];
+	$scope.loadBasic = function() {
+		// $scope.empid = employer['_id'];
 		$scope.job = null;
 		$scope.selection = [];
-		$http.get('emp/ngbasic/' + $scope.empid).then(function(response) {
+		$http.get('emp/ngbasic').then(function(response) {
+			console.log(response);
 			console.info('basic_employer', response.data);
 			//chung
 			$scope.options = response.data;
@@ -52,10 +54,20 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	}
 
 	/**-------Confirm/Deny Assistant------------*/
-	$scope.confirm = function(id) {
-		if (confirm('Are you sure confirm?')) {
-			$http.get('emp/ngconfirmass/'+ $scope.empid+"/"+id).then(function(response) {
-				if (response.data.status==true) {
+	$scope.confirm = function(userId) {
+		if (confirm('Are you sure ?')) {
+			var req = {
+	            method: 'POST',
+	            url: 'emp/ng-confirm-ass',
+	            data: {
+	                empId: $scope.employer['_id'],
+	                userId: userId
+	            },
+	            headers: { 'Content-type' : 'application/json' }
+	        };
+			$http(req).then(function(response) {
+				console.log(response);
+				if (response.data.status == true) {
 					alert(response.data.message);
 					$scope.assis = response.data.assis;
 				} else {

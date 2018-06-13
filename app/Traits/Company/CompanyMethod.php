@@ -13,12 +13,14 @@ use Carbon\Carbon;
 
 trait CompanyMethod
 {
-    protected function getCompanyWithUser() {
-        // if (!Auth::check()) {
-        //     return;
-        // }
-        return Employers::whereIn('master', ["5ac85f53b9068c2384007da9"])->first();
+    protected function getCompanyWithUser($type) {
+        if (!Auth::check()) {
+            return;
+        }
+
+        return Employers::whereIn($type, [Auth::id()])->first();
     }
+
     protected function storeReview($data, $empId) {
     	$objEmployer = new Employers();
     	$where = [
@@ -173,7 +175,7 @@ trait CompanyMethod
             //     ];
             //     return Employers::where($where)->update($arrUpdate);
             // }
-        } catch(\Exception $ex) { 
+        } catch(\Exception $ex) {
             return false;
         }
 
@@ -207,15 +209,26 @@ trait CompanyMethod
     }
 
     protected function getReviewTodayOfCompany($empId = null, $today = null) {
-        $listReview = $this->getReviewOfCompany($empId);
-        if ( is_null($today) || empty($listReview)) {
+        if ( is_null($today)) {
             return;
         }
-        $result = [];
-        foreach ($listReview as $key => $item) {
-            if($item['reviewed_at'] < $Minh) continue;
 
-            $result[] = $item;
+        $arrWhere = [
+            '_id' => $empId,
+            'reviews' => [
+                'reviewed_at' => [
+                    '$gte' => $today->subDays(3)
+                ]
+            ],
+        ];
+        $result = [];
+        $listReview = Employers::where($arrWhere)->first();
+        if (empty($listReview)) {
+            return [];
+        }
+
+        foreach ($listReview as $key => $item) {
+            $result[] = $item['reviews'];
         }
 
         return $result;

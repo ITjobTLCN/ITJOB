@@ -204,7 +204,7 @@ Manage Advance
 					</td>
 					<td>
 						<span ng-if="assis.status == 10">
-							<button ng-click="confirm(assis._id)" class="btn btn-sm btn-success">Confirm</button>
+							<button ng-click="confirm(assis.user_id)" class="btn btn-sm btn-success">Confirm</button>
 							<button ng-click="deny(assis._id)" class="btn btn-sm btn-danger">Deny</button>
 						</span>
 						<span ng-if="ass.status == 11">Last: <%ass.lastlogin%></span>
@@ -229,7 +229,7 @@ Manage Advance
 	<!-- manage posts include: view, publisher pending posts,pull to saving , infos, stop post (set date_expire NOW), delete post -->
 	<div class="emp-section" id="emp-post">
 		<div>
-			<span  class="table-title-admin">Manage Posts</span>
+			<span class="table-title-admin">Manage Posts</span>
 			<div class="btn-create-admin" >
 				<label class="label-show-items">
 					<span>Show: </span>
