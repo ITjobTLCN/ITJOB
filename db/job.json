@@ -83,7 +83,8 @@
         "quantity" : NumberInt(10), 
         "salary" : NumberInt(1500), 
         "requirment" : "", 
-        "address" : "111"
+        "address" : "111", 
+        "date_expire" : ISODate("2018-06-05T17:09:32.000+0000")
     }, 
     "status" : NumberInt(1), 
     "employer_id" : "5ac85f51b9068c2384007d97", 

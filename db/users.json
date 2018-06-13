@@ -15,9 +15,9 @@
     }, 
     "avatar" : "1527662029.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.098+0000"), 
-    "updated_at" : ISODate("2018-06-05T17:08:43.000+0000"), 
-    "lastlogin" : "2018-06-06 00:08:43", 
-    "remember_token" : "BaT2Xe1xRfooo5pA82imkN6sXxTXHDyq6CFh23HfTPBgPuNlBSsb1BGFyuwo", 
+    "updated_at" : ISODate("2018-06-07T10:41:03.000+0000"), 
+    "lastlogin" : "2018-06-07 17:41:03", 
+    "remember_token" : "Vm1OaWCf9Ymj84fG84oENyhslCY5yCTXqyGfwVSnA4ovnWd5HBHx6OowsuSi", 
     "image" : "1527661015.jpg"
 }
 { 
@@ -25,10 +25,12 @@
     "name" : "Nguyễn Bá Đạt", 
     "email" : "datnguyen.ute@gmail.com", 
     "password" : "$2y$10$IIdn9G0DPcNWtDwY3WLdMOVgGd0wy2iWMtj4Ng/RxpWdSaOW4JT1q", 
-    "role_id" : "5ac85f51b9068c2384007d9c", 
+    "role_id" : "5ac85f51b9068c2384007d9d", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.182+0000"), 
-    "updated_at" : ISODate("2018-04-07T06:04:03.182+0000")
+    "updated_at" : ISODate("2018-06-07T09:58:06.000+0000"), 
+    "lastlogin" : "2018-06-07 16:58:06", 
+    "remember_token" : "cbQ7869IswGZgCYyvGm6QCPglshcjqPZf29u0VeF58kOmrPngfKdvPTMR2tt"
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007da9"), 
@@ -38,9 +40,9 @@
     "role_id" : "5ac85f51b9068c2384007d9e", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.260+0000"), 
-    "updated_at" : ISODate("2018-05-29T19:27:47.000+0000"), 
-    "lastlogin" : "2018-05-30 02:27:47", 
-    "remember_token" : "AyiOTTR2QgeRjuhXQ8cfJERjaMFZrd69jxXSnGxJgYCDKg2cf4LbrSjCxd4g"
+    "updated_at" : ISODate("2018-06-13T04:49:58.000+0000"), 
+    "lastlogin" : "2018-06-13 11:49:58", 
+    "remember_token" : "g6NaoyYqReWzqOGGuBK3KtarFZ3cPiwQr1rxvWmKG5CNoZMstcasYDnR41i3"
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007daa"), 
@@ -50,7 +52,9 @@
     "role_id" : "5ac85f51b9068c2384007d9f", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.336+0000"), 
-    "updated_at" : ISODate("2018-04-07T06:04:03.336+0000")
+    "updated_at" : ISODate("2018-06-10T05:19:47.000+0000"), 
+    "lastlogin" : "2018-06-10 12:19:47", 
+    "remember_token" : "byWXRj8kSbWOnL9aSu79EPcw5qifHpWkChXwuz0NSIVYiImB86kvPFZMS5CQ"
 }
 { 
     "_id" : ObjectId("5ae9c1fdb9068c0678007ae6"), 
@@ -80,9 +84,24 @@
     "email" : "tranthanhphong1608@gmail.com", 
     "name" : "thanh phong", 
     "password" : "$2y$10$n9iiHyf.5.cOvpBM4/TKkOYV1BFYjUZ/UY6cRcAvYMAAkubaA2e2S", 
-    "role_id" : "5ac85f51b9068c2384007d9c", 
+    "role_id" : "5ac85f51b9068c2384007d9f", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-06-05T16:50:53.464+0000"), 
-    "updated_at" : ISODate("2018-06-05T16:50:53.464+0000"), 
-    "deleted" : false
+    "updated_at" : ISODate("2018-06-10T06:41:35.000+0000"), 
+    "deleted" : false, 
+    "lastlogin" : "2018-06-10 13:41:35", 
+    "remember_token" : "yMdbFlqOIbwzd4Okvp5aNhbMAhcXqlmg3JBLPAcyauPIHDjQB76WD2lMHzyE"
+}
+{ 
+    "_id" : ObjectId("5b1b92e76c2c310dc44c8cd3"), 
+    "email" : "thanhphong@gmail.com", 
+    "name" : "thanh phong a", 
+    "password" : "$2y$10$OfrTnCRnC4n96U88OGjoUexhSqlY7N8Zyq9SGf4G9FUOH8mgmRYzW", 
+    "role_id" : "5ac85f51b9068c2384007d9c", 
+    "avatar" : "default.jpg", 
+    "created_at" : ISODate("2018-06-09T08:42:15.881+0000"), 
+    "updated_at" : ISODate("2018-06-09T08:42:28.000+0000"), 
+    "deleted" : false, 
+    "lastlogin" : "2018-06-09 15:42:28", 
+    "remember_token" : "fRDxfF6wEVQuO2HkHpbYFygYJUlFBPLM8ZJsceeZYcYQk4nvA5mMDrpdlXeB"
 }

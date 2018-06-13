@@ -96,7 +96,7 @@
         "deleted" : NumberInt(0)
     }, 
     "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
-    "updated_at" : ISODate("2018-05-06T04:56:54.000+0000"), 
+    "updated_at" : ISODate("2018-06-09T07:10:55.000+0000"), 
     "deleted" : false
 }
 { 
@@ -120,7 +120,8 @@
     "info" : {
         "description" : "This is description", 
         "quantity_employee" : NumberInt(100), 
-        "website" : ""
+        "website" : "", 
+        "phone" : "01675946414"
     }, 
     "images" : {
         "avatar" : "episerver-logo-170-151.png", 
@@ -138,6 +139,12 @@
             "_id" : "5ac85f52b9068c2384007da1", 
             "name" : "Java"
         }
+    ], 
+    "master" : [
+        "5ac85f53b9068c2384007da9"
+    ], 
+    "employee" : [
+        "5b16bf6d6c2c3102d93d7e22"
     ], 
     "reviews" : [
         {
@@ -197,7 +204,7 @@
             "suggest" : null, 
             "recommend" : "0", 
             "rating" : NumberInt(3), 
-            "reviewed_at" : ISODate("2018-05-05T03:45:11.821+0000"), 
+            "reviewed_at" : ISODate("2018-06-09T03:45:11.821+0000"), 
             "reviewed_by" : "phong.kelvin168@gmail.com"
         }
     ], 
@@ -207,7 +214,7 @@
         "deleted" : NumberInt(0)
     }, 
     "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
-    "updated_at" : ISODate("2018-05-06T04:56:09.000+0000"), 
+    "updated_at" : ISODate("2018-06-10T06:39:11.000+0000"), 
     "deleted" : false
 }
 { 
@@ -257,34 +264,5 @@
         "quantity_employee" : NumberInt(100), 
         "website" : ""
     }, 
-    "deleted" : false
-}
-{ 
-    "_id" : ObjectId("5afc11f5b9068c2c34002f46"), 
-    "name" : "test", 
-    "alias" : "test", 
-    "city_id" : "5ac85f51b9068c2384007d92", 
-    "address" : [
-        {
-            "_id" : "5ac85f51b9068c2384007d92", 
-            "city" : "Hồ Chí Minh", 
-            "detail" : "3213123"
-        }
-    ], 
-    "info" : {
-        "webiste" : "1321321"
-    }, 
-    "employee" : [
-        "5ae9c1fdb9068c0678007ae6"
-    ], 
-    "quantity_user_follow" : NumberInt(0), 
-    "rating" : "0.0", 
-    "quantity_job" : {
-        "hirring" : NumberInt(0), 
-        "deleted" : NumberInt(0)
-    }, 
-    "status" : NumberInt(0), 
-    "created_at" : ISODate("2018-05-16T11:11:49.028+0000"), 
-    "updated_at" : ISODate("2018-05-16T11:11:49.028+0000"), 
     "deleted" : false
 }
