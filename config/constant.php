@@ -36,4 +36,27 @@ return [
     'statusJob' => [
         1, 10, 11, 12
     ],
+
+    /**
+     * Table define
+     */
+    'STATUS_DEFAULT' => 0,
+    'USERS' => 'users',
+    'USER' => 'user',
+
+    /**
+     * Type
+     */
+    'STATUS' => 'status',
+    'MESSAGE' => 'message',
+    'ERROR' => 'errors',
+    /**
+     * Message define
+     */
+    'ERROR_EMAIL_EXIST' => 'This email has already exists',
+    'SUCCESS_CREATE_USER' => 'Create user successfully',
+    'SUCCESS_EDIT_USER' => 'Edit user successfully',
+    'SUCCESS_DELETE_USER' => 'Delete user successfully',
+    'FAIL_DELETE_USER' => 'Delete failed',
+    // 'CREATE_USER_'
 ];

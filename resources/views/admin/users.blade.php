@@ -3,17 +3,17 @@
 	<div class="container" ng-controller="UsersController">
 		<div class="row">
 			<div class="col">
-				<div  class="title-admin">Manage</div>
+				<div  class="title-admin">Manage accounts</div>
 				<div>
 					<span  class="table-title-admin">Administrator Account</span>
 					<div class="btn-create-admin" >
 						<label class="label-show-items">
-							<span>Show:</span> 
-							<select class="form-control input-sm"  ng-model="showitems">
-								<option value="3" ng-selected="showitems==3">3</option>
-								<option value="5" ng-selected="showitems==5">5</option>
-								<option value="10" ng-selected="showitems==10">10</option>
-								<option value="20" ng-selected="showitems==20">20</option>
+							<span>Show:</span>
+							<select class="form-control input-sm" ng-model="showitems">
+								<option value="3" ng-selected="showitems == 3">3</option>
+								<option value="5" ng-selected="showitems == 5">5</option>
+								<option value="10" ng-selected="showitems == 10">10</option>
+								<option value="20" ng-selected="showitems == 20">20</option>
 							</select>
 						</label>
 						<div class="input-group table-input-search">
@@ -21,41 +21,37 @@
         					<input type="text" class="form-control " placeholder="Search..." ng-model="searchUser">
 						</div>
 						<a href="javascript:void(0)" class="btn btn-outline btn-success btn-sm table-input-create" ng-click="modal('add')">Create account</a>
-						
+
 					</div>
-				</div>		
-				
+				</div>
+
 				<table class="table table-responsive table-hover table-bordered table-angular">
 					<thead class="thead-inverse">
 						<tr class="info">
-							<th ng-click="sort('id')" style="width: 5%">Id 
-								<span class="glyphicon sort-icon" ng-show="sortType=='id'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" ></span>
-							</th>
 							<th ng-click="sort('email')" style="width: 30%">Email
 								<span class="glyphicon sort-icon" ng-show="sortType=='email'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" ></span>
 							</th>
-							<th ng-click="sort('name')" style="width: 15%">Name 
+							<th ng-click="sort('name')" style="width: 15%">Name
 								<span class="glyphicon sort-icon" ng-show="sortType=='name'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
 							</th>
-							<th ng-click="sort('created_at')" style="width: 20%">Created Date 
+							<th ng-click="sort('created_at')" style="width: 20%">Created Date
 								<span class="glyphicon sort-icon" ng-show="sortType=='created_at'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
 							</th>
-							<th ng-click="sort('updated_at')" style="width: 20%">Updated Date 
+							<th ng-click="sort('updated_at')" style="width: 20%">Updated Date
 								<span class="glyphicon sort-icon" ng-show="sortType=='updated_at'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
 							</th>
-							<th ng-click="sort('lastlogin')" style="width: 10%">Last Login 
+							<th ng-click="sort('lastlogin')" style="width: 10%">Last Login
 								<span class="glyphicon sort-icon" ng-show="sortType=='lastlogin'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr dir-paginate="user in users|orderBy:sortType:sortReverse|filter:searchUser|itemsPerPage:showitems" >
-							<td><%user.id%></td>
+						<tr dir-paginate="(key, user) in users|orderBy:sortType:sortReverse|filter:searchUser|itemsPerPage:showitems">
 							<td>
 								<span><%user.email%></span>
 								<div>
-									<a href="javascript:void(0)" ng-click="modal('edit',user.id)">Edit </a>|
-									<a href="javascript:void(0)" ng-click="deleteUser(user.id)"  ng-if="user.role_id!=2"> Delete</a>
+									<a href="javascript:void(0)" ng-click="modal('edit',user._id)">Edit </a>|
+									<a href="javascript:void(0)" ng-click="deleteUser(user._id)"> Delete</a>
 								</div>
 							</td>
 							<td><%user.name%></td>
@@ -71,18 +67,17 @@
 								<dir-pagination-controls
 							       max-size="5"
 							       direction-links="true"
-							       boundary-links="true">
+								   boundary-links="true"
+								   >
 							    </dir-pagination-controls>
 							</td>
 						</tr>
-						
+
 					</tfoot>
 				</table>
-				
+
 			</div>
 		</div>
-		<a href="#loginModal" data-toggle="modal">modal login</a>
-
 
 		<!-- Model create user  - one page  -->
 	<div class="modal fade" id="modal-create-user">
@@ -123,8 +118,8 @@
 										</span>
 									</div>
 								</div>
-								
-								
+
+
 								<div class="form-group row">
 									<label for="repassword" class="control-label col-md-1 label-form-horizontal">Re-type Password: </label>
 									<div class="col-md-6">
@@ -148,7 +143,7 @@
 									</span>
 								</div>
 							</div>
-							
+
 							<div class="form-group row">
 								<label for="status" class="control-label col-md-1 label-form-horizontal">Status: </label>
 								<div class="col-md-6">
@@ -164,7 +159,7 @@
 							<div class="form-group row">
 								<label for="name" class="control-label col-md-1 label-form-horizontal">Role: </label>
 								<div class="col-md-6">
-									<select name="role_id" ng-model="user.role_id"  class="form-control" id="role" ng-options="role.id as role.name for role in roles" required>
+									<select name="role_id" ng-model="user.role_id"  class="form-control" id="role" ng-options="role._id as role.name for role in roles" required>
 									</select>
 									<span class="errors" ng-show="(frmCreate.role_id.$error.required)">
 										Choose role
@@ -213,7 +208,7 @@
 								</tbody>
 							</table>
 						</div>
-					
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -224,5 +219,5 @@
 		</div>
 	</div>
 
-	
+
 @endsection

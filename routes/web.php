@@ -213,11 +213,15 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 		/*angular-using*/
 	Route::get('ngusers', [ 'as' => 'nggetusers', 'uses' => 'AdminController@ngGetUsers' ]);
 	Route::get('nguser/{id}', [ 'as' => 'nggetuser', 'uses' => 'AdminController@ngGetUser' ]);
-	Route::get('ngroles', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRoles' ]);
 	Route::post('ngcreateuser', [ 'as' => 'ngpostcreateuser', 'uses' => 'AdminController@ngPostCreateUser' ]);
 	Route::post('ngedituser/{id}', [ 'as' => 'ngpostedituser', 'uses' => 'AdminController@ngPostEditUser' ]);
 	Route::get('ngdeleteuser/{id}', [ 'as' => 'nggetdeleteuser', 'uses' => 'AdminController@ngGetDeleteUser' ]);
-
+		// Roles manage
+	Route::get('ngroles', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRoles' ]);
+	Route::get('ngroles/{id}', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRole' ]);
+	Route::post('ngrole', [ 'as' => 'ng_add_roles', 'uses' => 'AdminController@ngAddRole' ]);
+	Route::put('ngrole', [ 'as' => 'ng_edit_roles', 'uses' => 'AdminController@ngEditRole' ]);
+	Route::delete('ngrole', [ 'as' => 'ng_delete_roles', 'uses' => 'AdminController@ngDeleteRole' ]);
 
 		/*admin dashboard  --- output: json*/
 	Route::get('ngnumber', [ 'as' => 'nggetnumber', 'uses' => 'AdminController@ngGetNumber' ]);
