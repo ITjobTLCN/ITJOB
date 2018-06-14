@@ -23,7 +23,7 @@
 				<td><% app.fullname %></td>
 				<td><% app.email %></td>
 				<td><% app.created_at %></td>
-				<td><a href="downloadcv/<% app.cv %>"><% app.cv %></a></td>
+				<td><a href="cv/views/<% app.cv %>" target="_blank"><% app.cv %></a></td>
 				<td>
 					<a href="#modal-sendemailemp" ng-click="getAppli(app.fullname, app.email)" data-toggle="modal" data-target="#modal-sendemailemp" class="btn btn-sm btn-primary">Email</a>
 				</td>

@@ -61,7 +61,7 @@ class PageController extends Controller
     }
 
     public function viewHelp($fileName) {
-        $fileName = base64_decode($fileName);
+        //$fileName = base64_decode($fileName);
         $path = public_path() . '/uploads/emp/cv/' . $fileName;
         
         return response()->file($path, [

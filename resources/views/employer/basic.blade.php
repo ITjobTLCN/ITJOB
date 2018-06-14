@@ -244,13 +244,13 @@ Manage Basic
 								</td>
 								<td>
 									<div ng-if="post.status == 0">
-										<button type="button" ng-click="pushPost(post.id)" class="btn btn-sm btn-primary btn-zoom">Push</button>
-										<button type="button" class="btn btn-sm btn-danger btn-zoom" ng-click="getPost(post.id)">Edit</button>
+										<button type="button" ng-click="pushPost(post._id)" class="btn btn-sm btn-primary btn-zoom">Push</button>
+										<button type="button" class="btn btn-sm btn-danger btn-zoom" ng-click="getPost(post._id)">Edit</button>
 									</div>
 									<button type="button" class="btn btn-sm btn-info btn-zoom">Preview</button>
 								</td>
 								<td><% post.applications.length %>/<% post.quantity %>
-									<span ng-if="post.quantity==null">all</span>
+									<span ng-if="post.quantity == null">all</span>
 									<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
 								</td>
 							</tr>
@@ -267,7 +267,7 @@ Manage Basic
 				<div class="col block-info">
 					<h2><%titleBlock%></h2>
 					<form action="#" method="POST" role="form" name="formCreateJob" id="formCreateJob">
-						<input type="hidden" value="{{csrf_token()}}" name="_token">
+						{{ csrf_field() }}
 						<div class="row">
 							<!-- Title and Content -->
 							<div class="col-md-8">
@@ -284,7 +284,7 @@ Manage Basic
 								<div class="form-group row">
 									<div class="col-lg-4">
 										<label for="">City</label>
-										<select  class="form-control" ng-options="item.id as item.name for item in cities" ng-model="job.city_id" name="job.city_id">
+										<select  class="form-control" ng-options="item.name for item in cities" ng-model="job.city" name="job.city">
 										</select>
 									</div>
 									<div class="col-lg-8">
@@ -310,8 +310,8 @@ Manage Basic
 										<div id="listSkill" ng-show="showSkill">
 											<input type="text" class="form-control" ng-model="searchSkill" placeholder="Search">
 											<div class="single-skill" ng-repeat="skill in skills|filter:searchSkill">
-												<label><input type="checkbox" value="<%skill.id%>" 
-											  ng-checked="checked(skill.id)" ng-click="toggleSelection(skill.id,skill.name)"> <%skill.name%></label>
+												<label><input type="checkbox" value="<%skill._id%>"
+											  ng-checked="checked(skill._id)" ng-click="toggleSelection(skill._id, skill.name)"> <% skill.name %></label>
 											</div>
 										</div>
 									</div>
@@ -327,14 +327,14 @@ Manage Basic
 								</div>
 								<div class="form-group">
 									<label for="">Benefits</label>
-									<textarea name="treatment" ng-model="job.treatment" class="form-control" cols="3" rows="3"></textarea>
+									<textarea name="benefit" ng-model="job.benefit" class="form-control" cols="3" rows="3"></textarea>
 								</div>
 							</div>
 							<!-- Tools:save,back,Send pending, move to trash preview, choose 3 image-->
 							<div class="col-md-4">
 								<div class="block-info">
 									<div class="text-center">
-										<button type="button" class="btn btn-primary" ng-click="savePost(typePost,idPost)">Save</button>
+										<button type="button" class="btn btn-primary" ng-click="savePost(typePost,idPost)">Save</Iutton>
 										<button type="button" class="btn btn-info">Preview</button>
 									</div>
 								</div>
@@ -355,6 +355,7 @@ Manage Basic
 										<h4><strong>Updated: </strong> 2-12-2017</h4>
 									</div>
 								</div>
+
 								<div class="block-info">
 									<button type="button" class="btn btn-primary" ng-click="pushPost(idPost)" style="width:100%">Push and wait confirm</button>
 								</div>

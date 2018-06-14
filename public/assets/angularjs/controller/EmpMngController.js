@@ -1,5 +1,5 @@
 app.controller('EmployerManagerController', function($http, $scope, $filter) {
-	$scope.empid = "";
+	$scope.empId = "";
 	var baseUrl = 'http://itjob.local.vn/';
 	/*-----------Reset function-----------------------*/
 	$scope.resetAd = function(id) {
@@ -21,7 +21,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			console.log('posts', $scope.posts);
 			//add skill selection
 			$scope.myskills.forEach(function(value) {
-				$scope.selection.push({id:value._id,name:value.name});
+				$scope.selection.push({ _id:value._id, name:value.name });
 			});
 			console.log($scope.selection);
 		}, function(error) {
@@ -34,7 +34,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	}
 	/*---------Load page Basic ---------------------------------*/
 	$scope.loadBasic = function() {
-		// $scope.empid = employer['_id'];
+		// $scope.empId = employer['_id'];
 		$scope.job = null;
 		$scope.selection = [];
 		$http.get('emp/ngbasic').then(function(response) {
@@ -42,7 +42,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			//chung
 			$scope.options = response.data;
 			$scope.emp = response.data.emp;
-			$scope.empid = response.data.emp['_id'];
+			$scope.empId = response.data.emp['_id'];
 			$scope.cities = response.data.cities;
 			$scope.skills = response.data.skills;
 			//rieng
@@ -82,7 +82,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	$scope.deny = function(id) {
 		if (confirm('Are you sure deny this employer?')) {
-			$http.get('emp/ngdenyass/'+ $scope.empid+"/"+id).then(function(response) {
+			$http.get('emp/ngdenyass/'+ $scope.empId+"/"+id).then(function(response) {
 				if (response.data.status==true) {
 					alert(response.data.message);
 					$scope.assis = response.data.assis;
@@ -98,11 +98,11 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	/*---------Confirm/Deny Post ----------------*/
 	$scope.confirmPost = function(id) {
 		if (confirm('Are you sure confirm?')) {
-			$http.get('emp/ngconfirmpost/'+id).then(function(response) {
+			$http.get('emp/ng-confirm-post/'+id).then(function(response) {
 				if (response.data.status==true) {
 
 					alert(response.data.message);
-					$scope.resetAd($scope.empid);
+					$scope.resetAd($scope.empId);
 				} else {
 					alert(response.data.message);
 				}
@@ -118,7 +118,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			$http.get('emp/ngdenypost/'+id).then(function(response) {
 				if (response.data.status==true) {
 					alert(response.data.message);
-					$scope.resetAd($scope.empid);
+					$scope.resetAd($scope.empId);
 				} else {
 					alert(response.data.message);
 				}
@@ -169,7 +169,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	$scope.editInfo = function() {
 		$scope.editable = !$scope.editable;
 		if (!$scope.editable) {
-			$scope.load($scope.empid);
+			$scope.load($scope.empId);
 		}
 	}
 
@@ -193,7 +193,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	$scope.updateInfo = function() {
 		$http({
 			method: "post",
-			url: "emp/ngupdateinfo/"+ $scope.empid,
+			url: "emp/ngupdateinfo/"+ $scope.empId,
 			data: $.param({
 				emp: $scope.emp,
 				skills: $scope.selection
@@ -280,10 +280,11 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	/*-------------------BASIC FUNCTION----------------------------------*/
 	$scope.savePost = function(type, id) {
+		console.log($scope.emp)
 		if (type == 0) {//add
 			$http({
 				method: "post",
-				url: "emp/ng-create-post/" + $scope.empid,
+				url: "emp/ng-create-post/" + $scope.empId,
 				data: $.param({
 					job: $scope.job,
 					skills: $scope.selection
@@ -296,7 +297,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 					$scope.selection = [];
 					$scope.addPost();
 					//update my list posts
-					$scope.loadBasic($scope.empid);
+					$scope.loadBasic($scope.empId);
 				}
 				alert(response.data.message);
 			}, function(error) {
@@ -308,7 +309,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				var dataskills = $scope.selection;
 				$http({
 					method: "post",
-					url: "emp/ngeditpost/" + $scope.empid + "/" + id,
+					url: "emp/ngeditpost/" + $scope.empId + "/" + id,
 					data: $.param({
 						job: $scope.job,
 						skills: $scope.selection
@@ -318,7 +319,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 					console.log(response.data);
 					if (response.data.status == true) {
 						//update my list posts
-						$scope.loadBasic($scope.empid);
+						$scope.loadBasic($scope.empId);
 						$scope.job = datajob;
 						$scope.selection = dataskills;
 					}
@@ -371,7 +372,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				if (response.data.status == true) {
 					$scope.addPost();
 					//reload data
-					$scope.loadBasic($scope.empid);
+					$scope.loadBasic($scope.empId);
 				}
 				alert(response.data.message);
 			}, function(error) {
@@ -381,15 +382,15 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	}
 
 	$scope.pushPost = function(idPost) {
-		if (confirm('Push this post and waiting confirm from Master?')) {
+		if (confirm('Push this post and waiting confirm from Master ?')) {
 			if ($scope.typePost == 0) {
 				alert('You must save this post');
 			} else {
-				$http.get('emp/ngpushpost/' + idPost).then(function(response) {
+				$http.get('emp/ng-push-post/' + idPost).then(function(response) {
 					if (response.data.status == true) {
 						$scope.addPost();
 						//reload data
-						$scope.loadBasic($scope.empid);
+						$scope.loadBasic($scope.empId);
 					}
 					alert(response.data.message);
 				}, function(error) {

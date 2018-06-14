@@ -276,8 +276,8 @@ Manage Advance
 				</tr>
 			</thead>
 			<tbody>
-				<%filterStatusPost%>
-				<%flagStatusPost%>
+				{{-- <% filterStatusPost %>
+				<% flagStatusPost %> --}}
 				<tr dir-paginate="post in posts|orderBy:sortTypePost:sortReversePost|filter:searchPost|filter: (flagStatusPost || '') &&  {status:filterStatusPost}|itemsPerPage:showitemsPost" pagination-id="posts" id="content-table-admin">
 					<td><%post._id%></td>
 					<td>

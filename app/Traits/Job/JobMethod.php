@@ -137,4 +137,46 @@ trait JobMethod
 		return Job::with('user', 'applications')
                      ->where($arrWhere)->get();
 	}
+
+	protected function saveJob($data, $empId, $skills) {
+		$job = new Job();
+		$job->name = $data['name'];
+        $job->alias = $this->changToAlias($data['name']);
+        $arrInsert = [
+        	'name' => $data['name'],
+        	'alias' => $this->changToAlias($data['name']),
+        	'detail' => [
+        		'salary' => !empty($data['salary']) ? intval($data['salary']) : 0,
+        		'description' => !empty($data['description']) ? $data['description'] : '',
+        		'requirment' => !empty($data['requirment']) ? $data['requirment'] : '',
+        		'benefit' => !empty($data['benefit']) ? $data['benefit'] : '',
+        		'quantity' => !empty($data['quantity']) ? intval($data['quantity']) : 0,
+        		'address' => !empty($data['address']) ? $data['address'] : '',
+        	],
+        	'user_id' => Auth::id(),
+        	'employer_id' => $empId,
+        	'city' => $data['city']['name'],
+        	'status' => 0 // 0:saving, 10: pending, 1: publisher, 11: expired, 2: deleted
+        ];
+        $skill_id = [];
+        if (sizeof($skills) > 0) {
+            foreach($skills as $skill) {
+            	$skill_id[] = $skill['id'];
+            }
+
+            $arrInsert['skills_id'] = $skill_id;
+        }
+
+        if ( !empty($data['date_expire'])) {
+            // $date = strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
+            //Loại bỏ cái trong ngoặc (Altai Standard Time)
+            $substr = substr($data['date_expire'], 0, strpos($data['date_expire'], "("));
+            $date = new DateTime($substr);
+            $date2 = $date->getTimestamp(); //chuyển sang unix datetime
+            $arrInsert['date_expired'] = $date2;
+        }
+        $this->formatInputToSave($arrInsert);
+
+        return Job::insert($arrInsert);
+	}
 }

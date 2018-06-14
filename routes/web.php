@@ -264,12 +264,12 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 		/*Employer Basic*/
 	Route::get('basic', [ 'as' => 'getEmpBasic', 'uses' => 'EmployerController@getEmpBasic' ]);
 	Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
-	Route::post('ng-create-post/{empid}', [ 'as' => 'ngCreatePost', 'uses' => 'EmployerController@ngCreatePost' ]);
+	Route::post('ng-create-post/{empId}', [ 'as' => 'ngCreatePost', 'uses' => 'EmployerController@ngCreatePost' ]);
 	Route::get('nggetpost/{id}', [ 'as' => 'nggetpost', 'uses' => 'EmployerController@ngGetPost' ]);
 	Route::post('ngeditpost/{empid}/{id}', [ 'as' => 'ngeditpost', 'uses' => 'EmployerController@ngEditPost' ]);
 	Route::get('ngtrashpost/{id}', [ 'as' => 'ngtrashpost', 'uses' => 'EmployerController@ngTrashPost' ]);
-	Route::get('ngpushpost/{id}', [ 'as' => 'ngpushpost', 'uses' => 'EmployerController@ngPushPost' ]);
-	Route::get('ngconfirmpost/{id}', [ 'as' => 'ngconfirmpost', 'uses' => 'EmployerController@ngConfirmPost' ]);
+	Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
+	Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
 	Route::get('ngdenypost/{id}', [ 'as' => 'ngdenypost', 'uses' => 'EmployerController@ngDenyPost' ]);
 });
 /*download aplication's CV*/

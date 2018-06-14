@@ -186,7 +186,7 @@ class EmployerController extends Controller
         }
     }
             //change logo and cover
-    public function postChangeLogoCoverEmp(Request $request, $empid, $type) {
+    public function postChangeLogoCoverEmp(Request $request, $empId, $type) {
         //type:1-cover:2-logo
         $validator  = Validator::make($request->all(), [
             'file' => 'max:5000|mimes:jpg,jpeg,bmp,png'
@@ -197,20 +197,20 @@ class EmployerController extends Controller
                                 following type:jpg, jpeg, bmp, png');
         }
         // dd($request->all());
-        if (Input::hasfile('file') && $empid && $type) {
+        if (Input::hasfile('file') && $empId && $type) {
             try {
                 $file = Input::file('file');
                 //get extension of a image
                 $file_extension = File::extension($file->getClientOriginalName());
-                $employer = Employers::findOrFail($empid);
+                $employer = Employers::findOrFail($empId);
 
                 if ($type ==1 ) {
-                    $filename = "cover_employer_".$empid.".".$file_extension;
+                    $filename = "cover_employer_".$empId.".".$file_extension;
                     $file->move('uploads/emp/cover', $filename);
                     $employer->cover = $filename;
                 } else {
                     if ($type == 2) {
-                        $filename = "logo_employer_".$empid.".".$file_extension;
+                        $filename = "logo_employer_".$empId.".".$file_extension;
                         $file->move('uploads/emp/logo', $filename);
                         $employer->logo = $filename;
                     }
@@ -302,50 +302,19 @@ class EmployerController extends Controller
     /**
      * Create a job (post)
      */
-    public function ngCreatePost(Request $request, $empid) {
+    public function ngCreatePost(Request $request, $empId) {
         $user_id = Auth::id();
         /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
         try {
             $job = new Job();
-            $job->name = $request->job['name'];
-            $job->alias = $this->changToAlias($request->job['name']);
-            if ( !empty($request->job['salary']))
-                $job->salary = $request->job['salary'];
-            if ( !empty($request->job['description']))
-                $job->description = $request->job['description'];
-            if ( !empty($request->job['require']))
-                $job->require = $request->job['require'];
-            if ( !empty($request->job['treatment']))
-                $job->treatment = $request->job['treatment'];
-            if ( !empty($request->job['quantity']))
-                $job->quantity = $request->job['quantity'];
-
-            if ( !empty($request->job['date_expire'])) {
-                // $date =strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
-                //Loại bỏ cái trong ngoặc (Altai Standard Time)
-                $substr = substr($request->job['date_expire'],0,strpos($request->job['date_expire'],"("));
-                $date = new DateTime($substr);
-                $date2 = $date->getTimestamp(); //chuyển sang unix datetime
-                $job->date_expire = $date;
-            }
-
-            $job->user_id = $user_id;
-            $job->emp_id = $empid;
-            $job->city_id = $request->job['city_id'];
-
-            $job->status=0;//0:saving, 10: pending, 1: publisher,11: expired,2: deleted
-            $job->save();
-
-            //xóa các skill cũ -> add lại skill mới
-            Skill_job::where('job_id', $job->id)->delete();
-            if (sizeof($request->skills) > 0) {
-                foreach($request->skills as $skill) {
-                    $ski = new Skill_job();
-                    $ski->job_id = $job->id;
-                    $ski->skill_id = $skill['id'];
-                    $ski->save();
-                }
-            }
+            // return response()->json(['status' => true, 'message' => $req->job]);
+            $arrData = $request->job;
+            return $this->saveJob($arrData, $empId, $request->skills);
+            // try {
+            //     $this->saveJob($arrData, $empId, $request->skills);
+            // } catch(Exception $e) {
+            //     return response()->json(['status' => false, 'message' => 'Cannot insert job']);
+            // }
             return response()->json(['status' => true, 'message' => 'Saved post']);
         } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to save this post']);
@@ -353,7 +322,7 @@ class EmployerController extends Controller
     }
 
         /*--------------------------Edit the post---------------------------*/
-    public function ngEditPost(Request $request, $empid, $id) {
+    public function ngEditPost(Request $request, $empId, $id) {
         $user_id = Auth::user()->id;
         /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
         try{
@@ -383,7 +352,7 @@ class EmployerController extends Controller
             $job->city_id = $request->job['city_id'];
 
             //check user và emp
-            if ($job->emp_id != $empid || $job->user_id != $user_id) {
+            if ($job->emp_id != $empId || $job->user_id != $user_id) {
                 return response()->json(['status' => false,'message' => 'Employer or User is invalid']);
             }
 
@@ -435,9 +404,9 @@ class EmployerController extends Controller
         }
     }
 
-    public function ngPushPost($id) {
+    public function ngPushPost($jobId) {
         try {
-            $post = Job::findOrFail($id);
+            $post = Job::findOrFail($jobId);
             $post->status = 10;
             $post->save();
             return response()->json(['status' => true, 'message' => 'Pushed and waiting to confirm']);
@@ -447,9 +416,9 @@ class EmployerController extends Controller
     }
         /*--------------Confirm/Deny posts-------------------------*/
 
-    public function ngConfirmPost($id) {
+    public function ngConfirmPost($jobId) {
         try {
-            $post = Job::findOrFail($id);
+            $post = Job::findOrFail($jobId);
             //change status from Pending to Publisher: from 10 to 1
             $post->status = 1;
             $post->save();
