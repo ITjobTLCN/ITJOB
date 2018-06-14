@@ -2,7 +2,7 @@
     "_id" : ObjectId("5ac85f98b9068c0688004592"), 
     "name" : "Công việc 1", 
     "alias" : "cv-1", 
-    "user_id" : "5ac85f53b9068c2384007daa", 
+    "user_id" : "5b16bf6d6c2c3102d93d7e22", 
     "city" : "Hồ Chí Minh", 
     "skills_id" : [
         "5ac85f52b9068c2384007da0", 
@@ -38,7 +38,7 @@
     "_id" : ObjectId("5ac85f98b9068c0688004593"), 
     "name" : "Công việc 2", 
     "alias" : "cv-2", 
-    "user_id" : "5ae9c1fdb9068c0678007ae6", 
+    "user_id" : "5b16bf6d6c2c3102d93d7e22", 
     "city" : "Hồ Chí Minh", 
     "skills_id" : [
         "5ac85f52b9068c2384007da0", 
@@ -72,7 +72,7 @@
     "_id" : ObjectId("5ac85f98b9068c0688004594"), 
     "name" : "Công việc 3", 
     "alias" : "cv-3", 
-    "user_id" : "5ac85f51b9068c2384007daa", 
+    "user_id" : "5b16bf6d6c2c3102d93d7e22", 
     "city" : "Hà Nội", 
     "skills_id" : [
         "5ac85f52b9068c2384007da4"
@@ -108,7 +108,7 @@
     "_id" : ObjectId("5affb23095f94d2750f8ddad"), 
     "name" : "Công việc 4", 
     "alias" : "cv-4", 
-    "user_id" : "5ac85f51b9068c2384007daa", 
+    "user_id" : "5b16bf6d6c2c3102d93d7e22", 
     "city" : "Hà Nội", 
     "skills_id" : [
         "5ac85f52b9068c2384007da4"
@@ -140,5 +140,6 @@
         }
     ], 
     "created_at" : ISODate("2018-04-07T06:05:12.975+0000"), 
-    "updated_at" : ISODate("2018-06-05T17:08:49.000+0000")
+    "updated_at" : ISODate("2018-06-05T17:08:49.000+0000"), 
+    "date_expired" : ISODate("2018-04-07T06:05:12.975+0000")
 }

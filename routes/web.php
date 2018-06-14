@@ -37,7 +37,10 @@ Route::any('dang-ky', [
 	'as' => 'register',
 	'uses' => 'UsersController@register',
 ]);
-
+Route::get('cv/views/{fileName}', [
+	'as' => 'viewHelp',
+	'uses' => 'PageController@viewHelp',
+]);
 //logout
 Route::get('dang-xuat', [
 	'as' => 'logout',
@@ -240,7 +243,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::post('createnotification', 'AdminController@createNotification')->name('createnotification');
 
 });
-//Route::get('ngbasic/{id}', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
+//Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 //Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
 //Route::get('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
@@ -261,7 +264,7 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 		/*Employer Basic*/
 	Route::get('basic', [ 'as' => 'getEmpBasic', 'uses' => 'EmployerController@getEmpBasic' ]);
 	Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
-	Route::post('ngcreatepost/{empid}', [ 'as' => 'ngcreatepost', 'uses' => 'EmployerController@ngCreatePost' ]);
+	Route::post('ng-create-post/{empid}', [ 'as' => 'ngCreatePost', 'uses' => 'EmployerController@ngCreatePost' ]);
 	Route::get('nggetpost/{id}', [ 'as' => 'nggetpost', 'uses' => 'EmployerController@ngGetPost' ]);
 	Route::post('ngeditpost/{empid}/{id}', [ 'as' => 'ngeditpost', 'uses' => 'EmployerController@ngEditPost' ]);
 	Route::get('ngtrashpost/{id}', [ 'as' => 'ngtrashpost', 'uses' => 'EmployerController@ngTrashPost' ]);

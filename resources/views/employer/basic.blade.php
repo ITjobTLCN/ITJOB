@@ -109,10 +109,10 @@ Manage Basic
 	            		</thead>
 	            		<tbody>
 	            			<tr dir-paginate="post in options['posts']|orderBy:created_at:true|itemsPerPage:5" pagination-id="post">
-	            				<td><a href=""><% post.name %></a></td>
+	            				<td><a ng-href="<% detailJob(post.alias, post._id) %>" target="_blank"><% post.name %></a></td>
 	            				<td><% post.user.name %></td>
 	            				<td><% post.created_at %></td>
-	            				<td><% post.date_expire %></td>
+	            				<td><% post.date_expired %></td>
 	            				<td><% post.applications.length %>/<% post.detail.quantity %>
 									<span ng-if="post.detail.quantity == null">all</span></td>
 	            			</tr>
@@ -142,8 +142,8 @@ Manage Basic
 	            				<td><% apply.fullname %></td>
 	            				<td><% apply.email %></td>
 	            				<td><% apply.created_at %></td>
-	            				<td><% apply.jobname %></td>
-	            				<td><a href=""><% apply.cv %></a></td>
+	            				<td><% apply.job.name %></td>
+	            				<td><a href="cv/views/<% apply.cv %>" target="_blank"><% apply.cv %></a></td>
 	            			</tr>
 	            			<tr>
 	            				<td colspan="100%" class="text-center">
@@ -168,13 +168,13 @@ Manage Basic
 	            			</tr>
 	            		</thead>
 	            		<tbody>
-	            			<tr dir-paginate="re in options['reviews']|orderBy:created_at:true|itemsPerPage:5" pagination-id="review">
-	            				<td><%re.user.name%></td>
-	            				<td><%re.title%></td>
-	            				<td><%re.rating%></td>
-	            				<td><%re.created_at%></td>
-	            				<td><%re.like%></td>
-	            				<td><%re.unlike%></td>
+	            			<tr dir-paginate="review in options['reviews']|orderBy:created_at:true|itemsPerPage:5" pagination-id="review">
+	            				<td><% review.reviewed_by %></td>
+	            				<td><% review.title %></td>
+	            				<td><% review.rating %></td>
+	            				<td><% review.reviewed_at %></td>
+	            				<td><% review.like %></td>
+	            				<td><% review.unlike %></td>
 	            			</tr>
 	            			<tr>
 	            				<td colspan="100%" class="text-center">
@@ -195,9 +195,9 @@ Manage Basic
 	            			</tr>
 	            		</thead>
 	            		<tbody>
-	            			<tr dir-paginate="fol in options['follows']|orderBy:created_at:true|itemsPerPage:5" pagination-id="follow">
-	            				<td><%fol.user.name%></td>
-	            				<td><%fol.created_at%></td>
+	            			<tr dir-paginate="follow in options['follows']|orderBy:created_at:true|itemsPerPage:5" pagination-id="follow">
+	            				<td><% follow.user.name %></td>
+	            				<td><% follow.created_at %></td>
 	            			</tr>
 	            			<tr>
 	            				<td colspan="100%" class="text-center" >
@@ -211,11 +211,9 @@ Manage Basic
 	            		</tbody>
 	            	</table>
 	            </div>
-	            <div class="row text-right">
-	            	<div class="col-md-12">
-	            		<button type="button" ng-show="expendFlag == true" ng-click="expendFlag = !expendFlag" class="btn btn-danger">Close</button>
+	            <div class="col-md-12">
+	            		<button type="button" ng-show="expendFlag == true" ng-click="expendFlag = !expendFlag" class="btn btn-danger" style="float: right">Close</button>
 	            	</div>
-	            </div>
 	        </div>
 		</div>
 		<div id="emp-yourpost" class="emp-section">
@@ -235,23 +233,23 @@ Manage Basic
 						</thead>
 						<tbody>
 							<tr dir-paginate="post in options['myPosts']|itemsPerPage:3" pagination-id="mypost">
-								<td><%post.name%></td>
-								<td><%post.created_at%></td>
+								<td><% post.name %></td>
+								<td><% post.created_at %></td>
 								<td>
-									<span ng-if="post.status==0"><span class="label label-default">Saving</span></span>
-									<span ng-if="post.status==1"><span class="label label-success">Publisher</span></span>
-									<span ng-if="post.status==2"><span class="label label-danger">Deleted</span></span>
-									<span ng-if="post.status==10"><span class="label label-warning">Pending</span></span>
-									<span ng-if="post.status==11"><span class="label label-info">Expired</span></span>
+									<span ng-if="post.status == 0"><span class="label label-default">Saving</span></span>
+									<span ng-if="post.status == 1"><span class="label label-success">Publisher</span></span>
+									<span ng-if="post.status == 2"><span class="label label-danger">Deleted</span></span>
+									<span ng-if="post.status == 10"><span class="label label-warning">Pending</span></span>
+									<span ng-if="post.status == 11"><span class="label label-info">Expired</span></span>
 								</td>
 								<td>
-									<div ng-if="post.status==0">
+									<div ng-if="post.status == 0">
 										<button type="button" ng-click="pushPost(post.id)" class="btn btn-sm btn-primary btn-zoom">Push</button>
 										<button type="button" class="btn btn-sm btn-danger btn-zoom" ng-click="getPost(post.id)">Edit</button>
 									</div>
 									<button type="button" class="btn btn-sm btn-info btn-zoom">Preview</button>
 								</td>
-								<td><%post.applications.length%>/<%post.quantity%>
+								<td><% post.applications.length %>/<% post.quantity %>
 									<span ng-if="post.quantity==null">all</span>
 									<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
 								</td>

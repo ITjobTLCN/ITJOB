@@ -1,5 +1,6 @@
 app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	$scope.empid = "";
+	var baseUrl = 'http://itjob.local.vn/';
 	/*-----------Reset function-----------------------*/
 	$scope.resetAd = function(id) {
 		$scope.load(id);
@@ -37,11 +38,11 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		$scope.job = null;
 		$scope.selection = [];
 		$http.get('emp/ngbasic').then(function(response) {
-			console.log(response);
 			console.info('basic_employer', response.data);
 			//chung
 			$scope.options = response.data;
 			$scope.emp = response.data.emp;
+			$scope.empid = response.data.emp['_id'];
 			$scope.cities = response.data.cities;
 			$scope.skills = response.data.skills;
 			//rieng
@@ -93,7 +94,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			});
 		}
 	}
-	
+
 	/*---------Confirm/Deny Post ----------------*/
 	$scope.confirmPost = function(id) {
 		if (confirm('Are you sure confirm?')) {
@@ -282,7 +283,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		if (type == 0) {//add
 			$http({
 				method: "post",
-				url: "emp/ngcreatepost/" + $scope.empid,
+				url: "emp/ng-create-post/" + $scope.empid,
 				data: $.param({
 					job: $scope.job,
 					skills: $scope.selection
@@ -465,6 +466,10 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	$scope.emailAddress ="default Address";
 	$scope.updateEmail = function() {
 		$scope.getAppli($scope.emailName, $scope.emailEmail);
+	}
+
+	$scope.detailJob = function(alias, _id) {
+		return baseUrl + 'detai-jobs/' + alias + '/' + _id;
 	}
 });
 

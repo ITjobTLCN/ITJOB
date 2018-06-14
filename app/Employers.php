@@ -11,7 +11,7 @@ class Employers extends Eloquent
     protected $dates = ['deleted_at'];
 
     protected $collection = 'employers';
-     
+
     public function city() {
         return $this->belongsTo('App\Cities','city_id','id');
     }

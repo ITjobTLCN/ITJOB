@@ -186,12 +186,16 @@ trait CompanyMethod
         if (is_null($empId) || empty($empId)) {
             return;
         }
+
+        $arrWhere = [
+            'employer_id' => $empId,
+            'status' => [
+                '$in' => [1, 11]
+            ]
+        ];
         $listJob = Job::with('user', 'applications')
-                        ->where('employer_id', $empId)
-                        ->where(function($q) {
-                            $q->orWhere('status', 1);
-                            $q->orWhere('status', 11);
-                        })->get();
+                        ->where($arrWhere)
+                        ->get();
 
         return $listJob;
     }
@@ -205,6 +209,7 @@ trait CompanyMethod
         if (empty($employer['reviews'])) {
             return;
         }
+
         return $employer['reviews'];
     }
 
@@ -238,6 +243,7 @@ trait CompanyMethod
         if (is_null($empId) || empty($empId)) {
             return;
         }
+
         $result = [];
         $arrWhere = [
             'type' => 'company',
@@ -246,7 +252,10 @@ trait CompanyMethod
                 'deleted' => false
             ]
         ];
-        $listFollowed = Follows::where($arrWhere)->get();
+
+        $listFollowed = Follows::with('user')
+                                ->where($arrWhere)
+                                ->get();
         if ( !empty($listFollowed)) {
             $result = $listFollowed;
         }

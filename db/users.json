@@ -40,9 +40,9 @@
     "role_id" : "5ac85f51b9068c2384007d9e", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.260+0000"), 
-    "updated_at" : ISODate("2018-06-13T04:49:58.000+0000"), 
-    "lastlogin" : "2018-06-13 11:49:58", 
-    "remember_token" : "g6NaoyYqReWzqOGGuBK3KtarFZ3cPiwQr1rxvWmKG5CNoZMstcasYDnR41i3"
+    "updated_at" : ISODate("2018-06-13T12:22:33.000+0000"), 
+    "lastlogin" : "2018-06-13 19:22:33", 
+    "remember_token" : "uwtJjVrTthQLwYugHqRZjrKMIrl3JPACPj25I6WtfV32jwbST8fWG84w9f7j"
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007daa"), 
@@ -87,9 +87,9 @@
     "role_id" : "5ac85f51b9068c2384007d9f", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-06-05T16:50:53.464+0000"), 
-    "updated_at" : ISODate("2018-06-10T06:41:35.000+0000"), 
+    "updated_at" : ISODate("2018-06-13T12:34:48.000+0000"), 
     "deleted" : false, 
-    "lastlogin" : "2018-06-10 13:41:35", 
+    "lastlogin" : "2018-06-13 19:34:48", 
     "remember_token" : "yMdbFlqOIbwzd4Okvp5aNhbMAhcXqlmg3JBLPAcyauPIHDjQB76WD2lMHzyE"
 }
 { 

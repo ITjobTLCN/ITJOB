@@ -116,12 +116,12 @@ ITJob - Top Job IT For You
 		@include('partials.modal-login')
 		@include('partials.modal-register')
 	</div>
-@if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
+{{-- @if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
     <script>$(document).ready(function(){$('#loginModal').modal('show');}); </script>
 @endif
 @if(!empty(Session::get('error_code')) && Session::get('error_code') == 2)
     <script>$(document).ready(function(){alert('This feature is not available');}); </script>
-@endif
+@endif --}}
 @endsection
 @section('footer.js')
 <script src="assets/controller/SearchController.js"></script>

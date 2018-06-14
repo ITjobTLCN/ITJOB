@@ -58,6 +58,6 @@ trait ApplyMethod {
 			];
 		}
 
-		return Applications::where($arrWheres)->get();
+		return Applications::with('job')->where($arrWheres)->get();
 	}
 }

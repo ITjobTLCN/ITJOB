@@ -294,7 +294,6 @@ class CompanyController extends Controller
     }
 
     public function postReviewCompanies(Request $req) {
-        // $validate = $this->validator($req);
         $data = $req->only([
             'title', 'like', 'unlike', 'rating', 'suggest', 'recommend'
         ]);

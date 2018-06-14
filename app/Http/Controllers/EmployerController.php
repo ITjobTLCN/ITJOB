@@ -272,7 +272,7 @@ class EmployerController extends Controller
         $skills = $this->getAllSkills();
         $today = Carbon::now()->startOfDay();
         //riêng
-        $myPosts = $this->listPostOfUser();
+        $myPosts = $this->listPostOfUser($empId);
         //Dashboard
         //posts
         $listPost = $this->getJobOfByCompany($empId);
@@ -286,6 +286,7 @@ class EmployerController extends Controller
         //follow
         $follows = $this->getFollow($empId);
         return response()->json(['cities' => $cities,
+                                'emp' => $employer,
                                 'skills' => $skills,
                                 'myPosts' => $myPosts,
                                 'countPostToday' => count($postToday),
@@ -302,7 +303,7 @@ class EmployerController extends Controller
      * Create a job (post)
      */
     public function ngCreatePost(Request $request, $empid) {
-        $user_id = Auth::user()->id;
+        $user_id = Auth::id();
         /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
         try {
             $job = new Job();

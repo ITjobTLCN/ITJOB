@@ -37,8 +37,11 @@ class PageController extends Controller
     	return view('layouts.contact');
     }
 
-    public function postContact(Request $req) {
-        dispatch(new \App\Jobs\ContactMail($req->email, $req->name, $req->subtitle,  $req->content));
+    public function postContact(Request $request) {
+        dispatch(new \App\Jobs\ContactMail($request->email,
+                                            $request->name,
+                                            $request->subtitle,
+                                            $request->content));
         return redirect()->back();
     }
 
@@ -55,5 +58,15 @@ class PageController extends Controller
         Cache::flush();
 
         return "Cache are cleared successful";
+    }
+
+    public function viewHelp($fileName) {
+        $fileName = base64_decode($fileName);
+        $path = public_path() . '/uploads/emp/cv/' . $fileName;
+        
+        return response()->file($path, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="'. $fileName .'"'
+        ]);
     }
 }

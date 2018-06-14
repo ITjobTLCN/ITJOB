@@ -9,8 +9,7 @@ use Auth;
 
 trait UserMethod {
 
-	protected function insertUser($data)
-	{
+	protected function insertUser($data) {
 		$arrData = [
 			'email' => $data['email'],
 			'name' => $data['name'],
@@ -29,12 +28,15 @@ trait UserMethod {
 		return false;
 	}
 
-	public function listPostOfUser()
-	{
+	protected function listPostOfUser($empId) {
 		$listPost = [];
 		if (Auth::check()) {
+			$arrWhere = [
+				'user_id' => Auth::id(),
+				'employer_id' => $empId,
+			];
 			$listPost = Job::with('applications')
-	                      ->where('user_id', Auth::id())
+	                      ->where($arrWhere)
 	                      ->orderBy('_id', 'desc')
 	                      ->get();
 		}
