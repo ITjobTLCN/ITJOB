@@ -77,7 +77,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 								<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2 job-search__logo-col">
 									<div class="logo job-search__logo jb-search__result">
 										<a href="{{route('getEmployers', $ljlt->employer['alias'])}}" target="_blank">
-											<img class="img-responsive" src="uploads/emp/logo/{{$ljlt->employer['images']['avatar']}}" title="{{$ljlt->employer['name']}}"></a>
+											<img class="img-responsive" src="uploads/emp/avatar/{{$ljlt->employer['images']['avatar']}}" title="{{$ljlt->employer['name']}}"></a>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">

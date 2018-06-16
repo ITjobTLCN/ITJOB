@@ -52,6 +52,8 @@ class EmployerController extends Controller
 
 	//Load trang
    	public function getIndex() {
+        if (Auth::user()->role_id == '5ac85f51b9068c2384007d9e')
+            return redirect()->route('getEmpAdvance');
         return redirect()->route('getEmpBasic');
     }
 
@@ -149,34 +151,12 @@ class EmployerController extends Controller
         }
     }
 
-    /*-------Edit Info of Employer---------*/
-    /*-------without logo and cover------------*/
-    /*------updated: 1-12-2017 has logo and cover----*/
-    public function ngGetUpdateEmpInfo(Request $request,$id) {
-        /*id name website address alias city_id phone description schedule overtime ListSkills*/
+    public function ngGetUpdateEmpInfo(Request $request, $empId) {
         try {
-            $emp = Employers::findOrFail($id);
-            $emp->name = $request->emp['name'];
-            $emp->alias = $this->changToAlias($request->emp['name']);
-            $emp->website = $request->emp['website'];
-            $emp->address = $request->emp['address'];
-            $emp->city_id = $request->emp['city_id'];
-            $emp->phone = $request->emp['phone'];
-            $emp->description = $request->emp['description'];
-            $emp->schedule = $request->emp['schedule'];
-            $emp->overtime = $request->emp['overtime'];
-            $emp->save();
+            $arrData = $request->employer;
 
-            //xóa các skill cũ -> add lại skill mới
-            Skill_employer::where('emp_id', $id)->delete();
-            if (sizeof($request->skills) > 0) {
-                foreach($request->skills as $skill) {
-                    $ski = new Skill_employer();
-                    $ski->emp_id = $id;
-                    $ski->skill_id = $skill['id'];
-                    $ski->save();
-                }
-            }
+            $this->updateInfoCompany($arrData, $empId);
+
             return response()->json(['status' => true,
                                         'message' => 'Update Successfully']);
 
@@ -198,30 +178,22 @@ class EmployerController extends Controller
         }
         // dd($request->all());
         if (Input::hasfile('file') && $empId && $type) {
-            try {
-                $file = Input::file('file');
-                //get extension of a image
-                $file_extension = File::extension($file->getClientOriginalName());
-                $employer = Employers::findOrFail($empId);
+            $file = Input::file('file');
+            //get extension of a image
+            $file_extension = File::extension($file->getClientOriginalName());
+            $filename = $empId . "." . $file_extension;
+            $file->move("uploads/emp/{$type}", $filename);
 
-                if ($type ==1 ) {
-                    $filename = "cover_employer_".$empId.".".$file_extension;
-                    $file->move('uploads/emp/cover', $filename);
-                    $employer->cover = $filename;
-                } else {
-                    if ($type == 2) {
-                        $filename = "logo_employer_".$empId.".".$file_extension;
-                        $file->move('uploads/emp/logo', $filename);
-                        $employer->logo = $filename;
-                    }
-                }
-                $employer->save();
+            $arrUpdate["images.{$type}"] = $filename;
+            try {
+                Employers::where('_id', $empId)->update($arrUpdate);
             } catch(\Exception $e) {
-                    return redirect()->back()->withErrors('Error while save!');
+                return redirect()->back()->withErrors('Something went wrong!');
             }
-        }else{
+        } else {
             return redirect()->back()->withErrors("File haven't choose!");
         }
+
         return redirect()->back()->with(['message' => 'Change successful!']);
     }
 
@@ -380,24 +352,23 @@ class EmployerController extends Controller
     /**
      * Get post by id
      */
-    public function ngGetPost($id) {
-        $post = Job::findOrFail($id);
+    public function ngGetPost($jobId) {
+        $post = Job::findOrFail($jobId);
         //post's skills
-        $postskills = Skill_job::where('skill_job.job_id', $id)
-                                ->join('skills','skills.id', '=', 'skill_job.skill_id')
-                                ->select('skills.*')
+        $postSkills = Skills::whereIn('_id', $post['skills_id'])
                                 ->get();
-        return response()->json(['post' => $post, 'postskills' => $postskills]);
+        return response()->json(['post' => $post, 'postSkills' => $postSkills]);
     }
 
     /**
      * Trash and Push posts
      */
-    public function ngTrashPost($id) {
+    public function ngTrashPost($jobId) {
         try {
-            $post = Job::findOrFail($id);
+            $post = Job::findOrFail($jobId);
             $post->status = 2;
             $post->save();
+
             return response()->json(['status' => true, 'message' => 'Moved post to trash']);
         } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to delete']);
@@ -419,16 +390,26 @@ class EmployerController extends Controller
     public function ngConfirmPost($jobId) {
         try {
             $post = Job::findOrFail($jobId);
+
+            $employer = Employers::findOrFail($post['employer_id']);
+            $test = intval($employer['quantity_job']['hirring']);
             //change status from Pending to Publisher: from 10 to 1
             $post->status = 1;
             $post->save();
+
+            $arrUpdate = [
+                'quantity_job' => [
+                    'hirring' => $test + 1
+                ],
+            ];
+            Employers::where('_id', $post['employer_id'])->update($arrUpdate);
             //notification to author
-            $post->user->notify(new ConfirmPost($post,true));
-            //notification to users has followed (recommend Queue)
-            $userFollowed = Follow_employers::where('emp_id', $post->emp_id)->get();
-            foreach($userFollowed as $user) {
-                $user->user->notify(new NotifyNewPost($post, $post->Employer->name));
-            }
+            // $post->user->notify(new ConfirmPost($post,true));
+            // //notification to users has followed (recommend Queue)
+            // $userFollowed = Follow_employers::where('emp_id', $post->emp_id)->get();
+            // foreach($userFollowed as $user) {
+            //     $user->user->notify(new NotifyNewPost($post, $post->Employer->name));
+            // }
 
             return response()->json(['status' => true, 'message' => 'Confirm Successfully']);
         } catch(Exception $e) {
@@ -444,7 +425,7 @@ class EmployerController extends Controller
             $post->save();
 
             //notification to user
-            $post->user->notify(new ConfirmPost($post,false));
+            //$post->user->notify(new ConfirmPost($post,false));
 
             return response()->json(['status' => true, 'message' => 'Deny Successfully']);
         } catch(Exception $e) {
@@ -459,13 +440,9 @@ class EmployerController extends Controller
     |                       Send email by SWIFTMAILER
     */
     public function postSendEmail(Request $request) {
-        // dd($request->all());
-        $data = ['contentemail' =>$request->contentemail];
-        Mail::send('partials.email1', $data, function($msg) use ($request) {
-            $msg->from('itjobchallenge@gmail.com', 'IT JOB - CHALLENGE YOUR DREAM');
-            $msg->to($request->email,$request->email)->subject('Trả lời đơn xin việc của các ứng viên');
-        });
+        dispatch(new \App\Jobs\MailInterview($request->contentemail, $request->email));
         Session::flash('flash_message', 'Send email successfully!');
+
         return redirect()->back();
     }
     /*

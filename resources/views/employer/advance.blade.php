@@ -24,53 +24,54 @@ Manage Advance
 							<label class="col-md-3 form-control-label">Name</label>
 							<div class="col-md-9">
 								<span ng-show="!editable"><% employer['name'] %></span>
-								<input type="text" ng-show="editable" ng-model="emp.name" class="form-control" name="name" placeholder="Employer's name" required>
+								<input type="text" ng-show="editable" ng-model="employer.name" class="form-control" name="name" placeholder="Employer's name" required>
 								{{-- <span class="errors" ng-if="<% employer['name'] %>" ng-show="empInfo.name.$error.required">Please type employer's name</span> --}}
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-3 form-control-label">Webiste</label>
 							<div class="col-md-9">
-								<span ng-show="!editable"><% employer['info']['website'] %></span>
-								<input type="text" ng-show="editable" class="form-control" name="website" placeholder="Employer's website" ng-model="emp.website" required>
+								<span ng-show="!editable"><% employer['website'] %></span>
+								<input type="text" ng-show="editable" class="form-control" name="website" placeholder="Employer's website" ng-model="employer.website" required>
 								{{-- <span class="errors" ng-if="<% employer['info']['website'] %>" ng-show="empInfo.website.$error.required">Please type employer's website</span> --}}
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-3 form-control-label">City</label>
 							<div class="col-md-9">
-								<span ng-show="!editable"><% employer['city_id'] %></span>
-								<select ng-show="editable" class="form-control" name="" id="" ng-options="item.id as item.name for item in cities" ng-model="emp.city_id">
-								</select>
+								<span ng-show="!editable"><% employer['city'] %></span>
+								<input type="text" class="form-control" ng-show="editable" ng-disabled="editable" ng-model="employer.city">
+								{{-- <select ng-show="editable" class="form-control" name="city_id" id="" ng-options="item._id as item.name for item in cities" ng-model="employer.city_id">
+								</select> --}}
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-3 form-control-label">Address</label>
 							<div class="col-md-9">
-								<span ng-show="!editable"><% employer['address'][0]['detail'] %></span>
-								<input ng-show="editable" type="text" class="form-control" name="address" placeholder="Employer's address" ng-model="emp.address" required>
+								<span ng-show="!editable"><% employer['address'] %></span>
+								<input ng-show="editable" type="text" class="form-control" name="address" placeholder="Employer's address" ng-model="employer.address" required>
 								{{-- <span class="errors" ng-if="<% employer['address'][0]['detail'] %>" ng-show="empInfo.address.$error.required">Please type employer's address</span> --}}
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-3 form-control-label">Phone</label>
 							<div class="col-md-9">
-								<span ng-show="!editable"><% employer['info']['phone'] %></span>
-								<input ng-show="editable" type="text" class="form-control" name="phone" placeholder="Employer's phone" ng-model="emp.phone">
+								<span ng-show="!editable"><% employer['phone'] %></span>
+								<input ng-show="editable" type="text" class="form-control" name="phone" placeholder="Employer's phone" ng-model="employer.phone">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-3 form-control-label">Description</label>
 							<div class="col-md-9">
-								<p ng-show="!editable"><% employer['info']['description'] %></p>
-								<textarea ng-show="editable" ng-model="emp.description" name="description" class="form-control" rows="5"></textarea>
+								<p ng-show="!editable"><% employer['description'] %></p>
+								<textarea ng-show="editable" ng-model="employer.description" name="description" class="form-control" rows="5"></textarea>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-md-3 form-control-label">Schedule</label>
 							<div class="col-md-9">
-								<span ng-show="!editable"><% emp.schedule%></span>
-								<input ng-show="editable" type="text" class="form-control" name="schedule" placeholder="Employer's schedule" ng-model="emp.schedule">
+								<span ng-show="!editable"><% emp.schedule %></span>
+								<input ng-show="editable" type="text" class="form-control" name="schedule" placeholder="Employer's schedule" ng-model="employer.schedule">
 							</div>
 						</div>
 
@@ -89,7 +90,7 @@ Manage Advance
 						<div class="form-group row">
 							<label class="col-md-3 form-control-label">Our Skills</label>
 							<div class="col-md-9">
-								<span ng-repeat="sel in selection track by $index"><%sel.name%> <span ng-if="!$last">-</span> </span>
+								<span ng-repeat="sel in selection track by $index"><% sel.name %> <span ng-if="!$last">-</span> </span>
 								<div ng-show="editable">
 									<div>
 									<button type="button" class="btn btn-primary btn-sm" ng-click="showSkill=!showSkill">Choose Skills &gt;</button>
@@ -98,7 +99,7 @@ Manage Advance
 										<div class="single-skill" ng-repeat="skill in skills|filter:searchSkill">
 											<label>
 												<input type="checkbox" value="<%skill._id%>"
-										  ng-checked="checked(skill._id)" ng-click="toggleSelection(skill._id, skill.name)"> <%skill.name%></label>
+										  ng-checked="checked(skill._id)" ng-click="toggleSelection(skill._id, skill.name)"> <% skill.name %></label>
 										</div>
 									</div>
 									</div>
@@ -118,23 +119,23 @@ Manage Advance
 				<div class="col-lg-7">
 					<div class="block-info">
 						<div id="cover-info">
-							<img ng-src="uploads/emp/cover/<% employer['images']['cover'] %>" alt="<% emp.cover%>">
+							<img ng-src="uploads/emp/cover/<% employer['cover'] %>" alt="<% emp.cover%>">
 							<div class="cover-above" id="cover-above-cover">
 								<button type="button" class="btn btn-success" ng-click="fileCover(1)">Click to change your cover</button>
-								<form action="{{route('postChangeLogoCover',[$employer['_id'], 1])}}" method="post" enctype="multipart/form-data" id="formChangeCover">
-									<input type="hidden" value="{{csrf_token()}}" name="_token">
+								<form action="{{route('postChangeLogoCover',[$employer['_id'], 'cover'])}}" method="POST" enctype="multipart/form-data" id="formChangeCover">
+									{{ csrf_field() }}
 									<input type="file" name="file" ng-show="false" id="filecover">
-								</form>	
+								</form>
 							</div>
 						</div>
 						<div id="logo-info">
-							<img ng-src="uploads/emp/logo/<% employer['images']['avatar'] %>" alt="<% emp.logo%>">
+							<img ng-src="uploads/emp/avatar/<% employer['avatar'] %>" alt="<% emp.logo%>">
 							<div class="cover-above" id="cover-above-logo">
 								<button type="button" class="btn btn-sm btn-success" ng-click="fileCover(2)">Change logo</button>
-								<form action="{{route('postChangeLogoCover',[$employer['_id'], 2])}}" method="post" enctype="multipart/form-data" id="formChangeLogo">
-									<input type="hidden" value="{{csrf_token()}}" name="_token">
+								<form action="{{route('postChangeLogoCover',[$employer['_id'], 'logo'])}}" method="POST" enctype="multipart/form-data" id="formChangeLogo">
+									{{ csrf_field() }}
 									<input type="file" name="file" ng-show="false" id="filelogo">
-								</form>	
+								</form>
 							</div>
 						</div>
 					</div>
@@ -299,7 +300,7 @@ Manage Advance
 							<button ng-click="denyPost(post._id)" class="btn btn-sm btn-danger">Deny</button>
 						</span>
 					</td>
-					<td><%post.applications.length%>/<%post.detail.quantity%>
+					<td><% post.applications.length %> / <% post.detail.quantity %>
 						<span ng-if="post.detail.quantity == null">*</span>
 						<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
 					</td>

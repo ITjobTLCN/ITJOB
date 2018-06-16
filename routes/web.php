@@ -246,6 +246,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 //Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 //Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
 //Route::get('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
+Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/
@@ -257,26 +258,26 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	Route::post('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
 	Route::get('ngdenyass/{id}/{user_id}', [ 'as' => 'nggetdenyass', 'uses' => 'EmployerController@ngGetDenyAss' ]);
 		/*Update info*/
-	Route::post('ngupdateinfo/{id}', [ 'as' => 'ngupdateempinfo', 'uses' => 'EmployerController@ngGetUpdateEmpInfo' ]);
+	Route::post('ng-update-info/{id}', [ 'as' => 'ngUpdateEmpInfo', 'uses' => 'EmployerController@ngGetUpdateEmpInfo' ]);
 		/*Change logo-cover using Laravel - Reload page*/
-	Route::post('changelogocover/{empid}/{type}', [ 'as' => 'postChangeLogoCover', 'uses' => 'EmployerController@postChangeLogoCoverEmp' ]);
+	Route::post('change-logo-cover/{empId}/{type}', [ 'as' => 'postChangeLogoCover', 'uses' => 'EmployerController@postChangeLogoCoverEmp' ]);
 
 		/*Employer Basic*/
 	Route::get('basic', [ 'as' => 'getEmpBasic', 'uses' => 'EmployerController@getEmpBasic' ]);
 	Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 	Route::post('ng-create-post/{empId}', [ 'as' => 'ngCreatePost', 'uses' => 'EmployerController@ngCreatePost' ]);
-	Route::get('nggetpost/{id}', [ 'as' => 'nggetpost', 'uses' => 'EmployerController@ngGetPost' ]);
+	Route::get('ng-get-post/{id}', [ 'as' => 'ngGetPost', 'uses' => 'EmployerController@ngGetPost' ]);
 	Route::post('ngeditpost/{empid}/{id}', [ 'as' => 'ngeditpost', 'uses' => 'EmployerController@ngEditPost' ]);
-	Route::get('ngtrashpost/{id}', [ 'as' => 'ngtrashpost', 'uses' => 'EmployerController@ngTrashPost' ]);
+	Route::get('ng-trash-post/{id}', [ 'as' => 'ngTrashPost', 'uses' => 'EmployerController@ngTrashPost' ]);
 	Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
-	Route::get('ngdenypost/{id}', [ 'as' => 'ngdenypost', 'uses' => 'EmployerController@ngDenyPost' ]);
+	Route::get('ng-deny-post/{id}', [ 'as' => 'ngDenyPost', 'uses' => 'EmployerController@ngDenyPost' ]);
 });
 /*download aplication's CV*/
 Route::get('downloadcv/{name}', [ 'as' => 'getempdownloadcv', 'uses' => 'HomeController@getDownloadEmpCV' ]);
 
 	/*send Email*/
-Route::post('sendemail', [ 'as' => 'postsendemail', 'uses' => 'EmployerController@postSendEmail' ]);
+Route::post('sendemail', [ 'as' => 'postSendEmail', 'uses' => 'EmployerController@postSendEmail' ]);
 Route::get('/markAsRead', function() {
 	auth()->user()->unreadnotifications->markAsRead();
 });

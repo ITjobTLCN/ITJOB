@@ -13,7 +13,7 @@
                 <div class="row">
                     <div class="col-md-2 col-sm-3 col-xs-12">
                         <div class="logo-company">
-                            <img src="uploads/emp/logo/{{$company->images['avatar']}}" alt="" class="img-responsive">
+                            <img src="uploads/emp/avatar/{{$company->images['avatar']}}" alt="" class="img-responsive">
                         </div>
                     </div>
                     <div class="col-md-7 col-sm-9 col-xs-12">

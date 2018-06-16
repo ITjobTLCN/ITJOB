@@ -13,10 +13,10 @@ class Employers extends Eloquent
     protected $collection = 'employers';
 
     public function city() {
-        return $this->belongsTo('App\Cities','city_id','id');
+        return $this->belongsTo('App\Cities', 'city_id', '_id');
     }
     public function registrations() {
-        return $this->hasMany('App\Registration','emp_id','id');
+        return $this->hasMany('App\Registration', 'emp_id', '_id');
     }
 
     public function job() {

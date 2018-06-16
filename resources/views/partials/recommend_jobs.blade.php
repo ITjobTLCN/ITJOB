@@ -13,7 +13,7 @@
 		<div class="row" >
 			<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 				<div class="logo job-search__logo jb-search__result">
-					<a href=""><img title="" class="img-responsive" src="uploads/emp/logo/{{ $ljlt->employer['images']['avatar'] }}" alt="">
+					<a href=""><img title="" class="img-responsive" src="uploads/emp/avatar/{{ $ljlt->employer['images']['avatar'] }}" alt="">
 					</a>
 				</div>
 			</div>

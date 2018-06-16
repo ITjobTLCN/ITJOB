@@ -25,31 +25,28 @@
 				<td><% app.created_at %></td>
 				<td><a href="cv/views/<% app.cv %>" target="_blank"><% app.cv %></a></td>
 				<td>
-					<a href="#modal-sendemailemp" ng-click="getAppli(app.fullname, app.email)" data-toggle="modal" data-target="#modal-sendemailemp" class="btn btn-sm btn-primary">Email</a>
+					<a href="#modal-sendemailemp" ng-click="getApplication(app.fullname, app.email)" data-toggle="modal" data-target="#modal-sendemailemp" class="btn btn-sm btn-primary">Email</a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
-	@if(Session::has('flash_message'))
+	{{-- @if(Session::has('flash_message'))
 		{{Session::get('flash_message')}}
-	@endif
+	@endif --}}
 	<div class="modal fade" id="modal-sendemailemp">
 		<div class="modal-dialog modal-lg">
-			<form action="{{route('postsendemail')}}" method="POST">
+			<form action="{{route('postSendEmail')}}" method="POST">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h3 class="modal-title">Company: <%employer.name%></h3>
+					<h3 class="modal-title">Company: <% employer.name %></h3>
 					<h4 class="modal-title">Send email to candicate</h4>
 				</div>
 				<div class="modal-body">
-	<!-- 					<input type="hidden" name="name">
-						<input type="hidden" name="id">
-						<input type="hidden" name="appid"> -->
 						<div class="row">
 							<div class="form-group col-md-6">
 								<label for="email" class="form-control-label">To</label>
-								<input type="email" name="email" class="form-control" placeholder="Email" ng-model="emailEmail" readonly="readonly">
+								<input type="email" name="email" class="form-control" placeholder="Email" ng-model="infoSendMail.email" readonly="readonly">
 							</div>
 							<div class="form-group col-md-3">
 								<label for="date" class="form-control-label">Choose Date</label>
@@ -62,7 +59,7 @@
 						</div>
 						<div class="form-group">
 							<label for="address" class="form-control-label">Address:</label>
-							<input type="text" name="address" class="form-control" placeholder="Address" ng-model="emailAddress" ng-change="updateEmail()">
+							<input type="text" name="address" class="form-control" placeholder="Address" ng-model="employer.address" ng-change="updateEmail()">
 						</div>
 
 						<strong>Email content:</strong>

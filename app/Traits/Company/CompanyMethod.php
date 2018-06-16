@@ -18,7 +18,9 @@ trait CompanyMethod
             return;
         }
 
-        return Employers::whereIn($type, [Auth::id()])->first();
+        return Employers::with('city')
+                        ->whereIn($type, [Auth::id()])
+                        ->first();
     }
 
     protected function storeReview($data, $empId) {
@@ -265,7 +267,7 @@ trait CompanyMethod
 
     protected function getCompanyHirring($offset = 0, $limit = null) {
         $arrWhere = [
-            'info.quantity_employee' => [
+            'quantity_job.hirring' => [
                 '$gt' => 0
             ]
         ];
@@ -287,5 +289,4 @@ trait CompanyMethod
                                 ->limit($limit)
                                 ->get();
     }
-
 }

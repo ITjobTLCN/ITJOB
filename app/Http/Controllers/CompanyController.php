@@ -23,7 +23,7 @@ class CompanyController extends Controller
 
     public function getIndex() {
         $cCompanies = Employers::count();
-        $companies = Employers::orderBy('id', 'desc')
+        $companies = Employers::orderBy('_id', 'desc')
                               ->offset(0)
                               ->take(10)
                               ->get();
@@ -165,7 +165,7 @@ class CompanyController extends Controller
                 $output .= "<div class='row'>
                             <div class='col-xs-3 col-md-3 col-lg-2'>
                                 <div class='logo job-search__logo'>
-                                    <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/logo/{$emp->logo}' alt=''>
+                                    <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/avatar/{$emp->logo}' alt=''>
                                     </a>
                                 </div>
                             </div>
@@ -208,7 +208,7 @@ class CompanyController extends Controller
                             <div class="company_info">
                                 <div class="company_header">
                                     <div class="company_logo">
-                                        <img src="uploads/emp/logo/'.$emp->images['avatar'].'" alt="avatar-company" title="'.$emp->name.'">
+                                        <img src="uploads/emp/avatar/'.$emp->images['avatar'].'" alt="avatar-company" title="'.$emp->name.'">
                                     </div>
                                     <div class="company_name">'.$emp->name.'</div>
                                 </div>

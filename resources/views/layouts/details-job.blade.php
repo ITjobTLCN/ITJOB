@@ -218,7 +218,7 @@
                     <div class="box">
                         <div class="col-md-12 col-sm-12 employer-logo">
                             <div class="responsive-container box-limit">
-                                <a href="{{route('getEmployers', $job->employer['alias'])}}" target="_blank" title="{{ $job->employer['name'] }}"><img src="uploads/emp/logo/{{ $job->employer['images']['avatar'] }}" alt=""></a>
+                                <a href="{{route('getEmployers', $job->employer['alias'])}}" target="_blank" title="{{ $job->employer['name'] }}"><img src="uploads/emp/avatar/{{ $job->employer['images']['avatar'] }}" alt=""></a>
 
                             </div>
                         </div>

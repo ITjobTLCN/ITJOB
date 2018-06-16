@@ -34,7 +34,7 @@ Application Jobs | ITJob
 					<div class="row" >
 						<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 							<div class="logo job-search__logo jb-search__result">
-								<a href=""><img title="{{$ja->employer['name']}}" class="img-responsive" src="uploads/emp/logo/{{$ja->employer['images']['avatar']}}" alt="">
+								<a href=""><img title="{{$ja->employer['name']}}" class="img-responsive" src="uploads/emp/avatar/{{$ja->employer['images']['avatar']}}" alt="">
 								</a>
 							</div>
 						</div>

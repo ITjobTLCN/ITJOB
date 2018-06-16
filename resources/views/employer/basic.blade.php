@@ -249,8 +249,8 @@ Manage Basic
 									</div>
 									<button type="button" class="btn btn-sm btn-info btn-zoom">Preview</button>
 								</td>
-								<td><% post.applications.length %>/<% post.quantity %>
-									<span ng-if="post.quantity == null">all</span>
+								<td><% post.applications.length %>/<% post.detail.quantity %>
+									<span ng-if="post.detail.quantity == null">all</span>
 									<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
 								</td>
 							</tr>
@@ -287,24 +287,24 @@ Manage Basic
 										<select  class="form-control" ng-options="item.name for item in cities" ng-model="job.city" name="job.city">
 										</select>
 									</div>
-									<div class="col-lg-8">
-										<label for="">Address</label>
-										<input type="text" class="form-control" placeholder="Input address" ng-model="job.address" name="address">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-6">
+									<div class="col-lg-4">
 										<label for="">Salary</label>
 										<input type="text" class="form-control" placeholder="Input salary range" ng-model="job.salary" name="salary">
 									</div>
-									<div class="col-lg-6">
+									<div class="col-lg-4">
 										<label for="">Quantity</label>
 										<input type="number" class="form-control" step="1" min="1" ng-model="job.quantity" name="">
 									</div>
 								</div>
+								<div class="form-group row">
+									<div class="col-lg-12">
+										<label for="">Address</label>
+										<textarea class="form-control" ng-model="job.address" name="address" cols="3" rows="3"></textarea>
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="">Skills: </label>
-									<span ng-repeat="sel in selection track by $index"><%sel.name%> <span ng-if="!$last">-</span> </span>
+									<span ng-repeat="sel in selection track by $index" style="color: red"><%sel.name%> <span ng-if="!$last" >-</span> </span>
 									<div>
 										<button type="button" class="btn btn-primary btn-sm" ng-click="showSkill=!showSkill">Choose Skills <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
 										<div id="listSkill" ng-show="showSkill">
@@ -334,14 +334,14 @@ Manage Basic
 							<div class="col-md-4">
 								<div class="block-info">
 									<div class="text-center">
-										<button type="button" class="btn btn-primary" ng-click="savePost(typePost,idPost)">Save</Iutton>
+										<button type="button" class="btn btn-primary" ng-click="savePost(typePost, idPost)" style="margin-right: 10px">Save</Iutton>
 										<button type="button" class="btn btn-info">Preview</button>
 									</div>
 								</div>
 								<div class="block-info">
 									<div class="text-center">
-										<button type="button" class="btn btn-default" ng-click="addPost()">Cancel</button>
-										<button ng-if="typePost==1" ng-click="trashPost(idPost)" type="button" class="btn btn-default">Move to trash</button>
+										<button type="button" class="btn btn-default" ng-click="addPost()" style="margin-right: 10px">Cancel</button>
+										<button ng-if="typePost==1" ng-click="trashPost(job._id)" type="button" class="btn btn-danger">Delete</button>
 									</div>
 								</div>
 								<div class="block-info">

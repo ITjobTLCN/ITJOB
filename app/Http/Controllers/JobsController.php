@@ -127,7 +127,7 @@ class JobsController extends Controller
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
                                     <div class="logo job-search__logo">
-                                        <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/'. $job->employer['images']['avatar'] . '" alt="">
+                                        <a href=""><img title="" class="img-responsive" src="uploads/emp/avatar/'. $job->employer['images']['avatar'] . '" alt="">
                                         </a>
                                     </div>
                                 </div>
@@ -143,7 +143,7 @@ class JobsController extends Controller
                                         </div>
                                             <div class="company text-clip">';
                                             if (Auth::check()){
-                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">' . $job->details['salary'] . '</a></span>';
+                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">' . $job->detail['salary'] . ' $</a></span>';
                                             } else {
                                                 $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương</a></span>';
                                             }

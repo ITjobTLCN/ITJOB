@@ -48,7 +48,7 @@ Reviews of top companies on ITJob
 					<div class="company_info">
 						<div class="company_header">
 							<div class="company_logo">
-								<img src="uploads/emp/logo/{{$ch->images['avatar']}}" alt="avatar-company">
+								<img src="uploads/emp/avatar/{{$ch->images['avatar']}}" alt="avatar-company">
 							</div>
 							<div class="company_name">
 								{{$ch->name}}
@@ -87,7 +87,7 @@ Reviews of top companies on ITJob
 					<div class="company_info">
 						<div class="company_header">
 							<div class="company_logo">
-								<img src="uploads/emp/logo/{{$cf->images['avatar']}}" alt="avatar-company">
+								<img src="uploads/emp/avatar/{{$cf->images['avatar']}}" alt="avatar-company">
 							</div>
 							<div class="company_name">
 								{{$cf->name}}

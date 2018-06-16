@@ -11,7 +11,7 @@
 								<div class="row" >
 									<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 										<div class="logo job-search__logo">
-											<a href=""><img title="" class="img-responsive" src="uploads/emp/logo/{{ $tjv->employer['images']['avatar'] }}" alt="">
+											<a href=""><img title="" class="img-responsive" src="uploads/emp/avatar/{{ $tjv->employer['images']['avatar'] }}" alt="">
 											</a>
 										</div>
 									</div>

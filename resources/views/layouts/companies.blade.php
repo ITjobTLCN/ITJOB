@@ -55,7 +55,7 @@ All Companies in Vietnam
                                     <div class="row">
                                         <div class="col-xs-3 col-md-3 col-lg-2">
                                             <div class="logo job-search__logo">
-                                                <a href=""><img title="" class="img-responsive" src="uploads/emp/logo/{{$com->images['avatar']}}" alt="">
+                                                <a href=""><img title="" class="img-responsive" src="uploads/emp/avatar/{{$com->images['avatar']}}" alt="">
                                                 </a>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@ All Companies in Vietnam
                                                     <h3>{{$com->description}}</h3>
                                                 </div>
                                                 <div class="company">
-                                                    <span class="people"><i class="fa fa-users" aria-hidden="true"></i> {{$com->info['quantity_employee']}}</span>
+                                                    <span class="people"><i class="fa fa-users" aria-hidden="true"></i> {{$com->info['quantity_employee'] ?? 0}}</span>
                                                     <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->info['website']}}</span>
                                                 </div>
                                                 <div id="skills">
