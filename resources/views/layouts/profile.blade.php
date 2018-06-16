@@ -12,22 +12,6 @@ Thông tin cá nhân | ITJob
 			</div>
 			<div class="wrapper-profile">
 				<div class="box box-md">
-					<div class="col-md-2 col-sm-3">
-						
-						<div class="avatar_profile">
-							@if($user->password !="")
-							<img src="uploads/avatar/{{$user->avatar}}" alt="" class="img-responsive" width="150px" height="150px">
-							@else
-							<img src="{{$user->avatar}}" alt="" class="img-responsive" width="150px" height="150px">
-							@endif
-						</div>
-						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">
-							<input type="file" name="avatar">
-							{{csrf_field()}}
-							<input type="submit" value="Upload" class="btn btn-sm btn-primary">
-
-						</form>
-					</div>
 					<div class="col-md-7 col-sm-9">
 						@if(Session::has('success'))
 						<div class="alert alert-success alert-dismissable">
@@ -97,6 +81,24 @@ Thông tin cá nhân | ITJob
 							</form>
 						</div>
 					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-4 col-sm-3">
+						
+						<div class="avatar_profile" style="margin: 0 auto">
+							@if($user->password !="")
+							<img src="uploads/avatar/{{$user->avatar}}" alt="" class="img-responsive" style="border-radius: 100%; width: 150px;height: 150px">
+							@else
+							<img src="{{$user->avatar}}" alt="" class="img-responsive" width="150px" height="150px">
+							@endif
+						</div>
+						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">
+							<input type="file" name="avatar">
+							{{csrf_field()}}
+							<input type="submit" value="Upload" class="btn btn-sm btn-primary">
+
+						</form>
+					</div>
+					
 				</div>
 			</div>
 		</div>

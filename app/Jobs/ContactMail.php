@@ -39,7 +39,7 @@ class ContactMail implements ShouldQueue
     {
         $email = new \App\Mail\SendContactMail($this->email, $this->name, $this->subtitle, $this->content);
         Mail::to('phong.kelvin1608@gmail.com')->send($email);
-        
+
         \Log::info('Send mail successfully', [$this->email]);
     }
 }

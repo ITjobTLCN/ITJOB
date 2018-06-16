@@ -112,7 +112,7 @@ class JobsController extends Controller
                 '$in' => array_unique($info_skill)
             ];
         }
-        // return $arrWheres;
+
         $jobs = $this->indexJob($arrWheres);
         foreach ($jobs as $key => $job) {
             $output[] = $job;

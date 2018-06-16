@@ -64,12 +64,13 @@ trait JobMethod
 		];
 		$data = $this->formatInputToSave($data);
 		$id = $objFollow->insert($data);
-		if($id) {
+		if ($id) {
 			$job = Job::find($jobId);
 			Job::where('_id', $jobId)->update([
 				'quantity_user_follow' => intval($job['quantity_user_follow'] + 1)
 			]);
 		}
+
 		return false;
 	}
 
@@ -98,14 +99,12 @@ trait JobMethod
 			'employer_id' => $empId,
 			'deleted' => false,
 			'created_at' => [
+				'$gt'  => $today->subDays(3),
 				'$lte' => $today
-			]
+			],
 		];
 
-		$objJob = new Job();
-		$objJob = Job::where($arrWhere)->get();
-
-		return $objJob;
+		return Job::where($arrWhere)->get();
 	}
 
 	protected function getRelatedJob($job) {

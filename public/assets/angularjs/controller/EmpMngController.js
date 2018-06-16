@@ -188,12 +188,13 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	$scope.toggleSelection = function(id, name) {
 		// alert('hello');
-		var index = $scope.selection.findIndex(i => i.id == id);
-		if (index>-1) {
-			$scope.selection.splice(index,1);
+		var index = $scope.selection.findIndex(i => i._id == id);
+		if (index > -1) {
+			$scope.selection.splice(index, 1);
 		} else {
-			$scope.selection.push({id:id,name:name});
+			$scope.selection.push({_id: id, name: name});
 		}
+
 		console.log($scope.selection);
 	}
 
@@ -203,7 +204,6 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	/*------------------------Save edit info--------------------------------------*/
 	$scope.updateInfo = function() {
-		debugger;
 		$scope.employer['skills'] = angular.copy($scope.selection);
 		$http({
 			method: "post",

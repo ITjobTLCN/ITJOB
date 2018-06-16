@@ -37,9 +37,9 @@ class CompanyController extends Controller
         return Job::where('employer_id', $emp_id)->count();
     }
 
-    public function getMoreJob(Request $req) {
-        $dem = $req->dem;
-        $com_id = $req->com_id;
+    public function getMoreJob(Request $request) {
+        $dem = $request->dem;
+        $com_id = $request->com_id;
         $jobs = Job::where('emp_id', $com_id)
                     ->offset($dem)
                     ->take(10)
@@ -47,14 +47,14 @@ class CompanyController extends Controller
 
         return $dem;
     }
-    public function getJobsCompany(Request $req) {
+    public function getJobsCompany(Request $request) {
         $output = "";
-        $emp_id = $req->emp_id;
+        $emp_id = $request->emp_id;
         if (Cache::has('job-hirring'.$emp_id)) {
             $output = Cache::get('job-hirring'.$emp_id, '');
         } else {
             $jobs = Job::where('employer_id', $emp_id)
-                    ->offset($req->offset)
+                    ->offset($request->offset)
                     ->take(config('constant.limit.job'))
                     ->get();
             foreach ($jobs as $key => $job) {
@@ -87,8 +87,8 @@ class CompanyController extends Controller
         return $output;
     }
 
-    public function getDetailsCompanies(Request $req) {
-        $company = $this->getEmployerByKey($req->alias);
+    public function getDetailsCompanies(Request $request) {
+        $company = $this->getEmployerByKey($request->alias);
         if (empty($company) || is_null($company)) {
             return view('layouts.companies', ['match' => false]);
         }
@@ -117,7 +117,7 @@ class CompanyController extends Controller
                compact('company', 'skills', 'follow'));
     }
 
-    public function getCompaniesReview(Request $req, $offset = null, $limit = null) {
+    public function getCompaniesReview(Request $request, $offset = null, $limit = null) {
         $offset ? $offset : $offset = 0;
         $limit ? $limit : $limit = config('constant.limit.company');
 
@@ -141,10 +141,10 @@ class CompanyController extends Controller
                             ->get();
     }
 
-    public function getMoreCompanies(Request $req) {
+    public function getMoreCompanies(Request $request) {
         $output = "";
-        if ($req->has('cNormal')) {
-            $count = $req->cNormal;
+        if ($request->has('cNormal')) {
+            $count = $request->cNormal;
             $output = "";
             $employers = Employers::orderBy('id','desc')
                                     ->offset($count)
@@ -195,8 +195,8 @@ class CompanyController extends Controller
                         </div>";
            }
         } else {
-            $type = $req->type;
-            $offset = $req->offset;
+            $type = $request->type;
+            $offset = $request->offset;
             ($type == 'hirring') ? $company = $this->getMoreHirring($offset) : $company = $this->getMoreHirring($offset);
             if (count($company) > 0) {
                 foreach ($company as $key => $emp) {
@@ -229,8 +229,8 @@ class CompanyController extends Controller
        return $output;
     }
 
-    public function searchCompany(Request $req) {
-        $key = $req->search;
+    public function searchCompany(Request $request) {
+        $key = $request->search;
         $output = [];
         if ($key != "") {
             $companies = Employers::where('name', 'like', '%'.$key.'%')
@@ -242,8 +242,8 @@ class CompanyController extends Controller
         return response()->json($output);
     }
 
-    public function searchCompaniesByName(Request $req) {
-        $com_name = $req->q;
+    public function searchCompaniesByName(Request $request) {
+        $com_name = $request->q;
         $alias = Employers::where('name', $com_name)->value('alias');
         $match = false;
         empty($alias) ? $match : $match = true;
@@ -255,9 +255,9 @@ class CompanyController extends Controller
         }
     }
 
-    public function followCompany(Request $req) {
+    public function followCompany(Request $request) {
         $output = "";
-        $emp_id = $req->emp_id;
+        $emp_id = $request->emp_id;
         $arrFollow = $this->findFollow($emp_id, 'company');
         if (!empty($arrFollow) || !is_null($arrFollow)) {
             $deleted = $arrFollow->followed_info['deleted'];
@@ -286,6 +286,7 @@ class CompanyController extends Controller
                 $output.= '<a class="btn btn-default unfollowed" id="followed">Following<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></a>';
             } catch(\Exception $ex) {}
         }
+
         return $output;
     }
 
@@ -293,12 +294,12 @@ class CompanyController extends Controller
         return view('layouts.review', [ 'company' => $this->getEmployerByKey($alias) ]);
     }
 
-    public function postReviewCompanies(Request $req) {
-        $data = $req->only([
+    public function postReviewCompanies(Request $request) {
+        $data = $request->only([
             'title', 'like', 'unlike', 'rating', 'suggest', 'recommend'
         ]);
 
-        $arrResponse = $this->storeReview($data, $req->emp_id);
+        $arrResponse = $this->storeReview($data, $request->emp_id);
         if ($arrResponse->getData()->error) {
             return redirect()->back()
                          ->with('message', $arrResponse->getData()->message);
@@ -307,10 +308,10 @@ class CompanyController extends Controller
                          ->with('message', 'Cảm ơn bài đánh giá của bạn');
     }
 
-    public function seeMoreReviews(Request $req) {
+    public function seeMoreReviews(Request $request) {
         $output = "";
-        $reviews = Reviews::where('emp_id', $req->emp_id)
-                          ->offset($req->cReview)
+        $reviews = Reviews::where('emp_id', $request->emp_id)
+                          ->offset($request->cReview)
                           ->take(10)
                           ->get();
         foreach ($reviews as $key => $rv) {
@@ -350,15 +351,15 @@ class CompanyController extends Controller
         }
         return $output;
     }
-    public function getListSkillEmployer(Request $req) {
+    public function getListSkillEmployer(Request $request) {
         $listSkillCompany = Employers::select('skills')
-                                        ->where('_id', $req->emp_id)
+                                        ->where('_id', $request->emp_id)
                                         ->first();
         $skills = Skills::whereIn('_id', $listSkillCompany['skills'])->get();
 
         return $skills;
     }
-    public function getDemo(Request $req)
+    public function getDemo(Request $request)
     {
         $temp = ["name", "code", "ip"];
         $data = [

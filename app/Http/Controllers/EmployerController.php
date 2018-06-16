@@ -10,11 +10,9 @@ use Auth;
 use App\User;
 use App\Follow_employers;
 use App\Follows;
-use App\Applications;
 use App\Employers;
 use App\Skills;
 use App\Cities;
-use App\Skill_employer;
 use App\Skill_job;
 use App\Job;
 use Mail;
@@ -403,6 +401,7 @@ class EmployerController extends Controller
                 ],
             ];
             Employers::where('_id', $post['employer_id'])->update($arrUpdate);
+            $this->sendMailToUserFollow($post['employer_id'], $post);
             //notification to author
             // $post->user->notify(new ConfirmPost($post,true));
             // //notification to users has followed (recommend Queue)

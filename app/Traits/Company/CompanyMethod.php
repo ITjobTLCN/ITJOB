@@ -289,4 +289,50 @@ trait CompanyMethod
                                 ->limit($limit)
                                 ->get();
     }
+
+    protected function updateInfoCompany($data, $empId) {
+        $objEmployer = Employers::where('_id', $empId)->first();
+        if (empty($objEmployer)) {
+            return response()->json(['status' => false,
+                                        'message' => 'Cannot Found Company']);
+        }
+
+        $arrAddress = array_where($objEmployer['address'], function ($value, $key) use ($objEmployer) {
+                return $value['_id'] !== $objEmployer['city_id'];
+        });
+        
+        $addressUpdate = [
+            '_id' => $objEmployer['city_id'],
+            'city_id' => $data['city'],
+            'detail' => $data['address']
+        ];
+        array_unshift($arrAddress, $addressUpdate);
+
+        $arrUpdate = [
+            'name' => $data['name'],
+            'info' => [
+                'website' => $data['website'],
+                'description' => $data['description'],
+                'phone' => $data['phone']
+            ],
+            'schedule' => $data['schedule'],
+            'skills' => $data['skills'],
+            'address' => $arrAddress
+        ];
+
+        return Employers::where('_id', $empId)->update($arrUpdate);
+    }
+
+    protected function sendMailToUserFollow($empId, $post) {
+        $where = [
+            'type' => 'company',
+            'followed_info' => [
+                '_id' => $empId,
+                'deleted' => false
+            ]
+        ];
+        $userFollow = Follows::where($where)->get();
+        if (empty($userFollow)) return;
+        dispatch(new \App\Jobs\CompanySendMailUserFollow($userFollow, $empId, $post));
+    }
 }

@@ -246,7 +246,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 //Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 //Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
 //Route::get('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
-Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
+// Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/
