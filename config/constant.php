@@ -43,6 +43,8 @@ return [
     'STATUS_DEFAULT' => 0,
     'USERS' => 'users',
     'USER' => 'user',
+    'ROLES' => 'roles',
+    'ROLE' => 'role',
 
     /**
      * Type
@@ -58,5 +60,9 @@ return [
     'SUCCESS_EDIT_USER' => 'Edit user successfully',
     'SUCCESS_DELETE_USER' => 'Delete user successfully',
     'FAIL_DELETE_USER' => 'Delete failed',
+    'SUCCESS_CREATE_ROLE' => 'Create role successfully',
+    'SUCCESS_EDIT_ROLE' => 'Edit role successfully',
+    'SUCCESS_DELETE_ROLE' => 'Delete role successfully',
+    'FAIL_DELETE_ROLE' => 'Delete role fail because has anyone in this role',
     // 'CREATE_USER_'
 ];

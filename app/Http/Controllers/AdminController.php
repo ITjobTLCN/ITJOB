@@ -156,6 +156,10 @@ class AdminController extends Controller
     public function getListEmps() {
         return view('admin.employers');
     }
+
+    public function loadAdminRoles() {
+        return view('admin.roles');
+    }
     /**
      * ANGULAR USING
      * @return json for angular JS
@@ -275,21 +279,105 @@ class AdminController extends Controller
 
             //-----GET ROLE-----
     public function ngGetRoles() {
-        $roles = Roles::get();
+        $roles = $this->get_list_roles();
         return  response()->json(['roles'=>$roles]);
     }
     public function ngGetRole($id) {
-        $role = Roles::find();
+        $role = Roles::find($id);
         return  response()->json(['role'=>$role]);
     }
-    public function ngAddRole() {
+    public function ngAddRole(Request $request) {
+        // Form validation
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'detail' => 'required',
+            'route' => 'required'
+        ]);
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $validator->errors()]);
+        }
+        try {
+            // Create a new role
+            $role = new Roles;
+            $role->name = $request->name;
+            $role->detail = $request->detail;
+            $role->route = $request->route;
+            $role->save();
 
+            return response()->json([config('constant.STATUS') => TRUE,
+            config('constant.MESSAGE') => config('constant.SUCCESS_CREATE_ROLE'),
+                config('constant.ROLE') => $role]);
+        } catch (Exception $e) {
+            return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $e->getMessage()]);
+        }
     }
-    public function ngEditRole() {
+    public function ngEditRole(Request $request) {
+        // Form validation
+        $validator = Validator::make($request->all(), [
+            '_id' => 'required',
+            'name' => 'required',
+            'detail' => 'required',
+            'route' => 'required'
+        ]);
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $validator->errors()]);
+        }
+        try {
+            // Edit role
+            $role = Roles::find($request->_id);
+            $role->name = $request->name;
+            $role->detail = $request->detail;
+            $role->route = $request->route;
+            $role->updated_at = date('Y-m-d H:i:s');
+            $role->save();
 
+            //Get list new roles
+            $roles = $this->get_list_roles();
+            return response()->json([config('constant.STATUS') => TRUE,
+            config('constant.MESSAGE') => config('constant.SUCCESS_EDIT_ROLE'),
+                config('constant.ROLES') => $roles]);
+
+        } catch (Exception $e) {
+             return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $e->getMessage()]);
+        }
     }
-    public function ngDeleteRole() {
+    // Delete role if don't have any user in this role
+    public function ngDeleteRole(Request $request) {
+        $validator = Validator::make($request->all(), [
+            '_id' => 'required'
+        ]);
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $validator->errors()]);
+        }
+        try {
+            // Delete role
+            $role = Roles::find($request->_id);
+            $user_count = User::where('role_id',$request->_id)->get()->count();
+            if ($user_count >0) {
+                return response()->json([config('constant.STATUS') => FALSE,
+                config('constant.ERROR') => config('constant.FAIL_DELETE_ROLE')]);
+            } else {
+                $role->delete();
+            }
 
+            //Get list new roles
+            $roles = $this->get_list_roles();
+            return response()->json([config('constant.STATUS') => TRUE,
+            config('constant.MESSAGE') => config('constant.SUCCESS_DELETE_ROLE'),
+                config('constant.ROLES') => $roles]);
+
+        } catch (Exception $e) {
+             return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $e->getMessage()]);
+        }
     }
 
 
@@ -523,12 +611,14 @@ class AdminController extends Controller
         return redirect()->back();
     }
 
-
     /**
      * Common function: Get list users
      * Order: Desc
      */
     private function get_list_users() {
         return User::orderBy('created_at','desc')->get();
+    }
+    private function get_list_roles() {
+        return Roles::orderBy('created_at', 'desc')->get();
     }
 }
