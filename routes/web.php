@@ -237,6 +237,8 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('notification', 'AdminController@getAdminNotification')->name('getadminnotification');
 	Route::post('createnotification', 'AdminController@createNotification')->name('createnotification');
 
+	Route::get('roles','AdminController@loadAdminRoles');
+
 });
 //Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 //Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
