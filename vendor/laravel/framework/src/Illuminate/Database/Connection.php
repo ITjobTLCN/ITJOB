@@ -448,9 +448,8 @@ class Connection implements ConnectionInterface
             if ($this->pretending()) {
                 return true;
             }
-
+            dd($query);
             $statement = $this->getPdo()->prepare($query);
-
             $this->bindValues($statement, $this->prepareBindings($bindings));
 
             $this->recordsHaveBeenModified();

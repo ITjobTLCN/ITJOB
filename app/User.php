@@ -2,13 +2,15 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
+// use Illuminate\Notifications\Notifiable;
+use App\Overrides\Notifications\Notifiable;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Auth\Authenticatable as AuthenticableTrait;
 use Cache;
+
 class User extends Eloquent implements Authenticatable
 {
     use Notifiable,

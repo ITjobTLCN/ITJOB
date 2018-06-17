@@ -4,10 +4,11 @@ namespace App;
 
 use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
-
+//use Illuminate\Notifications\Notifiable;
+use App\Overrides\Notifications\Notifiable;
 class Job extends Eloquent
 {
-    use SoftDeletes;
+    use SoftDeletes, Notifiable;
     protected $dates = ['deleted_at'];
     private $id;
     protected $collection = 'job';

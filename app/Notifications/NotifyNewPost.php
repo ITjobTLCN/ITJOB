@@ -18,7 +18,7 @@ class NotifyNewPost extends Notification
      */
     protected $post;
     protected $empname;
-    public function __construct($post,$empname)
+    public function __construct($post, $empname)
     {
         //
         $this->post = $post;
@@ -46,8 +46,8 @@ class NotifyNewPost extends Notification
     {
         return [
             //
-            'post' =>$this->post,
-            'empname' =>$this->empname
+            'post' => $this->post,
+            'empname' => $this->empname
         ];
     }
 

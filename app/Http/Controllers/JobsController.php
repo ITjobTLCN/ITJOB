@@ -420,7 +420,7 @@ class JobsController extends Controller
                     ->offset((int)$req->offset)
                     ->limit(config('constant.limit.job'))
                     ->get();
-        return $jobs;
+
         foreach ($jobs as $key => $job) {
            $output .=  "<div class='job-item'>
                         <div class='job-item-info'>

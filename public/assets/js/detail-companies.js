@@ -24,7 +24,7 @@ $(document).ready(function() {
 		});
 		$.ajax({
 			type: 'get',
-			url: 'list-jobs-company',
+			url: 'more-jobs-company',
 			cache: true,
 			data: {
 				'offset': 0,

@@ -120,7 +120,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body ">
                             	<div class="result-reviews">
-                            		@foreach($company->reviews as $rv)
+                            	@foreach($company->reviews as $rv)
                                 <div class="content-of-review">
                                     <div class="short-summary">
                                         <div class="row">

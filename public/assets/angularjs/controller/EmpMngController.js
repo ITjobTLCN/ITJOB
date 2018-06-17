@@ -17,6 +17,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			$scope.assistant = response.data.assis;
 			infoEmployer = response.data.employer;
 			$scope.employer = {
+				'_id' : infoEmployer._id,
 				'name' : infoEmployer.name,
 				'website' : infoEmployer.info.website,
 				'city' : infoEmployer.city.name,

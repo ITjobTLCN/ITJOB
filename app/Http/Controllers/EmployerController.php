@@ -109,9 +109,8 @@ class EmployerController extends Controller
             $emp->save();
 
             $assis = $this->ngGetAssistantByEmpId($req->empId);
-
             //send notification to this person
-            //$user->notify(new ConfirmAssistant($emp, true));
+            $user->notify(new ConfirmAssistant($emp, true, $user));
 
             return response()->json(['status' => true,
                                      'message' => 'Confirm Successfully',
@@ -279,12 +278,22 @@ class EmployerController extends Controller
             $job = new Job();
             // return response()->json(['status' => true, 'message' => $req->job]);
             $arrData = $request->job;
-            return $this->saveJob($arrData, $empId, $request->skills);
-            // try {
-            //     $this->saveJob($arrData, $empId, $request->skills);
-            // } catch(Exception $e) {
-            //     return response()->json(['status' => false, 'message' => 'Cannot insert job']);
-            // }
+            $id = $this->saveJob($arrData, $empId, $request->skills);
+            if ($id) {
+                $wheres = [
+                    'type' => 'company',
+                    'followed_info' => [
+                        '_id' => $empId,
+                        'deleted' => false
+                    ]
+                ];
+                $arrUser = [];
+                $userFollowed = Follows::where($wheres)->get();
+                foreach ($userFollowed as $key => $value) {
+                    array_push($arrUser, $value['user_id']);
+                }
+                $user = User::whereIn('_id', $arrUser)->get();
+            }
             return response()->json(['status' => true, 'message' => 'Saved post']);
         } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to save this post']);
@@ -388,27 +397,40 @@ class EmployerController extends Controller
     public function ngConfirmPost($jobId) {
         try {
             $post = Job::findOrFail($jobId);
-
             $employer = Employers::findOrFail($post['employer_id']);
-            $test = intval($employer['quantity_job']['hirring']);
+            $curHirring = intval($employer['quantity_job']['hirring']);
             //change status from Pending to Publisher: from 10 to 1
             $post->status = 1;
             $post->save();
 
             $arrUpdate = [
                 'quantity_job' => [
-                    'hirring' => $test + 1
+                    'hirring' => $curHirring + 1
                 ],
             ];
             Employers::where('_id', $post['employer_id'])->update($arrUpdate);
             $this->sendMailToUserFollow($post['employer_id'], $post);
             //notification to author
-            // $post->user->notify(new ConfirmPost($post,true));
-            // //notification to users has followed (recommend Queue)
-            // $userFollowed = Follow_employers::where('emp_id', $post->emp_id)->get();
-            // foreach($userFollowed as $user) {
-            //     $user->user->notify(new NotifyNewPost($post, $post->Employer->name));
-            // }
+            $post->user->notify(new ConfirmPost($post, true, Auth::user()));
+            //notification to users has followed (recommend Queue)
+            $wheres = [
+                'type' => 'company',
+                'followed_info' => [
+                    '_id' => $employer['_id'],
+                    'deleted' => false
+                ]
+            ];
+
+            $arrUser = [];
+            $userFollowed = Follows::select('user_id')->where($wheres)->get();
+            foreach ($userFollowed as $key => $value) {
+                array_push($arrUser, $value['user_id']);
+            }
+
+            $user = User::whereIn('_id', $arrUser)->get();
+            foreach($user as $u) {
+                $u->notify(new NotifyNewPost($post, $post->employer->name));
+            }
 
             return response()->json(['status' => true, 'message' => 'Confirm Successfully']);
         } catch(Exception $e) {
@@ -424,7 +446,7 @@ class EmployerController extends Controller
             $post->save();
 
             //notification to user
-            //$post->user->notify(new ConfirmPost($post,false));
+            $post->user->notify(new ConfirmPost($post, false, Auth::user()));
 
             return response()->json(['status' => true, 'message' => 'Deny Successfully']);
         } catch(Exception $e) {

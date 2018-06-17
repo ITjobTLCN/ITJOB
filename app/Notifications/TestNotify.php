@@ -6,26 +6,19 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-// use App\User;
 
-class ConfirmPost extends Notification
+class TestNotify extends Notification
 {
-    //use Queueable;
+    use Queueable;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    protected $status;
-    protected $post;
-    protected $user;
-
-    public function __construct($post, $status, $user)
+    public function __construct()
     {
-        $this->post = $post;
-        $this->status = $status;
-        $this->user = $user;
+        //
     }
 
     /**
@@ -48,9 +41,7 @@ class ConfirmPost extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'status' => $this->status,
-            'post' => $this->post,
-            'user' => $this->user
+            'post' => '123'
         ];
     }
 

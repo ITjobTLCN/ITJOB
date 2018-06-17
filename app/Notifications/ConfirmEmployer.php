@@ -46,8 +46,8 @@ class ConfirmEmployer extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'status'=>$this->status,
-            'emp'=>$this->emp,
+            'status' => $this->status,
+            'emp' => $this->emp,
             'user' => auth()->user()
         ];
     }

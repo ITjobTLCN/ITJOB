@@ -26,7 +26,7 @@
 												<span class="job-search__location">{{ $tjv->city }}</span>
 											</div>
 											<div class="description-job">
-												<h3>{{ $tjv->detail['description'] }}</h3>
+												<h3>{!! $tjv->detail['description'] !!}</h3>
 											</div>
 											<div class="company text-clip">
 												<span class="salary-job">
