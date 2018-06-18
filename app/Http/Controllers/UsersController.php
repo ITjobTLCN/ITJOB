@@ -94,9 +94,15 @@ class UsersController extends Controller
         }
     }
 
-    public function getProfile() {
-        $user = Auth::user();
-        return view('layouts.profile', compact('user'));
+    public function getPageProfile() {
+        return view('layouts.profile', ['user' => Auth::user()]);
+    }
+
+    public function getInfoUser() {
+        return response()->json([
+            'error' => false,
+            'data' => Auth::user()
+        ]);
     }
 
     public function postAvatar(Request $req) {
@@ -114,20 +120,26 @@ class UsersController extends Controller
     }
     public function editEmail(Request $req) {
         $email = $req->newEmail;
-        if($email != Auth::user()->email){
-            $find = User::where('email',$email);
-             return response()->json([
-                'error'=>true,
-                'message'=>'Email đã tồn tại'
-                ],200);
+        if ($email != Auth::user()->email) {
+            try {
+                $user = User::where('_id', Auth::id())
+                                ->update(['email' => $email]);
+                return response()->json([
+                                'error' => false,
+                                'message' => 'Cập nhật email thành công'
+                            ]);
+            } catch(\Exception $e) {
+                return response()->json([
+                                'error' => true,
+                                'message' => 'Không thể cập nhật email'
+                            ]);
+            }
         }
 
-        $user=User::where('id', Auth::id())->update(['email'=>$req->newEmail]);
-
         return response()->json([
-                'error'=>false,
-                'message'=>'Cập nhật email thành công'
-                ],200);
+                    'error' => true,
+                    'message' => 'Email đã tồn tại'
+                ]);
     }
 
     public function editProfile(Request $req) {

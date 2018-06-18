@@ -35,8 +35,8 @@
 }
 { 
     "_id" : ObjectId("5ac85f52b9068c2384007da5"), 
-    "name" : "Tester", 
-    "alias" : "tester", 
+    "name" : "React", 
+    "alias" : "react", 
     "created_at" : ISODate("2018-04-07T06:04:02.427+0000"), 
     "updated_at" : ISODate("2018-04-07T06:04:02.427+0000")
 }

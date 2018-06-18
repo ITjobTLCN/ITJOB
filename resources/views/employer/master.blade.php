@@ -3,9 +3,8 @@
 Employer
 @endsection
 @section('body.content')
-<div class="container emp">
-	<div class="row">
-		<div class="sidebar">
+<div class="emp">
+	<div class="sidebar">
 			<div class="sb-head sb-title">
 				<a href="">My Employer</a>
 			</div>
@@ -41,7 +40,6 @@ Employer
 				@yield('empcontent')
 			</div>
 		</div>
-	</div>
 </div>
 @endsection
 @section('footer.js')

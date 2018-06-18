@@ -300,7 +300,7 @@ trait CompanyMethod
         $arrAddress = array_where($objEmployer['address'], function ($value, $key) use ($objEmployer) {
                 return $value['_id'] !== $objEmployer['city_id'];
         });
-        
+
         $addressUpdate = [
             '_id' => $objEmployer['city_id'],
             'city_id' => $data['city'],

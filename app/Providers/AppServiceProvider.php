@@ -20,10 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // view()->composer('partials.related-jobs', function($view) {
-        //     $view->with('relatedJob', Session::get('relatedJob'));
-        // });
-
         view()->composer('partials.job-most-viewer', function($view) {
             $jobs = Job::with('employer')->where('deleted', false)->orderBy('views desc')
                                                 ->offset(0)
@@ -50,14 +46,19 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('partials.recommend_jobs', function($view) {
-            $listJobLastest = Cache::remember('listJobLastest', config('constant.cacheTime'), function() {
-               Job::with('employer')->where('status', 1)
-                                    ->orderBy('_id', 'desc')
-                                    ->offset(0)
-                                    ->take(config('constant.limit.job'))
-                                    ->get(); 
+            $listJobLastest = [];
+            if (Cache::has('listJobLastest')) {
+                $listJobLastest = Cache::get('listJobLastest');
+            } else {
+                $listJobLastest = Cache::remember('listJobLastest', config('constant.cacheTime'), function() {
+                    Job::with('employer')->where('status', 1)
+                                        ->orderBy('_id', 'desc')
+                                        ->offset(0)
+                                        ->take(config('constant.limit.job'))
+                                        ->get();
                 });
-            // dd($listJobLastest);
+            }
+
             $view->with('listJobLastest', $listJobLastest);
         });
 

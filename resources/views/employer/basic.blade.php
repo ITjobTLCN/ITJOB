@@ -81,7 +81,7 @@ Manage Basic
 	                                <i class="fa fa-heart "></i>
 	                            </div>
 	                            <div class="col-xs-9 text-right">
-	                                <div class="huge"><% count(options['follows']) %><span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
+	                                <div class="huge"><% options['follows'].length %><span class="huge-new">(<% options['countReviewToday']%> new)</span></div>
 	                                <div>Follow!</div>
 	                            </div>
 	                        </div>

@@ -48,7 +48,8 @@ Route::get('dang-xuat', [
 ]);
 //profile candidate
 Route::group([ 'prefix' => 'users', 'middleware' => 'auth'], function() {
-	Route::get('profile', [ 'as' => 'profile', 'uses' => 'UsersController@getProfile' ]);
+	Route::get('', [ 'as' => 'infoUser', 'uses' => 'UsersController@getInfoUser' ]);
+	Route::get('profile', [ 'as' => 'profile', 'uses' => 'UsersController@getPageProfile' ]);
 	Route::post('profile', [ 'as' => 'postAvatar', 'uses' => 'UsersController@postAvatar' ]);
 	Route::post('edit-email', [ 'as' => 'editEmail', 'uses' => 'UsersController@editEmail' ]);
 	Route::post('editProfile', [ 'as' => 'editProfile', 'uses' => 'UsersController@editProfile' ]);

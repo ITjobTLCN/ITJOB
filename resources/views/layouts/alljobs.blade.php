@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
+Việc làm mới nhất | ITJOB
 @stop
 @section('body.content')
 <div class="all-jobs" ng-controller="JobsController">
@@ -65,7 +65,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 						<div class="job-search__top-nav">
 							<div class="row">
 								<div class="col-xs-12 col-md-6 col-lg-12">
-									<h2 ><span class="countjob">{{$countjob}}</span> IT Jobs for you </h2>
+									<h2 ><span class="countjob">{{ $countjob }}</span> IT Jobs for you </h2>
 								</div>
 							</div>
 						</div>
@@ -76,24 +76,24 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 							<div class="row" >
 								<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2 job-search__logo-col">
 									<div class="logo job-search__logo jb-search__result">
-										<a href="{{route('getEmployers', $ljlt->employer['alias'])}}" target="_blank">
-											<img class="img-responsive" src="uploads/emp/avatar/{{$ljlt->employer['images']['avatar']}}" title="{{$ljlt->employer['name']}}"></a>
+										<a href="{{ route('getEmployers', $ljlt->employer['alias']) }}" target="_blank">
+											<img class="img-responsive" src="uploads/emp/avatar/{{ $ljlt->employer['images']['avatar'] }}" title="{{ $ljlt->employer['name'] }}"></a>
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 									<div class="job-item-info" >
 										<h3 class="bold-red">
-											<a href="{{route('detailjob',[$ljlt->alias, $ljlt->_id])}}" class="job-title" target="_blank">{{$ljlt->name}}</a>
+											<a href="{{ route('detailjob',[$ljlt->alias, $ljlt->_id]) }}" class="job-title" target="_blank">{{ $ljlt->name }}</a>
 										</h3>
 										<div class="company">
-											<span class="job-search__company">{{$ljlt['employer']['name']}}</span>
+											<span class="job-search__company">{{ $ljlt['employer']['name']}}</span>
 											<span class="separator">|</span>
-											<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ljlt->city}}</span>
+											<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{ $ljlt->city}}</span>
 										</div>
 										<div class="company text-clip">
 											<span class="salary-job">
 												@if(Auth::check())
-												{{$ljlt->detail['salary']}} $
+												{{ $ljlt->detail['salary']}} $
 												@else
 												<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
 												@endif
@@ -103,7 +103,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 										</div>
 										<div class="job__skill">
 											@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->skills_id) as $key => $s)
-											<a href=""><span>{{$s->name}}</span></a>
+											<a href=""><span>{{ $s->name }}</span></a>
 											@endforeach
 										</div>
 									</div>
@@ -111,7 +111,7 @@ Việc làm {{Session::get('skillname')}} mới nhất | ITJOB
 								</div>
 								<div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">
 									@if(Auth::check())
-									<div class="follow{{$ljlt->_id}}" id="followJob" emp_id="{{$ljlt->employer_id}}" job_id="{{$ljlt->_id}}">
+									<div class="follow{{ $ljlt->_id }}" id="followJob" emp_id="{{ $ljlt->employer_id }}" job_id="{{ $ljlt->_id }}">
 										@if(app(App\Http\Controllers\JobsController::class)->getJobFollowed($ljlt->_id))
 										<i class="fa fa-heart" aria-hidden="true" title="UnFollow"></i>
 										@else

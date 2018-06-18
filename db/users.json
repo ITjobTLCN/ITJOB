@@ -40,9 +40,9 @@
     "role_id" : "5ac85f51b9068c2384007d9e", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.260+0000"), 
-    "updated_at" : ISODate("2018-06-17T08:01:54.000+0000"), 
-    "lastlogin" : "2018-06-17 15:01:54", 
-    "remember_token" : "PUaThWPrJdnK4J6Bt0nkl8VfurVZflvVUBbOA4PHjFWZZeC02Dt5O59hgI7T"
+    "updated_at" : ISODate("2018-06-18T14:48:12.000+0000"), 
+    "lastlogin" : "2018-06-18 21:48:12", 
+    "remember_token" : "nsK6woXfYSuxbYGRdfgFEyP8tv8Jbsy5wLWEp6sLErSrpprZSdjirkAOzc9F"
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007daa"), 
@@ -87,10 +87,11 @@
     "role_id" : "5ac85f51b9068c2384007d9f", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-06-05T16:50:53.464+0000"), 
-    "updated_at" : ISODate("2018-06-17T07:41:36.000+0000"), 
+    "updated_at" : ISODate("2018-06-18T14:55:34.000+0000"), 
     "deleted" : false, 
-    "lastlogin" : "2018-06-17 14:39:16", 
-    "remember_token" : "litjHeEXn6Jb1Cqez6OSzkrT296i94kV40Ft5fa6BxJogKwC45rvQ92NHI1K"
+    "cv" : "iCloud2-QnA.pdf", 
+    "lastlogin" : "2018-06-18 21:55:34", 
+    "remember_token" : "VfDeZMfTJY26IH6Vf2aHbxbgGOP0k5fuXabwzUiHaua6mIC6hu3HhmDrEJZp"
 }
 { 
     "_id" : ObjectId("5b1b92e76c2c310dc44c8cd3"), 

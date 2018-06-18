@@ -278,12 +278,15 @@ class JobsController extends Controller
     //get list job by location
     public function getListJobByCity(Request $req) {
         Cache::forget('key');
-        $city = Cities::where('alias', $req->alias)->first();
+        $city = $this->getCityByKey($req->alias);
         $match = true;
         $jobs = new Job();
 
         if (!empty($city)) {
-            $jobs = Job::where('city', $city->name)->get();
+            $jobs = Job::where('city', $city->name)
+                        ->offset(0)
+                        ->limit(config('constant.limit.job'))
+                        ->get();
             Cache::put('listJobSearch', $jobs, config('constant.cacheTime'));
         } else {
            $match = false;

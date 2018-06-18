@@ -1,0 +1,9 @@
+{ 
+    "_id" : ObjectId("5b27bbba6c2c3101bf5187d2"), 
+    "queue" : "default", 
+    "attempts" : NumberInt(0), 
+    "reserved_at" : null, 
+    "available_at" : NumberInt(1529330618), 
+    "created_at" : NumberInt(1529330618), 
+    "payload" : "{\"displayName\":\"App\\\\Jobs\\\\CompanySendMailUserFollow\",\"job\":\"Illuminate\\\\Queue\\\\CallQueuedHandler@call\",\"maxTries\":null,\"timeout\":null,\"timeoutAt\":null,\"data\":{\"commandName\":\"App\\\\Jobs\\\\CompanySendMailUserFollow\",\"command\":\"O:34:\\\"App\\\\Jobs\\\\CompanySendMailUserFollow\\\":10:{s:43:\\\"\\u0000App\\\\Jobs\\\\CompanySendMailUserFollow\\u0000arrUser\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":3:{s:5:\\\"class\\\";s:11:\\\"App\\\\Follows\\\";s:2:\\\"id\\\";a:1:{i:0;s:24:\\\"5aee840fb9068c212400513f\\\";}s:10:\\\"connection\\\";s:7:\\\"mongodb\\\";}s:41:\\\"\\u0000App\\\\Jobs\\\\CompanySendMailUserFollow\\u0000empId\\\";s:24:\\\"5ac85f51b9068c2384007d97\\\";s:40:\\\"\\u0000App\\\\Jobs\\\\CompanySendMailUserFollow\\u0000post\\\";O:45:\\\"Illuminate\\\\Contracts\\\\Database\\\\ModelIdentifier\\\":3:{s:5:\\\"class\\\";s:7:\\\"App\\\\Job\\\";s:2:\\\"id\\\";s:24:\\\"5b227e226c2c3101a95828f4\\\";s:10:\\\"connection\\\";s:7:\\\"mongodb\\\";}s:6:\\\"\\u0000*\\u0000job\\\";N;s:10:\\\"connection\\\";N;s:5:\\\"queue\\\";N;s:15:\\\"chainConnection\\\";N;s:10:\\\"chainQueue\\\";N;s:5:\\\"delay\\\";N;s:7:\\\"chained\\\";a:0:{}}\"}}"
+}

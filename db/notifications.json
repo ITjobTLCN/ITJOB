@@ -3,10 +3,10 @@
     "id" : "e4902cde-0904-4649-a7e8-ffe5103020af", 
     "type" : "App\\Notifications\\ConfirmPost", 
     "data" : "{\"status\":true,\"post\":{\"_id\":\"5b227e226c2c3101a95828f4\",\"name\":\"test\",\"alias\":\"test\",\"detail\":{\"salary\":1000,\"description\":\"<p>This is description<\\/p>\",\"requirment\":\"\",\"benefit\":\"\",\"quantity\":10,\"address\":\"19\\/1, khu ph\\u1ed1 3, \\u0111\\u01b0\\u1eddng s\\u1ed1 8, ph\\u01b0\\u1eddng Linh Trung, qu\\u1eadn Th\\u1ee7 \\u0110\\u1ee9c\"},\"user_id\":\"5b16bf6d6c2c3102d93d7e22\",\"employer_id\":\"5ac85f51b9068c2384007d97\",\"city\":\"H\\u1ed3 Ch\\u00ed Minh\",\"status\":1,\"skills_id\":[\"5ac85f52b9068c2384007da0\",\"5ac85f52b9068c2384007da1\"],\"created_at\":\"2018-06-14 21:39:30\",\"updated_at\":\"2018-06-17 15:31:15\",\"deleted\":false,\"user\":{\"_id\":\"5b16bf6d6c2c3102d93d7e22\",\"email\":\"tranthanhphong1608@gmail.com\",\"name\":\"thanh phong\",\"role_id\":\"5ac85f51b9068c2384007d9f\",\"avatar\":\"default.jpg\",\"created_at\":\"2018-06-05 23:50:53\",\"updated_at\":\"2018-06-17 14:41:36\",\"deleted\":false,\"lastlogin\":\"2018-06-17 14:39:16\"}},\"user\":{\"_id\":\"5ac85f53b9068c2384007da9\",\"name\":\"kelvin\",\"email\":\"employer@gmail.com\",\"role_id\":\"5ac85f51b9068c2384007d9e\",\"avatar\":\"default.jpg\",\"created_at\":\"2018-04-07 13:04:03\",\"updated_at\":\"2018-06-17 15:01:54\",\"lastlogin\":\"2018-06-17 15:01:54\"}}", 
-    "read_at" : null, 
+    "read_at" : ISODate("2018-06-17T08:56:14.000+0000"), 
     "notifiable_id" : "5b16bf6d6c2c3102d93d7e22", 
     "notifiable_type" : "App\\User", 
-    "updated_at" : ISODate("2018-06-17T08:31:15.000+0000"), 
+    "updated_at" : ISODate("2018-06-17T08:56:14.000+0000"), 
     "created_at" : ISODate("2018-06-17T08:31:15.000+0000")
 }
 { 
@@ -19,4 +19,26 @@
     "notifiable_type" : "App\\User", 
     "updated_at" : ISODate("2018-06-17T08:34:45.000+0000"), 
     "created_at" : ISODate("2018-06-17T08:31:15.000+0000")
+}
+{ 
+    "_id" : ObjectId("5b27bbba6c2c3101bf5187d3"), 
+    "id" : "42bc018a-0557-4e8f-bec0-5c6d9086ecfa", 
+    "type" : "App\\Notifications\\ConfirmPost", 
+    "data" : "{\"status\":true,\"post\":{\"_id\":\"5b227e226c2c3101a95828f4\",\"name\":\"iOS Developers\",\"alias\":\"ios-developers\",\"detail\":{\"salary\":1000,\"description\":\"<p>This is description<\\/p>\",\"requirment\":\"\",\"benefit\":\"\",\"quantity\":10,\"address\":\"19\\/1, khu ph\\u1ed1 3, \\u0111\\u01b0\\u1eddng s\\u1ed1 8, ph\\u01b0\\u1eddng Linh Trung, qu\\u1eadn Th\\u1ee7 \\u0110\\u1ee9c\"},\"user_id\":\"5b16bf6d6c2c3102d93d7e22\",\"employer_id\":\"5ac85f51b9068c2384007d97\",\"city\":\"H\\u1ed3 Ch\\u00ed Minh\",\"status\":1,\"skills_id\":[\"5ac85f52b9068c2384007da0\",\"5ac85f52b9068c2384007da1\"],\"created_at\":\"2018-06-14 21:39:30\",\"updated_at\":\"2018-06-18 21:03:38\",\"deleted\":false,\"user\":{\"_id\":\"5b16bf6d6c2c3102d93d7e22\",\"email\":\"tranthanhphong1608@gmail.com\",\"name\":\"thanh phong\",\"role_id\":\"5ac85f51b9068c2384007d9f\",\"avatar\":\"default.jpg\",\"created_at\":\"2018-06-05 23:50:53\",\"updated_at\":\"2018-06-17 15:55:56\",\"deleted\":false,\"lastlogin\":\"2018-06-17 15:55:56\"}},\"user\":{\"_id\":\"5ac85f53b9068c2384007da9\",\"name\":\"kelvin\",\"email\":\"employer@gmail.com\",\"role_id\":\"5ac85f51b9068c2384007d9e\",\"avatar\":\"default.jpg\",\"created_at\":\"2018-04-07 13:04:03\",\"updated_at\":\"2018-06-18 20:24:42\",\"lastlogin\":\"2018-06-18 20:24:42\"}}", 
+    "read_at" : ISODate("2018-06-18T14:03:55.000+0000"), 
+    "notifiable_id" : "5b16bf6d6c2c3102d93d7e22", 
+    "notifiable_type" : "App\\User", 
+    "updated_at" : ISODate("2018-06-18T14:03:55.000+0000"), 
+    "created_at" : ISODate("2018-06-18T14:03:38.000+0000")
+}
+{ 
+    "_id" : ObjectId("5b27bbba6c2c3101bf5187d4"), 
+    "id" : "4ff9468e-5cb5-4cd3-9696-a6e242181ac3", 
+    "type" : "App\\Notifications\\NotifyNewPost", 
+    "data" : "{\"post\":{\"_id\":\"5b227e226c2c3101a95828f4\",\"name\":\"iOS Developers\",\"alias\":\"ios-developers\",\"detail\":{\"salary\":1000,\"description\":\"<p>This is description<\\/p>\",\"requirment\":\"\",\"benefit\":\"\",\"quantity\":10,\"address\":\"19\\/1, khu ph\\u1ed1 3, \\u0111\\u01b0\\u1eddng s\\u1ed1 8, ph\\u01b0\\u1eddng Linh Trung, qu\\u1eadn Th\\u1ee7 \\u0110\\u1ee9c\"},\"user_id\":\"5b16bf6d6c2c3102d93d7e22\",\"employer_id\":\"5ac85f51b9068c2384007d97\",\"city\":\"H\\u1ed3 Ch\\u00ed Minh\",\"status\":1,\"skills_id\":[\"5ac85f52b9068c2384007da0\",\"5ac85f52b9068c2384007da1\"],\"created_at\":\"2018-06-14 21:39:30\",\"updated_at\":\"2018-06-18 21:03:38\",\"deleted\":false,\"user\":{\"_id\":\"5b16bf6d6c2c3102d93d7e22\",\"email\":\"tranthanhphong1608@gmail.com\",\"name\":\"thanh phong\",\"role_id\":\"5ac85f51b9068c2384007d9f\",\"avatar\":\"default.jpg\",\"created_at\":\"2018-06-05 23:50:53\",\"updated_at\":\"2018-06-17 15:55:56\",\"deleted\":false,\"lastlogin\":\"2018-06-17 15:55:56\"},\"employer\":{\"_id\":\"5ac85f51b9068c2384007d97\",\"name\":\"Episerver\",\"alias\":\"episerver\",\"address\":[{\"_id\":\"5ac85f51b9068c2384007d94\",\"city_id\":\"\\u0110\\u00e0 N\\u1eb5ng\",\"detail\":\"123, H\\u1ea3i Ch\\u00e2u, B\\u1ea1ch \\u0110\\u1eb1ng, \\u0110\\u00e0 N\\u1eb5ng\"},{\"_id\":\"5ac85f51b9068c2384007d93\",\"city\":\"H\\u00e0 N\\u1ed9i\",\"detail\":\"360 Kim M\\u00e3, Qu\\u1eadn Ba \\u0110\\u00ecnh, H\\u00e0 N\\u1ed9i\"}],\"city_id\":\"5ac85f51b9068c2384007d94\",\"quantity_user_follow\":1,\"info\":{\"website\":\"episerver.com.vn\",\"description\":\"This is description\",\"phone\":\"01675946414\"},\"images\":{\"avatar\":\"5ac85f51b9068c2384007d97.jpg\",\"cover\":\"5ac85f51b9068c2384007d97.jpg\",\"details\":[]},\"skills\":[{\"_id\":\"5ac85f52b9068c2384007da0\",\"name\":\"Android\"},{\"_id\":\"5ac85f52b9068c2384007da1\",\"name\":\"Java\"},{\"_id\":\"5ac85f52b9068c2384007da2\",\"name\":\"PHP\"}],\"master\":[\"5ac85f53b9068c2384007da9\"],\"employee\":[\"5b16bf6d6c2c3102d93d7e22\"],\"reviews\":[{\"title\":\"dsdsd\",\"like\":\"sdsds\",\"unlike\":\"dsds\",\"suggest\":\"dsds\",\"recommend\":\"1\",\"rating\":4,\"reviewed_at\":{\"$date\":{\"$numberLong\":\"1525226099811\"}},\"reviewed_by\":\"phong.kelvin1608@gmail.com\"},{\"title\":\"sasa\",\"like\":\"dsadsa\",\"unlike\":\"dsadsa\",\"suggest\":\"dsadsadsa\",\"recommend\":\"0\",\"rating\":3,\"reviewed_at\":{\"$date\":{\"$numberLong\":\"1525226117949\"}},\"reviewed_by\":\"phong.kelvin1608@gmail.com\"},{\"title\":\"dasdsa\",\"like\":\"dsadsa\",\"unlike\":\"dsadsa\",\"suggest\":\"dsadsa\",\"recommend\":\"1\",\"rating\":2,\"reviewed_at\":{\"$date\":{\"$numberLong\":\"1525226674590\"}},\"reviewed_by\":\"phong.kelvin1608@gmail.com\"},{\"title\":\"dasdsad\",\"like\":\"asdsad\",\"unlike\":\"asdsadsadas\",\"suggest\":\"dddd\",\"recommend\":\"0\",\"rating\":4,\"reviewed_at\":{\"$date\":{\"$numberLong\":\"1525226748824\"}},\"reviewed_by\":\"phong.kelvin1608@gmail.com\"},{\"title\":\"dsadas\",\"like\":\"dsdsds\",\"unlike\":\"dsdsds\",\"suggest\":\"dsdsd\",\"recommend\":\"1\",\"rating\":5,\"reviewed_at\":{\"$date\":{\"$numberLong\":\"1525226780835\"}},\"reviewed_by\":\"phong.kelvin1608@gmail.com\"},{\"title\":\"\\u0110\\u00e2y l\\u00e0 ti\\u00eau \\u0111\\u1ec1\",\"like\":\"\\u0110\\u00e2y l\\u00e0 \\u0111i\\u1ec1u th\\u00edch\",\"unlike\":\"\\u0110\\u00e2y l\\u00e0 \\u0111i\\u1ec1u kh\\u00f4ng th\\u00edch\",\"suggest\":null,\"recommend\":\"0\",\"rating\":3,\"reviewed_at\":{\"$date\":{\"$numberLong\":\"1528515911821\"}},\"reviewed_by\":\"phong.kelvin168@gmail.com\"}],\"rating\":\"3.5\",\"created_at\":\"2018-04-07 13:04:01\",\"updated_at\":\"2018-06-18 21:03:38\",\"deleted\":false,\"schedule\":null,\"quantity_job\":{\"hirring\":2}}},\"empname\":\"Episerver\"}", 
+    "read_at" : null, 
+    "notifiable_id" : "5ac85f53b9068c2384007da7", 
+    "notifiable_type" : "App\\User", 
+    "updated_at" : ISODate("2018-06-18T14:03:38.000+0000"), 
+    "created_at" : ISODate("2018-06-18T14:03:38.000+0000")
 }

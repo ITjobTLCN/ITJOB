@@ -217,6 +217,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			if (response.data.status == true) {
 				$scope.editable = false;
 			}
+
 			alert(response.data.message);
 		}, function(error) {
 			alert('ERROR');

@@ -63,7 +63,10 @@ class PageController extends Controller
     public function viewHelp($fileName) {
         //$fileName = base64_decode($fileName);
         $path = public_path() . '/uploads/emp/cv/' . $fileName;
-        
+        if (!file_exists($path)) {
+            $path = public_path() . '/uploads/user/cv/' . $fileName;
+        }
+
         return response()->file($path, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'. $fileName .'"'
