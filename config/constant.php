@@ -45,6 +45,9 @@ return [
     'USER' => 'user',
     'ROLES' => 'roles',
     'ROLE' => 'role',
+    'EMPLOYERS' => 'emps',
+    'SKILLS' => 'skills',
+    'CITIES' => 'cities',
 
     /**
      * Type

@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use App\Applications;
 use App\User;
 use App\Roles;
+use App\Skills;
+use App\Cities;
 use Validator;
 use App\Job;
 use App\Employers;
-use App\Cities;
 use App\Registration;
 use Excel;
 use Illuminate\Support\Facades\Input;
@@ -469,11 +470,8 @@ class AdminController extends Controller
     */
         /*CRUD Employer*/
     public function ngGetEmps(){
-        $emps = Employers::get();
-        $cities = Cities::get();
-
-        $regis = Registration::join('users','registration.user_id','=','users.id')->select('users.*','registration.*')->get();
-        return response()->json(['emps'=>$emps,'cities'=>$cities,'regis'=>$regis]);
+        $employers = $this->get_list_employers();
+        return response()->json([config('constant.EMPLOYERS') => $employers]);
     }
     public function ngGetEmp($id){
         $emp = Employers::findOrFail($id);
@@ -612,7 +610,19 @@ class AdminController extends Controller
     }
 
     /**
-     * Common function: Get list users
+     * Add common function for angularjs
+     */
+    public function ngGetSkills() {
+        $skills = $this->get_list_skills();
+        return response()->json([config('constant.SKILLS') => $skills]);
+    }
+    public function ngGetCities() {
+        $cities = $this->get_list_cities();
+        return response()->json([config('constant.CITIES') => $cities]);
+    }
+
+    /**
+     * Common function: Get list
      * Order: Desc
      */
     private function get_list_users() {
@@ -620,5 +630,14 @@ class AdminController extends Controller
     }
     private function get_list_roles() {
         return Roles::orderBy('created_at', 'desc')->get();
+    }
+    private function get_list_employers() {
+        return Employers::orderBy('created_at', 'desc')->get();
+    }
+    private function get_list_skills() {
+        return Skills::orderBy('created_at', 'desc')->get();
+    }
+    private function get_list_cities() {
+        return Cities::orderBy('created_at', 'desc')->get();
     }
 }
