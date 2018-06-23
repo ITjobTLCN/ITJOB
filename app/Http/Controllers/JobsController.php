@@ -98,7 +98,6 @@ class JobsController extends Controller
         } else {
             $arrWheres['city'] = config('constant.defaultCity');
         }
-
         if (!empty($info_salary)) {
             $arrSalary = explode('-', $info_salary[0]);
             $arrWheres['detail.salary'] = [
@@ -139,19 +138,19 @@ class JobsController extends Controller
                                         <div class="company">
                                             <span class="job-search__company">' . $job->employer['name'] . ' </span>
                                             <span class="separator">|</span>
-                                            <span class="job-search__location">' . $job->city . '</span>
+                                            <span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> ' . $job->city . '</span>
                                         </div>
                                             <div class="company text-clip">';
                                             if (Auth::check()){
                                                 $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">' . $job->detail['salary'] . ' $</a></span>';
                                             } else {
-                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương</a></span>';
+                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương </a></span>';
                                             }
-                                            $result .= '<span class="separator">|</span>';
+                                            $result .= '<span class="separator"> | </span>';
                                             if ($date == $today){
                                                 $result .= '<span class="">Today</span>';
                                             } else {
-                                                $result .= '<span class="">' . $date . '</span>';
+                                                $result .= '<span class=""> ' . $date . '</span>';
                                             }
                                             $result .= '</div>
                                         <div class="job__skill">';

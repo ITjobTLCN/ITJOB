@@ -35,14 +35,12 @@
 						</div>
 						{{ csrf_field() }}
 						<input type="submit" class="btn-primary form-control" id="btnSubmit" value="Đăng ký">
-						
 					</form>
 				</div>
 			</div>
 
 			<div class="modal-footer text-center">
 				<h4>Bạn là thành viên ITJobs ?<a id="clickModalLogin" href="#" style="color: #337ab7"> Đăng nhập</a></h4>
-				
 			</div>
 		</div>
 	</div>

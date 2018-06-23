@@ -24,7 +24,7 @@ class checkEmp
                 return Redirect::route('getRegisterEmployer'); //không có quyền employer
             }
         } else {
-            return Redirect::route('/')->with('error_code', 1); // 1: chưa đăng nhập
+            return Redirect::route('login');
         }
     }
 }

@@ -43,10 +43,10 @@ Contact Us | ITJob
 								{{csrf_field()}}
 								<div class="form-group">
 									<div class="col-sm-9 col-sm-offset-3">
-										<button type="submit" class="btn btn-danger" style="width: 100%">Send</button>
+										<button type="submit" class="btn btn-google br-0" style="width: 100%">Send</button>
 									</div>
 								</div>
-						</form>	
+						</form>
 				</div>
 				<div class="col-md-6">
 				<h1>About Us</h1>

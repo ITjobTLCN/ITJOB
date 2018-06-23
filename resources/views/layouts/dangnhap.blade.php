@@ -15,10 +15,6 @@ Login | ITJob
 						<div class="card-body">
 							<h1>Đăng nhập</h1>
 							<p class="text-muted mb-3">Đăng nhập bằng tài khoản</p>
-							{{--  <div class="social text-center mb-3">
-								<a class="btn btn-primary" href="{{route('loginProvider','facebook')}}"><i class="fa fa-fw fa-facebook"></i>Facebook</a>
-								<a class="btn btn-danger" href="{{route('loginProvider','google')}}"><i class="fa fa-fw fa-google"></i>Google</a>
-							</div>  --}}
 							@if($errors->has('errorLogin'))
 							<div class="alert alert-danger">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -42,8 +38,19 @@ Login | ITJob
 									@endif
 								</div>
 								{{ csrf_field() }}
-								<button type="submit" class="btn btn-primary btn-login br-0">Đăng nhập</button>
+								<button type="submit" class="btn btn-success btn-login br-0">Đăng nhập</button>
 							</form>
+							<hr>
+							<div class="text-center" style="margin: 10px 0"><span>Hoặc</span></div>
+							 <div class="social text-center mb-3 row">
+
+							 	<div class="col-md-6">
+							 		<a class="btn btn-facebook" href="{{route('loginProvider','facebook')}}" style="width: 100%"><span>Facebook</span></a>
+							 	</div>
+							 	<div class="col-md-6">
+							 		<a class="btn btn-google" href="{{route('loginProvider','google')}}" style="width: 100%">Google</a>
+							 	</div>
+							</div> 
 						</div>
 					</div>
 					<div class="card col-md-6 hidden-xs hidden-sm text-white bg-primary">

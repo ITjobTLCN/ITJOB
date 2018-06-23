@@ -22,17 +22,14 @@ Việc làm mới nhất | ITJOB
 				<div id="left-column" class="hidden-xs col-sm-3 col-md-3 col-lg-2">
 					<div class="box box-xs">
 						<h2>Filter by</h2>
-						<div class="list-filter-att clearfix">
-							<div class="edition-filter clearfix"></div>
-							<a href="" ><div class="clear-all-filter-att" ng-click="clearAll()">Xóa</div></a>
-						</div>
+						<button class="btn btn-facebook br-0" ng-click="clearAll()"> Clear All</button>
 
 						<div id="locations" class="facet">
 							<h5 data-target="#list-locations" data-toggle="collapse">salary </h5>
 							<div id="list-locations" class="collapse in">
 								<ul>
 									<li ng-repeat="sala in salary">
-										<input type="radio" name="salary" ng-click="filterJob($event, 'salary', sala)" ng-model="sala.selected"><span><% sala.label %></span>
+										<input type="radio" name="salary" ng-click="filterJob($event, 'salary', sala)" ><span><% sala.label %></span>
 									</li>
 								</ul>
 							</div>
