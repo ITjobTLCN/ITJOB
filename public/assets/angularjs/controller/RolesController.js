@@ -141,7 +141,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
 
 
     /*sort-filer-search TABLE with angular */
-    $scope.show_items = '3';
+    $scope.show_items = '5';
     $scope.sort = function (keyname) {
         // Old result
         if (keyname === $scope.sort_type) {

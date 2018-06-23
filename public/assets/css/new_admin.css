@@ -1,0 +1,31 @@
+.btn-add-new {
+    float: right;
+    margin-left: 16px;
+    min-width: 150px;
+}
+
+.datatable-above {
+    margin-bottom: 16px;
+}
+
+.datatable-search {
+    width: 200px;
+    float: right;
+}
+
+.show-entries {
+    display: inline;
+    width: 60px;
+}
+
+tr.info th {
+    cursor: pointer;
+}
+
+.label-title {
+    font-size: 16px;
+}
+
+.form-multi-address {
+    margin-left: 32px;
+}

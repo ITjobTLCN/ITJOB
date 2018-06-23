@@ -204,7 +204,7 @@ Route::post('register/employer', [
 	/**--------------ADMIN ROUTE--------------------*/
 Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('users', [ 'as' => 'getadminusers', 'uses' => 'AdminController@getListUsers' ]);
-	Route::get('emps', [ 'as' => 'getadminemps', 'uses' => 'AdminController@getListEmps' ]);
+	Route::get('employers', [ 'as' => 'getadminemps', 'uses' => 'AdminController@getListEmps' ]);
 	Route::get('dashboard', [ 'as' => 'getAdminDashboard', 'uses' => 'AdminController@getDashBoard' ]);
 	Route::post('import', [ 'as' => 'postimport', 'uses' => 'AdminController@postImport' ]);
 	Route::get('export/{type}', [ 'as' => 'getexport', 'uses' => 'AdminController@getExport' ]);
@@ -221,7 +221,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::post('ngrole', [ 'as' => 'ng_add_roles', 'uses' => 'AdminController@ngAddRole' ]);
 	Route::put('ngrole', [ 'as' => 'ng_edit_roles', 'uses' => 'AdminController@ngEditRole' ]);
 	Route::delete('ngrole', [ 'as' => 'ng_delete_roles', 'uses' => 'AdminController@ngDeleteRole' ]);
-
+		// Skill manage
 		/*admin dashboard  --- output: json*/
 	Route::get('ngnumber', [ 'as' => 'nggetnumber', 'uses' => 'AdminController@ngGetNumber' ]);
 
@@ -240,6 +240,9 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 
 	Route::get('roles','AdminController@loadAdminRoles');
 
+		// Add angularjs using: Skill
+	Route::get('ngskills','AdminController@ngGetSkills');
+	Route::get('ngcities','AdminController@ngGetCities');
 });
 //Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 //Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);

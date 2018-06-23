@@ -140,7 +140,7 @@ app.controller('UsersController',function($scope,$http){
 	}
 
 	/*sort-filer-search TABLE with angular */
-	$scope.showitems = '3';
+	$scope.showitems = '5';
 	$scope.sort = function(keyname) {
 		// Old result
 		if (keyname === $scope.sortType) {

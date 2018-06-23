@@ -1,83 +1,73 @@
-@extends('admin.layout.master')
+@extends('admin.layout.new_master')
+@section('primary-title') Accounts Management @endsection
+@section('secondary-title') List users @endsection
 @section('content')
-	<div class="container" ng-controller="UsersController">
-		<div class="row">
-			<div class="col">
-				<div  class="title-admin">Manage accounts</div>
-				<div>
-					<span  class="table-title-admin">Administrator Account</span>
-					<div class="btn-create-admin" >
-						<label class="label-show-items">
-							<span>Show:</span>
-							<select class="form-control input-sm" ng-model="showitems">
-								<option value="3" ng-selected="showitems == 3">3</option>
-								<option value="5" ng-selected="showitems == 5">5</option>
-								<option value="10" ng-selected="showitems == 10">10</option>
-								<option value="20" ng-selected="showitems == 20">20</option>
-							</select>
-						</label>
-						<div class="input-group table-input-search">
-							<span class="input-group-addon"><i class="fa fa-search"></i></span>
-        					<input type="text" class="form-control " placeholder="Search..." ng-model="searchUser">
-						</div>
-						<a href="javascript:void(0)" class="btn btn-outline btn-success btn-sm table-input-create" ng-click="modal('add')">Create account</a>
-
-					</div>
+<div ng-controller="UsersController">
+	<div class="box">
+		<div class="box-body">
+			<div class="datatable-above">
+				<span>Show:</span>
+				<select class="form-control show-entries" ng-model="showitems">
+					<option value="3" ng-selected="showitems == 3">3</option>
+					<option value="5" ng-selected="showitems == 5">5</option>
+					<option value="10" ng-selected="showitems == 10">10</option>
+					<option value="20" ng-selected="showitems == 20">20</option>
+				</select>
+				<span>entries</span>
+				<a href="javascript:void(0)" class="btn btn-flat btn-primary btn-add-new" ng-click="modal(constant.MODAL_ADD)">Create account</a>
+				<div class="input-group datatable-search">
+					<span class="input-group-addon"><i class="fa fa-search"></i></span>
+					<input type="text" class="form-control " placeholder="Search..." ng-model="searchUser">
 				</div>
+			</div>
 
-				<table class="table table-responsive table-hover table-bordered table-angular">
-					<thead class="thead-inverse">
-						<tr class="info">
-							<th ng-click="sort('email')" style="width: 30%">Email
-								<span class="glyphicon sort-icon" ng-show="sortType=='email'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" ></span>
-							</th>
-							<th ng-click="sort('name')" style="width: 15%">Name
-								<span class="glyphicon sort-icon" ng-show="sortType=='name'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
-							</th>
-							<th ng-click="sort('created_at')" style="width: 20%">Created Date
-								<span class="glyphicon sort-icon" ng-show="sortType=='created_at'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
-							</th>
-							<th ng-click="sort('updated_at')" style="width: 20%">Updated Date
-								<span class="glyphicon sort-icon" ng-show="sortType=='updated_at'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
-							</th>
-							<th ng-click="sort('lastlogin')" style="width: 10%">Last Login
-								<span class="glyphicon sort-icon" ng-show="sortType=='lastlogin'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr dir-paginate="(key, user) in users|orderBy:sortType:sortReverse|filter:searchUser|itemsPerPage:showitems">
-							<td>
-								<span><%user.email%></span>
-								<div>
-									<a href="javascript:void(0)" ng-click="modal('edit',user._id)">Edit </a>|
-									<a href="javascript:void(0)" ng-click="deleteUser(user._id)"> Delete</a>
-								</div>
-							</td>
-							<td><%user.name%></td>
-							<td><%user.created_at%></td>
-							<td><%user.updated_at%></td>
-							<td><%user.lastlogin%></td>
-						</tr>
+			<table class="table table-responsive table-hover table-bordered">
+				<thead class="thead-inverse">
+					<tr class="info">
+						<th ng-click="sort('email')" style="width: 30%">Email
+							<span class="glyphicon sort-icon" ng-show="sortType=='email'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" ></span>
+						</th>
+						<th ng-click="sort('name')" style="width: 15%">Name
+							<span class="glyphicon sort-icon" ng-show="sortType=='name'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
+						</th>
+						<th ng-click="sort('created_at')" style="width: 20%">Created Date
+							<span class="glyphicon sort-icon" ng-show="sortType=='created_at'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
+						</th>
+						<th ng-click="sort('updated_at')" style="width: 20%">Updated Date
+							<span class="glyphicon sort-icon" ng-show="sortType=='updated_at'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
+						</th>
+						<th ng-click="sort('lastlogin')" style="width: 10%">Last Login
+							<span class="glyphicon sort-icon" ng-show="sortType=='lastlogin'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr dir-paginate="(key, user) in users|orderBy:sortType:sortReverse|filter:searchUser|itemsPerPage:showitems">
+						<td>
+							<span><%user.email%></span>
+							<div>
+								<a href="javascript:void(0)" ng-click="modal('edit',user._id)">Edit </a>|
+								<a href="javascript:void(0)" ng-click="deleteUser(user._id)"> Delete</a>
+							</div>
+						</td>
+						<td><%user.name%></td>
+						<td><%user.created_at%></td>
+						<td><%user.updated_at%></td>
+						<td><%user.lastlogin%></td>
+					</tr>
 
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="100%">
-								<dir-pagination-controls
-							       max-size="5"
-							       direction-links="true"
-								   boundary-links="true"
-								   >
-							    </dir-pagination-controls>
-							</td>
-						</tr>
-
-					</tfoot>
-				</table>
-
+				</tbody>
+			</table>
+			<div class="text-center">
+				<dir-pagination-controls
+					max-size="5"
+					direction-links="true"
+					boundary-links="true"
+					>
+				</dir-pagination-controls>
 			</div>
 		</div>
+	</div>
 
 		<!-- Model create user  - one page  -->
 	<div class="modal fade" id="modal-create-user">
@@ -85,12 +75,16 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title"><%titleModal%></h4>
+					<h4 class="modal-title">
+						<%titleModal%>
+					</h4>
 				</div>
 				<form action="#" method="post" name="frmCreate">
-				<div class="modal-body">
+					<div class="modal-body">
 						<div class="alert alert-danger" id="ng-errors-alert" style="display: none">
-							<p id="ng-errors-message"><%error_message%></p>
+							<p id="ng-errors-message">
+								<%error_message%>
+							</p>
 						</div>
 
 						<div id="modallogin-logininfo">
@@ -148,8 +142,8 @@
 								<label for="status" class="control-label col-md-1 label-form-horizontal">Status: </label>
 								<div class="col-md-6">
 									<select name="status" class="form-control" id="status" ng-model="user.status" required>
-										<option value="1"  ng-selected="user.status==1">Active</option>
-										<option value="0" ng-selected="user.status==0" >Non-active</option>
+										<option value="1" ng-selected="user.status==1">Active</option>
+										<option value="0" ng-selected="user.status==0">Non-active</option>
 									</select>
 									<span class="errors" ng-show="(frmCreate.status.$error.required)">
 										Choose status
@@ -159,7 +153,8 @@
 							<div class="form-group row">
 								<label for="name" class="control-label col-md-1 label-form-horizontal">Role: </label>
 								<div class="col-md-6">
-									<select name="role_id" ng-model="user.role_id"  class="form-control" id="role" ng-options="role._id as role.name for role in roles" required>
+									<select name="role_id" ng-model="user.role_id" class="form-control" id="role" ng-options="role._id as role.name for role in roles"
+									    required>
 									</select>
 									<span class="errors" ng-show="(frmCreate.role_id.$error.required)">
 										Choose role
@@ -167,57 +162,19 @@
 								</div>
 							</div>
 						</div>
-						<div id="modallogin-permission">
-							<div class="para-title-admin">Permission</div>
-							<table class="table table-striped table-bordered table-hover">
-								<thead>
-									<tr>
-										<th>Permission</th>
-										<th>Manage All</th>
-										<th>Enable View</th>
-										<th>Enable Add</th>
-										<th>Enable Update</th>
-										<th>Enable Delete</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Manage All</td>
-										<td><input type="checkbox" ></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-									</tr>
-									<tr>
-										<td>Manage Admin</td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-									</tr>
-									<tr>
-										<td>Manage Employer</td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-										<td><input type="checkbox"></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary"  ng-disabled="(frmCreate.$invalid || (user.password!==user.repassword))" ng-click="save(state,id)">Save changes</button>
-				</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" ng-disabled="(frmCreate.$invalid || (user.password!==user.repassword))" ng-click="save(state,id)">Save changes</button>
+					</div>
 				</form>
 			</div>
 		</div>
 	</div>
+	@section('script')
+	<script src="assets/angularjs/controller/UsersController.js"></script>
 
+	@endsection
+</div>
 
 @endsection
