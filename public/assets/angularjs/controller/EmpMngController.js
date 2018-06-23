@@ -7,15 +7,17 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	$scope.resetAd = function(id) {
 		$scope.load(id);
 	}
+	var data = [];
 	/*---------Load page and get empid from Laravel----------*/
 	$scope.load = function() {
 		$scope.editable = false;
 		$scope.selection = [];
 
 		$http.get('emp/ngadvance').then(function(response) {
-			console.log(response.data.employer);
-			$scope.assistant = response.data.assis;
-			infoEmployer = response.data.employer;
+			data = angular.copy(response.data);
+
+			$scope.assistant = _.get(data, 'assis', []);
+			infoEmployer = _.get(data, 'employer', []);
 			$scope.employer = {
 				'_id' : infoEmployer._id,
 				'name' : infoEmployer.name,
@@ -29,17 +31,18 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				'avatar' : infoEmployer.images.avatar
 			};
 			$scope.empId = infoEmployer._id;
-			$scope.myskills = response.data.myskills;
-			$scope.cities = response.data.cities;
-			$scope.skills = response.data.skills;
-			$scope.posts = response.data.posts;
+			$scope.myskills = _.get(data, 'myskills', []);
+			$scope.cities = _.get(data, 'cities', []);
+			$scope.skills = _.get(data, 'skills', []);
+			$scope.posts = _.get(data, 'posts', []);
 			//add skill selection
 			$scope.myskills.forEach(function(value) {
 				$scope.selection.push({ _id:value._id, name:value.name });
 			});
 		}, function(error) {
-			alert('ERROR');
+			console.log('error', 'cannot get data from service');
 		});
+
 		$scope.sortTypePost = '_id';
 		$scope.sortReverse = true;
 		$scope.sortType = '_id';
@@ -51,18 +54,18 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		$scope.job = null;
 		$scope.selection = [];
 		$http.get('emp/ngbasic').then(function(response) {
-			console.info('basic_employer', response.data);
+			data = angular.copy(response.data);
 			//chung
-			$scope.options = response.data;
-			$scope.emp = response.data.emp;
-			$scope.empId = response.data.emp['_id'];
-			$scope.cities = response.data.cities;
-			$scope.skills = response.data.skills;
+			$scope.options = _.cloneDeep(data);
+			$scope.emp = _.get(data, 'emp', []);
+			$scope.empId = _.get(data.emp, '_id', '');
+			$scope.cities = _.get(data, 'cities', []);
+			$scope.skills = _.get(data, 'skills', []);
 			//rieng
-			$scope.follows = response.data.follows;
+			$scope.follows = _.get(data, 'follows', []);
 
 		}, function(error) {
-			alert('ERROR');
+			console.log('error', 'cannot get data from service');
 		});
 
 	}

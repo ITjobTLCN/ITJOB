@@ -221,7 +221,7 @@ Manage Basic
 				<h1>Your posts <button type="button" class="btn btn-info" ng-click="addPost(0)"><i class="fa fa-plus-square-o"></i> New post</button></h1>
 				<div class="col-lg-7 block-info">
 					<table class="table table-hover table-responsive ">
-						<h4 class="text-center">Your post in Company's name</h4>
+						<h4 class="text-center">Your post in <% emp.name %></h4>
 						<thead>
 							<tr>
 								<th>Title</th>

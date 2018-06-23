@@ -258,7 +258,7 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 		/*Update info*/
 	Route::post('ng-update-info/{id}', [ 'as' => 'ngUpdateEmpInfo', 'uses' => 'EmployerController@ngGetUpdateEmpInfo' ]);
 		/*Change logo-cover using Laravel - Reload page*/
-	Route::post('change-logo-cover/{empId}/{type}', [ 'as' => 'postChangeLogoCover', 'uses' => 'EmployerController@postChangeLogoCoverEmp' ]);
+	Route::post('change-logo-cover/{empId}/{type}', [ 'as' => 'postChangeImageEmployer', 'uses' => 'EmployerController@postChangeImageEmployer' ]);
 
 		/*Employer Basic*/
 	Route::get('basic', [ 'as' => 'getEmpBasic', 'uses' => 'EmployerController@getEmpBasic' ]);

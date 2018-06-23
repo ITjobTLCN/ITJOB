@@ -85,10 +85,10 @@ Thông tin cá nhân | ITJob
 					<div class="col-md-4 col-sm-3">
 
 						<div class="avatar_profile" style="margin: 0 auto">
-							@if($user->password !="")
+							@if(!empty($user->password))
 							<img src="uploads/avatar/{{$user->avatar}}" alt="" class="img-responsive" style="border-radius: 100%; width: 150px;height: 150px">
 							@else
-							<img src="{{$user->avatar}}" alt="" class="img-responsive" width="150px" height="150px">
+							<img src="{{$user->image}}" alt="" class="img-responsive" style="border-radius: 100%; width: 150px;height: 150px">
 							@endif
 						</div>
 						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">

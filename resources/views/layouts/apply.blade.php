@@ -72,7 +72,7 @@ Application
 	                                    </div>
 	                                    <div>
 	                                        <span class="salary"><i class="fa fa-wifi" aria-hidden="true"></i>
-	                                        	@if(Auth::check()){{$job->detail['salary']}}
+	                                        	@if(Auth::check()){{$job->detail['salary']}} $
 												@else
 												<a href="" data-toggle="modal" data-target="#loginModal" style="font-size: 13px">Đăng nhập để xem lương</a>
 												@endif

@@ -34,24 +34,24 @@ Application Jobs | ITJob
 					<div class="row" >
 						<div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
 							<div class="logo job-search__logo jb-search__result">
-								<a href=""><img title="{{$ja->employer['name']}}" class="img-responsive" src="uploads/emp/avatar/{{$ja->employer['images']['avatar']}}" alt="">
+								<a href="{{route('getEmployers', $ja->employer['alias'])}}"><img title="{{$ja->employer['name']}}" class="img-responsive" src="uploads/emp/avatar/{{$ja->employer['images']['avatar']}}" alt="">
 								</a>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
 							<div class="job-item-info" >
 								<h3 class="bold-red">
-									<a href="{{route('detailjob', [$ja->alias, $ja->_id])}}" class="job-title" title="{{$ja->name}}">{{$ja->name}}</a>
+									<a href="{{route('detailjob', [$ja->job['alias'], $ja->job['_id']])}}" class="job-title" title="{{$ja->name}}">{{$ja->job['name']}}</a>
 								</h3>
 								<div class="company">
 									<span class="job-search__company">{{$ja->employer['name']}}</span>
 									<span class="separator">|</span>
-									<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ja->city}}</span>
+									<span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> {{$ja->job['city']}}</span>
 								</div>
 								<div class="company text-clip">
 									<span class="salary-job">
 										@if(Auth::check())
-										{{ $ja->job['detail']['salary'] }} $
+										<i class="fa fa-wifi" aria-hidden="true"></i>{{ $ja->job['detail']['salary'] }} $
 										@else
 										<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
 										@endif
@@ -61,7 +61,7 @@ Application Jobs | ITJob
 								</div>
 								<div class="job__skill">
 									@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ja->job['skills_id']) as $key => $s)
-									<a href=""><span>{{ $s->name }}</span></a>
+									<span>{{ $s->name }}</span>
 									@endforeach
 								</div>
 							</div>

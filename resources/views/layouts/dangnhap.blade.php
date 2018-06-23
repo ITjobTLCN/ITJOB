@@ -38,7 +38,7 @@ Login | ITJob
 									@endif
 								</div>
 								{{ csrf_field() }}
-								<button type="submit" class="btn btn-success btn-login br-0">Đăng nhập</button>
+								<button type="submit" class="btn btn-success btn-login br-0" style="width: 100%">Đăng nhập</button>
 							</form>
 							<hr>
 							<div class="text-center" style="margin: 10px 0"><span>Hoặc</span></div>

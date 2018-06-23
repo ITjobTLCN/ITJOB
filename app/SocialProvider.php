@@ -11,10 +11,9 @@ class SocialProvider extends Eloquent
     protected $dates = ['deleted_at'];
 
     protected $collection = 'social';
-
 	protected $filltable=['provider_id','provider'];
-    public function user()
-    {
+
+    public function user() {
     	return $this->belongsTo(User::class);
     }
 }

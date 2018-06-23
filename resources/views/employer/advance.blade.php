@@ -57,7 +57,7 @@ Manage Advance
 							<label class="col-md-3 form-control-label">Phone</label>
 							<div class="col-md-9">
 								<span ng-show="!editable"><% employer['phone'] %></span>
-								<input ng-show="editable" type="number" class="form-control" name="phone" placeholder="Employer's phone" ng-model="employer.phone">
+								<input ng-show="editable" type="text" class="form-control" name="phone" placeholder="Employer's phone" ng-model="employer.phone">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -109,7 +109,7 @@ Manage Advance
 							<img ng-src="uploads/emp/cover/<% employer['cover'] %>" alt="<% emp.cover%>">
 							<div class="cover-above" id="cover-above-cover">
 								<button type="button" class="btn btn-success" ng-click="fileCover(1)">Click to change your cover</button>
-								<form action="{{route('postChangeLogoCover',[$employer['_id'], 'cover'])}}" method="POST" enctype="multipart/form-data" id="formChangeCover">
+								<form action="{{route('postChangeImageEmployer', [$employer['_id'], 'cover'])}}" method="POST" enctype="multipart/form-data" id="formChangeCover">
 									{{ csrf_field() }}
 									<input type="file" name="file" ng-show="false" id="filecover">
 								</form>
@@ -119,7 +119,7 @@ Manage Advance
 							<img ng-src="uploads/emp/avatar/<% employer['avatar'] %>" alt="<% emp.logo%>">
 							<div class="cover-above" id="cover-above-logo">
 								<button type="button" class="btn btn-sm btn-success" ng-click="fileCover(2)">Change logo</button>
-								<form action="{{route('postChangeLogoCover',[$employer['_id'], 'logo'])}}" method="POST" enctype="multipart/form-data" id="formChangeLogo">
+								<form action="{{route('postChangeImageEmployer',[$employer['_id'], 'avatar'])}}" method="POST" enctype="multipart/form-data" id="formChangeLogo">
 									{{ csrf_field() }}
 									<input type="file" name="file" ng-show="false" id="filelogo">
 								</form>

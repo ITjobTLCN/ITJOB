@@ -163,7 +163,7 @@ class EmployerController extends Controller
         }
     }
             //change logo and cover
-    public function postChangeLogoCoverEmp(Request $request, $empId, $type) {
+    public function postChangeImageEmployer(Request $request, $empId, $type) {
         //type:1-cover:2-logo
         $validator  = Validator::make($request->all(), [
             'file' => 'max:5000|mimes:jpg,jpeg,bmp,png'
@@ -173,12 +173,16 @@ class EmployerController extends Controller
                                 ->withErrors('Size of image too large or is not the
                                 following type:jpg, jpeg, bmp, png');
         }
-        // dd($request->all());
+
         if (Input::hasfile('file') && $empId && $type) {
             $file = Input::file('file');
             //get extension of a image
             $file_extension = File::extension($file->getClientOriginalName());
             $filename = $empId . "." . $file_extension;
+            if (file_exists(public_path() . "/uploads/emp/{$type}/{$filename}")) {
+                File::delete(public_path() . "/uploads/emp/{$type}/{$filename}");
+            }
+
             $file->move("uploads/emp/{$type}", $filename);
 
             $arrUpdate["images.{$type}"] = $filename;

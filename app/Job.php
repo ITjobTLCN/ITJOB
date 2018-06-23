@@ -16,10 +16,6 @@ class Job extends Eloquent
         "name", "alias", "user_id", "employer_id", "city"
     ];
 
-    public function cv() {
-        return $this->belongsToMany('App\CV', 'applies', 'job_id', 'cv_id');
-    }
-
     public function cities() {
         return $this->belongsTo('App\Cities', 'city_id', '_id');
     }

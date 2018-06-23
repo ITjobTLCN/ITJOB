@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Socialite;
 use App\SocialProvider;
 use App\User;
+use App\Roles;
+
 class AuthController extends Controller
 {
     /**
@@ -55,6 +57,8 @@ class AuthController extends Controller
         }
 
         auth()->login($user);
-        return redirect()->route('/');
+        $role = Roles::where('_id', $user->role_id)->first();
+
+        return redirect()->route(!empty($role) ? $role->route : '/');
     }
 }
