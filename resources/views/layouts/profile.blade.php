@@ -12,17 +12,31 @@ Thông tin cá nhân | ITJob
 			</div>
 			<div class="wrapper-profile">
 				<div class="box box-md">
-					<div class="col-md-7 col-sm-9">
+					<div class="col-md-6 col-sm-3">
+
+						@if(!empty($user->password))
+						<img src="uploads/avatar/{{$user->avatar}}" alt="" class="img-responsive" style="border-radius: 100%; width: 150px;height: 150px; float: left;margin-right: 20px">
+						@else
+						<img src="{{$user->image}}" alt="" class="img-responsive" 
+						style="border-radius: 100%; width: 150px;height: 150px; float: left; margin-right: 20px">
+						@endif
+						<h3> Welcome, <% fullname %>
+						</h3>
+						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">
+							<label for="file" class="upload-file"><i class="fa fa-upload"> Choose a file</i></label>
+							<input type="file" name="avatar" id="file"><br>
+							{{csrf_field()}}
+							<input type="submit" value="Upload" class="btn btn-sm btn-facebook">
+
+						</form>
+					</div>
+					<div class="col-md-6 col-sm-9">
 						@if(Session::has('success'))
 						<div class="alert alert-success alert-dismissable">
 							<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
 							{{Session::get('success')}}
 						</div>
 						@endif
-						<div class="welcome">
-							<h3> Welcome, <% user.name %>
-							</h3>
-						</div>
 						<div class="info">
 							<form class="form-horizontal" name="frmEditProfile" id="myForm" enctype="multipart/form-data" method="post" action="{{route('editProfile')}}" role="form" >
 								<div class="form-group">
@@ -62,10 +76,10 @@ Thông tin cá nhân | ITJob
 										<textarea type="text" name="describe" class="form-control" style="height: 100px"><% user.description %></textarea>
 									</div>
 								</div>
-								<div class="form-group">
+								<div class="form-group" ng-if="['5ac85f51b9068c2384007d9c'].indexOf(user.role_id) != -1">
 									<label for="inputCV" class="col-sm-2 control-label">CV</label>
 									<div class="col-sm-8">
-										<span ng-if="user.hasOwnProperty('cv')" >
+										<span ng-if="user.hasOwnProperty('cv')">
 											<a ng-href="<% viewCV(user.cv) %>" target="_blank"><% user.cv %></a>
 										</span>
 										<input type="file" ng-model="user.cv" class="form-control" name="cv" id="cv"">
@@ -75,30 +89,12 @@ Thông tin cá nhân | ITJob
 								{{csrf_field()}}
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-danger">Save Changes</button>
+										<button type="submit" class="btn btn-google">Save Changes</button>
 									</div>
 								</div>
 							</form>
 						</div>
 					</div>
-					<div class="col-md-1"></div>
-					<div class="col-md-4 col-sm-3">
-
-						<div class="avatar_profile" style="margin: 0 auto">
-							@if(!empty($user->password))
-							<img src="uploads/avatar/{{$user->avatar}}" alt="" class="img-responsive" style="border-radius: 100%; width: 150px;height: 150px">
-							@else
-							<img src="{{$user->image}}" alt="" class="img-responsive" style="border-radius: 100%; width: 150px;height: 150px">
-							@endif
-						</div>
-						<form enctype="multipart/form-data" action="{{route('postAvatar')}}" method="post">
-							<input type="file" name="avatar">
-							{{csrf_field()}}
-							<input type="submit" value="Upload" class="btn btn-sm btn-primary">
-
-						</form>
-					</div>
-
 				</div>
 			</div>
 		</div>

@@ -65,4 +65,9 @@ return [
     'SUCCESS_DELETE_ROLE' => 'Delete role successfully',
     'FAIL_DELETE_ROLE' => 'Delete role fail because has anyone in this role',
     // 'CREATE_USER_'
+
+    //url not found
+    'urlNotFound' => [
+        'not-found-job'
+    ]
 ];

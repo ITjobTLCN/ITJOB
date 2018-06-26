@@ -93,6 +93,7 @@ class JobsController extends Controller
                 ];
             }
         }
+
         if (Cache::has('city')) {
             $arrWheres['city'] = Cache::get('city');
         } else {
@@ -100,18 +101,18 @@ class JobsController extends Controller
         }
         if (!empty($info_salary)) {
             $arrSalary = explode('-', $info_salary[0]);
-            $arrWheres['detail.salary'] = [
+            $arrWheres['$or'][0]['$and'][]['detail.salary'] = [
                 '$gte' => intval($arrSalary[0]),
                 '$lt' => intval($arrSalary[1])
             ];
         }
 
         if (!empty($info_skill)) {
-            $arrWheres['skills_id'] = [
+            $arrWheres['$or'][0]['$and'][]['skills_id'] = [
                 '$in' => array_unique($info_skill)
             ];
         }
-
+        // return $arrWheres;
         $jobs = $this->indexJob($arrWheres);
         foreach ($jobs as $key => $job) {
             $output[] = $job;
@@ -201,18 +202,19 @@ class JobsController extends Controller
 
         return $output;
     }
-    public function getListJobSearch(Request $req) {
-        Cache::forget('listJobSearch');
-        Session::flush();
+
+    public function getListJobSearch(Request $request) {
+        $this->clearCacheSearch();
         $jobs = $this->indexJob();
 
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
-                                        'match' => true]);
+                                        'match' => !in_array($request->match, config('constant.urlNotFound'))
+                                    ]);
     }
 
     public function postListJobSearch(Request $req) {
-        Cache::forget('listJobSearch');
+        $this->clearCacheSearch();
         $match = true;
         $key = $req->q;
         $city_alias = $req->calias;
@@ -248,11 +250,11 @@ class JobsController extends Controller
             }
         }
 
-        return view('layouts.alljobs', ['countjob' => count($jobs),
-                                        'listJobLastest' => $jobs,
-                                        'match' => $match]);
+        return redirect()->route('getSeachJob', ['match' => 'not-found-job']);
     }
+
     public function getJobFullOption(Request $req) {
+        $this->clearCacheSearch();
         $jobs = new Job();
         $match = true;
         $city = $this->getCityByKey($req->cityAlias);
@@ -270,13 +272,14 @@ class JobsController extends Controller
         Session::flash('jobname', $req->jobAlias);
         Cache::put('key', $req->jobAlias, 10);
         Cache::put('city', $city->name, 10);
+
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
                                         'match' => $match]);
     }
     //get list job by location
     public function getListJobByCity(Request $req) {
-        Cache::forget('key');
+        $this->clearCacheSearch();
         $city = $this->getCityByKey($req->alias);
         $match = true;
         $jobs = new Job();
@@ -286,17 +289,19 @@ class JobsController extends Controller
                         ->offset(0)
                         ->limit(config('constant.limit.job'))
                         ->get();
-            Cache::put('listJobSearch', $jobs, config('constant.cacheTime'));
         } else {
            $match = false;
         }
+
         Session::flash('city', $city->name);
         Cache::put('city', $city->name, 10);
+
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
                                         'match' => $match]);
     }
     public function getQuickJobBySkill(Request $req) {
+        $this->clearCacheSearch();
         $match = true;
         $skill = $this->getSkillByKey($req->alias);
         $listJobLastest = new Job();
@@ -308,7 +313,6 @@ class JobsController extends Controller
             Session::flash('jobname', $skill->name);
         }
         Cache::put('key', Session::get('jobname'), 10);
-        Cache::put('listJobSearch', $listJobLastest, config('constant.cacheTime'));
         return view('layouts.alljobs', ['countjob' => count($listJobLastest),
                                         'listJobLastest' => $listJobLastest,
                                         'match' => $match]);
@@ -448,5 +452,10 @@ class JobsController extends Controller
         }
 
         return $output;
+    }
+
+    protected function clearCacheSearch() {
+        Cache::forget('key');
+        Cache::forget('city');
     }
 }

@@ -1,4 +1,4 @@
-<form class="form-inline" role="form" method="post" action="{{route('seachJob')}}">
+<form class="form-inline" role="form" method="post" action="{{route('postSeachJob')}}">
     <div class="form-group col-sm-6 col-md-6 col-lg-7 keyword-search">
         <i class="fa fa-search" aria-hidden="true"></i> @if(Session::has('jobname'))
         <input type="text" id="keyword" name="q" class="typeahead form-control" value="{{Session::get('jobname')}}" placeholder="Keyword job title, company..."> @else
