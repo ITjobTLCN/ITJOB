@@ -9,6 +9,7 @@ use Auth;
 use App\Job;
 use App\Follows;
 use Carbon\Carbon;
+use DateTime;
 
 trait JobMethod
 {
@@ -160,22 +161,55 @@ trait JobMethod
         $skill_id = [];
         if (sizeof($skills) > 0) {
             foreach($skills as $skill) {
-            	$skill_id[] = $skill['id'];
+            	$skill_id[] = $skill['_id'];
             }
 
             $arrInsert['skills_id'] = $skill_id;
         }
 
-        if ( !empty($data['date_expire'])) {
-            // $date = strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
-            //Loại bỏ cái trong ngoặc (Altai Standard Time)
-            $substr = substr($data['date_expire'], 0, strpos($data['date_expire'], "("));
-            $date = new DateTime($substr);
-            $date2 = $date->getTimestamp(); //chuyển sang unix datetime
-            $arrInsert['date_expired'] = $date2;
+        if ( !empty($data['date_expired'])) {
+            $substr = substr($data['date_expired'], 0, strpos($data['date_expired'], "("));
+            $date_expired = (new DateTime($substr))->getTimestamp();
+
+            $arrInsert['date_expired'] = new UTCDateTime($date_expired * 1000);
         }
         $this->formatInputToSave($arrInsert);
 
         return Job::insert($arrInsert);
+	}
+
+	protected function editJob($data, $empId, $skills, $jobId) {
+		$job = Job::where('_id', $jobId)->first();
+
+        $arrUpdate = [
+        	'name' => !empty($data['name']) ? $data['name'] : $job['name'],
+        	'alias' => $this->changToAlias($data['name']),
+        	'detail' => [
+        		'salary' => !empty($data['salary']) ? intval($data['salary']) : $job['detail']['salary'],
+        		'description' => !empty($data['description']) ? $data['description'] :  $job['detail']['description'],
+        		'requirment' => !empty($data['requirment']) ? $data['requirment'] : $job['detail']['requirment'],
+        		'benefit' => !empty($data['benefit']) ? $data['benefit'] :  $job['detail']['benefit'],
+        		'quantity' => !empty($data['quantity']) ? intval($data['quantity']) :  $job['detail']['quantity'],
+        		'address' => !empty($data['address']) ? $data['address'] :  $job['detail']['address'],
+        	],
+        	'city' => !empty($data['city']) ? $data['city'] : $job['city'],
+        ];
+        $skill_id = [];
+        if (sizeof($skills) > 0) {
+            foreach($skills as $skill) {
+            	$skill_id[] = $skill['_id'];
+            }
+
+            $arrUpdate['skills_id'] = $skill_id;
+        }
+
+        if ( !empty($data['date_expired'])) {
+            $substr = substr($data['date_expired'], 0, strpos($data['date_expired'], "("));
+            $date_expired = (new DateTime($substr))->getTimestamp();
+
+            $arrUpdate['date_expired'] = new UTCDateTime($date_expired * 1000);
+        }
+
+        return Job::where('_id', $jobId)->update($arrUpdate);
 	}
 }

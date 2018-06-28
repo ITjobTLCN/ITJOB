@@ -27,20 +27,16 @@ class JobsController extends Controller
     public function getIndex(Request $req, $limit = 20, $offset = 0) {
         $listJobLastest = [];
         $req->offset ? $offset = $req->offset : $offset;
-        if (Cache::has('listJobLastest')) {
-            $listJobLastest = Cache::get('listJobLastest', '');
-        } else {
-            $arrWheres = [
-                'status' => 1,
-                'city' => config('constant.defaultCity')
-            ];
-            $listJobLastest = Job::with('employer')->where($arrWheres)
-                                                    ->orderBy('_id', 'desc')
-                                                    ->offset($offset)
-                                                    ->take($limit)
-                                                    ->get();
-            Cache::put('listJobLastest', $listJobLastest, config('constant.cacheTime'));
-        }
+        
+        $arrWheres = [
+            'status' => 1,
+            'city' => config('constant.defaultCity')
+        ];
+        $listJobLastest = Job::with('employer')->where($arrWheres)
+                                                ->orderBy('_id', 'desc')
+                                                ->offset($offset)
+                                                ->take($limit)
+                                                ->get();
 
         return view('layouts.alljobs', ['countjob' => count($listJobLastest),
                                         'listJobLastest' => $listJobLastest,

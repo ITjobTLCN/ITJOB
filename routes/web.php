@@ -241,10 +241,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('roles','AdminController@loadAdminRoles');
 
 });
-//Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
-//Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
-Route::get('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
-Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
+Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/
@@ -265,11 +262,12 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 	Route::post('ng-create-post/{empId}', [ 'as' => 'ngCreatePost', 'uses' => 'EmployerController@ngCreatePost' ]);
 	Route::get('ng-get-post/{id}', [ 'as' => 'ngGetPost', 'uses' => 'EmployerController@ngGetPost' ]);
-	Route::post('ngeditpost/{empid}/{id}', [ 'as' => 'ngeditpost', 'uses' => 'EmployerController@ngEditPost' ]);
+	Route::post('ng-edit-post/{empid}/{id}', [ 'as' => 'ngEditPost', 'uses' => 'EmployerController@ngEditPost' ]);
 	Route::get('ng-trash-post/{id}', [ 'as' => 'ngTrashPost', 'uses' => 'EmployerController@ngTrashPost' ]);
 	Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
 	Route::get('ng-deny-post/{id}', [ 'as' => 'ngDenyPost', 'uses' => 'EmployerController@ngDenyPost' ]);
+	Route::post('ng-restore-post', [ 'as' => 'ngRestorePost', 'uses' => 'EmployerController@ngRestorePost' ]);
 });
 /*download aplication's CV*/
 Route::get('downloadcv/{name}', [ 'as' => 'getempdownloadcv', 'uses' => 'HomeController@getDownloadEmpCV' ]);

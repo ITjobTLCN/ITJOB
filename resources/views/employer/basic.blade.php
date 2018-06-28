@@ -241,17 +241,19 @@ Manage Basic
 									<span ng-if="post.status == 2"><span class="label label-danger">Deleted</span></span>
 									<span ng-if="post.status == 10"><span class="label label-warning">Pending</span></span>
 									<span ng-if="post.status == 11"><span class="label label-info">Expired</span></span>
+									<span ng-if="post.status == 12"><span class="label label-danger">Denied</span></span>
 								</td>
 								<td>
 									<div ng-if="post.status == 0">
-										<button type="button" ng-click="pushPost(post._id)" class="btn btn-sm btn-primary btn-zoom">Push</button>
-										<button type="button" class="btn btn-sm btn-danger btn-zoom" ng-click="getPost(post._id)">Edit</button>
+										<button type="button" ng-click="pushPost(post._id)" class="btn btn-sm btn-facebook btn-zoom">Push</button>
+										<button type="button" class="btn btn-sm btn-google btn-zoom" ng-click="getPost(post._id)">Edit</button>
 									</div>
-									<button type="button" class="btn btn-sm btn-info btn-zoom">Preview</button>
+									<button type="button" class="btn btn-sm btn-google btn-zoom" ng-if="post.status == 1" ng-click="trashPost(post._id)">Delete</button>
+									<button type="button" class="btn btn-sm btn-info btn-zoom" ng-if="post.status == 2" ng-click="reStorePost(post._id)">Restore</button>
 								</td>
 								<td><% post.applications.length %>/<% post.detail.quantity %>
 									<span ng-if="post.detail.quantity == null">all</span>
-									<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right"></span></a>
+									<a href="javascript:void(0)" ng-click="showApps(post)"><span class="fa fa-arrow-circle-right" data-toggle="tooltip" title="View Applications"></span></a>
 								</td>
 							</tr>
 						</tbody>
@@ -272,13 +274,13 @@ Manage Basic
 							<!-- Title and Content -->
 							<div class="col-md-8">
 								<div class="form-group row">
-									<div class="col-lg-8">
+									<div class="col-lg-7">
 										<label>Title:</label>
 										<input type="text" name="name" ng-model="job.name" class="form-control" placeholder="Input title">
 									</div>
-									<div class="col-lg-4">
-										<label>Post expire:</label>
-										<input type="datetime-local" name="date_expire" ng-model="job.date_expire" class="form-control" >
+									<div class="col-lg-5">
+										<label>Day expired:</label>
+										<input type="datetime-local" name="date_expire" ng-model="job.date_expired" class="form-control" >
 									</div>
 								</div>
 								<div class="form-group row">
@@ -288,18 +290,18 @@ Manage Basic
 										</select>
 									</div>
 									<div class="col-lg-4">
-										<label for="">Salary</label>
-										<input type="text" class="form-control" placeholder="Input salary range" ng-model="job.salary" name="salary">
+										<label for="">Salary ($)</label>
+										<input type="text" class="form-control" placeholder="Input salary range" ng-model="job.salary" name="salary"> 
 									</div>
 									<div class="col-lg-4">
 										<label for="">Quantity</label>
-										<input type="number" class="form-control" step="1" min="1" ng-model="job.quantity" name="">
+										<input type="number" class="form-control" step="1" min="1" ng-model="job.quantity" name="quantity" placeholder="Type quantity employee">
 									</div>
 								</div>
 								<div class="form-group row">
 									<div class="col-lg-12">
 										<label for="">Address</label>
-										<textarea class="form-control" ng-model="job.address" name="address" cols="3" rows="3"></textarea>
+										<textarea class="form-control" ng-model="job.address" name="address" cols="3" rows="3" placeholder="Type your company address"></textarea>
 									</div>
 								</div>
 								<div class="form-group">
@@ -341,7 +343,7 @@ Manage Basic
 								<div class="block-info">
 									<div class="text-center">
 										<button type="button" class="btn btn-default" ng-click="addPost()" style="margin-right: 10px">Cancel</button>
-										<button ng-if="typePost==1" ng-click="trashPost(job._id)" type="button" class="btn btn-danger">Delete</button>
+										<button ng-if="typePost == 1" ng-click="trashPost(job._id)" type="button" class="btn btn-danger">Delete</button>
 									</div>
 								</div>
 								<div class="block-info">
