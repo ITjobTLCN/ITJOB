@@ -45,7 +45,7 @@ ITJob - Top Job IT For You
 				<div class="list-skill hidden-xs" ng-controller="SkillsController">
 					<ul>
 						<li ng-repeat="skill in skills">
-							<a href="it-job/<% skill.alias %>" target="_blank"><% skill.name  %>, </a>
+							<a href="it-job?key=<% skill.alias %>" target="_blank"><% skill.name  %>, </a>
 						</li>
 					</ul>
 				</div>
@@ -78,7 +78,7 @@ ITJob - Top Job IT For You
 			<h1 class="title text-center">Our Job</h1>
 			<div class="our-jobs__main">
 				<div class="row">
-					<div class="col-md-9">
+					<div class="col-md-9 col-sm-12">
 						<div class="top-jobs__list">
 							<span class="title">Top Jobs</span>
 							<br>
@@ -104,9 +104,28 @@ ITJob - Top Job IT For You
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-3 col-sm-12">
 						<div class="tech-event">
 							<span class="title">Tech Events</span>
+							<br>
+							<div class="tab-content">
+								<div class="tabpanel">
+									<div class="panel-content">
+                                                                                    <a target="_blank" href="https://meetup.vn/detail/MEETUPVN---THE-THAM-DU-TECH-EVENT-KHONG-GIOI-HAN-12-THANG-218" title="MEETUP.VN - THẺ THAM DỰ TECH EVENT KHÔNG GIỚI HẠN 12 THÁNG">
+                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/12_THANG.png">
+                                </a>
+                                                            <a target="_blank" href="https://meetup.vn/detail/MEETUPVN---THE-THAM-DU-TECH-EVENT-KHONG-GIOI-HAN-3-THANG-216" title="MEETUP.VN - THẺ THAM DỰ TECH EVENT KHÔNG GIỚI HẠN 3 THÁNG">
+                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/3_THANG1.png">
+                                </a>
+                                                            <a target="_blank" href="https://meetup.vn/detail/VIETNAM-WEB-SUMMIT2018-208" title="VIETNAM WEB SUMMIT 2018">
+                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/vws_20181.jpg">
+                                </a>
+                                                            <a target="_blank" href="https://meetup.vn/detail/Khoa-Hoc-Khoi-Nghiep-Thuong-Mai-Dien-Tu-Cho-Ca-Nhan-Va-SME-291" title="Khóa Học Khởi Nghiệp Thương Mại Điện Tử Cho Cá Nhân Và SME">
+                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/Khoi_Nghiep_TMDT2.png">
+                                </a>
+                                                                        </div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

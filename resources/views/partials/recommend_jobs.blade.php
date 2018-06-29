@@ -1,12 +1,3 @@
-<div class="box m-b-none" id="countjob" style="display: none">
-	<div class="job-search__top-nav">
-		<div class="row">
-			<div class="col-xs-12 col-md-6 col-lg-12">
-				<h2 ><span class="countjob">{{$countjob}}</span> IT Jobs for you </h2>
-			</div>
-		</div>
-	</div>
-</div>
 <div id="job-list" class="jb-search__result">
 	@foreach($listJobLastest as $ljlt)
 	<div class="job-item">

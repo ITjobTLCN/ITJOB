@@ -193,9 +193,6 @@ $(document).ready(function() {
 				required: true,
 				email: true,
 			},
-			name: {
-				required: true,
-			},
 			subtitle: {
 				required: true,
 			},
@@ -205,17 +202,14 @@ $(document).ready(function() {
 		},
 		messages: {
 			email: {
-				required: "Vui lòng nhập email",
+				required: "Please type your email",
 				email: "Email không đúng định dạng",
 			},
-			name: {
-				required: "Vui lòng nhập tên",
-			},
 			subtitle: {
-				required: "Vui lòng nhập tiêu đề",
+				required: "Please type title email",
 			},
 			content: {
-				required: "Vui lòng nhập nội dung",
+				required: "Please type content email",
 			}
 		},
 		submitHandler: function(form) {

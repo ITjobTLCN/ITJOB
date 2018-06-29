@@ -18,6 +18,7 @@ trait AliasTrait
                 '$search' => $key
             ]
         ];
+        
     	return Job::where($wheres)->get();
     }
     public function getEmployerByKey($key) {

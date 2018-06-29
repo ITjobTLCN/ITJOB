@@ -124,12 +124,12 @@ Route::get('skill-by-job-id', [
 ]);
 //jobs
 Route::group([ 'prefix' => 'it-job'], function() {
-	Route::get('/list-job/{match?}', ['as' => 'getSeachJob', 'uses' => 'JobsController@getListJobSearch' ]);
-	Route::post('/', ['as' => 'postSeachJob', 'uses' => 'JobsController@postListJobSearch' ]);
+	Route::get('/', ['as' => 'seachJob', 'uses' => 'JobsController@searchJob' ]);
+	// Route::get('/list-job/{match?}', ['as' => 'getSeachJob', 'uses' => 'JobsController@getListJobSearch' ]);
 	Route::get('all-jobs/{offset?}/{limit?}', [ 'as' => 'alljobs', 'uses' => 'JobsController@getIndex' ]);
 	Route::get('work-at-{alias}', [ 'as' => 'seachJobByCity', 'uses' => 'JobsController@getListJobByCity' ]);
-	Route::get('{jobAlias}/{cityAlias}', [ 'as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption' ]);
-	Route::get('{alias}', [ 'as' => 'quickJobBySkill', 'uses' => 'JobsController@getQuickJobBySkill' ])
+	// Route::get('/', [ 'as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption' ]);
+	Route::get('search-by-skill/{alias}', [ 'as' => 'quickJobBySkill', 'uses' => 'JobsController@getQuickJobBySkill' ])
 		->where([ 'alias' => '[a-z]+' ]);
 });
 

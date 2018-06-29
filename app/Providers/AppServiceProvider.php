@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
                                         ->get();
                 });
 
-            $view->with('listJobLastest', $listJobLastest);
+            $view->with(['countjob' => count($listJobLastest), 'listJobLastest' => $listJobLastest]);
         });
 
         Schema::defaultStringLength(191);
