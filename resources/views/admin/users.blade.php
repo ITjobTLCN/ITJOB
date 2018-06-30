@@ -42,18 +42,18 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr dir-paginate="(key, user) in users|orderBy:sortType:sortReverse|filter:searchUser|itemsPerPage:showitems">
+					<tr dir-paginate="item in users|orderBy:sortType:sortReverse|filter:searchUser|itemsPerPage:showitems">
 						<td>
-							<span><%user.email%></span>
+							<span><%item.email%></span>
 							<div>
-								<a href="javascript:void(0)" ng-click="modal('edit',user._id)">Edit </a>|
-								<a href="javascript:void(0)" ng-click="deleteUser(user._id)"> Delete</a>
+								<a href="javascript:void(0)" ng-click="modal(constant.MODAL_EDIT, item)">Edit </a>|
+								<a href="javascript:void(0)" ng-click="delete(item._id)"> Delete</a>
 							</div>
 						</td>
-						<td><%user.name%></td>
-						<td><%user.created_at%></td>
-						<td><%user.updated_at%></td>
-						<td><%user.lastlogin%></td>
+						<td><%item.name%></td>
+						<td><%item.created_at%></td>
+						<td><%item.updated_at%></td>
+						<td><%item.lastlogin%></td>
 					</tr>
 
 				</tbody>
@@ -76,7 +76,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title">
-						<%titleModal%>
+						<%user_modal_title%>
 					</h4>
 				</div>
 				<form action="#" method="post" name="frmCreate">
@@ -165,7 +165,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" ng-disabled="(frmCreate.$invalid || (user.password!==user.repassword))" ng-click="save(state,id)">Save changes</button>
+						<button type="button" class="btn btn-primary" ng-disabled="(frmCreate.$invalid || (user.password!==user.repassword))" ng-click="save()">Save changes</button>
 					</div>
 				</form>
 			</div>

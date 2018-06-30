@@ -72,7 +72,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
         }).then(function (response) {
             if (response.data.status == true) {
                 alert(response.data.message);
-                //push user to scope user
+                //push role to scope user
                 $scope.roles.splice(0, 0, response.data.role);
                 $('#role_modal').modal('hide');
             } else {

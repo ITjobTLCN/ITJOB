@@ -8,6 +8,10 @@ function($interpolateProvider) {
 app.constant('Constant', {
     MODAL_EDIT : 'edit',
     MODAL_ADD : 'add',
-    MODAL_EDIT_ROLE_TITLE: 'Edit roles',
-    MODAL_ADD_ROLE_TITLE: 'Add roles'
+    MODAL_EDIT_ROLE_TITLE: 'Edit role',
+    MODAL_ADD_ROLE_TITLE: 'Add role',
+    MODAL_EDIT_USER_TITLE: 'Edit user',
+    MODAL_ADD_USER_TITLE: 'Add user',
+    MODAL_ADD_EMPLOYER_TITLE: 'Add employer',
+    MODAL_EDIT_EMPLOYER_TITLE: 'Edit employer',
 });

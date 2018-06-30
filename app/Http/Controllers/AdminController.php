@@ -20,9 +20,12 @@ use Cache;
 use Auth;
 use App\Notifications\ConfirmEmployer;
 use App\Notifications\SendNotify;
+use App\Traits\CommonMethod;
 
 class AdminController extends Controller
 {
+    use CommonMethod;
+
      /*Function change from name to alias and remove Vietnamese*/
     public function changToAlias($str){
         //Remove Vietnamese
@@ -69,19 +72,19 @@ class AdminController extends Controller
                                 Roles::firstOrCreate($sheet->toArray());
                                 break;
                             default:
-                                return redirect()->back()->with(['message'=>'ERRORS']);
+                                return redirect()->back()->with([config('constant.MESSAGE')=>'ERRORS']);
                                 break;
                         }
                     });
                 });
-                return redirect()->back()->with(['message'=>'Imported','type'=>$type]);
+                return redirect()->back()->with([config('constant.MESSAGE')=>'Imported','type'=>$type]);
             }else{
-                return redirect()->back()->with(['message'=>'File not found']);
+                return redirect()->back()->with([config('constant.MESSAGE')=>'File not found']);
             }
 
         }catch(\Exception $e){
             dd($e);
-            return redirect()->back()->with(['message'=>'ERRORS TRY CATCH']);
+            return redirect()->back()->with([config('constant.MESSAGE')=>'ERRORS TRY CATCH']);
         }
     }
     /*xuất bảng dữ liệu*/
@@ -122,7 +125,7 @@ class AdminController extends Controller
                 $name= $name.'Roles';
                 break;
             default:
-                return redirect()->back()->with(['message'=>'ERRORS']);
+                return redirect()->back()->with([config('constant.MESSAGE')=>'ERRORS']);
                 break;
         }
 
@@ -196,7 +199,7 @@ class AdminController extends Controller
         $password = $request->password;
         $name = $request->name;
         $role_id = $request->role_id;
-        $status = ($request->exists('status'))? $request->status :
+        $status = ($request->exists(config('constant.STATUS')))? $request->status :
             config('constant.STATUS_DEFAULT');
 
         if(User::where('email',$email)->first()){
@@ -218,9 +221,10 @@ class AdminController extends Controller
     }
 
             //----EDIT USER----
-    public function ngPostEditUser(Request $request, $id) {
+    public function ngPostEditUser(Request $request) {
         // Form validation
         $validator = Validator::make($request->all(), [
+            '_id' => 'required',
             'email' => 'required|email',
             'name' => 'required',
             'role_id' => 'required'
@@ -232,7 +236,7 @@ class AdminController extends Controller
         }
 
         // Get user
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($request->_id);
 
         $email = $request->email;
         $name = $request->name;
@@ -263,9 +267,9 @@ class AdminController extends Controller
     }
 
         //----DELETE USER---
-    public function ngGetDeleteUser($id) {
+    public function ngGetDeleteUser(Request $request) {
         try{
-            $user = User::findOrFail($id);
+            $user = User::findOrFail($request->_id);
             $user->delete();
              //get list users to Update by Table
             $users = $this->get_list_users();
@@ -273,7 +277,7 @@ class AdminController extends Controller
                 config('constant.MESSAGE') => config('constant.SUCCESS_DELETE_USER'), config('constant.USERS') => $users]);
         }catch(Exception $e){
             return response()->json([config('constant.STATUS') => FALSE,
-                config('constant.MESSAGE') => config('constant.FAIL_DELETE_USER')]);
+                config('constant.ERROR') => config('constant.FAIL_DELETE_USER')]);
         }
     }
 
@@ -394,20 +398,20 @@ class AdminController extends Controller
     */
 
     public function ngGetNumber(){
-        $countallusers = User::where('status',1)->count();
-        $countadmins = User::where('status',1)->where('role_id',2)->count();
-        $countusers = User::where('status',1)->where('role_id',1)->count();
-        $countemployers = User::where('status',1)->where(function($q){
+        $countallusers = User::where(config('constant.STATUS'),1)->count();
+        $countadmins = User::where(config('constant.STATUS'),1)->where('role_id',2)->count();
+        $countusers = User::where(config('constant.STATUS'),1)->where('role_id',1)->count();
+        $countemployers = User::where(config('constant.STATUS'),1)->where(function($q){
             $q->orWhere('role_id',3);
             $q->orWhere('role_id',4);
         })->count();
-        $countmasters = User::where('status',1)->where('role_id',3)->count();
-        $countassistants = User::where('status',1)->where('role_id',4)->count();
+        $countmasters = User::where(config('constant.STATUS'),1)->where('role_id',3)->count();
+        $countassistants = User::where(config('constant.STATUS'),1)->where('role_id',4)->count();
 
         $countemps = Employers::count();
-        $countpendingemps = Employers::where('status',0)->count();
-        $countapprovedemps = Employers::where('status',1)->count();
-        $countdeniedemps = Employers::where('status',2)->count();
+        $countpendingemps = Employers::where(config('constant.STATUS'),0)->count();
+        $countapprovedemps = Employers::where(config('constant.STATUS'),1)->count();
+        $countdeniedemps = Employers::where(config('constant.STATUS'),2)->count();
 
 
 
@@ -416,13 +420,13 @@ class AdminController extends Controller
         $now = Carbon::now();
         $today = Carbon::today();
 
-        $usertoday = User::where('status',1)->where('created_at','>',$today)->get();
+        $usertoday = User::where(config('constant.STATUS'),1)->where('created_at','>',$today)->get();
         $countusertoday = $usertoday->count();
 
-        $posttoday = Job::where('status',1)->where('created_at','>',$today)->get();
+        $posttoday = Job::where(config('constant.STATUS'),1)->where('created_at','>',$today)->get();
         $countposttoday = $posttoday->count();
 
-        $applitoday = Applications::where('status',1)->where('created_at','>',$today)->get();
+        $applitoday = Applications::where(config('constant.STATUS'),1)->where('created_at','>',$today)->get();
         $countapplitoday = $applitoday->count();
 
         // $now = gmdate('H:i:s',$now->diffInSeconds($diff));
@@ -431,12 +435,12 @@ class AdminController extends Controller
         $posts = Job::with('Employer')->get();
         //count post approved and expired
         $countposted = Job::where(function($q){
-            $q->orWhere('status',1);
-            $q->orWhere('status',11);
+            $q->orWhere(config('constant.STATUS'),1);
+            $q->orWhere(config('constant.STATUS'),11);
         })->get()->count();
 
         //APLLY
-        $countapplies = Applications::where('status',1)->get()->count();
+        $countapplies = Applications::where(config('constant.STATUS'),1)->get()->count();
 
         /* Employers*/
             //new approved in today
@@ -449,7 +453,7 @@ class AdminController extends Controller
                 $user_online++;
         }
 
-        return response()->json(['status'=>TRUE,'countallusers'=>$countallusers,'countadmins'=>$countadmins,
+        return response()->json([config('constant.STATUS')=>TRUE,'countallusers'=>$countallusers,'countadmins'=>$countadmins,
             'countusers'=>$countusers,'countemployers'=>$countemployers,'countmasters'=>$countmasters,
             'countassistants'=>$countassistants,
             'countemps'=>$countemps, 'countpendingemps'=>$countpendingemps,
@@ -478,81 +482,122 @@ class AdminController extends Controller
         return response()->json(['emp'=>$emp]);
     }
     public function ngPostCreateEmp(Request $request){
-        try{
+        // Validate
+
+        // Prepare data insert
+        $data_insert = array(
+            'name' => $request->employer['name'],
+            'alias' => $this->changToAlias($request->employer['name']),
+            'info' => [
+                'website' => $request->employer['info']['website'],
+                'description' => $request->employer['info']['description'],
+                'phone' => $request->employer['info']['phone']
+            ],
+            'status' => $request->employer['status']
+        );
+        if(isset($request->multiple['masters'])) {
+            $data_insert['masters'] = $request->multiple['masters'];
+        }
+        if(isset($request->multiple['employees'])) {
+            $data_insert['employees'] = $request->multiple['employees'];
+        }
+        if(isset($request->multiple['skills'])) {
+            $data_insert['skills'] = $request->multiple['skills'];
+        }
+        if(isset($request->multiple['addresses'])) {
+            $data_insert['addresses'] = $request->multiple['addresses'];
+        }
+        // Create new employer
+        try {
             $emp = new Employers();
-            $emp->name = $request->name;
-            $emp->alias = $this->changToAlias($request->name);
-            $emp->city_id = $request->city_id;
-            $emp->address = $request->address;
-            $emp->website = $request->website;
-            $emp->status = $request->status;
-            $emp->phone = $request->phone;
-
-            $emp->save();
-
-            //get all data and send to update table
-            $emps = Employers::all();
-            return response()->json(['status'=>TRUE,'message'=>'Create Successfully','emps'=>$emps]);
-        }catch(Exception $e){
-            return response()->json(['status'=>FALSE,'message'=>'Create failed','req'=>$request->all()]);
+            $data_insert = $this->formatInputToSave($data_insert);
+            $emp_id = $emp->insertGetId($data_insert);
+            //get employer which last insert
+            $emp_insert = $this->get_employer_by_id($emp_id);
+            return response()->json([config('constant.STATUS') => TRUE,
+                config('constant.MESSAGE')=>config('constant.SUCCESS_CREATE_EMPLOYER'),
+                config('constant.EMPLOYER')=>$emp_insert]);
+        } catch(Exception $e) {
+            return response()->json([config('constant.STATUS')=>FALSE,
+                config('constant.MESSAGE')=>config('constant.FAIL_CREATE_EMPLOYER')]);
         }
     }
-    public function ngPostEditEmp(Request $request,$id){
+    public function ngPostEditEmp(Request $request){
+        $data_update = [
+            'name' => $request->employer['name'],
+            'alias' => $this->changToAlias($request->employer['name']),
+            'info' => [
+                'website' => $request->employer['info']['website'],
+                'description' => $request->employer['info']['description'],
+                'phone' => $request->employer['info']['phone']
+            ],
+            'status' => $request->employer['status']
+        ];
+        if(isset($request->multiple['masters'])) {
+            $data_update['masters'] = $request->multiple['masters'];
+        }
+        if(isset($request->multiple['employees'])) {
+            $data_update['employees'] = $request->multiple['employees'];
+        }
+        if(isset($request->multiple['skills'])) {
+            $data_update['skills'] = $request->multiple['skills'];
+        }
+        if(isset($request->multiple['addresses'])) {
+            $data_update['addresses'] = $request->multiple['addresses'];
+        }
+
         try{
-            $emp = Employers::findOrFail($id);
-            $emp->name = $request->name;
-            $emp->alias = $this->changToAlias($request->name);
-            $emp->city_id = $request->city_id;
-            $emp->address = $request->address;
-            $emp->website = $request->website;
-            $emp->status = $request->status;
-            $emp->phone = $request->phone;
-            $emp->save();
+            $emp = Employers::findOrFail($request->employer['_id']);
+            //$data_update = $this->formatInputToSave($data_update);
+            // var_dump($data_update); die;
+            $emp->update($data_update);
+
+            // $emp->update('name', 'updated');
+            // $emp->save();
             //get all data and send to update table
-            $emps = Employers::all();
-            return response()->json(['status'=>TRUE,'message'=>'Edit Successfully','emps'=>$emps]);
+            $emps = $this->get_list_employers();
+            return response()->json([config('constant.STATUS')=>TRUE,config('constant.MESSAGE')=>'Edit Successfully',config('constant.EMPLOYERS')=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>FALSE,'message'=>'Edit failed']);
+            return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>'Edit failed']);
         }
     }
-    public function ngGetDeleteEmp($id){
-        try{
-            $emp = Employers::findOrFail($id);
-            $emp->delete();
+    public function ngGetDeleteEmp(Request $request){
+        // Validate
+        // Delete if exist and don't have any action (don't have master) and deactivated
+        // if (isset($request->masters) && count($request->masters) > 0 && isset($request->status) && strcmp($request->status,'1')) {
+        //     return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>"Can't delete because employer is active and have master"]);
+        // } else {
+        //     try {
+        //         $emp = Employers::findOrFail($request->_id);
+        //         $emp->whereNull('masters')->where('status', '0')->delete();
 
-            $emps = Employers::all();
-            return response()->json(['status'=>TRUE,'message'=>'Delete Successfully','emps'=>$emps]);
-        }catch(Exception $e){
-            return response()->json(['status'=>FALSE,'message'=>'Delete failed']);
-        }
+        //         $emps = $this->get_list_employers();
+        //         return response()->json([config('constant.STATUS')=>TRUE,config('constant.MESSAGE')=>'Delete Successfully',config('constant.EMPLOYERS')=>$emps]);
+        //     } catch(Exception $e) {
+        //         return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>'Delete failed']);
+        //     }
+        // }
+             return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>"Function not COMPLETE"]);
+
     }
         /*END CRUD Employer*/
 
         /*CONFIRM/DENY pending Employer*/
-    public function ngGetConfirmEmp($id){
+    public function ngGetConfirmEmp(Request $request){
         try{
-            $emp = Employers::findOrFail($id);
-
-            //with master
-            $regis = Registration::where('emp_id',$emp->id)->where('status',0)->first();
-            $user = User::findOrFail($regis->user_id);
-            //
-            $regis->status = 1;
-            $regis->save();
-            $emp->status = 1;
+            $emp = Employers::findOrFail($request->_id);
+            // $emp->update(['status', $request->status]);
+            $emp->status = $request->status;
             $emp->save();
-            $user->role_id = 3;
-            $user->emp_id = $emp->id;
-            $user->save();
 
-            $emps = Employers::all();
+            $emps = $this->get_list_employers();
 
             //send notification
-            $user->notify(new ConfirmEmployer($emp,TRUE));
+            // $user->notify(new ConfirmEmployer($emp,TRUE));
 
-            return response()->json(['status'=>TRUE,'message'=>'Confirm Successfully','emps'=>$emps]);
+            return response()->json([config('constant.STATUS')=>TRUE,config('constant.MESSAGE')=>'Confirm Successfully',config('constant.EMPLOYERS')=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>FALSE,'message'=>'Confirm failed']);
+            return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>'Confirm failed']);
         }
     }
 
@@ -561,7 +606,7 @@ class AdminController extends Controller
             $emp = Employers::findOrFail($id);
 
             //with master
-            $regis = Registration::where('emp_id',$emp->id)->where('status',0)->first();
+            $regis = Registration::where('emp_id',$emp->id)->where(config('constant.STATUS'),0)->first();
             $user = User::findOrFail($regis->user_id);
             //
             $regis->status = 2;
@@ -573,9 +618,9 @@ class AdminController extends Controller
 
             $user->notify(new ConfirmEmployer($emp,FALSE));
 
-            return response()->json(['status'=>TRUE,'message'=>'Deny Successfully','emps'=>$emps]);
+            return response()->json([config('constant.STATUS')=>TRUE,config('constant.MESSAGE')=>'Deny Successfully',config('constant.EMPLOYERS')=>$emps]);
         }catch(Exception $e){
-            return response()->json(['status'=>FALSE,'message'=>'Deny failed']);
+            return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>'Deny failed']);
         }
     }
         /*END CONFIRM/DENY pending Employer*/
@@ -639,5 +684,8 @@ class AdminController extends Controller
     }
     private function get_list_cities() {
         return Cities::orderBy('created_at', 'desc')->get();
+    }
+    private function get_employer_by_id($emp_id) {
+        return Employers::where('_id', $emp_id)->first();
     }
 }

@@ -1,7 +1,9 @@
-app.controller('EmpController',function($scope,$http){
+app.controller('EmpController', function ($scope, $http, Constant) {
 	$http.get('admin/ngemps').then(function(response){
 		console.log(response);
 		$scope.emps = response.data.emps;
+		$scope.constant = Constant;
+		$scope.resetMultiple();
 	},function(error){
 		alert('ERROR');
 	});
@@ -28,21 +30,20 @@ app.controller('EmpController',function($scope,$http){
 	});
 
 
-	$scope.modal = function(state,id){
+	$scope.modal = function(state, item){
+		$scope.resetMultiple();
 		$scope.state = state;
-		$scope.id = id;
+		$scope.employer = item;
 		switch(state){
-			case 'add':
-				$scope.titleModal = "Create new employers";
+			case Constant.MODAL_ADD:
+				$scope.modal_title = Constant.MODAL_ADD_EMPLOYER_TITLE;
 				break;
-			case 'edit':
-				$scope.titleModal = "Edit employers";
-				$http.get('admin/ngemp/'+id).then(function(response){
-					console.log(response);
-					$scope.emp = response.data.emp;
-				},function(error){
-					alert("Can't get data!");
-				});
+			case Constant.MODAL_EDIT:
+				$scope.modal_title = Constant.MODAL_EDIT_EMPLOYER_TITLE;
+				$scope.multiple.masters = item.masters;
+				$scope.multiple.employees = item.employees;
+				$scope.multiple.skills = item.skills;
+				$scope.multiple.cities = item.addresses;
 				break;
 			default:
 				break;
@@ -50,83 +51,56 @@ app.controller('EmpController',function($scope,$http){
 		$('#modal-emp').modal('show');
 	}
 
-	$scope.save = function(state,id){
-		var data = $.param($scope.emp);
-		switch(state){
-			case 'add':
-
+	$scope.save = function(){
+		// Get multiple
+		var multiple = $scope.getMultiple();
+		var data = $.param(
+			{
+				employer: $scope.employer,
+				multiple: multiple
+			}
+		);
+		switch ($scope.state) {
+			case Constant.MODAL_ADD:
+				$scope.create_employer(data);
 				break;
-			case 'edit':
-				$http({
-					method:'post',
-					url:'admin/ngeditemp/'+id,
-					data:data,
-					headers: {'Content-type':'application/x-www-form-urlencoded'}
-				}).then(function(response){
-					if(response.data.status==true){
-						alert(response.data.message);
-						$scope.emps = response.data.emps;
-						$('#modal-emp').modal('hide');
-					}else{
-						$scope.error_message = response.data.errors;
-						$('#ng-errors-alert').fadeIn(100).delay(5000).fadeOut(100);
-					}
-				},function(error){
-					alert("Can't edit data");
-				});
+			case Constant.MODAL_EDIT:
+				$scope.edit_employer(data);
 				break;
 			default:
 				break;
 		}
 
 	}
-	$scope.delete =function(id){
-		if(confirm('Are you sure delete?')){
-			$http.get('admin/ngdeleteemp/'+id).then(function(response){
-				if(response.data.status==true){
-					alert(response.data.message);
-					$scope.emps = response.data.emps;
-				}else{
-					alert(response.data.message);
-				}
-			},function(error){
-				alert('ERROR')
-			});
-		}
+	$scope.delete = function(item) {
+		var data = $.param(item);
+		$http({
+			method: 'delete',
+			url: 'admin/ngdeleteemp',
+			data: data,
+			headers: {
+				'Content-type': 'application/x-www-form-urlencoded'
+			}
+		}).then(function (response) {
+			if (response.data.status == true) {
+				alert(response.data.message);
+				$scope.emps = response.data.emps;
+			} else {
+				alert(response.data.message);
+			}
+		}, function (error) {
+			alert("Can't delete data");
+		});
+
 	}
-	$scope.confirm = function(id){
-		if(confirm('Are you sure confirm?')){
-			$http.get('admin/ngconfirmemp/'+id).then(function(response){
-				if(response.data.status==true){
-					alert(response.data.message);
-					$scope.emps = response.data.emps;
-				}else{
-					alert(response.data.message);
-				}
-			},function(error){
-				alert('ERROR')
-			});
-		}
-	}
-	$scope.deny = function(id){
-		if(confirm('Are you sure deny this employer?')){
-			$http.get('admin/ngdenyemp/'+id).then(function(response){
-				if(response.data.status==true){
-					alert(response.data.message);
-					$scope.emps = response.data.emps;
-				}else{
-					alert(response.data.message);
-				}
-			},function(error){
-				alert('ERROR')
-			});
-		}
+	$scope.confirm = function(id, status){
+		$scope.changeStatus(id, status);
 	}
 
 	/**
 	 * COMMON FUNCTION
 	 */
-	$scope.create_employer = function (data) {
+	$scope.create_employer = function(data) {
 		$http({
 			method: 'post',
 			url: 'admin/ngcreateemp',
@@ -137,7 +111,7 @@ app.controller('EmpController',function($scope,$http){
 		}).then(function (response) {
 			if (response.data.status == true) {
 				alert(response.data.message);
-				$scope.emps = response.data.emps;
+				$scope.emps.splice(0, 0, response.data.emp);
 				$('#modal-emp').modal('hide');
 			} else {
 				$scope.error_message = response.data.errors;
@@ -147,10 +121,29 @@ app.controller('EmpController',function($scope,$http){
 			alert("Can't add data");
 		});
 	}
+	$scope.edit_employer = function(data) {
+		$http({
+			method: 'post',
+			url: 'admin/ngeditemp',
+			data: data,
+			headers: { 'Content-type': 'application/x-www-form-urlencoded' }
+		}).then(function (response) {
+			if (response.data.status == true) {
+				alert(response.data.message);
+				$scope.emps = response.data.emps;
+				$('#modal-emp').modal('hide');
+			} else {
+				$scope.error_message = response.data.errors;
+				$('#ng-errors-alert').fadeIn(100).delay(5000).fadeOut(100);
+			}
+		}, function (error) {
+			alert("Can't edit data");
+		});
+	}
 
 
 	/*sort-filer-search TABLE with angular */
-	$scope.show_items = '3';
+	$scope.show_items = '5';
 	$scope.sort = function (keyname) {
 		// Old result
 		if (keyname === $scope.sort_type) {
@@ -174,18 +167,74 @@ app.controller('EmpController',function($scope,$http){
 	/**
 	 * Multiple select
 	 */
-	$scope.multiple = {};
-	$scope.multiple.masters = [];
-	$scope.multiple.employees = [];
-	$scope.multiple.skills = [];
-	$scope.multiple.cities = [];
-	$scope.multiple.addresses = [];
+	$scope.resetMultiple = function() {
+		$scope.multiple = {};
+		$scope.multiple.masters = [];
+		$scope.multiple.employees = [];
+		$scope.multiple.skills = [];
+		$scope.multiple.cities = [];
+	}
 
 
-	/**
-	 * Watch
-	 */
-	// $scope.multiple.cities.$watch(function () {
-	// 	console.log("digest called");
-	// });
+	//Function Get multi
+	$scope.getMultiple = function() {
+		var master_ids = [];
+		var employee_ids = [];
+		var skill_ids = [];
+		var addresses = [];
+		$.each($scope.multiple.masters, function (index, value) {
+			master_ids.push({ _id: value._id, name: value.name});
+		});
+		$.each($scope.multiple.employees, function (index, value) {
+			employee_ids.push({ _id: value._id, name: value.name });
+		});
+		$.each($scope.multiple.skills, function (index, value) {
+			skill_ids.push({ _id: value._id, name: value.name });
+		});
+		$.each($scope.multiple.cities, function (index, value) {
+			let detail = $(`#cities_detail_${value._id}`).val();
+			let address = { _id: value._id, name: value.name, detail: detail }
+			addresses.push(address);
+		});
+		return {
+			masters: master_ids,
+			employees: employee_ids,
+			skills: skill_ids,
+			addresses: addresses
+		}
+	}
+
+	// Function get detail address of city
+	$scope.getDetailAddress = function() {
+		$.each($scope.multiple.cities, function (index, value) {
+			let detail = $(`#cities_detail_${value._id}`).val();
+			value.push(detail);
+		});
+		return $scope.multiple.cities;
+	}
+
+	//Function change status of employer
+	$scope.changeStatus = function(_id, status) {
+		var data = $.param({
+			_id: _id,
+			status: status
+		});
+		$http({
+			method: 'put',
+			url: 'admin/ngconfirmemp',
+			data: data,
+			headers: {
+				'Content-type': 'application/x-www-form-urlencoded'
+			}
+		}).then(function (response) {
+			if (response.data.status == true) {
+				alert(response.data.message);
+				$scope.emps = response.data.emps;
+			} else {
+				alert(response.data.message);
+			}
+		}, function (error) {
+			alert("Can't confirm data");
+		});
+	}
 });

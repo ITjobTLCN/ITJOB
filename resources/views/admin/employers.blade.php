@@ -31,7 +31,7 @@
 							<span ng-show="sort_type=='info.description'" class="glyphicon sort-icon"
 							ng-class="{'glyphicon-chevron-down':sort_reverse,'glyphicon-chevron-up':!sort_reverse}"></span>
 						</th>
-						<th ng-click="sort('info.website')" style="width: 20%">Website
+						<th ng-click="sort('info.website')" style="width: 10%">Website
 							<span ng-show="sort_type=='info.website'" class="glyphicon sort-icon"
 							ng-class="{'glyphicon-chevron-down':sort_reverse,'glyphicon-chevron-up':!sort_reverse}"></span>
 						</th>
@@ -43,55 +43,52 @@
 							<span ng-show="sort_type=='status'" class="glyphicon sort-icon"
 							ng-class="{'glyphicon-chevron-down':sort_reverse,'glyphicon-chevron-up':!sort_reverse}"></span>
 						</th>
-						<th ng-click="sort('created_at')" style="width: 20%">Created Date
+						<th ng-click="sort('created_at')" style="width: 15%">Created Date
 							<span ng-show="sort_type=='created_at'" class="glyphicon sort-icon"
 							ng-class="{'glyphicon-chevron-down':sort_reverse,'glyphicon-chevron-up':!sort_reverse}"></span>
 						</th>
 
-						<th style="width: 5%">Actions</th>
+						<th style="width: 20%">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr dir-paginate="emp in emps|orderBy:sort_type:sort_reverse|filter:search|itemsPerPage:show_items" id="content-table-admin">
+					<tr dir-paginate="item in emps|orderBy:sort_type:sort_reverse|filter:search_item|itemsPerPage:show_items" id="content-table-admin">
 						<td>
-							<%emp.name%>
+							<%item.name%>
 						</td>
 						<td>
-							<%emp.info.description%>
+							<%item.info.description%>
 						</td>
 						<td>
-							<%emp.info.website%>
+							<%item.info.website%>
 						</td>
 						<td>
-							<%emp.info.phone%>
+							<%item.info.phone%>
 						</td>
 						<td>
-							<div ng-switch="emp.status">
-								<span ng-switch-when="0" class="label label-danger">Deactivated</span>
-								<span ng-switch-when="1" class="label label-primary">Actived</span>
+							<div ng-switch="item.status">
+								<span ng-switch-when="0" class="label label-danger">Deactivated/Denied</span>
+								<span ng-switch-when="1" class="label label-primary">Actived/Approved</span>
 								<span ng-switch-when="2" class="label label-warning">Pending</span>
 							</div>
 
 						</td>
 						<td>
-							<%emp.created_at%>
+							<%item.created_at%>
 						</td>
 						<td>
-							<button type="button" class="btn btn-info">View Detail</button>
+							<button type="button" class="btn btn-sm btn-warning" ng-click="modal(constant.MODAL_EDIT, item)">Edit</button>
+							<button type="button" class="btn btn-sm btn-danger" ng-click="delete(item)">Delete</button>
+							<button type="button" class="btn btn-sm btn-info" ng-if="item.status==0 || item.status==2" ng-click="confirm(item._id, 1)">Activate</button>
+							<button type="button" class="btn btn-sm btn-default" ng-if="item.status==1 || item.status==2" ng-click="confirm(item._id, 0)">Deactivate</button>
 						</td>
 					</tr>
 				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="100%">
-							<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true">
-							</dir-pagination-controls>
-						</td>
-					</tr>
-
-				</tfoot>
 			</table>
-
+			<div class="text-center">
+				<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true">
+							</dir-pagination-controls>
+			</div>
 		</div>
 		<!-- end col -->
 	</div>
@@ -104,7 +101,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title">
-						<%titleModal%>
+						<%modal_title%>
 					</h4>
 				</div>
 				<form action="#" method="post">
@@ -117,21 +114,21 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="name" class="control-label">Name: </label>
-									<input type="text" ng-model="emp.name" class="form-control" name="name" required>
+									<input type="text" ng-model="employer.name" class="form-control" name="name" required>
 								</div>
 								<div class="form-group">
 									<label for="name" class="control-label">Description: </label>
-									<input type="text" ng-model="emp.name" class="form-control" name="name" required>
+									<input type="text" ng-model="employer.info.description" class="form-control" name="description" required>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="name" class="control-label">Phone: </label>
-									<input type="text" ng-model="" class="form-control" name="website" required>
+									<input type="text" ng-model="employer.info.phone" class="form-control" name="phone" required>
 								</div>
 								<div class="form-group">
 									<label for="name" class="control-label">Website: </label>
-									<input type="text" ng-model="" class="form-control" name="website" required>
+									<input type="text" ng-model="employer.info.website" class="form-control" name="website" required>
 								</div>
 							</div>
 						</div>
@@ -146,7 +143,7 @@
 										<%user.name%>
 										</ui-select-choices>
 									</ui-select>
-									<p ng-repeat="master in multiple.masters"><% master.name %></p>
+									<p ng-repeat="master in multiple.masters"><%master._id%></p>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -158,7 +155,6 @@
 										<%user.name%>
 										</ui-select-choices>
 									</ui-select>
-									<p>Selected: <%multiple.employees %></p>
 								</div>
 							</div>
 						</div>
@@ -174,7 +170,6 @@
 										<%skill.name%>
 										</ui-select-choices>
 									</ui-select>
-									<p>Selected: <%multiple.skills %></p>
 								</div>
 							</div>
 						</div>
@@ -190,11 +185,10 @@
 										<%city.name%>
 										</ui-select-choices>
 									</ui-select>
-									<p>Selected: <%multiple.cities %></p>
 									<label>Addresses detail</label>
 									<div ng-repeat="city in multiple.cities" class="form-multi-address">
 										<span><%city.name%></span>
-										<input type="text" class="form-control" name="detail-<%city._id%>" placeholder="Address's detail in <%city.name%>">
+										<input type="text" class="form-control" ng-model="city.detail" id="cities_detail_<%city._id%>" placeholder="Address's detail in <%city.name%>">
 									</div>
 								</div>
 							</div>
@@ -204,9 +198,9 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="form-group">
-									<select name="status" class="form-control" id="status" ng-model="emp.status" required>
-										<option value="1" ng-selected="emp.status==1">Active</option>
-										<option value="0" ng-selected="emp.status==0">Deactive</option>
+									<select name="status" class="form-control" id="status" ng-model="employer.status" required>
+										<option value="1" ng-selected="employer.status==1">Active</option>
+										<option value="0" ng-selected="employer.status==0">Deactivate</option>
 									</select>
 								</div>
 							</div>
@@ -215,7 +209,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" ng-disabled="(frmCreate.$invalid)" ng-click="save(state,id)">Save changes</button>
+						<button type="button" class="btn btn-primary" ng-disabled="(frmCreate.$invalid)" ng-click="save()">Save changes</button>
 					</div>
 				</form>
 			</div>

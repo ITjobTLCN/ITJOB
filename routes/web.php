@@ -213,8 +213,8 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('ngusers', [ 'as' => 'nggetusers', 'uses' => 'AdminController@ngGetUsers' ]);
 	Route::get('nguser/{id}', [ 'as' => 'nggetuser', 'uses' => 'AdminController@ngGetUser' ]);
 	Route::post('ngcreateuser', [ 'as' => 'ngpostcreateuser', 'uses' => 'AdminController@ngPostCreateUser' ]);
-	Route::post('ngedituser/{id}', [ 'as' => 'ngpostedituser', 'uses' => 'AdminController@ngPostEditUser' ]);
-	Route::get('ngdeleteuser/{id}', [ 'as' => 'nggetdeleteuser', 'uses' => 'AdminController@ngGetDeleteUser' ]);
+	Route::post('ngedituser', [ 'as' => 'ngpostedituser', 'uses' => 'AdminController@ngPostEditUser' ]);
+	Route::delete('ngdeleteuser', [ 'as' => 'nggetdeleteuser', 'uses' => 'AdminController@ngGetDeleteUser' ]);
 		// Roles manage
 	Route::get('ngroles', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRoles' ]);
 	Route::get('ngroles/{id}', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRole' ]);
@@ -229,9 +229,9 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('ngemps', [ 'as' => 'nggetemps', 'uses' => 'AdminController@ngGetEmps' ]);
 	Route::get('ngemp/{id}', [ 'as' => 'nggetemp', 'uses' => 'AdminController@ngGetEmp' ]);
 	Route::post('ngcreateemp', [ 'as' => 'ngpostcreateemp', 'uses' => 'AdminController@ngPostCreateEmp' ]);
-	Route::post('ngeditemp/{id}', [ 'as' => 'ngposteditemp', 'uses' => 'AdminController@ngPostEditEmp' ]);
-	Route::get('ngdeleteemp/{id}', [ 'as' => 'nggetdeleteemp', 'uses' => 'AdminController@ngGetDeleteEmp' ]);
-	Route::get('ngconfirmemp/{id}', [ 'as' => 'nggetconfirmemp', 'uses' => 'AdminController@ngGetConfirmEmp' ]);
+	Route::post('ngeditemp', [ 'as' => 'ngposteditemp', 'uses' => 'AdminController@ngPostEditEmp' ]);
+	Route::delete('ngdeleteemp', [ 'as' => 'nggetdeleteemp', 'uses' => 'AdminController@ngGetDeleteEmp' ]);
+	Route::put('ngconfirmemp', [ 'as' => 'nggetconfirmemp', 'uses' => 'AdminController@ngGetConfirmEmp' ]);
 	Route::get('ngdenyemp/{id}', [ 'as' => 'nggetdenyemp', 'uses' => 'AdminController@ngGetDenyEmp' ]);
 
 		//Send notification
