@@ -8,7 +8,6 @@ use App\Job;
 use App\Follows;
 use App\Reviews;
 use App\Skills;
-use DB;
 use Auth;
 use DateTime;
 use Session;

@@ -1,13 +1,15 @@
 app.controller('UsersController', function($scope, $http) {
 	$scope.user = [];
 	$scope.hasChangeEmail = false;
-
+	$scope.fullname = "";
+	
 	$scope.init = function() {
 		$http({
 			method: 'get',
 			url: 'users'
 		}).then(function(response) {
 			$scope.user = angular.copy(response.data.data);
+			$scope.fullname = $scope.user.name;
 		},function(error) {
 			console.info(error,'can not get data')
 		});

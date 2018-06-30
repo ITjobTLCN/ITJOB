@@ -1,10 +1,10 @@
 <div id="listApplications" class="block-info" ng-show="showListPosts">
 	<h1>List Applications
-		<a href="javascript:void(0)" class="pull-right" ng-click="showListPosts=false"><i class="fa fa-window-close-o"></i></a>
+		<a href="javascript:void(0)" class="pull-right" ng-click="showListPosts = false" data-toggle="tooltip" title="Close"><i class="fa fa-window-close-o"></i></a>
 	</h1>
 	<h3>Post: <span><% curPost.name %></span></h3>
 	<h3>Date publisher: <span><% curPost.updated_at %></span></h3>
-	<h3>Date expired: <span><% curPost['detail']['date_expire'] %></span></h3>
+	<h3>Date expired: <span><% curPost['date_expired'] %></span></h3>
 	<h3>Applied: <span><% curPost.applications.length %>/<% curPost.detail.quantity %>
 		<span ng-if="curPost.detail.quantity == null">all</span>
 	</span></h3>
@@ -27,6 +27,9 @@
 				<td>
 					<a href="#modal-sendemailemp" ng-click="getApplication(app.fullname, app.email)" data-toggle="modal" data-target="#modal-sendemailemp" class="btn btn-sm btn-primary">Email</a>
 				</td>
+			</tr>
+			<tr ng-if='curPost.applications.length == 0'>
+				<td colspan="5" class="text-center"><span>Not found</span></td>
 			</tr>
 		</tbody>
 	</table>

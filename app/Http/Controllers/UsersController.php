@@ -116,7 +116,7 @@ class UsersController extends Controller
             $user->save();
         }
 
-        return view('layouts.profile',array('user'=>Auth::user()));
+        return redirect()->route('profile');
     }
     public function editEmail(Request $req) {
         $email = $req->newEmail;

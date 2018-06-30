@@ -124,12 +124,12 @@ Route::get('skill-by-job-id', [
 ]);
 //jobs
 Route::group([ 'prefix' => 'it-job'], function() {
-	Route::get('/', ['as' => 'seachJob', 'uses' => 'JobsController@getListJobSearch' ]);
-	Route::post('/', ['as' => 'seachJob', 'uses' => 'JobsController@postListJobSearch' ]);
+	Route::get('/', ['as' => 'seachJob', 'uses' => 'JobsController@searchJob' ]);
+	// Route::get('/list-job/{match?}', ['as' => 'getSeachJob', 'uses' => 'JobsController@getListJobSearch' ]);
 	Route::get('all-jobs/{offset?}/{limit?}', [ 'as' => 'alljobs', 'uses' => 'JobsController@getIndex' ]);
 	Route::get('work-at-{alias}', [ 'as' => 'seachJobByCity', 'uses' => 'JobsController@getListJobByCity' ]);
-	Route::get('{jobAlias}/{cityAlias}', [ 'as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption' ]);
-	Route::get('{alias}', [ 'as' => 'quickJobBySkill', 'uses' => 'JobsController@getQuickJobBySkill' ])
+	// Route::get('/', [ 'as' => 'seachJobFullOption', 'uses' => 'JobsController@getJobFullOption' ]);
+	Route::get('search-by-skill/{alias}', [ 'as' => 'quickJobBySkill', 'uses' => 'JobsController@getQuickJobBySkill' ])
 		->where([ 'alias' => '[a-z]+' ]);
 });
 
@@ -244,10 +244,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('ngskills','AdminController@ngGetSkills');
 	Route::get('ngcities','AdminController@ngGetCities');
 });
-//Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
-//Route::get('ngadvance', [ 'as' => 'nggetadvance', 'uses' => 'EmployerController@ngGetAdvance' ]);
-Route::get('ng-confirm-ass', [ 'as' => 'ngConfirmAss', 'uses' => 'EmployerController@ngGetConfirmAss' ]);
-Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
+Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
 Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 	/*Employer Advance*/
@@ -261,18 +258,19 @@ Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
 		/*Update info*/
 	Route::post('ng-update-info/{id}', [ 'as' => 'ngUpdateEmpInfo', 'uses' => 'EmployerController@ngGetUpdateEmpInfo' ]);
 		/*Change logo-cover using Laravel - Reload page*/
-	Route::post('change-logo-cover/{empId}/{type}', [ 'as' => 'postChangeLogoCover', 'uses' => 'EmployerController@postChangeLogoCoverEmp' ]);
+	Route::post('change-logo-cover/{empId}/{type}', [ 'as' => 'postChangeImageEmployer', 'uses' => 'EmployerController@postChangeImageEmployer' ]);
 
 		/*Employer Basic*/
 	Route::get('basic', [ 'as' => 'getEmpBasic', 'uses' => 'EmployerController@getEmpBasic' ]);
 	Route::get('ngbasic', [ 'as' => 'ngGetBasic', 'uses' => 'EmployerController@ngGetBasic' ]);
 	Route::post('ng-create-post/{empId}', [ 'as' => 'ngCreatePost', 'uses' => 'EmployerController@ngCreatePost' ]);
 	Route::get('ng-get-post/{id}', [ 'as' => 'ngGetPost', 'uses' => 'EmployerController@ngGetPost' ]);
-	Route::post('ngeditpost/{empid}/{id}', [ 'as' => 'ngeditpost', 'uses' => 'EmployerController@ngEditPost' ]);
+	Route::post('ng-edit-post/{empid}/{id}', [ 'as' => 'ngEditPost', 'uses' => 'EmployerController@ngEditPost' ]);
 	Route::get('ng-trash-post/{id}', [ 'as' => 'ngTrashPost', 'uses' => 'EmployerController@ngTrashPost' ]);
 	Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	Route::get('ng-confirm-post/{id}', [ 'as' => 'ngConfirmPost', 'uses' => 'EmployerController@ngConfirmPost' ]);
 	Route::get('ng-deny-post/{id}', [ 'as' => 'ngDenyPost', 'uses' => 'EmployerController@ngDenyPost' ]);
+	Route::post('ng-restore-post', [ 'as' => 'ngRestorePost', 'uses' => 'EmployerController@ngRestorePost' ]);
 });
 /*download aplication's CV*/
 Route::get('downloadcv/{name}', [ 'as' => 'getempdownloadcv', 'uses' => 'HomeController@getDownloadEmpCV' ]);

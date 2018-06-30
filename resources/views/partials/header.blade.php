@@ -44,7 +44,7 @@
             </li>
             <li>
                 <a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar">
-                    @if(Auth::user()->password !="")
+                    @if(Auth::user()->password != "")
                     <img src="uploads/avatar/{{Auth::user()->avatar}}" alt="" class="user-avatar img-responsive" width="150px" height="150px">
                     @else
                     <img src="{{Auth::user()->image}}" alt="" class="user-avatar img-responsive" width="150px" height="150px">
@@ -61,7 +61,11 @@
                 @endif
             </li>
             <li class="employer_site text-center"><a href="{{route('getEmp')}}">
-                Post Job
+                @if(Auth::check() && !in_array(Auth::user()->role_id, ['5ac85f51b9068c2384007d9c']))
+                Manager Page
+                @else
+                <span>Post Job</span>
+                @endif
             </a>
         </li>
     </ul>

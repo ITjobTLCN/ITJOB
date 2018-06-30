@@ -47,19 +47,16 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('partials.recommend_jobs', function($view) {
             $listJobLastest = [];
-            if (Cache::has('listJobLastest')) {
-                $listJobLastest = Cache::get('listJobLastest');
-            } else {
-                $listJobLastest = Cache::remember('listJobLastest', config('constant.cacheTime'), function() {
+            
+            $listJobLastest = Cache::remember('listJobLastest', config('constant.cacheTime'), function() {
                     Job::with('employer')->where('status', 1)
                                         ->orderBy('_id', 'desc')
                                         ->offset(0)
                                         ->take(config('constant.limit.job'))
                                         ->get();
                 });
-            }
 
-            $view->with('listJobLastest', $listJobLastest);
+            $view->with(['countjob' => count($listJobLastest), 'listJobLastest' => $listJobLastest]);
         });
 
         Schema::defaultStringLength(191);

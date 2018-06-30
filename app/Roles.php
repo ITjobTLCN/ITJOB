@@ -9,14 +9,13 @@ class Roles extends Eloquent
 {
     use SoftDeletes;
     protected $dates = ['deleted_at'];
-    
+
     protected $collection = "roles";
 
-    public function User()
-    {
-        return $this->hasMany('App\User','role_id','id');
+    public function User() {
+        return $this->hasMany('App\User', 'role_id', 'id');
     }
 
     //To export data using Excel
-    protected $fillable=['name','detail'];
+    protected $fillable = ['name', 'detail'];
 }

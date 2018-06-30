@@ -3,7 +3,7 @@
     "name" : "Trần Thanh Phong", 
     "email" : "phong.kelvin1608@gmail.com", 
     "password" : "$2y$10$59PO7CU/SPPFU3tSuD9tB.MWZtq44GCBytx5vHScpR4BGM9ZsYLMi", 
-    "role_id" : "5ac85f51b9068c2384007d9c", 
+    "role_id" : "5ac85f51b9068c2384007d9e", 
     "jobs_followed" : [
         {
             "_id" : "5ac85f98b9068c0688004594", 
@@ -15,9 +15,9 @@
     }, 
     "avatar" : "1527662029.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.098+0000"), 
-    "updated_at" : ISODate("2018-06-17T08:31:56.000+0000"), 
-    "lastlogin" : "2018-06-17 15:31:56", 
-    "remember_token" : "Vm1OaWCf9Ymj84fG84oENyhslCY5yCTXqyGfwVSnA4ovnWd5HBHx6OowsuSi", 
+    "updated_at" : ISODate("2018-06-23T14:33:01.000+0000"), 
+    "lastlogin" : "2018-06-23 21:33:01", 
+    "remember_token" : "ejL7P1oM24aQ3UakvWDxCke7ocG3nZl0oSY4kybxYMfeEBzaINmp2WGqslu9", 
     "image" : "1527661015.jpg"
 }
 { 
@@ -40,9 +40,9 @@
     "role_id" : "5ac85f51b9068c2384007d9e", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.260+0000"), 
-    "updated_at" : ISODate("2018-06-18T14:48:12.000+0000"), 
-    "lastlogin" : "2018-06-18 21:48:12", 
-    "remember_token" : "nsK6woXfYSuxbYGRdfgFEyP8tv8Jbsy5wLWEp6sLErSrpprZSdjirkAOzc9F"
+    "updated_at" : ISODate("2018-06-23T15:57:19.000+0000"), 
+    "lastlogin" : "2018-06-23 22:57:19", 
+    "remember_token" : "WJ6fdjLCPRPS5WGCBGT7LdbkCv1ypwR2z0lDIai1cfjEhBUJfLXTUYCQX9te"
 }
 { 
     "_id" : ObjectId("5ac85f53b9068c2384007daa"), 
@@ -52,32 +52,9 @@
     "role_id" : "5ac85f51b9068c2384007d9f", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-04-07T06:04:03.336+0000"), 
-    "updated_at" : ISODate("2018-06-14T12:43:46.000+0000"), 
-    "lastlogin" : "2018-06-14 19:43:46", 
-    "remember_token" : "7Sqnga7L5fkCregsAWO9RmW01rYZ843qhewzsJM1pv23b4AVUCpMqgYkovVQ"
-}
-{ 
-    "_id" : ObjectId("5ae9c1fdb9068c0678007ae6"), 
-    "email" : "phong.kelvin16g08@gmail.com", 
-    "name" : "ththt", 
-    "password" : "$2y$10$tEBPufNjwJ7Rls0WQolsC.1/FIK59U.0gEi7mtF1AmPg9HqAe01DS", 
-    "role_id" : "5ac85f51b9068c2384007d9e", 
-    "avatar" : "default.jpg", 
-    "created_at" : ISODate("2018-05-02T13:49:49.723+0000"), 
-    "updated_at" : ISODate("2018-05-20T03:07:30.000+0000"), 
-    "lastlogin" : "2018-05-20 10:07:30", 
-    "remember_token" : "vM0jvBGXW7GF8CtSHEnvYOpYCVD19uMrS9leuaSIbTqMjfNsAbA0ykQje7tA"
-}
-{ 
-    "_id" : ObjectId("5aed282eb9068c109c0012e5"), 
-    "email" : "phong.kelvin168@gmail.com", 
-    "name" : "Thanh Phong", 
-    "image" : "https://graph.facebook.com/v2.10/1074423966032596/picture?type=normal", 
-    "role_id" : "1", 
-    "updated_at" : ISODate("2018-05-30T07:11:32.000+0000"), 
-    "created_at" : ISODate("2018-05-05T03:42:38.000+0000"), 
-    "lastlogin" : "2018-05-30 14:11:32", 
-    "remember_token" : "rxzajI6sUyR61d0N10Zd0Od9XgLEzkMfhjav1sxqOPIzNAn92ryjWvAt8ytP"
+    "updated_at" : ISODate("2018-06-23T15:59:09.000+0000"), 
+    "lastlogin" : "2018-06-23 22:59:09", 
+    "remember_token" : "ctfuVZzAROZb1y8ROVW3Km8Sk28hJRFW2pYtkdedywg4XdYxZIwGIywbdqZw"
 }
 { 
     "_id" : ObjectId("5b16bf6d6c2c3102d93d7e22"), 
@@ -87,11 +64,11 @@
     "role_id" : "5ac85f51b9068c2384007d9f", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-06-05T16:50:53.464+0000"), 
-    "updated_at" : ISODate("2018-06-18T14:55:34.000+0000"), 
+    "updated_at" : ISODate("2018-06-23T14:56:34.000+0000"), 
     "deleted" : false, 
     "cv" : "iCloud2-QnA.pdf", 
-    "lastlogin" : "2018-06-18 21:55:34", 
-    "remember_token" : "VfDeZMfTJY26IH6Vf2aHbxbgGOP0k5fuXabwzUiHaua6mIC6hu3HhmDrEJZp"
+    "lastlogin" : "2018-06-23 21:56:34", 
+    "remember_token" : "iktzlETRXleu3twbwyoAOlLHsF515XYcmmeeJWvtsfkFo1Drz14bTw6pCNxu"
 }
 { 
     "_id" : ObjectId("5b1b92e76c2c310dc44c8cd3"), 
@@ -101,8 +78,19 @@
     "role_id" : "5ac85f51b9068c2384007d9c", 
     "avatar" : "default.jpg", 
     "created_at" : ISODate("2018-06-09T08:42:15.881+0000"), 
-    "updated_at" : ISODate("2018-06-09T08:42:28.000+0000"), 
+    "updated_at" : ISODate("2018-06-23T15:18:24.000+0000"), 
     "deleted" : false, 
-    "lastlogin" : "2018-06-09 15:42:28", 
-    "remember_token" : "fRDxfF6wEVQuO2HkHpbYFygYJUlFBPLM8ZJsceeZYcYQk4nvA5mMDrpdlXeB"
+    "lastlogin" : "2018-06-23 22:18:24", 
+    "remember_token" : "A7jdSAOBup49knFy9qYi3e37KYEm6rhqkGSCSfFDHZuBwF5livpjo4cT8vMJ"
+}
+{ 
+    "_id" : ObjectId("5b2deacb6c2c310f0c1486e2"), 
+    "email" : "phong.kelvin168@gmail.com", 
+    "name" : "Thanh Phong", 
+    "image" : "https://graph.facebook.com/v2.10/1074423966032596/picture?type=normal", 
+    "role_id" : "5ac85f51b9068c2384007d9f", 
+    "updated_at" : ISODate("2018-06-23T15:00:29.000+0000"), 
+    "created_at" : ISODate("2018-06-23T06:38:03.000+0000"), 
+    "lastlogin" : "2018-06-23 22:00:29", 
+    "remember_token" : "9Pit28qe3gfQ2AZS0C66c26EeZsizJyo4kJrB4QPg6YuYvRKObScVzDQVRQt"
 }

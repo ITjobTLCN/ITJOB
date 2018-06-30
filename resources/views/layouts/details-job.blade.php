@@ -209,7 +209,7 @@
                                     <span class="tag-skill" title="<% skill.name %>" ng-repeat="skill in skillsemp"><% skill.name %></span>
                                 </div>
                             </div>
-                            <a href="{{route('getApplyJob',[$job['alias'],$job->employer['alias'],$job['_id']])}}" class="btn btn-primary btn-xlg col-xs-12 apply" type="button">Apply Now</a>
+                            <a href="{{route('getApplyJob',[$job['alias'], $job['_id']])}}" class="btn btn-primary btn-xlg col-xs-12 apply" type="button">Apply Now</a>
                         </div>
                     </div>
                     @include('partials.job-most-viewer')

@@ -42,7 +42,7 @@ class PageController extends Controller
                                             $request->name,
                                             $request->subtitle,
                                             $request->content));
-        return redirect()->back();
+        return redirect()->back()->with(['message' => 'Send mail successful']);
     }
 
     //get all skills

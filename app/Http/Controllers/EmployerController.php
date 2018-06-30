@@ -23,14 +23,18 @@ use Illuminate\Support\Facades\Input;
 use File;
 use Carbon\Carbon;
 use Session;
+
 use App\Notifications\ConfirmAssistant;
 use App\Notifications\ConfirmPost;
 use App\Notifications\NotifyNewPost;
+use App\Notifications\PushPost;
+
 use App\Traits\Company\CompanyMethod;
 use App\Traits\User\ApplyMethod;
 use App\Traits\CommonMethod;
 use App\Traits\User\UserMethod;
 use App\Traits\Job\JobMethod;
+use MongoDB\BSON\UTCDateTime;
 
 class EmployerController extends Controller
 {
@@ -163,7 +167,7 @@ class EmployerController extends Controller
         }
     }
             //change logo and cover
-    public function postChangeLogoCoverEmp(Request $request, $empId, $type) {
+    public function postChangeImageEmployer(Request $request, $empId, $type) {
         //type:1-cover:2-logo
         $validator  = Validator::make($request->all(), [
             'file' => 'max:5000|mimes:jpg,jpeg,bmp,png'
@@ -173,12 +177,16 @@ class EmployerController extends Controller
                                 ->withErrors('Size of image too large or is not the
                                 following type:jpg, jpeg, bmp, png');
         }
-        // dd($request->all());
+
         if (Input::hasfile('file') && $empId && $type) {
             $file = Input::file('file');
             //get extension of a image
             $file_extension = File::extension($file->getClientOriginalName());
             $filename = $empId . "." . $file_extension;
+            if (file_exists(public_path() . "/uploads/emp/{$type}/{$filename}")) {
+                File::delete(public_path() . "/uploads/emp/{$type}/{$filename}");
+            }
+
             $file->move("uploads/emp/{$type}", $filename);
 
             $arrUpdate["images.{$type}"] = $filename;
@@ -304,51 +312,9 @@ class EmployerController extends Controller
     public function ngEditPost(Request $request, $empId, $id) {
         $user_id = Auth::user()->id;
         /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
-        try{
-            $job = Job::findOrFail($id);
-
-            $job->name = $request->job['name'];
-            $job->alias = $this->changToAlias($request->job['name']);
-            if ( !empty($request->job['salary']))
-                $job->salary = $request->job['salary'];
-            if ( !empty($request->job['description']))
-                $job->description = $request->job['description'];
-            if ( !empty($request->job['require']))
-                $job->require = $request->job['require'];
-            if ( !empty($request->job['treatment']))
-                $job->treatment = $request->job['treatment'];
-            if ( !empty($request->job['quantity']))
-                $job->quantity = $request->job['quantity'];
-
-            if ( !empty($request->job['date_expire'])) {
-                // $date =strtotime("Sun Jan 01 2017 08:00:00 GMT+0700 (Altai Standard Time)");
-                //Loại bỏ cái trong ngoặc (Altai Standard Time)
-                $substr = substr($request->job['date_expire'], 0, strpos($request->job['date_expire'], "("));
-                $date = new DateTime($substr);
-                $date2 = $date->getTimestamp(); //chuyển sang unix datetime
-                $job->date_expire = $date;
-            }
-            $job->city_id = $request->job['city_id'];
-
-            //check user và emp
-            if ($job->emp_id != $empId || $job->user_id != $user_id) {
-                return response()->json(['status' => false,'message' => 'Employer or User is invalid']);
-            }
-
-
-            $job->status = 0;//0:saving, 10: pending, 1: publisher,11: expired,2: deleted
-            $job->save();
-
-            //xóa các skill cũ -> add lại skill mới
-            Skill_job::where('job_id', $job->id)->delete();
-            if (sizeof($request->skills) > 0) {
-                foreach($request->skills as $skill) {
-                    $ski = new Skill_job();
-                    $ski->job_id = $job->id;
-                    $ski->skill_id = $skill['id'];
-                    $ski->save();
-                }
-            }
+        try {
+            $arrData = $request->job;
+            $this->editJob($arrData, $empId, $request->skills, $id);
 
             return response()->json(['status' => true, 'message' => 'Saved post']);
         } catch(Exception $e) {
@@ -387,6 +353,16 @@ class EmployerController extends Controller
             $post = Job::findOrFail($jobId);
             $post->status = 10;
             $post->save();
+
+            $employer = Employers::where('_id', array_get($post, 'employer_id', ''))->first();
+            if (!empty($employer)) {
+                // send notify approval to master of company
+                foreach ($employer['master'] as $value) {
+                    $user = User::findOrFail($value);
+                    $user->notify(new PushPost($post));
+                }
+            }
+
             return response()->json(['status' => true, 'message' => 'Pushed and waiting to confirm']);
         } catch(Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to push']);
@@ -466,23 +442,16 @@ class EmployerController extends Controller
 
         return redirect()->back();
     }
-    /*
-    |-------------SEND NOTIFICATION----------------
-    |For: Employer
-    |Case:  co người apply, có người follow-review,
-    |       confirm assistant, comfirm post
-    |For: User
-    |Case: Công ty đã follow có post(publisher)
-    |
-    |Action:
-    |       post publisher => add noti for all user has Followed
-    |
-    |       confirm emp => add noti for admin, user
-    |
-    |       confirm/deny assistant=> add noti for assistant
-    |
-    |       apply => add noti for emp đã apply
-    |       follow-review => add noti for emp đã apply
-    |
-    */
+
+    public function ngRestorePost(Request $request) {
+        $job = Job::where('_id', $request->jobId)->first();
+        if (empty($job)) {
+            return response()->json([ 'status' => false, 'message' => 'Can not found job']);
+        }
+
+        $job->status = 10;
+        $job->save();
+
+        return response()->json([ 'status' => true, 'message' => 'Restore job successfully']);
+    }
 }

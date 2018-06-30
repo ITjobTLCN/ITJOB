@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-ITJob - Đăng ký tài khoản	
+ITJob - Đăng ký tài khoản
 @endsection
 @section('header.css')
 <link rel="stylesheet" type="text/css" href="assets/less/card.less">
@@ -37,33 +37,31 @@ ITJob - Đăng ký tài khoản
 								</div>
 								<div class="input-group mb-3">
 									<span class="input-group-addon"><i class="fa fa-lock"></i></span>
-									<input type="password" class="form-control" name="password" id="password" 
+									<input type="password" class="form-control" name="password" id="password"
 										placeholder="Password">
 								</div>
 								<div class="input-group mb-3">
 									<span class="input-group-addon"><i class="fa fa-lock"></i></span>
-									<input type="password" class="form-control" name="repeatPassword" id="repeatPassword" 
+									<input type="password" class="form-control" name="repeatPassword" id="repeatPassword"
 										placeholder="Repeat password">
 								</div>
 								{{ csrf_field() }}
 								<button type="submit" class="btn btn-success btn-block br-0">Tạo tài khoản</button>
-								
 							</form>
 						</div>
 						<div class="card-footer">
 							<div class="row">
 								<div class="col-md-6 col-sm-6 col-xs-6">
-									<a class="btn btn-primary btn-block br-0" href="{{route('loginProvider','facebook')}}">
+									<a class="btn btn-facebook btn-block br-0" href="{{route('loginProvider','facebook')}}">
 										<i class="fa fa-fw fa-facebook fl"></i>Facebook</a>
-								
 								</div>
 								<div class="col-md-6 col-sm-6 col-xs-6">
-									<a class="btn btn-danger btn-block br-0" href="{{route('loginProvider','google')}}">
+									<a class="btn btn-google btn-block br-0" href="{{route('loginProvider','google')}}">
 										<i class="fa fa-fw fa-google fl"></i>Google</a>
 								</div>
 							</div>
 						</div>
-					</div>				
+					</div>
 				</div>
 			</div>
 		</div>
@@ -74,7 +72,5 @@ ITJob - Đăng ký tài khoản
 @section('footer.js')
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
 <script src="assets/controller/UsersController.js"></script>
-
 <script src="assets/js/validate-form.js"></script>
-
 @stop

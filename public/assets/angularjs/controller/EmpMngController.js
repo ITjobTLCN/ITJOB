@@ -7,15 +7,17 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	$scope.resetAd = function(id) {
 		$scope.load(id);
 	}
+	var data = [];
 	/*---------Load page and get empid from Laravel----------*/
 	$scope.load = function() {
 		$scope.editable = false;
 		$scope.selection = [];
 
 		$http.get('emp/ngadvance').then(function(response) {
-			console.log(response.data.employer);
-			$scope.assistant = response.data.assis;
-			infoEmployer = response.data.employer;
+			data = angular.copy(response.data);
+
+			$scope.assistant = _.get(data, 'assis', []);
+			infoEmployer = _.get(data, 'employer', []);
 			$scope.employer = {
 				'_id' : infoEmployer._id,
 				'name' : infoEmployer.name,
@@ -29,17 +31,18 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				'avatar' : infoEmployer.images.avatar
 			};
 			$scope.empId = infoEmployer._id;
-			$scope.myskills = response.data.myskills;
-			$scope.cities = response.data.cities;
-			$scope.skills = response.data.skills;
-			$scope.posts = response.data.posts;
+			$scope.myskills = _.get(data, 'myskills', []);
+			$scope.cities = _.get(data, 'cities', []);
+			$scope.skills = _.get(data, 'skills', []);
+			$scope.posts = _.get(data, 'posts', []);
 			//add skill selection
 			$scope.myskills.forEach(function(value) {
 				$scope.selection.push({ _id:value._id, name:value.name });
 			});
 		}, function(error) {
-			alert('ERROR');
+			console.log('error', 'cannot get data from service');
 		});
+
 		$scope.sortTypePost = '_id';
 		$scope.sortReverse = true;
 		$scope.sortType = '_id';
@@ -51,18 +54,18 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		$scope.job = null;
 		$scope.selection = [];
 		$http.get('emp/ngbasic').then(function(response) {
-			console.info('basic_employer', response.data);
+			data = angular.copy(response.data);
 			//chung
-			$scope.options = response.data;
-			$scope.emp = response.data.emp;
-			$scope.empId = response.data.emp['_id'];
-			$scope.cities = response.data.cities;
-			$scope.skills = response.data.skills;
+			$scope.options = _.cloneDeep(data);
+			$scope.emp = _.get(data, 'emp', []);
+			$scope.empId = _.get(data.emp, '_id', '');
+			$scope.cities = _.get(data, 'cities', []);
+			$scope.skills = _.get(data, 'skills', []);
 			//rieng
-			$scope.follows = response.data.follows;
+			$scope.follows = _.get(data, 'follows', []);
 
 		}, function(error) {
-			alert('ERROR');
+			console.log('error', 'cannot get data from service');
 		});
 
 	}
@@ -294,11 +297,10 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	/*-------------------BASIC FUNCTION----------------------------------*/
 	$scope.savePost = function(type, id) {
-		console.log($scope.emp)
 		if (type == 0) {//add
 			$http({
 				method: "post",
-				url: "emp/ng-create-post/" + $scope.empId,
+				url: "emp/ng-create-post/" + $scope.emp._id,
 				data: $.param({
 					job: $scope.job,
 					skills: $scope.selection
@@ -311,7 +313,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 					$scope.selection = [];
 					$scope.addPost();
 					//update my list posts
-					$scope.loadBasic($scope.empId);
+					$scope.loadBasic();
 				}
 				alert(response.data.message);
 			}, function(error) {
@@ -323,19 +325,17 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				var dataskills = $scope.selection;
 				$http({
 					method: "post",
-					url: "emp/ngeditpost/" + $scope.empId + "/" + id,
+					url: "emp/ng-edit-post/" + $scope.empId + "/" + id,
 					data: $.param({
 						job: $scope.job,
 						skills: $scope.selection
 					}),
 					headers: { 'Content-type' : 'application/x-www-form-urlencoded' }
 				}).then(function(response) {
-					console.log(response.data);
 					if (response.data.status == true) {
 						//update my list posts
-						$scope.loadBasic($scope.empId);
-						$scope.job = datajob;
-						$scope.selection = dataskills;
+						$scope.addPost();
+						$scope.loadBasic();
 					}
 					alert(response.data.message);
 				}, function(error) {
@@ -346,6 +346,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	}
 
 	$scope.addPost = function(type) {
+		$scope.showListPosts = false;
 		if (type == 0) {//add
 			$scope.titleBlock = 'Add New Post';
 			$scope.typePost = type;
@@ -370,6 +371,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	}
 
 	$scope.getPost = function(id) {
+		$scope.showListPosts = false;
 		$http.get('emp/ng-get-post/' + id).then(function(response) {
 			console.info(response.data);
 			var post = angular.copy(response.data.post);
@@ -382,9 +384,12 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				city: post.city,
 				description: post.detail.description,
 				benefit: post.detail.benefit,
-				requirment: post.detail.requirment
+				requirment: post.detail.requirment,
+				date_expired: post.date_expired
 			}
-			$scope.job.date_expired = new Date($scope.job.date_expired);
+
+			var date_expired = moment.utc(_.parseInt(_.get($scope.job, 'date_expired.$date.$numberLong', '')));
+	        _.set($scope.job, 'date_expired', date_expired._d);
 			response.data.postSkills.forEach(function(value) {
 				$scope.selection.push({ _id:value._id, name:value.name });
 			});
@@ -430,8 +435,10 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	}
 
 	/*-----------------LIST APPLICATION--------------------------*/
-	$scope.showApps = function(apps) {
-		$scope.curPost = apps;
+	$scope.showApps = function(listApplications) {
+		$scope.curPost = angular.copy(listApplications);
+		formatDateExpired($scope.curPost);
+
 		$scope.showListPosts = true;
 
 		//scroll to list
@@ -502,6 +509,41 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 
 	$scope.detailJob = function(alias, _id) {
 		return baseUrl + 'detai-jobs/' + alias + '/' + _id;
+	}
+
+	$scope.reStorePost = function(id) {
+		console.log('id', id);
+		if (confirm('Are you sure ?')) {
+			var req = {
+	            method: 'POST',
+	            url: 'emp/ng-restore-post',
+	            data: {
+	                jobId: id
+	            },
+	            headers: { 'Content-type' : 'application/json' }
+	        };
+			$http(req).then(function(response) {
+				console.log(response);
+				if (response.data.status == true) {
+					alert(response.data.message);
+					$scope.loadBasic($scope.empId);
+				} else {
+					alert(response.data.message);
+				}
+			}, function(error) {
+				alert('ERROR');
+			});
+		}
+	}
+
+	function formatDateExpired(data) {
+		var date_expired = moment.parseZone(
+			moment.utc(_.parseInt(_.get(data, 'date_expired.$date.$numberLong', '')))
+			).format('YYYY-MM-DD HH:mm');
+		if (date_expired == 'Invalid date') {
+			date_expired = 'NaN';
+		}
+        _.set(data, 'date_expired', date_expired);
 	}
 });
 
