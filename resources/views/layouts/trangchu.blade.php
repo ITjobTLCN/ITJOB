@@ -45,7 +45,7 @@ ITJob - Top Job IT For You
 				<div class="list-skill hidden-xs" ng-controller="SkillsController">
 					<ul>
 						<li ng-repeat="skill in skills">
-							<a href="it-job?key=<% skill.alias %>" target="_blank"><% skill.name  %>, </a>
+							<a href="it-job?key=<% skill.alias %>&cid=ho-chi-minh" target="_blank"><% skill.name  %>, </a>
 						</li>
 					</ul>
 				</div>

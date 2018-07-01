@@ -23,6 +23,7 @@ trait JobMethod
 
 		return Job::with('employer')
 					->where($arrWhere)
+					->orderBy('_id', 'desc')
                     ->offset(0)
                     ->take(config('constant.limit.job'))
                     ->get();

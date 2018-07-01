@@ -25,6 +25,7 @@ class JobsController extends Controller
     use CommonMethod, AliasTrait, LatestMethod, JobMethod, ApplyMethod;
 
     public function getIndex(Request $req, $limit = 20, $offset = 0) {
+        $this->clearCacheSearch();
         $listJobLastest = [];
         $req->offset ? $offset = $req->offset : $offset;
 
@@ -83,11 +84,10 @@ class JobsController extends Controller
                     $info_skill = [];
                 }
                 array_push($info_skill, $skill->_id);
-            } else {
-                $arrWheres['$text'] = [
-                    '$search' => $key
-                ];
             }
+            $arrWheres['$text'] = [
+                '$search' => $key
+            ];
         }
 
         if (Cache::has('city')) {
@@ -214,9 +214,9 @@ class JobsController extends Controller
         $match = true;
         $key = $req->key;
         $city_alias = $req->cid;
-        $jobs = new Job();
+        // $jobs = new Job();
         if (empty($key) && empty($city_alias)) {
-            $jobs = $this->indexJob();
+             $listJobLastest = $this->indexJob();
         } else {
             if (empty($key)) {
                 return redirect()->route('seachJobByCity', $city_alias);
@@ -226,10 +226,8 @@ class JobsController extends Controller
                 return redirect()->route('getEmployers', $emp->alias);
             } else {
                 $job = $this->getJobByKey($key);
-                Session::flash('city', $city_alias);
                 if (count($job) == 0) {
                     $skill = $this->getSkillByKey($key);
-
                     if (is_null($skill) || count($skill) == 0) {
                         $match = false;
                     } else {
@@ -242,8 +240,10 @@ class JobsController extends Controller
                         if (!empty($city)) {
                             $wheres['city'] = $city->name;
                             Cache::put('city', $city->name, 10);
+                            Session::flash('city', $city_alias);
                         }
-                        $jobs =  Job::where($wheres)->get();
+                        $listJobLastest =  Job::where($wheres)->get();
+
                     }
                     Session::flash('jobname', $key);
                     Cache::put('key', $key, 10);
@@ -251,11 +251,6 @@ class JobsController extends Controller
                    return $this->getJobFullOption($key, $city_alias);
                 }
             }
-        }
-        
-        $listJobLastest = [];
-        if (!empty($jobs)) {
-            $listJobLastest = $jobs;
         }
 
         return view('layouts.alljobs', [ 'match' => $match,
@@ -268,14 +263,14 @@ class JobsController extends Controller
         $jobs = new Job();
         $match = true;
         $city = $this->getCityByKey($cityAlias);
-        if (empty($this->getJobByKey($key)) || empty($city)) {
+        if (empty($this->getJobByKey($key)) && empty($city)) {
            $match = false;
         } else {
             $arrWheres = [
                 '$text' => [
                     '$search' => $key
                 ],
-                'city' => $city->name
+                'city' => !empty($city->name) ? $city->name : config('constant.defaultCity')
             ];
 
             $jobs = Job::where($arrWheres)->get();
@@ -283,7 +278,7 @@ class JobsController extends Controller
 
         Session::flash('jobname', $key);
         Cache::put('key', $key, 10);
-        Cache::put('city', $city->name, 10);
+        Cache::put('city', !empty($city->name) ? $city->name : config('constant.defaultCity'), 10);
 
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
@@ -298,6 +293,7 @@ class JobsController extends Controller
 
         if (!empty($city)) {
             $jobs = Job::where('city', $city->name)
+                        ->where('status', 1)
                         ->offset(0)
                         ->limit(config('constant.limit.job'))
                         ->get();
@@ -305,13 +301,14 @@ class JobsController extends Controller
            $match = false;
         }
 
-        Session::flash('city', $city->name);
+        Session::put('city', $city->name);
         Cache::put('city', $city->name, 10);
 
         return view('layouts.alljobs', ['countjob' => count($jobs),
                                         'listJobLastest' => $jobs,
                                         'match' => $match]);
     }
+
     public function getQuickJobBySkill(Request $req) {
         $this->clearCacheSearch();
         $match = true;

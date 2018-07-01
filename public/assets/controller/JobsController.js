@@ -39,9 +39,8 @@ app.controller('JobsController', function($scope,$http) {
 	var salary = [];
       var id_skill = [];
       var dem = 0;
-
+      $scope.checkDisableFilter = false;
 	$scope.filterJob = function(event, type, data) {
-      // how to chesalarycheckbox is selected or not
             var arrData = {
                   'id': data._id,
                   'name': data.name,
@@ -83,6 +82,7 @@ app.controller('JobsController', function($scope,$http) {
                         'info_salary': salary,
                   },
                   success : function(data) {
+                        console.log(data);
                         if(data[2] == true) {
                               $('#no-results-message').css({
                                     'display' : 'none'
@@ -98,24 +98,30 @@ app.controller('JobsController', function($scope,$http) {
       };
 
       $scope.clearAll = function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                  type: 'post',
-                  url: 'filter-job',
-                  data: {
-                        'info_skill': [],
-                        'info_salary': [],
-                  },
-                  success : function(data) {
-                        reset();
-                        $('.jb-search__result').html(data[0]);
-                        $('.countjob').show().text(data[1]);
-                  }
-            });
+            if ($scope.checkDisableFilter) {
+                  window.location = "http://itjob.local.vn/it-job/all-jobs";
+            } else {
+                  $.ajaxSetup({
+                      headers: {
+                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                      }
+                  });
+
+                  $.ajax({
+                        type: 'post',
+                        url: 'filter-job',
+                        data: {
+                              'info_skill': [],
+                              'info_salary': [],
+                        },
+                        success : function(data) {
+                              console.log(data);
+                              reset();
+                              $('.jb-search__result').html(data[0]);
+                              $('.countjob').show().text(data[1]);
+                        }
+                  });
+            }
       }
 
       $scope.hasFollow = function(job_id) {
@@ -143,6 +149,10 @@ app.controller('JobsController', function($scope,$http) {
 
             $('input:checkbox').removeAttr('checked');
             $('input:radio').removeAttr('checked');
+      }
+
+      $scope.disableFilter = function(quantityJob) {
+            return $scope.checkDisableFilter = (quantityJob == 0);
       }
 });
 
