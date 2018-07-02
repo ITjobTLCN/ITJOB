@@ -55,6 +55,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		$scope.selection = [];
 		$http.get('emp/ngbasic').then(function(response) {
 			data = angular.copy(response.data);
+			console.info('basic_data', data);
 			//chung
 			$scope.options = _.cloneDeep(data);
 			$scope.emp = _.get(data, 'emp', []);
@@ -63,11 +64,16 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			$scope.skills = _.get(data, 'skills', []);
 			//rieng
 			$scope.follows = _.get(data, 'follows', []);
+			angular.forEach($scope.options.posts, function(o) {
+				formatLongDate(o, 'date_expired');
+			});
 
+			angular.forEach($scope.options.reviews, function(o) {
+				formatLongDate(o, 'reviewed_at');
+			});
 		}, function(error) {
 			console.log('error', 'cannot get data from service');
 		});
-
 	}
 
 	/**-------Confirm/Deny Assistant------------*/
@@ -332,6 +338,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 					}),
 					headers: { 'Content-type' : 'application/x-www-form-urlencoded' }
 				}).then(function(response) {
+					console.log(response);
 					if (response.data.status == true) {
 						//update my list posts
 						$scope.addPost();
@@ -437,7 +444,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	/*-----------------LIST APPLICATION--------------------------*/
 	$scope.showApps = function(listApplications) {
 		$scope.curPost = angular.copy(listApplications);
-		formatDateExpired($scope.curPost);
+		formatLongDate($scope.curPost);
 
 		$scope.showListPosts = true;
 
@@ -536,14 +543,14 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 		}
 	}
 
-	function formatDateExpired(data) {
-		var date_expired = moment.parseZone(
-			moment.utc(_.parseInt(_.get(data, 'date_expired.$date.$numberLong', '')))
+	function formatLongDate(data, type) {
+		var date = moment.parseZone(
+			moment.utc(_.parseInt(_.get(data, type + '.$date.$numberLong', '')))
 			).format('YYYY-MM-DD HH:mm');
-		if (date_expired == 'Invalid date') {
-			date_expired = 'NaN';
+		if (date == 'Invalid date') {
+			date = 'NaN';
 		}
-        _.set(data, 'date_expired', date_expired);
+        _.set(data, type, date);
 	}
 });
 

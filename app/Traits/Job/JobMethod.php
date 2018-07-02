@@ -186,12 +186,12 @@ trait JobMethod
         	'name' => !empty($data['name']) ? $data['name'] : $job['name'],
         	'alias' => $this->changToAlias($data['name']),
         	'detail' => [
-        		'salary' => !empty($data['salary']) ? intval($data['salary']) : $job['detail']['salary'],
-        		'description' => !empty($data['description']) ? $data['description'] :  $job['detail']['description'],
-        		'requirment' => !empty($data['requirment']) ? $data['requirment'] : $job['detail']['requirment'],
-        		'benefit' => !empty($data['benefit']) ? $data['benefit'] :  $job['detail']['benefit'],
-        		'quantity' => !empty($data['quantity']) ? intval($data['quantity']) :  $job['detail']['quantity'],
-        		'address' => !empty($data['address']) ? $data['address'] :  $job['detail']['address'],
+        		'salary' => !empty($data['salary']) ? intval($data['salary']) : ($job['detail']['salary'] ?? 0),
+        		'description' => !empty($data['description']) ? $data['description'] : ($job['detail']['description'] ?? ''),
+        		'requirment' => !empty($data['requirment']) ? $data['requirment'] : ($job['detail']['requirment'] ?? ''),
+        		'benefit' => !empty($data['benefit']) ? $data['benefit'] : ($job['detail']['benefit'] ?? ''),
+        		'quantity' => !empty($data['quantity']) ? intval($data['quantity']) : ($job['detail']['quantity'] ?? 0),
+        		'address' => !empty($data['address']) ? $data['address'] : ($job['detail']['address'] ?? ''),
         	],
         	'city' => !empty($data['city']) ? $data['city'] : $job['city'],
         ];

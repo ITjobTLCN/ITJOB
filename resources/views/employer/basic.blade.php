@@ -103,7 +103,7 @@ Manage Basic
 	            				<th>Title</th>
 	            				<th>Author</th>
 	            				<th>Create at</th>
-	            				<th>Date Expire</th>
+	            				<th>Date Expired</th>
 	            				<th>Applied</th>
 	            			</tr>
 	            		</thead>
