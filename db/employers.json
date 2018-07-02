@@ -43,6 +43,9 @@
         "hirring" : NumberInt(1), 
         "deleted" : NumberInt(0)
     }, 
+    "master" : [
+        "5ac85f53b9068c2384007da7"
+    ], 
     "employee" : [
         "5ac85f53b9068c2384007daa"
     ], 
@@ -55,6 +58,11 @@
     "name" : "FPT Software", 
     "alias" : "fpt-software", 
     "address" : [
+        {
+            "_id" : "5ac85f51b9068c2384007d93", 
+            "city" : "Hà Nội", 
+            "detail" : "Ba Đình, Hà Nội"
+        }, 
         {
             "_id" : "1234", 
             "city" : "Hà Nội", 
@@ -69,9 +77,9 @@
     "city_id" : "5ac85f51b9068c2384007d93", 
     "quantity_user_follow" : NumberInt(0), 
     "info" : {
+        "website" : "fptshop.com.vn", 
         "description" : "This is description", 
-        "quantity_employee" : NumberInt(100), 
-        "website" : ""
+        "phone" : "01675946414"
     }, 
     "images" : {
         "avatar" : "5ac85f51b9068c2384007d96.png", 
@@ -81,7 +89,7 @@
         ]
     }, 
     "master" : [
-        "5ac85f53b9068c2384007da7"
+        "5b3a3195af479301134aa0c8"
     ], 
     "employee" : [
         "5b2deacb6c2c310f0c1486e2"
@@ -102,8 +110,9 @@
         "deleted" : NumberInt(0)
     }, 
     "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
-    "updated_at" : ISODate("2018-06-23T14:31:50.000+0000"), 
-    "deleted" : false
+    "updated_at" : ISODate("2018-06-24T05:06:04.000+0000"), 
+    "deleted" : false, 
+    "schedule" : null
 }
 { 
     "_id" : ObjectId("5ac85f51b9068c2384007d97"), 
@@ -220,11 +229,11 @@
     ], 
     "rating" : "3.5", 
     "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
-    "updated_at" : ISODate("2018-06-23T14:47:28.000+0000"), 
+    "updated_at" : ISODate("2018-06-28T16:54:13.000+0000"), 
     "deleted" : false, 
     "schedule" : null, 
     "quantity_job" : {
-        "hirring" : NumberInt(1)
+        "hirring" : NumberInt(3)
     }
 }
 { 
@@ -267,6 +276,9 @@
         "hirring" : NumberInt(0), 
         "deleted" : NumberInt(0)
     }, 
+    "master" : [
+        "5b3a31ffaf479301134aa0c9"
+    ], 
     "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
     "updated_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
     "info" : {
