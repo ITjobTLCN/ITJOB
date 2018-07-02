@@ -64,12 +64,7 @@
             "detail" : "Ba Đình, Hà Nội"
         }, 
         {
-            "_id" : "1234", 
-            "city" : "Hà Nội", 
-            "detail" : "Ba Đình, Hà Nội"
-        }, 
-        {
-            "_id" : "123", 
+            "_id" : "5ac85f51b9068c2384007d92", 
             "city" : "Hồ Chí Minh", 
             "detail" : "Helios Bldg, Phần mềm Quang Trung, Phường Tân Chánh Hiệp, Quận 12, Thành phố Hồ Chí Minh"
         }
@@ -110,7 +105,7 @@
         "deleted" : NumberInt(0)
     }, 
     "created_at" : ISODate("2018-04-07T06:04:01.498+0000"), 
-    "updated_at" : ISODate("2018-06-24T05:06:04.000+0000"), 
+    "updated_at" : ISODate("2018-07-02T17:22:45.000+0000"), 
     "deleted" : false, 
     "schedule" : null
 }
