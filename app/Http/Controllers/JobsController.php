@@ -252,7 +252,7 @@ class JobsController extends Controller
                 }
             }
         }
-        
+
         $listJobLastest = [];
         if (!empty($jobs)) {
             $listJobLastest = $jobs;

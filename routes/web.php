@@ -241,8 +241,26 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('roles','AdminController@loadAdminRoles');
 
 		// Add angularjs using: Skill
-	Route::get('ngskills','AdminController@ngGetSkills');
 	Route::get('ngcities','AdminController@ngGetCities');
+
+		// Admin jobs
+	Route::get('jobs','AdminJobController@loadJobs');
+	Route::get('ngjobs','AdminJobController@ngJobs');
+
+		// Admin applications
+	Route::get('applications','AdminJobController@loadApplications');
+	Route::get('ngapplications','AdminJobController@ngApplications');
+
+		// Admin skills
+	Route::get('skills','AdminJobController@loadSkills');
+	Route::get('ngskills','AdminJobController@ngSkills');
+	Route::post('ngskill', 'AdminJobController@ngAddSkill');
+	Route::put('ngskill', 'AdminJobController@ngEditSkill');
+	Route::delete('ngskill', 'AdminJobController@ngDeleteSkill');
+
+		// Statistics
+	Route::get('statistics', 'StatisticsController@loadStatistics');
+	Route::get('ngstatisticapps',  'StatisticsController@statisticApplication');
 });
 Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
@@ -280,4 +298,6 @@ Route::post('sendemail', [ 'as' => 'postSendEmail', 'uses' => 'EmployerControlle
 Route::get('/markAsRead', function() {
 	auth()->user()->unreadnotifications->markAsRead();
 });
+
+
 /*-----------------END DAT ROUTER----------------------*/

@@ -48,7 +48,9 @@ return [
     'EMPLOYERS' => 'emps',
     'EMPLOYER' => 'emp',
     'SKILLS' => 'skills',
+    'SKILL' => 'skill',
     'CITIES' => 'cities',
+    'JOBS' => 'jobs',
 
     /**
      * Type
@@ -72,4 +74,21 @@ return [
     'FAIL_CREATE_EMPLOYER' => 'Create employer failed',
     'SUCCESS_EDIT_EMPLOYER' => 'Edit employer successfully',
     'FAIL_EDIT_EMPLOYER' => 'Edit employer failed',
+
+    /**
+     * General
+     */
+    'CREATE_SUCCESS' => 'Create successfully',
+    'CREATE_FAIL' => 'Create failed',
+    'EDIT_SUCCESS' => 'Edit successfully',
+    'EDIT_FAIL' => 'Edit failed',
+    'DELETE_SUCCESS' => 'Delete successfully',
+    'DELETE_FAIL' => 'Delete failed',
+
+
+    /**
+     * Statistics
+     */
+    'WEEK' => 'week',
+    'YEAR' => 'year',
 ];

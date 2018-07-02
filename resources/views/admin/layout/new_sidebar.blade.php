@@ -67,6 +67,25 @@
             </li>
             <li class="treeview">
                 <a href="#">
+                    <i class="fa fa-edit"></i>
+                    <span>Jobs &amp; applications</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a href="admin/jobs">
+                            <i class="fa fa-circle-o"></i> Jobs</a>
+                    </li>
+                    <li>
+                        <a href="admin/applications">
+                            <i class="fa fa-circle-o"></i> Applications</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-dashboard"></i>
                     <span>Dashboard</span>
                     <span class="pull-right-container">

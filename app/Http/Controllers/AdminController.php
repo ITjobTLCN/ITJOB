@@ -601,28 +601,7 @@ class AdminController extends Controller
         }
     }
 
-    public function ngGetDenyEmp($id){
-        try{
-            $emp = Employers::findOrFail($id);
 
-            //with master
-            $regis = Registration::where('emp_id',$emp->id)->where(config('constant.STATUS'),0)->first();
-            $user = User::findOrFail($regis->user_id);
-            //
-            $regis->status = 2;
-            $regis->save();
-            $emp->status = 2;
-            $emp->save();
-
-            $emps = Employers::all();
-
-            $user->notify(new ConfirmEmployer($emp,FALSE));
-
-            return response()->json([config('constant.STATUS')=>TRUE,config('constant.MESSAGE')=>'Deny Successfully',config('constant.EMPLOYERS')=>$emps]);
-        }catch(Exception $e){
-            return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>'Deny failed']);
-        }
-    }
         /*END CONFIRM/DENY pending Employer*/
     /*----------------END EMPLOYERS-------------------*/
 
@@ -657,10 +636,7 @@ class AdminController extends Controller
     /**
      * Add common function for angularjs
      */
-    public function ngGetSkills() {
-        $skills = $this->get_list_skills();
-        return response()->json([config('constant.SKILLS') => $skills]);
-    }
+
     public function ngGetCities() {
         $cities = $this->get_list_cities();
         return response()->json([config('constant.CITIES') => $cities]);
