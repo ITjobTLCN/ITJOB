@@ -32,6 +32,7 @@
                             </div>
                         </div>
                     </div>
+                    @if(!Auth::check() || Auth::user()->role_id == '5ac85f51b9068c2384007d9c')
                     <div class="col-md-3 col-sm-12 col-xs-12">
                         <div class="action_companies">
                             <div class="add_review">
@@ -57,6 +58,7 @@
                         @include('partials.modal-login')
                         @include('partials.modal-register')
                     </div>
+                    @endif
                 </div>
             </div>
         </section>

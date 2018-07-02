@@ -105,6 +105,7 @@ Việc làm mới nhất | ITJOB
 									</div>
 									<div class="clearfix"></div>
 								</div>
+								@if(!Auth::check() || Auth::user()->role_id == '5ac85f51b9068c2384007d9c')
 								<div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">
 									@if(Auth::check())
 									<div class="follow{{ $ljlt->_id }}" id="followJob" emp_id="{{ $ljlt->employer_id }}" job_id="{{ $ljlt->_id }}">
@@ -118,6 +119,7 @@ Việc làm mới nhất | ITJOB
 									<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>
 									@endif
 								</div>
+								@endif
 							</div>
 						</div>
 						@endforeach

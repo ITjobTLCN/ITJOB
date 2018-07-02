@@ -119,6 +119,7 @@ class JobsController extends Controller
             $date = Carbon::parse($job->created_at)->format('d-m-Y');
             $today = date('d-m-Y');
             $skills = Skills::whereIn('_id', $job['skills_id'])->get();
+            // html
             $result  .=  '<div class="job-item">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2">
@@ -144,7 +145,7 @@ class JobsController extends Controller
                                                 $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương </a></span>';
                                             }
                                             $result .= '<span class="separator"> | </span>';
-                                            if ($date == $today){
+                                            if ($date == $today) {
                                                 $result .= '<span class="">Today</span>';
                                             } else {
                                                 $result .= '<span class=""> ' . $date . '</span>';
@@ -154,17 +155,21 @@ class JobsController extends Controller
                 foreach ($this->getListSkillJobv($job->skills_id) as $key => $s) {
                     $result .= '<a href=""><span>' . $s->name . '</span></a>';
                 }
-                $result .= '</div></div></div><div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">';
-                if (Auth::check()) {
-                    $result .= '<div class="follow' . $job->_id . '" id="followJob" job_id="'. $job->_id . '" emp_id="' . $job->employer_id . '">';
-                    if ($this->getJobFollowed($job->id)) {
-                        $result .= '<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>';
-                    }else{
-                        $result .= '<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>';
+                $result .= '</div></div></div>';
+                if (!Auth::check() || Auth::user()->role_id == config('constant.roles.candidate')) {
+                    if (Auth::check()) {
+                        $result .= '<div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">
+                        <div class="follow' . $job->_id . '" id="followJob" job_id="'. $job->_id . '" emp_id="' . $job->employer_id . '">';
+                        if ($this->getJobFollowed($job->id)) {
+                            $result .= '<i class="fa fa-heart" aria-hidden="true" data-toggle="tooltip" title="UnFollow"></i>';
+                        }else{
+                            $result .= '<i class="fa fa-heart-o" aria-hidden="true" data-toggle="tooltip" title="Follow"></i>';
+                        }
+                    } else {
+                        $result .= '<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>';
                     }
-                } else {
-                    $result .= '<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>';
                 }
+
                 $result .= '</div></div></div></div>';
         }
 

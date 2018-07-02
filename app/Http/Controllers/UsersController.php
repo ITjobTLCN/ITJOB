@@ -18,6 +18,7 @@ use Hash;
 use App\Job;
 use App\Traits\User\UserMethod;
 use App\Traits\CommonMethod;
+use File;
 
 class UsersController extends Controller
 {
@@ -54,7 +55,7 @@ class UsersController extends Controller
                 $role = Roles::where('_id', Auth::user()->role_id)->value('route');
                 return redirect()->route($role);
             } else {
-                $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']); 
+                $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']);
                 return redirect()->back()
                                  ->withInput()
                                  ->withErrors($errors);
@@ -108,7 +109,12 @@ class UsersController extends Controller
     public function postAvatar(Request $req) {
         if($req->hasFile('avatar')) {
             $avatar = $req->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $image_path = public_path('uploads/avatar/' . Auth::user()->avatar);
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+
+            $filename = $this->changToAlias(Auth::user()->name) . '.' . $avatar->getClientOriginalExtension();
             Image::make($avatar)->resize(300, 300)->save(public_path('/uploads/avatar/' . $filename));
 
             $user = Auth::user();

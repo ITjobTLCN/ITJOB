@@ -114,7 +114,7 @@ h6 {
     font-size: 18px;
 }
 @colorWhite: #fff;
-@mainColor: #d94127;
+@mainColor: #1b7d82;
 @secondColor: #373a48;
 @margin-top: 60px;
 .mt-3 {
@@ -686,7 +686,7 @@ div#navbar ul li:hover .sub-menu-info {
 /*footer*/
 
 #myFooter {
-    background-color: #373a48;
+    background-color: @mainColor;
     color: white;
     .footer-top {
         margin-bottom: 10px;
@@ -714,7 +714,7 @@ div#navbar ul li:hover .sub-menu-info {
         margin-top: 30px;
     }
     a {
-        color: #d2d1d1;
+        color: #fff;
         text-decoration: none;
         &:hover {
             text-decoration: none;
@@ -2121,6 +2121,7 @@ a:visited {
             .job-title{
                 font-weight: 600;
                 color: #e34c31;
+                font-size: 35px;
             }
             .company-name{
                 font-size: 16px;
@@ -2563,6 +2564,12 @@ label.error {
     margin-bottom: 10px;
     cursor: pointer;
     border-radius: 5px;
+}
+
+.btn {
+    &:hover{
+        color : #fff
+    }
 }
 
 

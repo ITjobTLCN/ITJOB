@@ -121,6 +121,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @if(!Auth::check() || Auth::user()->role_id == '5ac85f51b9068c2384007d9c')
                                     <div class="col-md-4">
                                         <div class="row">
                                             <div class="action-apply">
@@ -128,6 +129,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -209,10 +211,14 @@
                                     <span class="tag-skill" title="<% skill.name %>" ng-repeat="skill in skillsemp"><% skill.name %></span>
                                 </div>
                             </div>
+                            @if(!Auth::check() || Auth::user()->role_id == '5ac85f51b9068c2384007d9c')
                             <a href="{{route('getApplyJob',[$job['alias'], $job['_id']])}}" class="btn btn-primary btn-xlg col-xs-12 apply" type="button">Apply Now</a>
+                            @endif
                         </div>
                     </div>
+                    @if(!Auth::check() || Auth::user()->role_id == '5ac85f51b9068c2384007d9c')
                     @include('partials.job-most-viewer')
+                    @endif
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pull-right">
                     <div class="box">
