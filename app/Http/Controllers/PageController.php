@@ -72,4 +72,8 @@ class PageController extends Controller
             'Content-Disposition' => 'inline; filename="'. $fileName .'"'
         ]);
     }
+
+    public function commingSoon() {
+        return view('layouts.comming-soon');
+    }
 }

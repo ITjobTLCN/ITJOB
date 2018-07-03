@@ -176,6 +176,7 @@ Route::get('cache/flush/all', [
 	'as' => 'clearAllCache',
 	'uses' => 'PageController@clearAllCache'
 ]);
+Route::get('comming-soon', [ 'as' => 'commingSoon', 'uses' => 'PageController@commingSoon' ]);
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------
 */
