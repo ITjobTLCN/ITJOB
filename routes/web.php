@@ -177,6 +177,7 @@ Route::get('cache/flush/all', [
 	'uses' => 'PageController@clearAllCache'
 ]);
 Route::get('comming-soon', [ 'as' => 'commingSoon', 'uses' => 'PageController@commingSoon' ]);
+Route::get('google-maps', [ 'as' => 'googleMaps', 'uses' => 'PageController@googleMaps']);
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------
 */

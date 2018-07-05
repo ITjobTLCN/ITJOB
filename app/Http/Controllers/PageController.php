@@ -76,4 +76,8 @@ class PageController extends Controller
     public function commingSoon() {
         return view('layouts.comming-soon');
     }
+
+    public function googleMaps() {
+        return view('layouts.google-maps');
+    }
 }

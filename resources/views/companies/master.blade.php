@@ -8,6 +8,7 @@
 	<meta name="author" content="">
 	<meta name="description" content="La casa free real state fully responsive html5/css3 home page website template"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+    <link rel="icon" type="image/png" href="favicon.png"/>
 	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
