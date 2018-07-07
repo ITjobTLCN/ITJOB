@@ -1,4 +1,4 @@
-app.controller('EmployerManagerController', function($http, $scope, $filter) {
+app.controller('EmployerManagerController', function($http, $scope, $filter, toaster) {
 	$scope.empId = "";
 	$scope.employer = {};
 	var infoEmployer = [];
@@ -40,7 +40,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				$scope.selection.push({ _id:value._id, name:value.name });
 			});
 		}, function(error) {
-			console.log('error', 'cannot get data from service');
+			toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 		});
 
 		$scope.sortTypePost = '_id';
@@ -72,7 +72,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				formatLongDate(o, 'reviewed_at');
 			});
 		}, function(error) {
-			console.log('error', 'cannot get data from service');
+			toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 		});
 	}
 
@@ -91,28 +91,28 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			$http(req).then(function(response) {
 				console.log(response);
 				if (response.data.status == true) {
-					alert(response.data.message);
+					toaster.pop('success', 'Success', response.data.message);
 					$scope.assis = response.data.assis;
 				} else {
-					alert(response.data.message);
+					toaster.pop('error', 'Error', response.data.message);
 				}
 			}, function(error) {
-				alert('ERROR');
+				toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 			});
 		}
 	}
 
 	$scope.deny = function(id) {
 		if (confirm('Are you sure deny this employer?')) {
-			$http.get('emp/ngdenyass/'+ $scope.empId +"/" + id).then(function(response) {
-				if (response.data.status==true) {
-					alert(response.data.message);
+			$http.get('emp/ngdenyass/' + $scope.empId + "/" + id).then(function(response) {
+				if (response.data.status == true) {
+					toaster.pop('success', 'Success', response.data.message);
 					$scope.assis = response.data.assis;
 				} else {
-					alert(response.data.message);
+					toaster.pop('error', 'Error', response.data.message);
 				}
 			}, function(error) {
-				alert('ERROR');
+				toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 			});
 		}
 	}
@@ -121,16 +121,15 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 	$scope.confirmPost = function(id) {
 		if (confirm('Are you sure confirm?')) {
 			$http.get('emp/ng-confirm-post/' + id).then(function(response) {
-				if (response.data.status==true) {
-
-					alert(response.data.message);
+				if (response.data.status == true) {
+					toaster.pop('success', 'Success', response.data.message);
 					$scope.resetAd($scope.empId);
 				} else {
-					alert(response.data.message);
+					toaster.pop('error', 'Error', response.data.message);
 				}
 				console.log(response.data);
 			}, function(error) {
-				alert('ERROR');
+				toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 			});
 		}
 	}
@@ -141,10 +140,9 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 				if (response.data.status == true) {
 					$scope.resetAd($scope.empId);
 				}
-
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 			}, function(error) {
-				alert('ERROR');
+				toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 			});
 		}
 	}
@@ -226,10 +224,9 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			if (response.data.status == true) {
 				$scope.editable = false;
 			}
-
-			alert(response.data.message);
+			toaster.pop('success', 'Success', response.data.message);
 		}, function(error) {
-			alert('ERROR');
+			toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 		});
 	}
 
@@ -321,9 +318,9 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 					//update my list posts
 					$scope.loadBasic();
 				}
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 			}, function(error) {
-				alert("ERROR");
+				toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 			});
 		} else {
 			if (type == 1) {//edit
@@ -344,9 +341,9 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 						$scope.addPost();
 						$scope.loadBasic();
 					}
-					alert(response.data.message);
+					toaster.pop('success', 'Success', response.data.message);
 				}, function(error) {
-					alert("ERROR");
+					toaster.pop('error', 'Something went wrong', 'Can not get data from service');
 				});
 			}
 		}
@@ -402,7 +399,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			});
 			$scope.addPost("1");
 		}, function(error) {
-			alert('ERROR');
+			toaster.pop('error', 'ERROR', 'Can not get data from service');
 		});
 	}
 
@@ -415,9 +412,9 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 					//reload data
 					$scope.loadBasic($scope.empId);
 				}
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 			}, function(error) {
-				alert("ERROR");
+				toaster.pop('error', 'ERROR', 'Can not get data from service');
 			});
 		}
 	}
@@ -433,9 +430,9 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 						//reload data
 						$scope.loadBasic($scope.empId);
 					}
-					alert(response.data.message);
+					toaster.pop('success', 'Success', response.data.message);
 				}, function(error) {
-					alert("ERROR");
+					toaster.pop('error', 'ERROR', 'Can not get data from service');
 				});
 			}
 		}
@@ -532,13 +529,13 @@ app.controller('EmployerManagerController', function($http, $scope, $filter) {
 			$http(req).then(function(response) {
 				console.log(response);
 				if (response.data.status == true) {
-					alert(response.data.message);
+					toaster.pop('success', 'Success', response.data.message);
 					$scope.loadBasic($scope.empId);
 				} else {
-					alert(response.data.message);
+					toaster.pop('error', 'ERROR', response.data.message);
 				}
 			}, function(error) {
-				alert('ERROR');
+				toaster.pop('error', 'ERROR', 'Can not get data from service');
 			});
 		}
 	}

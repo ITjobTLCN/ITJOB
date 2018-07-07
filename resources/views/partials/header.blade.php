@@ -43,7 +43,7 @@
                 </ul>
             </li>
             <li>
-                <a href="#">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar">
+                <a href="{{route('profile')}}">{{Auth::user()->name}} <span class="caret"></span> <div class="sign-in-user-avatar">
                     @if(Auth::user()->password != "")
                     <img src="uploads/avatar/{{Auth::user()->avatar}}" alt="" class="user-avatar img-responsive" width="150px" height="150px">
                     @else

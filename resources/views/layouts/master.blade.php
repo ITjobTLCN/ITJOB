@@ -15,6 +15,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/emp.css">
 	<link rel="stylesheet/less" type="text/css" href="assets/less/styles.less">
 	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/toaster.css">
 	<link rel="stylesheet" href="assets/css/ui-select/select2.css">
     <link rel="stylesheet" href="assets/css/ui-select/selectize.bootstrap3.css">
 	<link rel="stylesheet" href="assets/css/ui-select/select.css">
@@ -27,6 +28,7 @@
 	@include('partials.header')
 	@yield('header.caption')
 	<div class="main">
+		<toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
 		@yield('body.content')
 	</div>
 	@include('partials.social')

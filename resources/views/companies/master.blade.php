@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link rel="stylesheet/less" type="text/css" href="assets/less/styles.less">
 	<link rel="stylesheet" type="text/css" href="assets/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/toaster.css">
 	<script type="text/javascript" src="assets/js/jquery.js"></script>
 </head>
 <body data-spy="scroll" data-target=".navbar">

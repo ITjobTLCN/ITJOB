@@ -99,7 +99,7 @@ Việc làm mới nhất | ITJOB
 										</div>
 										<div class="job__skill">
 											@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->skills_id) as $key => $s)
-											<a href=""><span>{{ $s->name }}</span></a>
+											<span>{{ $s->name }}</span>
 											@endforeach
 										</div>
 									</div>

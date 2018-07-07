@@ -4,6 +4,7 @@ Manage Advance
 @endsection
 @section('empcontent')
 <div  ng-controller="EmployerManagerController" ng-init="load()">
+
 	<div class="emp-section" id="emp-info">
 		<div class="info-ct">
 			<h1>Your employer's infomation</h1>

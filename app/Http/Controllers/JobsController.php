@@ -10,10 +10,12 @@ use App\Job;
 use App\Reviews;
 use App\User;
 use App\Follows;
+
 use Session;
 use Cache;
 use Auth;
 use Carbon\Carbon;
+
 use App\Traits\AliasTrait;
 use App\Traits\LatestMethod;
 use App\Traits\Job\JobMethod;
@@ -76,6 +78,7 @@ class JobsController extends Controller
         $info_salary = $req->info_salary;
         $key = "";
         $arrWheres = [];
+        $i = 0;
         if (Cache::has('key')) {
             $key = Cache::get('key');
             if (in_array(strtolower($key), config('constant.skills'))) {
@@ -84,10 +87,20 @@ class JobsController extends Controller
                     $info_skill = [];
                 }
                 array_push($info_skill, $skill->_id);
+                $arrWheres['$or'][]['name'] = [
+                    '$regex' => $key,
+                    '$options' => 'i'
+                ];
+                $arrWheres['$or'][]['alias'] = [
+                    '$regex' => $key,
+                    '$options' => 'i'
+                ];
+                $i = 2;
+            } else {
+                $arrWheres['$text'] = [
+                    '$search' => $key
+                ];
             }
-            $arrWheres['$text'] = [
-                '$search' => $key
-            ];
         }
 
         if (Cache::has('city')) {
@@ -97,14 +110,14 @@ class JobsController extends Controller
         }
         if (!empty($info_salary)) {
             $arrSalary = explode('-', $info_salary[0]);
-            $arrWheres['$or'][0]['$and'][]['detail.salary'] = [
+            $arrWheres['$or'][$i]['$and'][]['detail.salary'] = [
                 '$gte' => intval($arrSalary[0]),
                 '$lt' => intval($arrSalary[1])
             ];
         }
 
         if (!empty($info_skill)) {
-            $arrWheres['$or'][0]['$and'][]['skills_id'] = [
+            $arrWheres['$or'][$i]['$and'][]['skills_id'] = [
                 '$in' => array_unique($info_skill)
             ];
         }
@@ -139,8 +152,8 @@ class JobsController extends Controller
                                             <span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> ' . $job->city . '</span>
                                         </div>
                                             <div class="company text-clip">';
-                                            if (Auth::check()){
-                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">' . $job->detail['salary'] . ' $</a></span>';
+                                            if (Auth::check()) {
+                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">' . $job->detail['salary'] . ' $ </a></span>';
                                             } else {
                                                 $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương </a></span>';
                                             }
@@ -153,7 +166,7 @@ class JobsController extends Controller
                                             $result .= '</div>
                                         <div class="job__skill">';
                 foreach ($this->getListSkillJobv($job->skills_id) as $key => $s) {
-                    $result .= '<a href=""><span>' . $s->name . '</span></a>';
+                    $result .= '<span>' . $s->name . '</span> ';
                 }
                 $result .= '</div></div></div>';
                 if (!Auth::check() || Auth::user()->role_id == config('constant.roles.candidate')) {

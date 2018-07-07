@@ -3,21 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 use App\User;
 use App\Applications;
 use App\Employers;
 use App\Roles;
-use Auth;
-use Illuminate\Support\MessageBag;
-use Image;
-use App\Events\SendMail;
-use Validator;
-use DB;
-use Cache;
-use Hash;
 use App\Job;
+
+use App\Events\SendMail;
 use App\Traits\User\UserMethod;
 use App\Traits\CommonMethod;
+
+use Auth;
+use Image;
+use Validator;
+use Cache;
 use File;
 
 class UsersController extends Controller
@@ -149,8 +149,8 @@ class UsersController extends Controller
     }
 
     public function editProfile(Request $req) {
-        $user=User::findOrFail(Auth::user()->id);
-        if($req->hasFile('cv')) {
+        $user = User::findOrFail(Auth::user()->id);
+        if ($req->hasFile('cv')) {
             $cv = $req->file('cv');
             $filename = $cv->getClientOriginalName();
             $cv->move('uploads/user/cv/' , $filename);
@@ -158,19 +158,21 @@ class UsersController extends Controller
         }
 
         $user->name = $req->name;
-        $user->describe=$req->describe;
+        $user->description = $req->description;
         $user->save();
-        return redirect()->back()->with(['success'=>'Cập nhật thông tin thành công']);
+
+        return redirect()->back()->with(['success' => 'Cập nhật thông tin thành công']);
     }
 
     public function postLoginModal(Request $req) {
         $credentials = $req->only('email', 'password');
-        if(Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             return response()->json([
                     'error' => false,
                     'message' => 'Đăng nhập thành công'
                     ], 200);
         }
+
         return response()->json([
                 'error' => true,
                 'message' => 'Email hoặc mật khẩu không đúng'
@@ -179,11 +181,11 @@ class UsersController extends Controller
 
     public function postRegisterModal(Request $req) {
         $user = User::where('email', $req->email)->first();
-        if($user) {
+        if (!empty($user)) {
             return response()->json([
                 'error' => true,
                 'message' => 'Email đã tồn tại'
-            ],200);
+            ]);
         } else {
             $user = User::create([
                 'name' => $req->name,
@@ -196,7 +198,7 @@ class UsersController extends Controller
             return response()->json([
                 'error'=>false,
                 'message'=>'Tạo thành công tài khoản'
-                ],200);
+                ]);
         }
     }
 
@@ -205,7 +207,7 @@ class UsersController extends Controller
         $jobApplications = Applications::with('employer', 'job')
                                             ->where('user_id', Auth::id())
                                             ->get();
-        if ( !is_null($jobApplications) || !empty($jobApplications)) {
+        if (!is_null($jobApplications) || !empty($jobApplications)) {
             $topEmployers = Cache::remember('topEmployer', config('constant.cacheTime'), function() {
                 return Employers::select('name', 'alias', 'images.avatar')
                                     ->orderBy('quantity_user_follow desc')
