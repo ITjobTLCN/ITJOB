@@ -14,18 +14,6 @@
 		<div class="wrapper-profile">
 			<div class="box box-md">
 				<div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-					@if(Session::has('message'))
-					<div class="alert alert-success">{{Session::get('message')}}</div>
-					@endif
-					@if ($errors->any())
-					<div class="alert alert-danger">
-						{{ $errors->first()}}
-					</div>
-					@endif
-					<div class="alert alert-success" id="reg-message-result" style="display: none">
-						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						<strong>Success!</strong> <% message %>
-					</div>
 					<form action="#" method="POST" id="register_emp_form">
 						<input type="hidden" name="empid" ng-model="curemp.empid" value="<%curemp.id%>">
 						<div class="form-group">

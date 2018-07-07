@@ -110,11 +110,9 @@
         </section>
         <section class="rating-companies">
             <div id="ratings">
-                
                 <div class="header-section">
                     @if(count($company->reviews) != 0)
                     <p>Ratings <span>(Có {{count($company->reviews)}} bài đánh giá)</span></p>
-                    
                     <span class="under-line"></span>
                 </div>
                 <div class="row main-rating">
@@ -135,9 +133,9 @@
 														@endfor
 													</span>
 													@if($rv['recommend'] == 'yes')
-                                                    <span class="recommend"><i class="fa fa-thumbs-o-up"></i> Recommend</span>
+                                                    <span class="recommend"><i class="fa fa-thumbs-o-up"></i></span>
                                                     @else
-													<span class="recommend"><i class="fa fa-thumbs-o-down"></i>UnRecommend</span>
+													<span class="recommend"><i class="fa fa-thumbs-o-down"></i></span>
                                                     @endif
                                                 </div>
                                                 <div class="date">{{$rv['reviewed_at']}}</div>

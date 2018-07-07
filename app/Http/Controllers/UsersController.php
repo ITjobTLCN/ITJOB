@@ -126,30 +126,31 @@ class UsersController extends Controller
     }
     public function editEmail(Request $req) {
         $email = $req->newEmail;
-        if ($email != Auth::user()->email) {
-            try {
-                $user = User::where('_id', Auth::id())
-                                ->update(['email' => $email]);
-                return response()->json([
-                                'error' => false,
-                                'message' => 'Cập nhật email thành công'
-                            ]);
-            } catch(\Exception $e) {
-                return response()->json([
-                                'error' => true,
-                                'message' => 'Không thể cập nhật email'
-                            ]);
-            }
-        }
-
-        return response()->json([
+        $findEmail = User::where('email', $email)->first();
+        if (!empty($findEmail)) {
+            return response()->json([
                     'error' => true,
-                    'message' => 'Email đã tồn tại'
+                    'message' => 'Email has been already'
                 ]);
+        }
+        try {
+            $user = User::where('_id', Auth::id())
+                            ->update(['email' => $email]);
+            return response()->json([
+                            'error' => false,
+                            'message' => 'Update Email Successfully',
+                            'email' => $email
+                        ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                            'error' => true,
+                            'message' => 'Can NOT update email'
+                        ]);
+        }
     }
 
     public function editProfile(Request $req) {
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::findOrFail(Auth::id());
         if ($req->hasFile('cv')) {
             $cv = $req->file('cv');
             $filename = $cv->getClientOriginalName();
@@ -161,7 +162,9 @@ class UsersController extends Controller
         $user->description = $req->description;
         $user->save();
 
-        return redirect()->back()->with(['success' => 'Cập nhật thông tin thành công']);
+        return response()->json([ 'error' => false,
+                                  'message' => 'Update Profile Successfully'
+                            ]);
     }
 
     public function postLoginModal(Request $req) {
