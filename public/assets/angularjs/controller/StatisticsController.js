@@ -1,24 +1,71 @@
 app.controller('StatisticsController', function ($scope, $http, $timeout, Constant) {
     // Set constant
     $scope.constant = Constant;
-    $scope.dataApplications = [];
-    $scope.labelApplications = [];
     // Load default data
-    var param = $.param({'type': 'week'});
-   $http({
-       method: 'GET',
-       url: 'admin/ngstatisticapps',
-       data: param,
-   }).then(function (response) {
-       $scope.dataApplications = response.data.data;
-       $scope.labelApplications = response.data.labels;
-   }, function (error) {
-       alert(error.message);
-   });
+    $scope.typeApp = 'week';
+    $scope.typeJob = 'week';
+    $scope.day = (new Date).getDate();
+    $scope.month = (new Date).getMonth() + 1;
+    $scope.year = (new Date).getFullYear();
 
-    $(function () {
+    $scope.init = function() {
+        $scope.loadStatisticApps();
+        $scope.loadStatisticJobs();
+    }
+
+    $scope.convertDate = function(date) {
+        var dd = date.getDate();
+        var mm = date.getMonth() + 1;
+        var yyyy = date.getFullYear();
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
+    $scope.loadStatisticApps = function() {
+        $http({
+            method: 'GET',
+            url: 'admin/ngstatisticapps',
+            params: {
+                type: $scope.typeApp,
+                day: $scope.day,
+                month: $scope.month,
+                year: $scope.year,
+            },
+            dataType: 'json'
+        }).then(function (response) {
+            // Load chart
+            $scope.loadBarChart('appplicationChart', 'appplicationBoxChart',
+                response.data.data, response.data.labels, '#3c8dbc');
+        }, function (error) {
+            alert(error.message);
+        });
+    }
+
+    $scope.loadStatisticJobs = function () {
+        $http({
+            method: 'GET',
+            url: 'admin/ngstatisticjobs',
+            params: {
+                type: $scope.typeJob,
+                day: $scope.day,
+                month: $scope.month,
+                year: $scope.year,
+            },
+            dataType: 'json'
+        }).then(function (response) {
+            // Load chart
+            $scope.loadBarChart('jobChart', 'jobBoxChart',
+                response.data.data, response.data.labels, '#dd4b39');
+        }, function (error) {
+            alert(error.message);
+        });
+    }
+
+
+    $scope.loadBarChart = function (child, parent, data, label, color) {
+        $(`#${child}`).remove();
+        $(`#${parent}`).append(`<canvas id="${child}" style="height:230px"><canvas>`);
         var areaChartData = {
-            labels: $scope.dataApplications,
+            labels: label,
             datasets: [
                 {
                     // label: 'Digital Goods',
@@ -28,7 +75,7 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
                     // pointStrokeColor: 'rgba(60,141,188,1)',
                     // pointHighlightFill: '#fff',
                     // pointHighlightStroke: 'rgba(60,141,188,1)',
-                    data: $scope.labelApplications
+                    data: data
                 }
             ]
         }
@@ -39,12 +86,12 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
         //-------------
         //- BAR CHART -
         //-------------
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-        var barChart = new Chart(barChartCanvas)
-        var barChartData = areaChartData
-        barChartData.datasets[0].fillColor = '#3c8dbc'
-        barChartData.datasets[0].strokeColor = '#3c8dbc'
-        barChartData.datasets[0].pointColor = '#3c8dbc'
+        var barChartCanvas = $(`#${child}`).get(0).getContext('2d');
+        var barChart = new Chart(barChartCanvas);
+        var barChartData = areaChartData;
+        barChartData.datasets[0].fillColor = color;
+        barChartData.datasets[0].strokeColor = color;
+        barChartData.datasets[0].pointColor = color;
         var barChartOptions = {
             //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
             scaleBeginAtZero: true,
@@ -73,7 +120,7 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
             maintainAspectRatio: true
         }
 
-        barChartOptions.datasetFill = false
-        barChart.Bar(barChartData, barChartOptions)
-    });
+        barChartOptions.datasetFill = false;
+        barChart.Bar(barChartData, barChartOptions);
+    };
 });
