@@ -52,7 +52,7 @@ Route::group([ 'prefix' => 'users', 'middleware' => 'auth'], function() {
 	Route::get('profile', [ 'as' => 'profile', 'uses' => 'UsersController@getPageProfile' ]);
 	Route::post('profile', [ 'as' => 'postAvatar', 'uses' => 'UsersController@postAvatar' ]);
 	Route::post('edit-email', [ 'as' => 'editEmail', 'uses' => 'UsersController@editEmail' ]);
-	Route::post('editProfile', [ 'as' => 'editProfile', 'uses' => 'UsersController@editProfile' ]);
+	Route::post('edit-profile', [ 'as' => 'editProfile', 'uses' => 'UsersController@editProfile' ]);
 	Route::get('job-applications', [ 'as' => 'jobApplications', 'uses' => 'UsersController@getJobApplicationsOfUser' ]);
 });
 
@@ -176,6 +176,8 @@ Route::get('cache/flush/all', [
 	'as' => 'clearAllCache',
 	'uses' => 'PageController@clearAllCache'
 ]);
+Route::get('comming-soon', [ 'as' => 'commingSoon', 'uses' => 'PageController@commingSoon' ]);
+Route::get('google-maps', [ 'as' => 'googleMaps', 'uses' => 'PageController@googleMaps']);
 /**------------------DAT ROUTER-------------------------
 *----------------CHANGE YOUR LIFE-----------------------
 */

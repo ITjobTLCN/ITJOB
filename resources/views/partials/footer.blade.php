@@ -10,7 +10,13 @@
                     </li>
                     <li><a href="{{route('searchCompanies')}}">Company Reviews</a>
                     </li>
-                    <li><a href="#">Post Job</a>
+                    <li><a href="{{route('getEmp')}}">
+                        @if(Auth::check() && !in_array(Auth::user()->role_id, ['5ac85f51b9068c2384007d9c']))
+                        Manager Page
+                        @else
+                        <span>Post Job</span>
+                        @endif
+                    </a>
                     </li>
                     <li><a href="{{route('login')}}">Sign In</a>
                     </li>
@@ -22,7 +28,7 @@
                 <h5>Find Jobs</h5>
                 <ul ng-controller="SkillsController" class="tag">
                     <li ng-repeat="skill in skills">
-                        <a href="it-job/<% skill.alias %>">
+                        <a href="it-job?key=<% skill.alias %>&cid=ho-chi-minh">
                             <% skill.name %>
                         </a>
                     </li>

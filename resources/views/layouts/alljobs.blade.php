@@ -23,13 +23,12 @@ Việc làm mới nhất | ITJOB
 					<div class="box box-xs">
 						<h2>Filter by</h2>
 						<button class="btn btn-facebook br-0" ng-click="clearAll()"> Clear All</button>
-
 						<div id="locations" class="facet">
 							<h5 data-target="#list-locations" data-toggle="collapse">salary </h5>
 							<div id="list-locations" class="collapse in">
 								<ul>
 									<li ng-repeat="sala in salary">
-										<input type="radio" name="salary" ng-click="filterJob($event, 'salary', sala)" ><span><% sala.label %></span>
+										<input type="radio" name="salary" ng-click="filterJob($event, 'salary', sala)" ng-disabled="disableFilter(<?php echo (count($listJobLastest)) ?>)"><span><% sala.label %></span>
 									</li>
 								</ul>
 							</div>
@@ -39,7 +38,7 @@ Việc làm mới nhất | ITJOB
 							<div id="list-skills" class="collapse in">
 								<ul>
 									<li ng-repeat="skill in skills">
-										<input type="checkbox" ng-click="filterJob($event, 'skills', skill)" ng-model="skill.selected"><span><%skill.name%></span>
+										<input type="checkbox" ng-click="filterJob($event, 'skills', skill)" ng-model="skill.selected" ng-disabled="disableFilter(<?php echo (count($listJobLastest)) ?>)" ><span><%skill.name%></span>
 									</li>
 								</ul>
 							</div>
@@ -100,12 +99,13 @@ Việc làm mới nhất | ITJOB
 										</div>
 										<div class="job__skill">
 											@foreach (app(App\Http\Controllers\JobsController::class)->getListSkillJobv($ljlt->skills_id) as $key => $s)
-											<a href=""><span>{{ $s->name }}</span></a>
+											<span>{{ $s->name }}</span>
 											@endforeach
 										</div>
 									</div>
 									<div class="clearfix"></div>
 								</div>
+								@if(!Auth::check() || Auth::user()->role_id == '5ac85f51b9068c2384007d9c')
 								<div class="col-xs-12 col-sm-2 col-md-1 col-lg-2">
 									@if(Auth::check())
 									<div class="follow{{ $ljlt->_id }}" id="followJob" emp_id="{{ $ljlt->employer_id }}" job_id="{{ $ljlt->_id }}">
@@ -119,6 +119,7 @@ Việc làm mới nhất | ITJOB
 									<i class="fa fa-heart-o" aria-hidden="true" id="openLoginModal" title="Login to follow"></i>
 									@endif
 								</div>
+								@endif
 							</div>
 						</div>
 						@endforeach

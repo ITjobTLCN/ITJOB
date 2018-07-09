@@ -45,7 +45,7 @@ ITJob - Top Job IT For You
 				<div class="list-skill hidden-xs" ng-controller="SkillsController">
 					<ul>
 						<li ng-repeat="skill in skills">
-							<a href="it-job?key=<% skill.alias %>" target="_blank"><% skill.name  %>, </a>
+							<a href="it-job?key=<% skill.alias %>&cid=ho-chi-minh" target="_blank"><% skill.name  %>, </a>
 						</li>
 					</ul>
 				</div>
@@ -55,92 +55,84 @@ ITJob - Top Job IT For You
 </div>
 @endsection
 @section('body.content')
-	<div class="container">
-		<section class="top_employers">
-			<h1 class="title text-center">Top Employees</h1>
-			<div class="row top-employers__list">
-				@foreach($top_emps as $top_emp)
-			    <div class="col-md-2 col-xs-6 col-sm-4 col-lg-2">
-			        <div class="item">
-			            <div class="top-employer__logo text-center">
-			                <a href="{{route('getEmployers', $top_emp->alias)}}" target="_blank"><img src="uploads/emp/avatar/{{$top_emp->images['avatar']}}" alt="" title="" class="property_img"/>
-			                </a>
-			            </div>
-			            <div class="property_details text-center">
-			                <a href="{{route('getEmployers', $top_emp->alias)}}" class="top-employer__name" target="_blank">{{$top_emp->name}}</a>
-			            </div>
-			        </div>
-			    </div>
-			    @endforeach
-			</div>
-		</section>	<!--  end listing section  -->
-		<section class="our_jobs">
-			<h1 class="title text-center">Our Job</h1>
-			<div class="our-jobs__main">
-				<div class="row">
-					<div class="col-md-9 col-sm-12">
-						<div class="top-jobs__list">
-							<span class="title">Top Jobs</span>
-							<br>
-							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane tab-job" id="topJobs">
-									<div class="panel-content">
-										<div class="job-list">
-											<ul>
-												@foreach($top_jobs as $top_job)
-												<li>
-													<a href="{{route('detailjob', [$top_job->alias, $top_job->_id])}}" title="{{$top_job->name}}">
-											            <span class="job-title">
-											            	<strong class="text-clip">{{$top_job->name}}</strong>
-											            	<em class="text-clip">{{$top_job->employer['name']}}</em>
-											            </span>
-										 			</a>
-												</li>
-												@endforeach
-											</ul>
-										</div>
+<div class="container">
+	<section class="top_employers">
+		<h1 class="title text-center">Top Employees</h1>
+		<div class="row top-employers__list">
+			@foreach($top_emps as $top_emp)
+		    <div class="col-md-2 col-xs-6 col-sm-4 col-lg-2">
+		        <div class="item">
+		            <div class="top-employer__logo text-center">
+		                <a href="{{route('getEmployers', $top_emp->alias)}}" target="_blank"><img src="uploads/emp/avatar/{{$top_emp->images['avatar']}}" alt="" title="" class="property_img"/>
+		                </a>
+		            </div>
+		            <div class="property_details text-center">
+		                <a href="{{route('getEmployers', $top_emp->alias)}}" class="top-employer__name" target="_blank">{{$top_emp->name}}</a>
+		            </div>
+		        </div>
+		    </div>
+		    @endforeach
+		</div>
+	</section>	<!--  end listing section  -->
+	<section class="our_jobs">
+		<h1 class="title text-center">Our Job</h1>
+		<div class="our-jobs__main">
+			<div class="row">
+				<div class="col-md-9 col-sm-12">
+					<div class="top-jobs__list">
+						<span class="title">Top Jobs</span>
+						<br>
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane tab-job" id="topJobs">
+								<div class="panel-content">
+									<div class="job-list">
+										<ul>
+											@foreach($top_jobs as $top_job)
+											<li>
+												<a href="{{route('detailjob', [$top_job->alias, $top_job->_id])}}" title="{{$top_job->name}}">
+										            <span class="job-title">
+										            	<strong class="text-clip">{{$top_job->name}}</strong>
+										            	<em class="text-clip">{{$top_job->employer['name']}}</em>
+										            </span>
+									 			</a>
+											</li>
+											@endforeach
+										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3 col-sm-12">
-						<div class="tech-event">
-							<span class="title">Tech Events</span>
-							<br>
-							<div class="tab-content">
-								<div class="tabpanel">
-									<div class="panel-content">
-                                                                                    <a target="_blank" href="https://meetup.vn/detail/MEETUPVN---THE-THAM-DU-TECH-EVENT-KHONG-GIOI-HAN-12-THANG-218" title="MEETUP.VN - THẺ THAM DỰ TECH EVENT KHÔNG GIỚI HẠN 12 THÁNG">
-                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/12_THANG.png">
-                                </a>
-                                                            <a target="_blank" href="https://meetup.vn/detail/MEETUPVN---THE-THAM-DU-TECH-EVENT-KHONG-GIOI-HAN-3-THANG-216" title="MEETUP.VN - THẺ THAM DỰ TECH EVENT KHÔNG GIỚI HẠN 3 THÁNG">
-                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/3_THANG1.png">
-                                </a>
-                                                            <a target="_blank" href="https://meetup.vn/detail/VIETNAM-WEB-SUMMIT2018-208" title="VIETNAM WEB SUMMIT 2018">
-                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/vws_20181.jpg">
-                                </a>
-                                                            <a target="_blank" href="https://meetup.vn/detail/Khoa-Hoc-Khoi-Nghiep-Thuong-Mai-Dien-Tu-Cho-Ca-Nhan-Va-SME-291" title="Khóa Học Khởi Nghiệp Thương Mại Điện Tử Cho Cá Nhân Và SME">
-                                    <img class="img-responsive" src="https://static.getticket.vn/uploads/banner/Khoi_Nghiep_TMDT2.png">
-                                </a>
-                                                                        </div>
-								</div>
+				</div>
+				<div class="col-md-3 col-sm-12">
+					<div class="tech-event">
+						<span class="title">Tech Events</span>
+						<br>
+						<div class="tab-content">
+							<div class="tabpanel">
+								<div class="panel-content">
+                                    <a href="{{route('commingSoon')}}" title="MEETUP.VN - THẺ THAM DỰ TECH EVENT KHÔNG GIỚI HẠN 12 THÁNG">
+                                		<img class="img-responsive" src="https://static.getticket.vn/uploads/banner/12_THANG.png">
+                            		</a>
+                                	<a href="{{route('commingSoon')}}" title="MEETUP.VN - THẺ THAM DỰ TECH EVENT KHÔNG GIỚI HẠN 3 THÁNG">
+                                		<img class="img-responsive" src="https://static.getticket.vn/uploads/banner/3_THANG1.png">
+                            		</a>
+                                	<a href="{{route('commingSoon')}}" title="VIETNAM WEB SUMMIT 2018">
+                                		<img class="img-responsive" src="https://static.getticket.vn/uploads/banner/vws_20181.jpg">
+                            		</a>
+                                    <a href="{{route('commingSoon')}}" title="Khóa Học Khởi Nghiệp Thương Mại Điện Tử Cho Cá Nhân Và SME">
+                                		<img class="img-responsive" src="https://static.getticket.vn/uploads/banner/Khoi_Nghiep_TMDT2.png">
+                            		</a>
+                                </div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
-		@include('partials.advertiment')
-		@include('partials.modal-login')
-		@include('partials.modal-register')
-	</div>
-{{-- @if(!empty(Session::get('error_code')) && Session::get('error_code') == 1)
-    <script>$(document).ready(function(){$('#loginModal').modal('show');}); </script>
-@endif
-@if(!empty(Session::get('error_code')) && Session::get('error_code') == 2)
-    <script>$(document).ready(function(){alert('This feature is not available');}); </script>
-@endif --}}
+		</div>
+	</section>
+	@include('partials.advertiment')
+</div>
 @endsection
 @section('footer.js')
 <script src="assets/controller/SearchController.js"></script>

@@ -310,8 +310,6 @@ class EmployerController extends Controller
 
         /*--------------------------Edit the post---------------------------*/
     public function ngEditPost(Request $request, $empId, $id) {
-        $user_id = Auth::user()->id;
-        /*id name alias salary description require treatment quantity user_id emp_id city_id follow* status created_at updated_at date_expired* */
         try {
             $arrData = $request->job;
             $this->editJob($arrData, $empId, $request->skills, $id);

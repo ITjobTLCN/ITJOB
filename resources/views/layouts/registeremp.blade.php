@@ -14,18 +14,6 @@
 		<div class="wrapper-profile">
 			<div class="box box-md">
 				<div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-					@if(Session::has('message'))
-					<div class="alert alert-success">{{Session::get('message')}}</div>
-					@endif
-					@if ($errors->any())
-					<div class="alert alert-danger">
-						{{ $errors->first()}}
-					</div>
-					@endif
-					<div class="alert alert-success" id="reg-message-result" style="display: none">
-						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-						<strong>Success!</strong> <% message %>
-					</div>
 					<form action="#" method="POST" id="register_emp_form">
 						<input type="hidden" name="empid" ng-model="curemp.empid" value="<%curemp.id%>">
 						<div class="form-group">
@@ -36,7 +24,7 @@
 									<select ng-model="curemp" id="curemp" ng-options="emp.name for emp in emps track by emp._id" class="form-control" ng-change="new=false"></select>
 								</div>
 								<div class="col-md-4">
-									<button type="button" class="btn btn-default btn-sm" ng-click="reset()">Reset</button>
+									<button type="button" class="btn btn-google btn-sm" ng-click="reset()">Reset</button>
 								</div>
 							</div>
 							<!-- <%curemp%> -->
@@ -50,17 +38,17 @@
 							<select name="city_id" id="city_id" class="form-control" ng-options="item._id as item.name for item in cities" ng-readonly="!new" ng-model="curemp.city_id"></select>
 						</div>
 						<div class="form-group">
-							<label for="address">Address:</label>
+							<label for="address">Address</label>
 							<input type="text" name="address" class="form-control" placeholder="Address" ng-readonly="!new" ng-model="curemp.address[0]['detail']">
 						</div>
 						<div class="form-group">
-							<label for="website">Employer Website:</label>
+							<label for="website">Employer Website</label>
 							<input type="text" name="website" class="form-control" placeholder="Link website" ng-readonly="!new" ng-model="curemp.website">
 						</div>
 						<input type="hidden" name="_token" value="{{csrf_token()}}">
 						<div class="form-group">
-							<div class="text-center ">
-								<button type="button" ng-click="submitReg()" class="btn btn-primary">Send Request</button>
+							<div class="text-center" style="float: right">
+								<button type="button" ng-click="submitReg()" class="btn btn-facebook">Send Request</button>
 							</div>
 						</div>
 					</form>

@@ -75,9 +75,9 @@ class HomeController extends Controller
         if ( !empty(Registration::where('user_id', Auth::id())->first())) {
             return response()->json(['status' => false, 'message' => 'You have registered 1 employer']);
         }
+
         $flag = true;
         //case Master and Assistant
-        //construct
         $emp_id = 0;
         //0:master reg  10:assis reg
         (!isset($request->_id) || empty($request->_id)) ? $type = 0 : $type = 10;
@@ -86,14 +86,8 @@ class HomeController extends Controller
                //create employers //NAME,CITY,ADDRESS,WEBSITE ->
                 $data = $request->only(['name', 'city_id', 'address', 'website']);
                 $id = $this->saveEmployer($data);
-                // if ($id) {
-                //     // update role user
-                //     User::where('_id', Auth::id())
-                //         ->update(['role_id' => config('constant.roles.employer')]);
-                //     $emp_id = $id;
-                // }
                 break;
-            case 10:
+            case 1:
                 $emp_id = $request->_id;
                 break;
             default:
@@ -108,12 +102,12 @@ class HomeController extends Controller
                 'type' => $type
             ];
             if ($this->saveRegisterEmployer($data)) {
-                return response()->json(['status' => true, 'message' => 'Register successfully']);
+                return response()->json(['status' => true, 'message' => 'Register employer successfully']);
             }
 
-            return response()->json(['status' => false, 'message' => 'Register failed']);
+            return response()->json(['status' => false, 'message' => 'Register employer failed']);
         }
-        
+
         return false;
     }
 }

@@ -1,12 +1,13 @@
-app.controller('HomeController', function($scope, $http) {
+app.controller('HomeController', function($scope, $http, toaster) {
 	$scope.loadReg = function() {
 		$http.get('ngload/register-employer').then(function(response) {
-			console.log(response.data);
+			console.info('initInfo', response.data);
 			$scope.cities = response.data.cities;
 			$scope.emps = response.data.emps;
-		},function(error) {
-			console.log('erros', 'cannot get data from server');
+		}, function(error) {
+			toaster.pop('error', 'ERROR', 'cannot get data from server');
 		});
+
 		$scope.new = true;
 	}
 	$scope.reset = function() {
@@ -21,22 +22,17 @@ app.controller('HomeController', function($scope, $http) {
 			 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
 			 data: $.param($scope.curemp),
 		};
+
 		$http(req).then(function(response) {
-			console.log(response.data);
 			if (response.data.status) {
-				$('#reg-message-result').css({
-					'display' : 'block'
-				});
-				$scope.message = response.data.message;
-				$scope.editable = false;
-				$scope.reset();
+				toaster.pop('success', 'Success', response.data.message);
 			} else {
-				alert('WARNING ' + response.data.message);
-				$scope.reset();
+				toaster.pop('warning', 'Warning', response.data.message);
 			}
-			//location.reload();
+
+			$scope.reset();
 		}, function(error) {
-			console.log('erros', 'cannot post data to server');
+			toaster.pop('error', 'ERROR', 'cannot post data to server');
 		});
 	}
 });

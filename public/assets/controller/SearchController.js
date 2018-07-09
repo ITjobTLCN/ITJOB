@@ -30,25 +30,28 @@ app.filter('propsFilter', function() {
   };
 })
 .controller('SearchController', ['$scope', '$timeout', '$http', function ($scope, $timeout, $http) {
-    var vm = this;
-    $scope.onSelected = function(item) {
-      localStorage.setItem('city', item.name);
-    };
-    vm.scity = localStorage.getItem('city');
-    vm.scity ?
-        vm.city = {selected : vm.scity}
-        :
-        vm.city = {selected : "Hồ Chí Minh"};
-    vm.cities = [];
-    $http({
-        method: 'GET',
-        url: 'list-city',
-    }).then(function(response) {
-        vm.cities = response.data;
-    }, function(error) {
-        console.log(error,'can not get data');
-    });
-    $timeout(function() {
-        localStorage.removeItem('city');
-    }, 1000);
+  if(window.location.pathname === '/') {
+     localStorage.removeItem('city');
+  }
+
+  var vm = this;
+  $http({
+      method: 'GET',
+      url: 'list-city',
+  }).then(function(response) {
+      vm.cities = response.data;
+  }, function(error) {
+      console.log(error,'can not get data');
+  });
+
+  $scope.onSelected = function(item) {
+    localStorage.setItem('city', item.name);
+  };
+
+  vm.scity = localStorage.getItem('city');
+  vm.scity ?
+      vm.city = {selected : vm.scity}
+      :
+      vm.city = {selected : "Hồ Chí Minh"};
+  vm.cities = [];
 }]);

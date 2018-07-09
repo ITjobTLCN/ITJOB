@@ -14,8 +14,8 @@
 							<h3 class="text-center">Đăng nhập hoặc đăng ký thành viên nhanh bằng tài khoản</h3>
 						</div>
 						<div class="social text-center">
-							<a type="button" href="{{route('loginProvider','facebook')}}" class="btn btn-primary"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
-							<a type="button" href="{{route('loginProvider','google')}}" class="btn btn-danger"><i class="fa fa-fw fa-google"></i> Google</a>
+							<a type="button" href="{{route('loginProvider','facebook')}}" class="btn btn-facebook br-0"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+							<a type="button" href="{{route('loginProvider','google')}}" class="btn btn-google br-0"><i class="fa fa-fw fa-google"></i> Google</a>
 						</div>
 					</div>
 				</h5>
@@ -37,7 +37,7 @@
 								<input type="password" class="form-control" name="password" id="password" placeholder="Password">
 							</div>
 							{{ csrf_field() }}
-							<button type="submit" class="btn btn-primary" style="width: 100%">Đăng nhập</button>
+							<button type="submit" class="btn btn-facebook br-0" style="width: 100%">Đăng nhập</button>
 						</form>
 					</div>
 				</div>

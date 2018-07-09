@@ -5,6 +5,7 @@ Employer
 @section('body.content')
 <div class="emp">
 	<div class="sidebar">
+
 			<div class="sb-head sb-title">
 				<a href="">My Employer</a>
 			</div>

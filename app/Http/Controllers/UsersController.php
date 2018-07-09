@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 use App\User;
 use App\Applications;
 use App\Employers;
 use App\Roles;
-use Auth;
-use Illuminate\Support\MessageBag;
-use Image;
-use App\Events\SendMail;
-use Validator;
-use DB;
-use Cache;
-use Hash;
 use App\Job;
+
+use App\Events\SendMail;
 use App\Traits\User\UserMethod;
 use App\Traits\CommonMethod;
+
+use Auth;
+use Image;
+use Validator;
+use Cache;
+use File;
 
 class UsersController extends Controller
 {
@@ -54,7 +55,7 @@ class UsersController extends Controller
                 $role = Roles::where('_id', Auth::user()->role_id)->value('route');
                 return redirect()->route($role);
             } else {
-                $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']); 
+                $errors = new MessageBag(['errorLogin' => 'Email hoặc mật khẩu không đúng']);
                 return redirect()->back()
                                  ->withInput()
                                  ->withErrors($errors);
@@ -108,7 +109,12 @@ class UsersController extends Controller
     public function postAvatar(Request $req) {
         if($req->hasFile('avatar')) {
             $avatar = $req->file('avatar');
-            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $image_path = public_path('uploads/avatar/' . Auth::user()->avatar);
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+
+            $filename = $this->changToAlias(Auth::user()->name) . '.' . $avatar->getClientOriginalExtension();
             Image::make($avatar)->resize(300, 300)->save(public_path('/uploads/avatar/' . $filename));
 
             $user = Auth::user();
@@ -120,31 +126,32 @@ class UsersController extends Controller
     }
     public function editEmail(Request $req) {
         $email = $req->newEmail;
-        if ($email != Auth::user()->email) {
-            try {
-                $user = User::where('_id', Auth::id())
-                                ->update(['email' => $email]);
-                return response()->json([
-                                'error' => false,
-                                'message' => 'Cập nhật email thành công'
-                            ]);
-            } catch(\Exception $e) {
-                return response()->json([
-                                'error' => true,
-                                'message' => 'Không thể cập nhật email'
-                            ]);
-            }
-        }
-
-        return response()->json([
+        $findEmail = User::where('email', $email)->first();
+        if (!empty($findEmail)) {
+            return response()->json([
                     'error' => true,
-                    'message' => 'Email đã tồn tại'
+                    'message' => 'Email has been already'
                 ]);
+        }
+        try {
+            $user = User::where('_id', Auth::id())
+                            ->update(['email' => $email]);
+            return response()->json([
+                            'error' => false,
+                            'message' => 'Update Email Successfully',
+                            'email' => $email
+                        ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                            'error' => true,
+                            'message' => 'Can NOT update email'
+                        ]);
+        }
     }
 
     public function editProfile(Request $req) {
-        $user=User::findOrFail(Auth::user()->id);
-        if($req->hasFile('cv')) {
+        $user = User::findOrFail(Auth::id());
+        if ($req->hasFile('cv')) {
             $cv = $req->file('cv');
             $filename = $cv->getClientOriginalName();
             $cv->move('uploads/user/cv/' , $filename);
@@ -152,19 +159,23 @@ class UsersController extends Controller
         }
 
         $user->name = $req->name;
-        $user->describe=$req->describe;
+        $user->description = $req->description;
         $user->save();
-        return redirect()->back()->with(['success'=>'Cập nhật thông tin thành công']);
+
+        return response()->json([ 'error' => false,
+                                  'message' => 'Update Profile Successfully'
+                            ]);
     }
 
     public function postLoginModal(Request $req) {
         $credentials = $req->only('email', 'password');
-        if(Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             return response()->json([
                     'error' => false,
                     'message' => 'Đăng nhập thành công'
                     ], 200);
         }
+
         return response()->json([
                 'error' => true,
                 'message' => 'Email hoặc mật khẩu không đúng'
@@ -173,11 +184,11 @@ class UsersController extends Controller
 
     public function postRegisterModal(Request $req) {
         $user = User::where('email', $req->email)->first();
-        if($user) {
+        if (!empty($user)) {
             return response()->json([
                 'error' => true,
                 'message' => 'Email đã tồn tại'
-            ],200);
+            ]);
         } else {
             $user = User::create([
                 'name' => $req->name,
@@ -190,7 +201,7 @@ class UsersController extends Controller
             return response()->json([
                 'error'=>false,
                 'message'=>'Tạo thành công tài khoản'
-                ],200);
+                ]);
         }
     }
 
@@ -199,7 +210,7 @@ class UsersController extends Controller
         $jobApplications = Applications::with('employer', 'job')
                                             ->where('user_id', Auth::id())
                                             ->get();
-        if ( !is_null($jobApplications) || !empty($jobApplications)) {
+        if (!is_null($jobApplications) || !empty($jobApplications)) {
             $topEmployers = Cache::remember('topEmployer', config('constant.cacheTime'), function() {
                 return Employers::select('name', 'alias', 'images.avatar')
                                     ->orderBy('quantity_user_follow desc')

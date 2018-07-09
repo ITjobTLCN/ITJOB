@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
 use App\Cities;
 use App\Skills;
 use App\Employers;
 use App\Job;
-use Auth;
-use Cache;
-use Mail;
+
 use App\Events\SendMailContact;
 use App\Traits\LatestMethod;
 use App\Traits\CommonMethod;
+use Auth;
+use Cache;
+use Mail;
 
 class PageController extends Controller
 {
@@ -71,5 +71,13 @@ class PageController extends Controller
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="'. $fileName .'"'
         ]);
+    }
+
+    public function commingSoon() {
+        return view('layouts.comming-soon');
+    }
+
+    public function googleMaps() {
+        return view('layouts.google-maps');
     }
 }

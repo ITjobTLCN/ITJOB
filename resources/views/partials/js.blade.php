@@ -15,6 +15,7 @@
 <script src="assets/controller/SkillsController.js"></script>
 <script src="assets/js/myscript.js"></script>
 <script src="assets/js/moment-local.min.js"></script>
+<script src="assets/js/toaster.js"></script>
 <!-- mudule for pagination in angular js && added in module app.js -->
 <!-- added date: 29-11-2017 5:10:00PM by Dat -->
 <script src="assets/angularjs/module/dirPagination.js"></script>

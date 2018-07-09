@@ -1,8 +1,8 @@
-app.controller('UsersController', function($scope, $http) {
+app.controller('UsersController', function($scope, $http, toaster) {
 	$scope.user = [];
 	$scope.hasChangeEmail = false;
 	$scope.fullname = "";
-	
+
 	$scope.init = function() {
 		$http({
 			method: 'get',
@@ -11,7 +11,7 @@ app.controller('UsersController', function($scope, $http) {
 			$scope.user = angular.copy(response.data.data);
 			$scope.fullname = $scope.user.name;
 		},function(error) {
-			console.info(error,'can not get data')
+			toaster.pop('error', 'ERROR', 'can not get data');
 		});
 	}
 
@@ -19,13 +19,18 @@ app.controller('UsersController', function($scope, $http) {
 		$http({
 			method: 'post',
 			url: 'users/edit-email',
-			params: { 'newEmail' : $scope.user.email },
+			params: { 'newEmail' : $('#newEmail').val() },
 			headers: {'Content-type': 'application/x-www-form-urlencoded'}
 		}).then(function(response) {
-			$scope.hasChangeEmail = false;
-			alert(response.data.message);
+			if (!response.data.error) {
+				$scope.user.email = response.data.email;
+				$scope.hasChangeEmail = false;
+				toaster.pop('success', 'Success', response.data.message);
+			} else {
+				toaster.pop('warning', 'WARNING', response.data.message);
+			}
 		},function(error) {
-			console.info(error, 'can not get data')
+			toaster.pop('error', 'ERROR', response.data.message);
 		});
 	};
 
@@ -35,5 +40,23 @@ app.controller('UsersController', function($scope, $http) {
 
 	$scope.changeEmail = function() {
 		return $scope.hasChangeEmail = !$scope.hasChangeEmail;
+	}
+
+	$scope.editProfile = function() {
+		$http({
+			method: 'post',
+			url: 'users/edit-profile',
+			headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			data: $.param($scope.user),
+		}).then(function(response) {
+			if (!response.data.error) {
+				$scope.hasChangeEmail = false;
+				toaster.pop('success', 'Success', response.data.message);
+			} else {
+				toaster.pop('warning', 'WARNING', response.data.message);
+			}
+		},function(error) {
+			toaster.pop('error', 'ERROR', response.data.message);
+		});
 	}
 });

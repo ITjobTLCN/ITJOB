@@ -17,7 +17,7 @@ Thông tin cá nhân | ITJob
 						@if(!empty($user->password))
 						<img src="uploads/avatar/{{$user->avatar}}" alt="" class="img-responsive" style="border-radius: 100%; width: 150px;height: 150px; float: left;margin-right: 20px">
 						@else
-						<img src="{{$user->image}}" alt="" class="img-responsive" 
+						<img src="{{$user->image}}" alt="" class="img-responsive"
 						style="border-radius: 100%; width: 150px;height: 150px; float: left; margin-right: 20px">
 						@endif
 						<h3> Welcome, <% fullname %>
@@ -38,7 +38,7 @@ Thông tin cá nhân | ITJob
 						</div>
 						@endif
 						<div class="info">
-							<form class="form-horizontal" name="frmEditProfile" id="myForm" enctype="multipart/form-data" method="post" action="{{route('editProfile')}}" role="form" >
+							<form class="form-horizontal" name="frmEditProfile" id="myForm" enctype="multipart/form-data" method="post" role="form" >
 								<div class="form-group">
 									<label for="inputEmail" class="col-sm-2 control-label">Email</label>
 									<div class="col-sm-6">
@@ -47,7 +47,7 @@ Thông tin cá nhân | ITJob
 									<div class="col-sm-2 col-xs-2">
 										<div class="checkbox">
 											<label>
-												<input type="checkbox" ng-click="changeEmail()"> Change
+												<input type="checkbox" ng-click="changeEmail()" ng-checked="hasChangeEmail"> Change
 											</label>
 										</div>
 									</div>
@@ -55,13 +55,13 @@ Thông tin cá nhân | ITJob
 								<div class="form-group" ng-if="hasChangeEmail">
 									<label for="inputNewEmail" class="col-sm-2 hidden-xs control-label"></label>
 									<div class="col-sm-8">
-										<input type="email" class="form-control" ng-model="user.email" name="newemail" id="newEmail">
+										<input type="email" class="form-control" name="newemail" id="newEmail"  value="<% user.email %>">
 										<div class="clearfix"></div>
 									</div>
 								</div>
 								<div class="form-group" ng-if="hasChangeEmail">
 									<div class="col-sm-offset-2 col-sm-8">
-										<button ng-click="saveNewEmail()" type="button" class="btn btn-danger">Save New Email</button>
+										<button ng-click="saveNewEmail()" type="button" class="btn btn-google">Save New Email</button>
 									</div>
 								</div>
 								<div class="form-group">
@@ -73,7 +73,7 @@ Thông tin cá nhân | ITJob
 								<div class="form-group">
 									<label for="inputDescription" class="col-sm-2 control-label">Description</label>
 									<div class="col-sm-10">
-										<textarea type="text" name="describe" class="form-control" style="height: 100px"><% user.description %></textarea>
+										<textarea type="text" name="description" class="form-control" style="height: 100px" ng-model="user.description"></textarea>
 									</div>
 								</div>
 								<div class="form-group" ng-if="['5ac85f51b9068c2384007d9c'].indexOf(user.role_id) != -1">
@@ -89,7 +89,7 @@ Thông tin cá nhân | ITJob
 								{{csrf_field()}}
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" class="btn btn-google">Save Changes</button>
+										<button type="submit" ng-click="editProfile()" class="btn btn-google">Save Changes</button>
 									</div>
 								</div>
 							</form>
