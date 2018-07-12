@@ -14,8 +14,8 @@ ITJob - Đăng ký tài khoản
 				<div class="card-group">
 					<div class="card text-white bg-default">
 						<div class="card-body">
-							<h1>Đăng ký</h1>
-							<p class="text-muted mb-3">Tạo tài khoản của bạn</p>
+							<h1>Register</h1>
+							<p class="text-muted mb-3">Create your account</p>
 							<div class="alert alert-danger" style="display: none">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 								<p class="errRegister"></p>
@@ -46,7 +46,7 @@ ITJob - Đăng ký tài khoản
 										placeholder="Repeat password">
 								</div>
 								{{ csrf_field() }}
-								<button type="submit" class="btn btn-success btn-block br-0">Tạo tài khoản</button>
+								<button type="submit" class="btn btn-success btn-block br-0">Create Account</button>
 							</form>
 						</div>
 						<div class="card-footer">

@@ -13,8 +13,8 @@ Login | ITJob
 				<div class="card-group">
 					<div class="card col-md-6 text-white bg-default">
 						<div class="card-body">
-							<h1>Đăng nhập</h1>
-							<p class="text-muted mb-3">Đăng nhập bằng tài khoản</p>
+							<h1>Login</h1>
+							<p class="text-muted mb-3">Login to your account</p>
 							@if($errors->has('errorLogin'))
 							<div class="alert alert-danger">
 								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -38,10 +38,10 @@ Login | ITJob
 									@endif
 								</div>
 								{{ csrf_field() }}
-								<button type="submit" class="btn btn-success btn-login br-0" style="width: 100%">Đăng nhập</button>
+								<button type="submit" class="btn btn-success btn-login br-0" style="width: 100%">Login</button>
 							</form>
 							<hr>
-							<div class="text-center" style="margin: 10px 0"><span>Hoặc</span></div>
+							<div class="text-center" style="margin: 10px 0"><span>Or</span></div>
 							 <div class="social text-center mb-3 row">
 
 							 	<div class="col-md-6">
@@ -56,9 +56,9 @@ Login | ITJob
 					<div class="card col-md-6 hidden-xs hidden-sm text-white bg-primary">
 						<div class="card-body text-center">
 							<div>
-								<h2>Đăng ký</h2>
+								<h2>Register</h2>
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-							<a type="button" class="btn btn-info mt-3 br-0" href="{{route('register')}}">Đăng ký ngay</a>
+							<a type="button" class="btn btn-info mt-3 br-0" href="{{route('register')}}">Register Now !</a>
 							</div>
 						</div>
 					</div>

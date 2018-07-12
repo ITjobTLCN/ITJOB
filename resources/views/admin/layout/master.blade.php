@@ -55,6 +55,7 @@
     <script src="assets/angularjs/app.js"></script>
     <script src="assets/js/lodash.min.js"></script>
     <script src="assets/js/select.js"></script>
+    <script src="assets/js/toaster.js"></script>
     <script src="assets/angularjs/controller/UsersController.js"></script>
     <script src="assets/angularjs/controller/RolesController.js"></script>
     <script src="assets/angularjs/controller/EmpController.js"></script>

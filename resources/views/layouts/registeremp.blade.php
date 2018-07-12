@@ -7,11 +7,18 @@
 	<!-- content -->
 	<div class="container">
 		<div class="row main-content">
-			<div class="title-profile text-center">
-				<h2>Register a employer</h2>
-			</div>
+			<h1 class="text-center">
+                <strong style="display: block">Chúng tôi cam kết</strong>
+                <small>Đảm bảo hài lòng, hoặc miễn phí đăng lại tin tuyển dụng</small>
+            </h1>
+            <div class="col-sm-10 col-sm-offset-1 small text-center">
+                <p>
+                    <img src="https://images.vietnamworks.com/gen/badge-guaranteed.png" alt="Guarantee logo">
+                </p>
+                <p>Tuyển dụng tại Việt Nam là một việc đầy thử thách, vì thế chúng tôi luôn sẵn sàng hỗ trợ Quý khách. Nếu như Quý khách không <strong>hài lòng 100%</strong> với dịch vụ đăng tin tuyển dụng của ITJOB, hãy liên lạc với chuyên viên tư vấn của chúng tôi HCM: (84 28) 3925 8456 / HN: (84 24) 3944 0568 hoặc gửi thư về <a href="mailto:jobsupport@itjob.com">jobsupport@itjob.com</a> để yêu cầu được <strong>đăng lại miễn phí</strong> (không bao gồm các dịch vụ ưu tiên) trong vòng 10 ngày làm việc kể từ khi tin đăng tuyển có trả phí của Quý khách hết hạn. Chương trình không áp dụng cho các tin đăng lại hoặc các tin đăng tuyển miễn phí theo chương trình khuyến mại hoặc tin đăng tuyển hỗ trợ.</p>
+            </div>
 		</div>
-		<div class="wrapper-profile">
+		<div class="wrapper-profile row">
 			<div class="box box-md">
 				<div class="col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
 					<form action="#" method="POST" id="register_emp_form">

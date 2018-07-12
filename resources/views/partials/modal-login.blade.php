@@ -10,12 +10,12 @@
 				<h5 class="modal-title text-center" id="exampleModalLongTitle">
 					<div class="login_header">
 						<div class="title">
-							<h1 class="text-center">Đăng nhập</h1>
-							<h3 class="text-center">Đăng nhập hoặc đăng ký thành viên nhanh bằng tài khoản</h3>
+							<h1>SIGN IN</h1>
+							<h3>Sign in or Sign up by account</h3>
 						</div>
 						<div class="social text-center">
-							<a type="button" href="{{route('loginProvider','facebook')}}" class="btn btn-facebook br-0"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
-							<a type="button" href="{{route('loginProvider','google')}}" class="btn btn-google br-0"><i class="fa fa-fw fa-google"></i> Google</a>
+							<a type="button" href="{{route('loginProvider', 'facebook')}}" class="btn btn-facebook br-0"><i class="fa fa-fw fa-facebook"></i> Facebook</a>
+							<a type="button" href="{{route('loginProvider', 'google')}}" class="btn btn-google br-0"><i class="fa fa-fw fa-google"></i> Google</a>
 						</div>
 					</div>
 				</h5>
@@ -23,7 +23,7 @@
 			<div class="modal-body">
 				<div class="modal_content">
 					<div class="login_content ">
-						<h4 class="text-center">Đăng nhập bằng tài khoản ITJob</h4>
+						<h4 class="text-center">Sign In to your account</h4>
 						<form role="form" name="frmLogin" id="frmLogin">
 							<div class="alert alert-danger alert-dismissible error">
 								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -37,12 +37,12 @@
 								<input type="password" class="form-control" name="password" id="password" placeholder="Password">
 							</div>
 							{{ csrf_field() }}
-							<button type="submit" class="btn btn-facebook br-0" style="width: 100%">Đăng nhập</button>
+							<button type="submit" class="btn btn-facebook br-0" style="width: 100%">Login</button>
 						</form>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<h4 class="text-center">Bạn chưa có tài khoản? <a href="{{route('register')}}" style="color: #337ab7">Đăng ký ngay</a></h4>
+					<h4 class="text-center">If you don't have account, <a href="{{route('register')}}" style="color: #337ab7">Register Now !</a></h4>
 				</div>
 			</div>
 		</div>

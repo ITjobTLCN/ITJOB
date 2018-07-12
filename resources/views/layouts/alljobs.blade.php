@@ -91,7 +91,7 @@ Việc làm mới nhất | ITJOB
 												@if(Auth::check())
 												{{ $ljlt->detail['salary']}} $
 												@else
-												<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
+												<a href="" data-toggle="modal" data-target="#loginModal">Login to see salary</a>
 												@endif
 											</span>
 											<span class="separator">|</span>
