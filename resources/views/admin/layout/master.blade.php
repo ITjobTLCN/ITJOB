@@ -20,7 +20,9 @@
     <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="assets/fonts/Oswald/oswald.css">
 
-
+    <link rel="stylesheet" href="assets/css/ui-select/select2.css">
+    <link rel="stylesheet" href="assets/css/ui-select/selectize.bootstrap3.css">
+	<link rel="stylesheet" href="assets/css/ui-select/select.css">
 
 </head>
 

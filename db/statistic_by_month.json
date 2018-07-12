@@ -1,0 +1,17 @@
+[{
+        "month": "2018",
+        "year": "06",
+        "num_of_user": 10,
+        "num_of_post": 15,
+        "num_of_application": 20,
+        "created_at": ISODate("2018-06-09T08:43:46.239+0000"),
+    },
+    {
+        "month": "2018",
+        "year": "05",
+        "num_of_user": 5,
+        "num_of_post": 5,
+        "num_of_application": 10,
+        "created_at": ISODate("2018-06-09T08:43:46.239+0000"),
+    }
+]

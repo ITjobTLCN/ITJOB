@@ -45,6 +45,12 @@ return [
     'USER' => 'user',
     'ROLES' => 'roles',
     'ROLE' => 'role',
+    'EMPLOYERS' => 'emps',
+    'EMPLOYER' => 'emp',
+    'SKILLS' => 'skills',
+    'SKILL' => 'skill',
+    'CITIES' => 'cities',
+    'JOBS' => 'jobs',
 
     /**
      * Type
@@ -64,5 +70,25 @@ return [
     'SUCCESS_EDIT_ROLE' => 'Edit role successfully',
     'SUCCESS_DELETE_ROLE' => 'Delete role successfully',
     'FAIL_DELETE_ROLE' => 'Delete role fail because has anyone in this role',
-    // 'CREATE_USER_'
+    'SUCCESS_CREATE_EMPLOYER' => 'Create employer successfully',
+    'FAIL_CREATE_EMPLOYER' => 'Create employer failed',
+    'SUCCESS_EDIT_EMPLOYER' => 'Edit employer successfully',
+    'FAIL_EDIT_EMPLOYER' => 'Edit employer failed',
+
+    /**
+     * General
+     */
+    'CREATE_SUCCESS' => 'Create successfully',
+    'CREATE_FAIL' => 'Create failed',
+    'EDIT_SUCCESS' => 'Edit successfully',
+    'EDIT_FAIL' => 'Edit failed',
+    'DELETE_SUCCESS' => 'Delete successfully',
+    'DELETE_FAIL' => 'Delete failed',
+
+
+    /**
+     * Statistics
+     */
+    'WEEK' => 'week',
+    'YEAR' => 'year',
 ];

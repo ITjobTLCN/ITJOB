@@ -206,7 +206,7 @@ Route::post('register/employer', [
 	/**--------------ADMIN ROUTE--------------------*/
 Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('users', [ 'as' => 'getadminusers', 'uses' => 'AdminController@getListUsers' ]);
-	Route::get('emps', [ 'as' => 'getadminemps', 'uses' => 'AdminController@getListEmps' ]);
+	Route::get('employers', [ 'as' => 'getadminemps', 'uses' => 'AdminController@getListEmps' ]);
 	Route::get('dashboard', [ 'as' => 'getAdminDashboard', 'uses' => 'AdminController@getDashBoard' ]);
 	Route::post('import', [ 'as' => 'postimport', 'uses' => 'AdminController@postImport' ]);
 	Route::get('export/{type}', [ 'as' => 'getexport', 'uses' => 'AdminController@getExport' ]);
@@ -215,15 +215,15 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('ngusers', [ 'as' => 'nggetusers', 'uses' => 'AdminController@ngGetUsers' ]);
 	Route::get('nguser/{id}', [ 'as' => 'nggetuser', 'uses' => 'AdminController@ngGetUser' ]);
 	Route::post('ngcreateuser', [ 'as' => 'ngpostcreateuser', 'uses' => 'AdminController@ngPostCreateUser' ]);
-	Route::post('ngedituser/{id}', [ 'as' => 'ngpostedituser', 'uses' => 'AdminController@ngPostEditUser' ]);
-	Route::get('ngdeleteuser/{id}', [ 'as' => 'nggetdeleteuser', 'uses' => 'AdminController@ngGetDeleteUser' ]);
+	Route::post('ngedituser', [ 'as' => 'ngpostedituser', 'uses' => 'AdminController@ngPostEditUser' ]);
+	Route::delete('ngdeleteuser', [ 'as' => 'nggetdeleteuser', 'uses' => 'AdminController@ngGetDeleteUser' ]);
 		// Roles manage
 	Route::get('ngroles', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRoles' ]);
 	Route::get('ngroles/{id}', [ 'as' => 'nggetroles', 'uses' => 'AdminController@ngGetRole' ]);
 	Route::post('ngrole', [ 'as' => 'ng_add_roles', 'uses' => 'AdminController@ngAddRole' ]);
 	Route::put('ngrole', [ 'as' => 'ng_edit_roles', 'uses' => 'AdminController@ngEditRole' ]);
 	Route::delete('ngrole', [ 'as' => 'ng_delete_roles', 'uses' => 'AdminController@ngDeleteRole' ]);
-
+		// Skill manage
 		/*admin dashboard  --- output: json*/
 	Route::get('ngnumber', [ 'as' => 'nggetnumber', 'uses' => 'AdminController@ngGetNumber' ]);
 
@@ -231,9 +231,9 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('ngemps', [ 'as' => 'nggetemps', 'uses' => 'AdminController@ngGetEmps' ]);
 	Route::get('ngemp/{id}', [ 'as' => 'nggetemp', 'uses' => 'AdminController@ngGetEmp' ]);
 	Route::post('ngcreateemp', [ 'as' => 'ngpostcreateemp', 'uses' => 'AdminController@ngPostCreateEmp' ]);
-	Route::post('ngeditemp/{id}', [ 'as' => 'ngposteditemp', 'uses' => 'AdminController@ngPostEditEmp' ]);
-	Route::get('ngdeleteemp/{id}', [ 'as' => 'nggetdeleteemp', 'uses' => 'AdminController@ngGetDeleteEmp' ]);
-	Route::get('ngconfirmemp/{id}', [ 'as' => 'nggetconfirmemp', 'uses' => 'AdminController@ngGetConfirmEmp' ]);
+	Route::post('ngeditemp', [ 'as' => 'ngposteditemp', 'uses' => 'AdminController@ngPostEditEmp' ]);
+	Route::delete('ngdeleteemp', [ 'as' => 'nggetdeleteemp', 'uses' => 'AdminController@ngGetDeleteEmp' ]);
+	Route::put('ngconfirmemp', [ 'as' => 'nggetconfirmemp', 'uses' => 'AdminController@ngGetConfirmEmp' ]);
 	Route::get('ngdenyemp/{id}', [ 'as' => 'nggetdenyemp', 'uses' => 'AdminController@ngGetDenyEmp' ]);
 
 		//Send notification
@@ -242,6 +242,28 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 
 	Route::get('roles','AdminController@loadAdminRoles');
 
+		// Add angularjs using: Skill
+	Route::get('ngcities','AdminController@ngGetCities');
+
+		// Admin jobs
+	Route::get('jobs','AdminJobController@loadJobs');
+	Route::get('ngjobs','AdminJobController@ngJobs');
+
+		// Admin applications
+	Route::get('applications','AdminJobController@loadApplications');
+	Route::get('ngapplications','AdminJobController@ngApplications');
+
+		// Admin skills
+	Route::get('skills','AdminJobController@loadSkills');
+	Route::get('ngskills','AdminJobController@ngSkills');
+	Route::post('ngskill', 'AdminJobController@ngAddSkill');
+	Route::put('ngskill', 'AdminJobController@ngEditSkill');
+	Route::delete('ngskill', 'AdminJobController@ngDeleteSkill');
+
+		// Statistics
+	Route::get('statistics', 'StatisticsController@loadStatistics');
+	Route::get('ngstatisticapps',  'StatisticsController@statisticApplication');
+	Route::get('ngstatisticjobs',  'StatisticsController@statisticJob');
 });
 Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
@@ -279,4 +301,6 @@ Route::post('sendemail', [ 'as' => 'postSendEmail', 'uses' => 'EmployerControlle
 Route::get('/markAsRead', function() {
 	auth()->user()->unreadnotifications->markAsRead();
 });
+
+
 /*-----------------END DAT ROUTER----------------------*/
