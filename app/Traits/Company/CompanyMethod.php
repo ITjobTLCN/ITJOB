@@ -269,7 +269,8 @@ trait CompanyMethod
         $arrWhere = [
             'quantity_job.hirring' => [
                 '$gt' => 0
-            ]
+            ],
+            'status' => 1
         ];
         $this->formatCondition($arrWhere);
         return Employers::where($arrWhere)
@@ -280,13 +281,15 @@ trait CompanyMethod
     }
 
     protected function getCompanyMostFollow($offset = 0, $limit = null) {
-        $arrWhere = [];
+        $arrWhere = [
+            'status' => 1
+        ];
         $this->formatCondition($arrWhere);
 
         return Employers::where($arrWhere)
                                 ->orderBy('quantity_user_follow', 'desc')
                                 ->offset($offset)
-                                ->limit($limit)
+                                ->limit(2)
                                 ->get();
     }
 

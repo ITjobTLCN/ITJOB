@@ -67,7 +67,7 @@ Reviews of top companies on ITJob
 			</div>
 			@endforeach
 		</div>
-		@if(count($comHirring) > 6)
+		@if(count($comHirring) > 2)
 		<a href="" id="see-more-hiring" class="dotted" ng-click="seeMoreCompany('hirring')">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 		@endif
 	</div>
@@ -93,7 +93,6 @@ Reviews of top companies on ITJob
 								{{$cf->name}}
 							</div>
 						</div>
-						<div class="company_desc">{{$cf->employer_info['description']}}</div>
 						<div class="company_footer">
 							<i class="fa fa-star" aria-hidden="true"></i>
 							<span class="company_start_rate"> {{$cf->rating}}</span>
@@ -107,7 +106,7 @@ Reviews of top companies on ITJob
 			@endforeach
 			<div class="more-most-followed"></div>
 		</div>
-		@if(count($comFollow) > 6)
+		@if(count($comFollow) > 1)
 		<a href="" id="see-more-most-followed" class="dotted" ng-click="seeMoreCompany('follow')">See more  <i class="fa fa-caret-down" aria-hidden="true"></i></a>
 		@endif
 			</div>

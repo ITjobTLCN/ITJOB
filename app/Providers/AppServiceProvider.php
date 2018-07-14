@@ -39,7 +39,13 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('partials.top-emps', function($view) {
             $top_emps = Cache::remember('topEmployer', 10, function() {
-                return Employers::select('id', 'name', 'alias', 'logo')->orderByRaw('rating desc, follow desc')->offset(0)->take(12)->get();
+                return Employers::select('name', 'alias', 'images.avatar')
+                                ->where('status', 1)
+                                ->orderBy('rating desc')
+                                ->orderBy('quantity_user_follow desc')
+                                ->offset(0)
+                                ->take(12)
+                                ->get();
             });
 
             $view->with('top_emps', $top_emps);

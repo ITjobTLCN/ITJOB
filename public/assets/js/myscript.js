@@ -5,26 +5,23 @@ $(document).ready(function(){
 	$('.loading, #result-more-companies').css({
 		'display':'none',
 	});
-	var cNormal=0;
+	var cNormal = 0;
 	$('#see-more-companies').click(function(){
 		$('.loading').css({
 			'display':'block',
 		});
-		cNormal+=10;
+		cNormal += 20;
 		$.ajaxSetup({
 		    headers: {
 		        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		    }
 		});
 		$.ajax({
-			type:'get',
+			type: 'get',
 			url: 'more-companies',
-			data: {'cNormal':cNormal},
-			success:function(data){
-				if(data.length != 0){
-					$('#result-more-companies').css({
-						'display':'block',
-					});
+			data: { 'cNormal' : cNormal },
+			success:function(data) {
+				if(data.length != 0) {
 					$('#more-companies').append(data);
 				}
 			}

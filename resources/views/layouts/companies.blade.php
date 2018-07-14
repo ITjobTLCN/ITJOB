@@ -44,7 +44,7 @@ All Companies in Vietnam
                     <h2>Nothing</h2>
                 @else
                 <table class="table table-striped">
-                    <tbody>
+                    <tbody id="more-companies">
                         <div class="num-companies">
                             <span>{{$cCompanies}} companies for you</span>
                         </div>
@@ -59,7 +59,7 @@ All Companies in Vietnam
                                                 </a>
                                             </div>
                                         </div>
-                                        <div class="col-xs-9 col-md-9 col-lg-9">
+                                        <div class="col-xs-9 col-md-9 col-lg-10">
                                             <div class="companies-item-info">
                                                 <a href="{{route('getEmployers', $com->alias)}}" class="companies-title" target="_blank">{{$com->name}}</a>
                                                 <div class="company">
@@ -68,9 +68,9 @@ All Companies in Vietnam
                                                 <div class="description-job">
                                                     <h3>{{$com->description}}</h3>
                                                 </div>
-                                                <div class="company">
+                                                <div class="company" style="margin-bottom: 10px">
                                                     <span class="people"><i class="fa fa-users" aria-hidden="true"></i> {{$com->info['quantity_employee'] ?? 0}}</span>
-                                                    <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->info['website']}}</span>
+                                                    <span class="website"><i class="fa fa-desktop" aria-hidden="true"></i> {{$com->info['website'] ?? ''}}</span>
                                                 </div>
                                                 <div id="skills">
                                                     <ul>
@@ -82,7 +82,7 @@ All Companies in Vietnam
                                                     </ul>
                                                 </div>
                                                 <div class="sum-job">
-                                                    <a href="{{route('getEmployers',$com->alias)}}#hiring-now" id="job" class="dotted" target="_blank">{{app(App\Http\Controllers\CompanyController::class)->countJobCompany($com->id)}} jobs </a><i class="fa fa-caret-down" aria-hidden="true"></i>
+                                                    <a href="{{route('getEmployers', $com->alias)}}#hiring-now" id="job" class="dotted" target="_blank">{{app(App\Http\Controllers\CompanyController::class)->countJobCompany($com->id)}} jobs </a><i class="fa fa-caret-down" aria-hidden="true"></i>
                                                 </div>
                                             </div>
                                             <div class="clearfix"></div>
@@ -92,23 +92,17 @@ All Companies in Vietnam
                             </td>
                         </tr>
                         @endforeach
-                        <tr id="result-more-companies">
-                            <td>
-                               <div class="companies-item" id="more-companies">
-                                   
-                               </div>         
-                            </td>
-                        </tr>
                     </tbody>
-
                 </table>
+                @if(count($companies) > 20)
                 <div class="loading text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
                 <div class="load-more">
                     <a href="" id="see-more-companies">Show More</a>
                 </div>
                 @endif
+                @endif
             </div>
-        {{-- @include('partials.top-emps') --}}
+            @include('partials.top-emps')
     </div>
 </div>
 </div>

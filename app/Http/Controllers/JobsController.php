@@ -232,6 +232,8 @@ class JobsController extends Controller
         $match = true;
         $key = $req->key;
         $city_alias = $req->cid;
+        $listJobLastest = [];
+
         // $jobs = new Job();
         if (empty($key) && empty($city_alias)) {
              $listJobLastest = $this->indexJob();

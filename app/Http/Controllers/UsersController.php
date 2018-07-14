@@ -153,7 +153,13 @@ class UsersController extends Controller
         $user = User::findOrFail(Auth::id());
         if ($req->hasFile('cv')) {
             $cv = $req->file('cv');
-            $filename = $cv->getClientOriginalName();
+            $file_extension = File::extension($cv->getClientOriginalName());
+            $filename = 'cv-' . $this->changToAlias(Auth::user()->name) . '.' . $file_extension;
+
+            if (file_exists(public_path() . "/uploads/user/cv/{$filename}")) {
+                File::delete(public_path() . "/uploads/user/cv/{$filename}");
+            }
+
             $cv->move('uploads/user/cv/' , $filename);
             $user->cv = $filename;
         }
@@ -162,9 +168,7 @@ class UsersController extends Controller
         $user->description = $req->description;
         $user->save();
 
-        return response()->json([ 'error' => false,
-                                  'message' => 'Update Profile Successfully'
-                            ]);
+        return redirect()->back()->with('success', 'Update Profile Successfully');
     }
 
     public function postLoginModal(Request $req) {

@@ -31,14 +31,19 @@ Thông tin cá nhân | ITJob
 						</form>
 					</div>
 					<div class="col-md-6 col-sm-9">
-						@if(Session::has('success'))
-						<div class="alert alert-success alert-dismissable">
-							<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
-							{{Session::get('success')}}
-						</div>
-						@endif
 						<div class="info">
-							<form class="form-horizontal" name="frmEditProfile" id="myForm" enctype="multipart/form-data" method="post" role="form" >
+							<form class="form-horizontal" name="frmEditProfile" id="myForm" enctype="multipart/form-data" method="post" role="form" method="post" action="{{route('editProfile')}}">
+								<div class="form-group">
+									<label for="inputEmail" class="col-sm-2 control-label"></label>
+									<div class="col-sm-10">
+										@if(Session::has('success'))
+										<div class="alert alert-success alert-dismissable">
+											<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+											{{Session::get('success')}}
+										</div>
+										@endif
+									</div>
+								</div>
 								<div class="form-group">
 									<label for="inputEmail" class="col-sm-2 control-label">Email</label>
 									<div class="col-sm-6">
@@ -66,7 +71,7 @@ Thông tin cá nhân | ITJob
 								</div>
 								<div class="form-group">
 									<label for="inputName" class="col-sm-2 control-label">Name</label>
-									<div class="col-sm-6">
+									<div class="col-sm-10">
 										<input type="text" name="name" ng-model="user.name" class="form-control">
 									</div>
 								</div>
@@ -89,7 +94,7 @@ Thông tin cá nhân | ITJob
 								{{csrf_field()}}
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-10">
-										<button type="submit" ng-click="editProfile()" class="btn btn-google">Save Changes</button>
+										<button type="submit" class="btn btn-google">Save Changes</button>
 									</div>
 								</div>
 							</form>

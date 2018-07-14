@@ -15,20 +15,27 @@ use Cache;
 use App\Traits\AliasTrait;
 use App\Traits\Company\CompanyMethod;
 use App\Traits\CommonMethod;
+use App\Traits\LatestMethod;
 
 class CompanyController extends Controller
 {
-    use AliasTrait, CommonMethod, CompanyMethod;
+    use AliasTrait, CommonMethod, CompanyMethod, LatestMethod;
 
     public function getIndex() {
-        $cCompanies = Employers::count();
-        $companies = Employers::orderBy('_id', 'desc')
-                              ->offset(0)
-                              ->take(10)
-                              ->get();
+        $wheres = [
+            'status' => 1
+        ];
+        $cCompanies = Employers::Where($wheres)->count();
+        $companies = Employers::where($wheres)
+                            ->orderBy('_id', 'desc')
+                            ->offset(0)
+                            ->take(20)
+                            ->get();
+        $top_emps = $this->getTopEmployers();
 
         return view('layouts.companies', [ 'companies' => $companies,
                                             'cCompanies' => $cCompanies,
+                                            'top_emps' => $top_emps,
                                             'match' => true
                                         ]);
     }
@@ -127,14 +134,16 @@ class CompanyController extends Controller
     }
     //get more companies hirring now
     public function getMoreHirring($offset = 0) {
-       return  Employers::orderBy('id', 'desc')
+       return  Employers::where('status', 1)
+                            ->orderBy('id', 'desc')
                             ->offset((int)$offset)
                             ->take(config('constant.moreCompany'))
                             ->get();
     }
     //get more companies most followed
     public function getMoreMostFollowed($offset = 0) {
-       return  Employers::orderBy('quantity_user_follow', 'desc')
+       return  Employers::where('status', 1)
+                            ->orderBy('quantity_user_follow', 'desc')
                             ->offset((int)$offset)
                             ->take(config('constant.moreCompany'))
                             ->get();
@@ -145,58 +154,59 @@ class CompanyController extends Controller
         if ($request->has('cNormal')) {
             $count = $request->cNormal;
             $output = "";
-            $employers = Employers::orderBy('id','desc')
-                                    ->offset($count)
-                                    ->take(10)
+            $employers = Employers::where('status', 1)
+                                    ->orderBy('_id','desc')
+                                    ->offset(intval($count))
+                                    ->take(20)
                                     ->get();
             if (count($employers) == 0) {
                 return $output;
             }
             foreach ($employers as $key => $emp) {
-                $skills = $this->getListSkillEmployers($emp->id);
-                $numJobs = Job::where('emp_id', $emp->id)->count();
+                // $skills = $this->getListSkillEmployers($emp->_id);
+                $numJobs = Job::where('employer_id', $emp->_id)->count();
                 $skill = "";
-                foreach ($skills as $key => $s) {
+                foreach ($emp->skills as $key => $s) {
                     $skill .= "<li class='employer-skills__item'>
-                                <a href='' target='_blank'>{$s}</a>
+                                <a href='' target='_blank'>{$s['name']}</a>
                             </li>";
                 }
-                $output .= "<div class='row'>
-                            <div class='col-xs-3 col-md-3 col-lg-2'>
-                                <div class='logo job-search__logo'>
-                                    <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/avatar/{$emp->logo}' alt=''>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class='col-xs-9 col-md-9 col-lg-9'>
-                                <div class='companies-item-info'>
-                                    <a href='companies/{$emp->alias}' class='companies-title' target='_blank'>{$emp->name}</a>
-                                    <div class='company text-clip'>
-                                        <span class='job-search__location'>{$emp->address}</span>
+                $output .="<tr><td>
+                               <div class='companies-item'>
+                                <div class='row'>
+                                    <div class='col-xs-3 col-md-3 col-lg-2'>
+                                        <div class='logo job-search__logo'>
+                                            <a href=''><img title='{$emp->name}' class='img-responsive' src='uploads/emp/avatar/{$emp->images['avatar']}' alt=''>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class='description-job'>
-                                        <h3>{$emp->description}</h3>
+                                    <div class='col-xs-9 col-md-9 col-lg-10'>
+                                        <div class='companies-item-info'>
+                                            <a href='companies/{$emp->alias}' class='companies-title' target='_blank'>{$emp->name}</a>
+                                            <div class='company text-clip'>
+                                                
+                                            </div>
+                                            <div class='description-job'>
+                                                <h3>{$emp->description}</h3>
+                                            </div>
+                                            <div class='company text-clip'>
+                                                <span class='people'><i class='fa fa-users' aria-hidden='true'></i> 100</span>
+                                                <span class='website'><i class='fa fa-desktop' aria-hidden='true'></i>{$emp->website}</span>
+                                            </div>
+                                            <div id='skills'>
+                                                <ul> {$skill} </ul>
+                                            </div>
+                                            <div class='sum-job'>
+                                                <a href='companies/{$emp->alias}' id='job' class='dotted'>{$numJobs} jobs </a><i class='fa fa-caret-down' aria-hidden='true'></i>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class='company text-clip'>
-                                        <span class='people'><i class='fa fa-users' aria-hidden='true'></i> 100</span>
-                                        <span class='website'><i class='fa fa-desktop' aria-hidden='true'></i>{$emp->website}</span>
-                                    </div>
-                                    <div id='skills'>
-                                        <ul>
-                                        {$skill}
-                                        </ul>
-                                    </div>
-                                    <div class='sum-job'>
-                                        <a href='companies/{$emp->alias}' id='job' class='dotted'>{$numJobs} jobs </a><i class='fa fa-caret-down' aria-hidden='true'></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>";
+                                </div></div></td></tr>";
            }
         } else {
             $type = $request->type;
             $offset = $request->offset;
-            ($type == 'hirring') ? $company = $this->getMoreHirring($offset) : $company = $this->getMoreHirring($offset);
+            ($type == 'hirring') ? $company = $this->getMoreHirring($offset) : $company = $this->getMoreMostFollowed($offset);
             if (count($company) > 0) {
                 foreach ($company as $key => $emp) {
                    $output.= '<div class="col-md-4 col-sm-4 col-lg-4">
@@ -211,7 +221,6 @@ class CompanyController extends Controller
                                     </div>
                                     <div class="company_name">'.$emp->name.'</div>
                                 </div>
-                                <div class="company_desc">'.$emp->info['description'].'</div>
                                 <div class="company_footer">
                                     <i class="fa fa-star" aria-hidden="true"></i>
                                     <span class="company_start_rate">'.$emp->rating.'</span>
@@ -232,12 +241,19 @@ class CompanyController extends Controller
         $key = $request->search;
         $output = [];
         if ($key != "") {
-            $companies = Employers::where('name', 'like', '%'.$key.'%')
-                                    ->get();
+            $where = [
+                'name' => [
+                    '$regex' => $key,
+                    '$options' => 'i'
+                ],
+                'status' => 1
+            ];
+            $companies = Employers::where($where)->get();
             foreach ($companies as $key => $com) {
                 $output[] = [ "name" => $com->name ];
             }
         }
+
         return response()->json($output);
     }
 
