@@ -131,7 +131,6 @@ class JobsController extends Controller
         foreach ($output as $key => $job) {
             $date = Carbon::parse($job->created_at)->format('d-m-Y');
             $today = date('d-m-Y');
-            $skills = Skills::whereIn('_id', $job['skills_id'])->get();
             // html
             $result  .=  '<div class="job-item">
                             <div class="row">
@@ -152,12 +151,7 @@ class JobsController extends Controller
                                             <span class="job-search__location"><i class="fa fa-map-marker" aria-hidden="true"></i> ' . $job->city . '</span>
                                         </div>
                                             <div class="company text-clip">';
-                                            if (Auth::check()) {
-                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">' . $job->detail['salary'] . ' $ </a></span>';
-                                            } else {
-                                                $result .= '<span class="salary-job"><a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để  xem lương </a></span>';
-                                            }
-                                            $result .= '<span class="separator"> | </span>';
+                                            $result .= '<span class="salary-job">' . ($job->detail['salary'] ?? 0) . ' $ </span><span class="separator"> | </span>';
                                             if ($date == $today) {
                                                 $result .= '<span class="">Today</span>';
                                             } else {

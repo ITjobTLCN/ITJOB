@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-All Companies in Vietnam
+Explore companies from the inside | ITJOB
 @stop
 @section('body.content')
 <div class="search-companies">
@@ -43,7 +43,7 @@ All Companies in Vietnam
                 @if(!$match)
                     <h2>Nothing</h2>
                 @else
-                <table class="table table-striped">
+                <table class="table table-striped table-hover">
                     <tbody id="more-companies">
                         <div class="num-companies">
                             <span>{{$cCompanies}} companies for you</span>

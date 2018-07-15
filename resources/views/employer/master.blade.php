@@ -45,5 +45,4 @@ Employer
 @endsection
 @section('footer.js')
 	<script src="assets/angularjs/controller/EmpMngController.js"></script>
-	<script src="assets/js/emp.js"></script>
 @endsection

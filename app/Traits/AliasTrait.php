@@ -22,7 +22,7 @@ trait AliasTrait
     	return Job::where($wheres)->get();
     }
     public function getEmployerByKey($key) {
-    	return Employers::where('name', $key)->orWhere('alias', $key)->first();
+        return Employers::where('name', $key)->orWhere('alias', $key)->first();
     }
     public function getSkillByKey($key) {
     	return Skills::where('name', $key)->orWhere('alias', $key)->first();

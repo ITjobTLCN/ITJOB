@@ -289,7 +289,7 @@ trait CompanyMethod
         return Employers::where($arrWhere)
                                 ->orderBy('quantity_user_follow', 'desc')
                                 ->offset($offset)
-                                ->limit(2)
+                                ->limit($limit)
                                 ->get();
     }
 

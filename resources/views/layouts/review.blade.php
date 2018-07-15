@@ -62,7 +62,6 @@ Review Company | ITJob
 										<span><i class="fa fa-thumbs-o-down" title="No"></i></span>
 									</div>
 								</div>
-								
 							</div>
 							<button type="submit" class="btn btn-danger">Review</button>
 						</form>

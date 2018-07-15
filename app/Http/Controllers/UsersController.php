@@ -214,16 +214,7 @@ class UsersController extends Controller
         $jobApplications = Applications::with('employer', 'job')
                                             ->where('user_id', Auth::id())
                                             ->get();
-        if (!is_null($jobApplications) || !empty($jobApplications)) {
-            $topEmployers = Cache::remember('topEmployer', config('constant.cacheTime'), function() {
-                return Employers::select('name', 'alias', 'images.avatar')
-                                    ->orderBy('quantity_user_follow desc')
-                                    ->offset(0)
-                                    ->take(config('constant.limit.company'))
-                                    ->get();
-            });
-        }
 
-        return view('layouts.job-applications', compact('jobApplications', 'topEmployers'));
+        return view('layouts.job-applications', compact('jobApplications'));
     }
 }

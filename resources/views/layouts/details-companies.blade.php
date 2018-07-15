@@ -112,7 +112,7 @@
             <div id="ratings">
                 <div class="header-section">
                     @if(count($company->reviews) != 0)
-                    <p>Ratings <span>(Có {{count($company->reviews)}} bài đánh giá)</span></p>
+                    <p>Ratings <span>( Có {{count($company->reviews)}} bài đánh giá )</span></p>
                     <span class="under-line"></span>
                 </div>
                 <div class="row main-rating">
@@ -133,12 +133,12 @@
 														@endfor
 													</span>
 													@if($rv['recommend'] == 'yes')
-                                                    <span class="recommend"><i class="fa fa-thumbs-o-up"></i></span>
+                                                    <span class="recommend" title="Recommend"><i class="fa fa-thumbs-o-up"></i></span>
                                                     @else
-													<span class="recommend"><i class="fa fa-thumbs-o-down"></i></span>
+													<span class="recommend" title="Un Recommend"><i class="fa fa-thumbs-o-down"></i></span>
                                                     @endif
                                                 </div>
-                                                <div class="date">{{$rv['reviewed_at']}}</div>
+                                                <div class="date">{{date('d-m-Y', strtotime($rv['reviewed_at']))}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -161,10 +161,9 @@
                             	</div>
                                 <div class="loading text-center"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>
                                 <div class="load-more">
-                                    @if(Auth::check())
+                                    @if(count($company->reviews) > 5)
                                     <a href="" id="see-more__reviews">See more...</a>
-                                    @else
-                                    <a href="" id="openLoginModal">See more...</a> @endif
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -180,7 +179,6 @@
                                             @endfor
 										</div>
 									</span>
-                                    <span class="company-ratings__star-point">{{(int)$company->rating}}</span>
                                     <hr class="divider">
                                     <table class="company-rating-info__chart-recommend clearfix">
                                         <tbody>
@@ -192,10 +190,10 @@
                                         </tbody>
                                     </table>
                                     <hr class="divider">
-                                    <div class="view-more">
+                                    {{-- <div class="view-more">
                                         <a href="#">See all ratings and reviews</a>
                                         <i class="fa fa-caret-right"></i>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>

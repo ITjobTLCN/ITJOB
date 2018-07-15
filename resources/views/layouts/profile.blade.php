@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Thông tin cá nhân | ITJob
+Profile | ITJob
 @stop
 @section('body.content')
 <div class="manager-account" ng-controller="UsersController">

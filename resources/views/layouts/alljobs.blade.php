@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Việc làm mới nhất | ITJOB
+Search for all dream Jobs in Vietnam | ITJOB
 @stop
 @section('body.content')
 <div class="all-jobs" ng-controller="JobsController">
@@ -88,11 +88,7 @@ Việc làm mới nhất | ITJOB
 										</div>
 										<div class="company text-clip">
 											<span class="salary-job">
-												@if(Auth::check())
-												{{ $ljlt->detail['salary']}} $
-												@else
-												<a href="" data-toggle="modal" data-target="#loginModal">Login to see salary</a>
-												@endif
+												{{ $ljlt->detail['salary'] ?? '0' }} $
 											</span>
 											<span class="separator">|</span>
 											<span class="">@if(date('d-m-Y') == date('d-m-Y', strtotime($ljlt->created_at))) Today @else {{date('d-m-Y', strtotime($ljlt->created_at))}}@endif</span>

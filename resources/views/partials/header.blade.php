@@ -18,14 +18,14 @@
             </li>
             <li><a href="{{route('alljobs')}}">All Jobs</a>
             </li>
-            <li><a href="{{route('searchCompanies')}}">Company</a>
+            <li><a href="{{route('searchCompanies')}}">Companies</a>
             </li>
 
             <li><a href="{{route('contact')}}">Contact</a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li class="search hidden-xs"><a href="{{route('alljobs')}}""><i class="fa fa-search"></i></a></li>
+            <li class="search hidden-xs"><a href="{{route('alljobs')}}" title="Search jobs"><i class="fa fa-search"></i></a></li>
             @if(Auth::check())
             <li class="dropdown" id="markasread" onclick="markNotificationAsRead({{count(Auth::user()->unreadNotifications)}})">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

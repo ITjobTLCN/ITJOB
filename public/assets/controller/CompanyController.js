@@ -12,8 +12,8 @@ app.controller('CompanyController', function($scope,$http){
 		});
 	}
 
-  var offsetCompanyHirring = 2;
-  var offsetCompanyFllowing = 2;
+  var offsetCompanyHirring = 6;
+  var offsetCompanyFllowing = 6;
   $scope.seeMoreCompany = function(type) {
    //alert(_.startCase(type));
     var offset = 0;

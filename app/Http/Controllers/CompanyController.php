@@ -136,7 +136,7 @@ class CompanyController extends Controller
     public function getMoreHirring($offset = 0) {
        return  Employers::where('status', 1)
                             ->orderBy('id', 'desc')
-                            ->offset((int)$offset)
+                            ->offset(intval($offset))
                             ->take(config('constant.moreCompany'))
                             ->get();
     }
@@ -144,7 +144,7 @@ class CompanyController extends Controller
     public function getMoreMostFollowed($offset = 0) {
        return  Employers::where('status', 1)
                             ->orderBy('quantity_user_follow', 'desc')
-                            ->offset((int)$offset)
+                            ->offset(intval($offset))
                             ->take(config('constant.moreCompany'))
                             ->get();
     }
