@@ -264,6 +264,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 	Route::get('statistics', 'StatisticsController@loadStatistics');
 	Route::get('ngstatisticapps',  'StatisticsController@statisticApplication');
 	Route::get('ngstatisticjobs',  'StatisticsController@statisticJob');
+	Route::get('ngstatisticusers',  'StatisticsController@statisticUser');
 });
 Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/

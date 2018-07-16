@@ -17,4 +17,7 @@ app.constant('Constant', {
     MODAL_EDIT_EMPLOYER_TITLE: 'Edit employer',
     MODAL_ADD_SKILL_TITLE: 'Add skill',
     MODAL_EDIT_SKILL_TITLE: 'Edit Skill',
+    CHART_APPLICATION: 0,
+    CHART_JOB: 1,
+    CHART_ACTIVE_USER: 2
 });

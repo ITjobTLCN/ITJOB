@@ -54,4 +54,14 @@ trait CommonMethod {
 
         return $locations;
     }
+
+    /**
+     * Update field updated_at of any update action
+     * @param array &$arrData
+     * @return $arrDate
+     */
+    protected function formatInputToUpdate(&$arrData) {
+		$arrData['updated_at'] = new UTCDateTime(round(microtime(true) * 1000));
+		return $arrData;
+	}
 }

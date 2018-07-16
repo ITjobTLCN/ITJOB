@@ -4,6 +4,7 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
     // Load default data
     $scope.typeApp = 'week';
     $scope.typeJob = 'week';
+    $scope.typeUser = 'week';
     $scope.day = (new Date).getDate();
     $scope.month = (new Date).getMonth() + 1;
     $scope.year = (new Date).getFullYear();
@@ -11,6 +12,7 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
     $scope.init = function() {
         $scope.loadStatisticApps();
         $scope.loadStatisticJobs();
+        $scope.loadStatisticUsers();
     }
 
     $scope.convertDate = function(date) {
@@ -34,7 +36,7 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
         }).then(function (response) {
             // Load chart
             $scope.loadBarChart('appplicationChart', 'appplicationBoxChart',
-                response.data.data, response.data.labels, '#3c8dbc');
+                response.data.data, response.data.labels, '#3c8dbc', 0);
         }, function (error) {
             alert(error.message);
         });
@@ -54,14 +56,34 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
         }).then(function (response) {
             // Load chart
             $scope.loadBarChart('jobChart', 'jobBoxChart',
-                response.data.data, response.data.labels, '#dd4b39');
+                response.data.data, response.data.labels, '#dd4b39', 0);
+        }, function (error) {
+            alert(error.message);
+        });
+    }
+
+    $scope.loadStatisticUsers = function () {
+        $http({
+            method: 'GET',
+            url: 'admin/ngstatisticusers',
+            params: {
+                type: $scope.typeUser,
+                day: $scope.day,
+                month: $scope.month,
+                year: $scope.year,
+            },
+            dataType: 'json'
+        }).then(function (response) {
+            // Load chart
+            $scope.loadBarChart('userChart', 'userBoxChart',
+                response.data.data, response.data.labels, '#dd4b39', 1);
         }, function (error) {
             alert(error.message);
         });
     }
 
 
-    $scope.loadBarChart = function (child, parent, data, label, color) {
+    $scope.loadBarChart = function (child, parent, data, label, color, type) {
         $(`#${child}`).remove();
         $(`#${parent}`).append(`<canvas id="${child}" style="height:230px"><canvas>`);
         var areaChartData = {
@@ -121,6 +143,74 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
         }
 
         barChartOptions.datasetFill = false;
-        barChart.Bar(barChartData, barChartOptions);
+        switch (type) {
+            case 0:
+                barChart.Bar(barChartData, barChartOptions);
+                break;
+            case 1:
+                barChart.Line(barChartData, barChartOptions);
+                break;
+            default:
+                barChart.Bar(barChartData, barChartOptions);
+                break;
+        }
+
     };
+
+    // Init datetime picker
+    $('#statistic_app_datepicker, #statistic_job_datepicker, #statistic_user_datepicker').datepicker({
+        autoclose: true,
+        format: 'mm/dd/yyyy',
+        todayHighlight: true
+    })
+
+    // Choose date start from datepicker for application
+    $scope.set_date_chart = function (type) {
+        var date_value;
+        switch (type) {
+            case Constant.CHART_APPLICATION:
+                date_value = Date.parse($('#statistic_app_datepicker').val());
+                if (isNaN(date_value) == false) {
+                    var date = new Date(date_value);
+                    $scope.day = date.getDate();
+                    $scope.month = date.getMonth() + 1;
+                    $scope.year = date.getFullYear();
+                    // Reload chart
+                    $scope.loadStatisticApps();
+                } else {
+                    alert('Date invalid');
+                }
+                break;
+            case Constant.CHART_JOB:
+                date_value = Date.parse($('#statistic_job_datepicker').val());
+                if (isNaN(date_value) == false) {
+                    var date = new Date(date_value);
+                    $scope.day = date.getDate();
+                    $scope.month = date.getMonth() + 1;
+                    $scope.year = date.getFullYear();
+                    // Reload chart
+                    $scope.loadStatisticJobs();
+                } else {
+                    alert('Date invalid');
+                }
+                break;
+            case Constant.CHART_ACTIVE_USER:
+                date_value = Date.parse($('#statistic_user_datepicker').val());
+                if (isNaN(date_value) == false) {
+                    var date = new Date(date_value);
+                    $scope.day = date.getDate();
+                    $scope.month = date.getMonth() + 1;
+                    $scope.year = date.getFullYear();
+                    // Reload chart
+                    $scope.loadStatisticUsers();
+                } else {
+                    alert('Date invalid');
+                }
+                break;
+            default:
+                return;
+        }
+
+
+    }
 });

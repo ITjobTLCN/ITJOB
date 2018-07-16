@@ -132,21 +132,19 @@
     <script src="assets/template/adminlte/bower_components/fastclick/lib/fastclick.js"></script>
     <!-- AdminLTE App -->
     <script src="assets/template/adminlte/dist/js/adminlte.min.js"></script>
+    <!-- Select2 -->
+    <script src="assets/template/adminlte/bower_components/select2/dist/js/select2.full.min.js"></script>
 
 
         <!-- AngularJS   -->
     <script src="assets/js/angular.min.js"></script>
-    <script src="assets/angularjs/module/dirPagination.js"></script>
     <script src="assets/angularjs/app.js"></script>
-    <script src="assets/js/lodash.min.js"></script>
+    <script src="assets/angularjs/module/dirPagination.js"></script>
     <script src="assets/js/select.js"></script>
     <script src="assets/js/toaster.js"></script>
-
-
+    <script src="assets/js/lodash.min.js"></script>
     <script src="assets/angularjs/controller/LoginController.js"></script>
     <script src="assets/angularjs/controller/DashBoardController.js"></script>
     @yield('script')
-
 </body>
-
 </html>

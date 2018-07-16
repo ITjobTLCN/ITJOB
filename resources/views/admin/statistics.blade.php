@@ -23,6 +23,13 @@
                   <option value="week">Week</option>
                   <option value="year">Year</option>
                 </select>
+                <button class="btn btn-info pull-right" ng-click="set_date_chart(0)"><span class="glyphicon glyphicon-search"></span></button>
+                <div class="input-group date pull-right" style="width: 250px">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" id="statistic_app_datepicker">
+                </div>
               </div>
               <div class="chart" id="appplicationBoxChart">
                 <canvas id="appplicationChart" style="height:230px"></canvas>
@@ -53,9 +60,54 @@
                   <option value="week">Week</option>
                   <option value="year">Year</option>
                 </select>
+                <button class="btn btn-info pull-right" ng-click="set_date_chart(1)"><span class="glyphicon glyphicon-search"></span></button>
+                <div class="input-group date pull-right" style="width: 250px">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" id="statistic_job_datepicker">
+                </div>
               </div>
               <div class="chart" id="jobBoxChart">
                 <canvas id="jobChart" style="height:230px"></canvas>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col (RIGHT) -->
+        <!-- /.col (RIGHT) -->
+        <div class="col-md-6">
+          <!-- BAR CHART -->
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">Active user
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div>
+                <span>Choose type: </span>
+                <select name="typeUser" ng-model="typeUser" ng-change="loadStatisticUsers()">
+                  <option value="week">Week</option>
+                  <option value="year">Year</option>
+                </select>
+                <button class="btn btn-info pull-right" ng-click="set_date_chart(2)"><span class="glyphicon glyphicon-search"></span></button>
+                <div class="input-group date pull-right" style="width: 250px">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" class="form-control pull-right" id="statistic_user_datepicker">
+                </div>
+              </div>
+              <div class="chart" id="userBoxChart">
+                <canvas id="userChart" style="height:230px"></canvas>
               </div>
             </div>
             <!-- /.box-body -->

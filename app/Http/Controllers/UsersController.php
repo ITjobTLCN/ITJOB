@@ -52,6 +52,8 @@ class UsersController extends Controller
                              ->withInput();
         } else {
             if(Auth::attempt($credentials)) {
+            // Save data in access log
+                $this->insertAccessLog(Auth::user()->_id);
                 $role = Roles::where('_id', Auth::user()->role_id)->value('route');
                 return redirect()->route($role);
             } else {
@@ -174,6 +176,12 @@ class UsersController extends Controller
     public function postLoginModal(Request $req) {
         $credentials = $req->only('email', 'password');
         if (Auth::attempt($credentials)) {
+            // Get user id of current user by email
+            $user_id = User::where('email', $req->email)->select('_id')->get();
+            // Save data in access log
+            $this->insertAccessLog($user_id);
+
+            // Return
             return response()->json([
                     'error' => false,
                     'message' => 'Đăng nhập thành công'

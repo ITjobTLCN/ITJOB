@@ -21,13 +21,14 @@ use File;
 use Hash;
 use Storage;
 use DateTime;
+use App\Traits\User\UserMethod;
 use App\Traits\CommonMethod;
 use App\Traits\Company\CompanyMethod;
 use Session;
 
 class HomeController extends Controller
 {
-    use CommonMethod, CompanyMethod;
+    use CommonMethod, CompanyMethod, UserMethod;
 
     public function getLogOut() {
         Auth::logout();
@@ -39,6 +40,11 @@ class HomeController extends Controller
         $password = $req->password;
 
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Get user id of current user by email
+            $user_id = User::where('email', $req->email)->select('_id')->get();
+            // Save data in access log
+            $this->insertAccessLog($user_id);
+
             $url = "";
             $role_id = Auth::user()->role_id;
             if ($role_id == 2) {
