@@ -17,7 +17,6 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-        //Cheat
         if (Auth::check() && Auth::user()->role_id == '5ac85f51b9068c2384007d9d' ) {
             return $next($request);
         } else {
