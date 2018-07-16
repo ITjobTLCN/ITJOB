@@ -16,7 +16,6 @@
                     <li>
                         <a href="{{url('import')}}"><i class="fa fa-fw fa-edit"></i> Import from excel</a>
                     </li>
-                   
                     <li>
                         <a href="#"><i class="fa fa-fw fa-dashboard"></i> IT Job Website</a>
                     </li>

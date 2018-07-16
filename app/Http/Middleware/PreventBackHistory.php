@@ -3,10 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Auth;
-use Redirect;
 
-class checkAdmin
+class PreventBackHistory
 {
     /**
      * Handle an incoming request.
@@ -17,11 +15,9 @@ class checkAdmin
      */
     public function handle($request, Closure $next)
     {
-        //Cheat
-        if (Auth::check() && Auth::user()->role_id == '5ac85f51b9068c2384007d9d' ) {
-            return $next($request);
-        } else {
-            return Redirect::route('login')->with('error_code', 1);
-        }
+        $response = $next($request);
+        return $response->header('Cache-Control','nocache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma','no-cache')
+            ->header('Expires','Sun, 02 Jan 1990 00:00:00 GMT');
     }
 }

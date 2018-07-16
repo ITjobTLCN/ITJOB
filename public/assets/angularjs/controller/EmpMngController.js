@@ -2,7 +2,8 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 	$scope.empId = "";
 	$scope.employer = {};
 	var infoEmployer = [];
-	var baseUrl = 'http://itjob.local.vn/';
+	var baseUrl = window.location.origin;
+
 	/*-----------Reset function-----------------------*/
 	$scope.resetAd = function(id) {
 		$scope.load(id);
@@ -389,7 +390,9 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 				description: post.detail.description,
 				benefit: post.detail.benefit,
 				requirment: post.detail.requirment,
-				date_expired: post.date_expired
+				date_expired: post.date_expired,
+				created_at: post.created_at,
+				updated_at: post.updated_at
 			}
 
 			var date_expired = moment.utc(_.parseInt(_.get($scope.job, 'date_expired.$date.$numberLong', '')));
@@ -426,8 +429,8 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 			} else {
 				$http.get('emp/ng-push-post/' + idPost).then(function(response) {
 					if (response.data.status == true) {
-						$scope.addPost();
 						//reload data
+						$('#newpost').slideToggle();
 						$scope.loadBasic($scope.empId);
 					}
 					toaster.pop('success', 'Success', response.data.message);
@@ -441,7 +444,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 	/*-----------------LIST APPLICATION--------------------------*/
 	$scope.showApps = function(listApplications) {
 		$scope.curPost = angular.copy(listApplications);
-		formatLongDate($scope.curPost);
+		formatLongDate($scope.curPost, 'date_expired');
 
 		$scope.showListPosts = true;
 
@@ -467,10 +470,18 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 
 	//Funcion annimation scroll
 	$scope.anniScroll = function(ele) {
-		var pos = $(ele).offset().top - 50;
-		var body = $("html, body");
-		body.stop().animate({ scrollTop:pos }, 500, 'swing', function() {
-		});
+		if (_.isUndefined($(ele).offset())) {
+			if (_.includes(window.location.href, 'emp/basic')) {
+				window.location.href = baseUrl + '/emp/advance';
+			} else {
+				window.location.href = baseUrl + '/emp/basic';
+			}
+		} else {
+			var pos = $(ele).offset().top - 50;
+			var body = $("html, body");
+			body.stop().animate({ scrollTop:pos }, 500, 'swing', function() {
+			});
+		}
 	}
 
 	/*-----------FOR DASHBOARD--------------*/
@@ -479,9 +490,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 		$scope.expendType = type;
 	}
 
-	/*S---------FOR EMAIL------------------*/
-	$scope.emailAddress = $scope.employer.address;
-	$scope.emailName ="default Tên";
+	/*---------FOR EMAIL------------------*/
 	$scope.getApplication = function(name, email) {
 		$scope.infoSendMail = {
 			'name' : name,
@@ -512,7 +521,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 	}
 
 	$scope.detailJob = function(alias, _id) {
-		return baseUrl + 'detai-jobs/' + alias + '/' + _id;
+		return baseUrl + '/detai-jobs/' + alias + '/' + _id;
 	}
 
 	$scope.reStorePost = function(id) {

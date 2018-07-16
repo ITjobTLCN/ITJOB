@@ -1,4 +1,4 @@
-app.controller('EmpController', function ($scope, $http, Constant) {
+app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 	$http.get('admin/ngemps').then(function(response){
 		console.log(response);
 		$scope.emps = response.data.emps;
@@ -228,7 +228,7 @@ app.controller('EmpController', function ($scope, $http, Constant) {
 			}
 		}).then(function (response) {
 			if (response.data.status == true) {
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 				$scope.emps = response.data.emps;
 			} else {
 				alert(response.data.message);

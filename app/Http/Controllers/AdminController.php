@@ -26,6 +26,10 @@ class AdminController extends Controller
 {
     use CommonMethod;
 
+    public function __construct() {
+        if (!Auth::check()) return redirect()->route('login');
+    }
+
      /*Function change from name to alias and remove Vietnamese*/
     public function changToAlias($str){
         //Remove Vietnamese
@@ -181,7 +185,7 @@ class AdminController extends Controller
         return response()->json([config('constant.USER') => $user]);
     }
             //----CREATE USER----
-    public function ngPostCreateUser(Request $request){
+    public function ngPostCreateUser(Request $request) {
         // Form validation
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
@@ -213,6 +217,7 @@ class AdminController extends Controller
         $user->password = bcrypt($password);
         $user->role_id = $role_id;
         $user->status = $status;
+        $user->avatar = 'default.jpg';
         $user->save();
 
         return response()->json([config('constant.STATUS') => TRUE,
@@ -587,7 +592,7 @@ class AdminController extends Controller
         try{
             $emp = Employers::findOrFail($request->_id);
             // $emp->update(['status', $request->status]);
-            $emp->status = $request->status;
+            $emp->status = intval($request->status);
             $emp->save();
 
             $emps = $this->get_list_employers();

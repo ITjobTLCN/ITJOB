@@ -90,8 +90,8 @@
 						<div id="modallogin-logininfo">
 							<div class="para-title-admin">Login infomation</div>
 							<div class="form-group row">
-								<label for="email" class="control-label col-md-1 label-form-horizontal">Email: </label>
-								<div class="col-md-6">
+								<label for="email" class="control-label col-md-3 label-form-horizontal">Email: </label>
+								<div class="col-md-9">
 									<input type="email" ng-model="user.email" class="form-control" name="email" id="email" required="">
 									<span class="errors" ng-show="(frmCreate.email.$dirty && frmCreate.email.$invalid)">
 										<span ng-show="frmCreate.email.$error.email">Please enter a valid email address</span>
@@ -99,13 +99,13 @@
 									</span>
 								</div>
 							</div>
-							<div ng-if="state =='edit'">
-								<button type="button" id="btnchangepassword" class="btn btn-sm btn-warning col-md-offset-1" ng-click="toggleChange()">Change Password</button>
+							<div ng-if="state =='edit'" style="margin-bottom: 10px">
+								<button type="button" id="btnchangepassword" class="btn btn-sm btn-warning col-md-offset-3" ng-click="toggleChange()">Change Password</button>
 							</div>
 							<div id="block-changepassword" ng-show="change">
 								<div class="form-group row">
-									<label for="password" class="control-label col-md-1 label-form-horizontal">Password: </label>
-									<div class="col-md-6">
+									<label for="password" class="control-label col-md-3 label-form-horizontal">Password: </label>
+									<div class="col-md-9">
 										<input type="password" ng-model="user.password" class="form-control" name="password" id="password" minlength="6">
 										<span class="errors" ng-show="(frmCreate.password.$dirty && frmCreate.password.$invalid)">
 											<span ng-show="frmCreate.password.$error.minlength">Password has at least 6 characters</span>
@@ -115,8 +115,8 @@
 
 
 								<div class="form-group row">
-									<label for="repassword" class="control-label col-md-1 label-form-horizontal">Re-type Password: </label>
-									<div class="col-md-6">
+									<label for="repassword" class="control-label col-md-3 label-form-horizontal">Re-type Password: </label>
+									<div class="col-md-9">
 										<input type="password" ng-model="user.repassword" class="form-control" name="repassword" id="repassword" minlength="6">
 										<span class="errors" ng-show="(frmCreate.repassword.$dirty && (frmCreate.repassword.$invalid || user.password!==user.repassword))">
 											<span ng-show="frmCreate.repassword.$error.minlength">Re-type password has at least 6 characters</span>
@@ -129,8 +129,8 @@
 						<div id="modallogin-userinfo">
 							<div class="para-title-admin">User infomation</div>
 							<div class="form-group row">
-								<label for="name" class="control-label col-md-1 label-form-horizontal">Name: </label>
-								<div class="col-md-6">
+								<label for="name" class="control-label col-md-3 label-form-horizontal">Name: </label>
+								<div class="col-md-9">
 									<input type="text" class="form-control" ng-model="user.name" name="name" id="name" ng-required="true">
 									<span class="errors" ng-show="(frmCreate.name.$dirty && frmCreate.name.$invalid)">
 										<span ng-show="frmCreate.name.$error.required">Type a name</span>
@@ -139,8 +139,8 @@
 							</div>
 
 							<div class="form-group row">
-								<label for="status" class="control-label col-md-1 label-form-horizontal">Status: </label>
-								<div class="col-md-6">
+								<label for="status" class="control-label col-md-3 label-form-horizontal">Status: </label>
+								<div class="col-md-9">
 									<select name="status" class="form-control" id="status" ng-model="user.status" required>
 										<option value="1" ng-selected="user.status==1">Active</option>
 										<option value="0" ng-selected="user.status==0">Non-active</option>
@@ -151,8 +151,8 @@
 								</div>
 							</div>
 							<div class="form-group row">
-								<label for="name" class="control-label col-md-1 label-form-horizontal">Role: </label>
-								<div class="col-md-6">
+								<label for="name" class="control-label col-md-3 label-form-horizontal">Role: </label>
+								<div class="col-md-9">
 									<select name="role_id" ng-model="user.role_id" class="form-control" id="role" ng-options="role._id as role.name for role in roles"
 									    required>
 									</select>

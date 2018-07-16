@@ -308,7 +308,7 @@ Manage Basic
 									<label for="">Skills: </label>
 									<span ng-repeat="sel in selection track by $index" style="color: red"><%sel.name%> <span ng-if="!$last" >-</span> </span>
 									<div>
-										<button type="button" class="btn btn-primary btn-sm" ng-click="showSkill=!showSkill">Choose Skills <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
+										<button type="button" class="btn btn-facebook btn-sm" ng-click="showSkill=!showSkill">Choose Skills <i class="fa fa-chevron-circle-right" aria-hidden="true"></i></button>
 										<div id="listSkill" ng-show="showSkill">
 											<input type="text" class="form-control" ng-model="searchSkill" placeholder="Search">
 											<div class="single-skill" ng-repeat="skill in skills|filter:searchSkill">
@@ -336,14 +336,13 @@ Manage Basic
 							<div class="col-md-4">
 								<div class="block-info">
 									<div class="text-center">
-										<button type="button" class="btn btn-primary" ng-click="savePost(typePost, idPost)" style="margin-right: 10px">Save</Iutton>
-										<button type="button" class="btn btn-info">Preview</button>
+										<button type="button" class="btn btn-facebook" ng-click="savePost(typePost, idPost)" style="margin-right: 10px; width: 100%">Save</Iutton>
 									</div>
 								</div>
 								<div class="block-info">
 									<div class="text-center">
 										<button type="button" class="btn btn-default" ng-click="addPost()" style="margin-right: 10px">Cancel</button>
-										<button ng-if="typePost == 1" ng-click="trashPost(job._id)" type="button" class="btn btn-danger">Delete</button>
+										<button ng-if="typePost == 1" ng-click="trashPost(job._id)" type="button" class="btn btn-google">Delete</button>
 									</div>
 								</div>
 								<div class="block-info">
@@ -351,15 +350,15 @@ Manage Basic
 										<h4><strong>Status: </strong> Saving</h4>
 									</div>
 									<div class="form-group">
-										<h4><strong>Created: </strong> 2-12-2017</h4>
+										<h4><strong>Created: </strong> <% job.created_at %></h4>
 									</div>
 									<div class="form-group">
-										<h4><strong>Updated: </strong> 2-12-2017</h4>
+										<h4><strong>Updated: </strong> <% job.updated_at %></h4>
 									</div>
 								</div>
 
 								<div class="block-info">
-									<button type="button" class="btn btn-primary" ng-click="pushPost(idPost)" style="width:100%">Push and wait confirm</button>
+									<button type="button" class="btn btn-facebook" ng-click="pushPost(idPost)" style="width:100%">Push and wait confirm</button>
 								</div>
 							</div>
 						</div>
