@@ -20,15 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('partials.job-most-viewer', function($view) {
-            $jobs = Job::with('employer')->where('deleted', false)->orderBy('views desc')
-                                                ->offset(0)
-                                                ->take(8)
-                                                ->get();
-
-            $view->with('topJobViewer', $jobs);
-        });
-
         view()->composer('partials.search-job', function($view) {
             $cities = Cache::remember('listLocation', 10, function() {
                 return Cities::all();

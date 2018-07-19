@@ -110,7 +110,7 @@
                                         <div class="row row-salary">
                                             <span class="tag-salary">Salary: <strong class="">
         										@if(Auth::check()) {{ $job->detail['salary'] }}
-        										@else <a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
+        										@else <a href="" data-toggle="modal" data-target="#loginModal">Login to see salary</a>
         										@endif
         									</strong>
         									</span>
@@ -217,14 +217,73 @@
                         </div>
                     </div>
                     @if(!Auth::check() || Auth::user()->role_id == '5ac85f51b9068c2384007d9c')
-                    @include('partials.job-most-viewer')
+                    <div id="jobs-most-viewer">
+                        <div class="box box-md">
+                            <h2>Top Jobs For You</h2>
+                            <div id="top-job-viewer">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        @foreach($topJobViewer as $tjv)
+                                        <tr>
+                                            <td>
+                                                <div class="job-item">
+                                                    <div class="row" >
+                                                        <div class="col-xs-12 col-sm-2 col-md-3 col-lg-2" >
+                                                            <div class="logo job-search__logo">
+                                                                <a href=""><img title="" class="img-responsive" src="uploads/emp/avatar/{{ $tjv->employer['images']['avatar'] }}" alt="">
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                                                            <div class="job-item-info" >
+                                                                <h3 class="bold-red">
+                                                                    <a href="" class="job-title" target="_blank">{{ $tjv->name }}</a>
+                                                                </h3>
+                                                                <div class="company">
+                                                                    <span class="job-search__company">{{ $tjv->employer['name'] }}</span>
+                                                                    <span class="separator">|</span>
+                                                                    <span class="job-search__location">{{ $tjv->city }}</span>
+                                                                </div>
+                                                                <div class="description-job">
+                                                                    <h3>{!! $tjv->detail['description'] !!}</h3>
+                                                                </div>
+                                                                <div class="company text-clip">
+                                                                    <span class="salary-job">
+                                                                        @if(Auth::check())
+                                                                        {{ $tjv->detail['salary'] }} $
+                                                                        @else
+                                                                        <a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
+                                                                        @endif
+                                                                    </span>
+                                                                    <span class="separator">|</span>
+                                                                    <span class="">{{ date('d-m-Y', strtotime($tjv->created_at)) }}</span>
+                                                                </div>
+                                                                <div style="margin-top: 10px;">
+                                                                    @foreach(app(App\Http\Controllers\JobsController::class)->getListSkillJobv($tjv->skills_id) as $sj)
+                                                                    <span class="tag-skill" title="{{ $sj->name }}">{{ $sj->name }}</span>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                     @endif
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pull-right">
                     <div class="box">
                         <div class="col-md-12 col-sm-12 employer-logo">
                             <div class="responsive-container box-limit">
-                                <a href="{{route('getEmployers', $job->employer['alias'])}}" target="_blank" title="{{ $job->employer['name'] }}"><img src="uploads/emp/avatar/{{ $job->employer['images']['avatar'] }}" alt=""></a>
+                                <a href="{{route('getEmployers', $job->employer['alias'])}}" target="_blank" title="{{ $job->employer['name'] }}"><img src="uploads/emp/avatar/{{ $job->employer['images']['avatar'] }}" alt="" style="width: 150px; height: 150px"></a>
 
                             </div>
                         </div>
@@ -248,7 +307,7 @@
                     </div>
                     <div class="box related-jobs">
                         <div class="header-top">
-                            <a href="{{route('/')}}">Related job</a>
+                            <a href="">Related job</a>
                         </div>
                         <div class="wrap">
                             <ul class="job">
@@ -263,7 +322,7 @@
                                         <div>
                                             <span class="salary"><i class="fa fa-wifi" aria-hidden="true"></i> @if(Auth::check()){{ $rl->detail['salary'] }}
 												@else
-												<a href="" data-toggle="modal" data-target="#loginModal">Đăng nhập để xem lương</a>
+												<a href="" data-toggle="modal" data-target="#loginModal">Login to see salary</a>
 												@endif
 											</span>
                                         </div>

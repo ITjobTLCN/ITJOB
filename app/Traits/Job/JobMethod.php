@@ -10,6 +10,7 @@ use App\Job;
 use App\Follows;
 use Carbon\Carbon;
 use DateTime;
+use App\Libraries\MongoExtent;
 
 trait JobMethod
 {
@@ -110,13 +111,20 @@ trait JobMethod
 	}
 
 	protected function getRelatedJob($job) {
-		if (is_null($job) || empty($job)) {
-			return [];
-		}
+		if (is_null($job) || empty($job)) return [];
+
+		$condition = [
+			'_id' => [
+				'$nin' => [MongoExtent::safeMongoId($job->_id)]
+			],
+			'status' => 1,
+			'skills_id' => [
+				'$in' => $job->skills_id
+			]
+		];
 
 		return Job::with('employer')
-				            ->where('_id', '!=', $job->_id)
-				            ->whereIn('skills_id', $job->skills_id)
+				            ->where($condition)
 				            ->offset(0)
 				            ->take(config('constant.limit.relatedJob'))
 				            ->get();

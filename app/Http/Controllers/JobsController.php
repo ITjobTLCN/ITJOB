@@ -21,6 +21,7 @@ use App\Traits\LatestMethod;
 use App\Traits\Job\JobMethod;
 use App\Traits\User\ApplyMethod;
 use App\Traits\CommonMethod;
+use App\Libraries\MongoExtent;
 
 class JobsController extends Controller
 {
@@ -62,7 +63,22 @@ class JobsController extends Controller
             Cache::put('relatedJob' . $job_id, $relatedJob, config('constant.cacheTime'));
         }
 
-        return view('layouts.details-job', compact(['job', 'relatedJob']));
+        $condition = [
+            'status' => 1,
+            '_id' => [
+                '$nin' => [MongoExtent::safeMongoId($job_id)]
+            ]
+        ];
+        $topJobViewer = Cache::remember('topJobViewer', 10, function() use($condition) {
+            return Job::with('employer')
+                        ->where($condition)
+                        ->orderBy('views desc')
+                        ->offset(0)
+                        ->take(config('constant.limit.company'))
+                        ->get();
+        });
+
+        return view('layouts.details-job', compact(['job', 'relatedJob', 'topJobViewer']));
     }
     //get list skills and locations to filter jobs
     public function getAttributeFilter() {

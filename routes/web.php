@@ -47,7 +47,7 @@ Route::get('dang-xuat', [
 	'uses' => 'UsersController@logout'
 ]);
 //profile candidate
-Route::group([ 'prefix' => 'users', 'middleware' => 'auth'], function() {
+Route::group([ 'prefix' => 'users', 'middleware' => [ 'auth', 'prevent-back-history' ]], function() {
 	Route::get('', [ 'as' => 'infoUser', 'uses' => 'UsersController@getInfoUser' ]);
 	Route::get('profile', [ 'as' => 'profile', 'uses' => 'UsersController@getPageProfile' ]);
 	Route::post('profile', [ 'as' => 'postAvatar', 'uses' => 'UsersController@postAvatar' ]);
@@ -137,7 +137,7 @@ Route::group([ 'prefix' => 'it-job'], function() {
 Route::get('{alias}/{id}/apply', [ 'as' => 'getApplyJob', 'uses' => 'JobsController@getApplyJob' ])
 	->where([ 'id' => '[0-9a-z]+' ]);
 
-Route::get('detai-jobs/{alias}/{_id}', [
+Route::get('detail-jobs/{alias}/{_id}', [
 	'as' => 'detailjob',
 	'uses' => 'JobsController@getDetailsJob'
 ]);
@@ -204,7 +204,7 @@ Route::post('register/employer', [
 	'uses' => 'HomeController@postRegisterEmployer'
 ])->middleware('auth');
 	/**--------------ADMIN ROUTE--------------------*/
-Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
+Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'prevent-back-history'] ], function() {
 	Route::get('users', [ 'as' => 'getadminusers', 'uses' => 'AdminController@getListUsers' ]);
 	Route::get('employers', [ 'as' => 'getadminemps', 'uses' => 'AdminController@getListEmps' ]);
 	Route::get('dashboard', [ 'as' => 'getAdminDashboard', 'uses' => 'AdminController@getDashBoard' ]);
@@ -268,7 +268,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => 'admin'], function() {
 });
 Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/
-Route::group([ 'prefix' => 'emp', 'middleware' => 'emp'], function() {
+Route::group([ 'prefix' => 'emp', 'middleware' => ['emp', 'prevent-back-history'] ], function() {
 	/*Employer Advance*/
 	Route::get('/', [ 'as' => 'getEmp', 'uses' => 'EmployerController@getIndex' ]);
 	Route::get('advance', [ 'as' => 'getEmpAdvance', 'uses' => 'EmployerController@getAdvance' ]);

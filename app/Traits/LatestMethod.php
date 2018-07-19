@@ -5,16 +5,19 @@ use Cache;
 use App\Employers;
 use App\Job;
 use DB;
+
 trait LatestMethod
 {
 	private function getTopEmployers() {
 		$top_emps = Cache::remember('top_emps', config('constant.cacheTime'), function() {
-            return Employers::orderBy('rating desc')
+            return Employers::where('status', 1)
+                            ->orderBy('rating desc')
             				->orderBy('quantity_user_follow desc')
             				->offset(0)
                         	->take(config('constant.limit.company'))
                             ->get();
          });
+
          return $top_emps;
 	}
 

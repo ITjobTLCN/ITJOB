@@ -19,8 +19,11 @@ class PageController extends Controller
 {
     use LatestMethod, CommonMethod;
 
-	public function getIndex() {
+    public function __construct() {
         set_time_limit(-1);
+    }
+
+	public function getIndex() {
         $cities = Cache::remember('listLocation', config('constant.cacheTime'), function() {
             return Cities::all();
         });

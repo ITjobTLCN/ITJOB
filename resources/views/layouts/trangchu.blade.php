@@ -66,7 +66,7 @@ ITJob - Top Job IT For You
 		                <a href="{{route('getEmployers', $top_emp->alias)}}" target="_blank"><img src="uploads/emp/avatar/{{$top_emp->images['avatar']}}" alt="" title="" class="property_img"/>
 		                </a>
 		            </div>
-		            <div class="property_details text-center">
+		            <div class="property_details text-center" style="padding: 0 10px">
 		                <a href="{{route('getEmployers', $top_emp->alias)}}" class="top-employer__name" target="_blank">{{$top_emp->name}}</a>
 		            </div>
 		        </div>
