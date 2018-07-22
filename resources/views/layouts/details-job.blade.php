@@ -140,7 +140,7 @@
                             {{-- Job Description --}}
                             <h2>The Job</h2>
                             <div id="job-description" class="job-info">
-                                {!!$job['description']!!}
+                                {!!$job['detail']['description']!!}
                             </div>
                             {{-- Job Requirement --}}
                             <h2>Your Skills and Experience</h2>
