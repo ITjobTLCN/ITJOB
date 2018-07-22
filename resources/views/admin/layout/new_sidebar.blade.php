@@ -30,15 +30,12 @@
             <li class="active">
                 <a href="admin/statistics">
                     <i class="fa fa-dashboard"></i>
-                    <span>Statistics</span>
-                    <span class="pull-right-container">
-                        <small class="label pull-right bg-green">new</small>
-                    </span>
+                    <span>Dashboard</span>
                 </a>
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-dashboard"></i>
+                    <i class="fa fa-user-circle-o"></i>
                     <span>Accounts &amp; Roles</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -58,7 +55,7 @@
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-dashboard"></i>
+                    <i class="fa fa-building-o"></i>
                     <span>Employers</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -67,11 +64,11 @@
                 <ul class="treeview-menu">
                     <li class="active">
                         <a href="admin/employers">
-                            <i class="fa fa-circle-o"></i> Employers</a>
+                            <i class="fa fa-user-circle"></i> Employers</a>
                     </li>
                     <li>
-                        <a href="#">
-                        <i class="fa fa-circle-o"></i> Masters &amp; Employees</a>
+                        <a href="javascript:void(0)">
+                        <i class="fa fa-user-circle-o"></i> Masters &amp; Employees</a>
                     </li>
                 </ul>
             </li>
@@ -95,15 +92,12 @@
                 </ul>
             </li>
             <li>
-                <a href="assets/template/adminlte/pages/widgets.html">
+                <a href="javascript:void(0">
                     <i class="fa fa-th"></i>
-                    <span>Widgets</span>
-                    <span class="pull-right-container">
-                        <small class="label pull-right bg-green">new</small>
-                    </span>
+                    <span>Notification</span>
                 </a>
             </li>
-            <li>
+            <!-- <li>
                 <a href="assets/template/adminlte/pages/calendar.html">
                     <i class="fa fa-calendar"></i>
                     <span>Calendar</span>
@@ -123,7 +117,7 @@
                         <small class="label pull-right bg-red">5</small>
                     </span>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </section>
     <!-- /.sidebar -->
