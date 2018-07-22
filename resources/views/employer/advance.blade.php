@@ -240,7 +240,6 @@ Manage Advance
 					<th ng-click="sortPost('name')" ng-style="{'width': '60px', 'min-width': '60px', 'max-width': '60px', 'text-align': 'center'}">Title
 						<span ng-show="sortTypePost == 'name'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReversePost,'glyphicon-chevron-up':!sortReversePost}"></span>
 					</th>
-
 					<th ng-click="sortPost('user.name')" ng-style="{'width': '60px', 'min-width': '60px', 'max-width': '60px', 'text-align': 'center'}">Author
 						<span ng-show="sortTypePost == 'user.name'" class="glyphicon sort-icon" ng-class="{'glyphicon-chevron-down':sortReversePost,'glyphicon-chevron-up':!sortReversePost}"></span>
 					</th>
@@ -256,6 +255,7 @@ Manage Advance
 						</div>
 					</th>
 					<th ng-style="{'width': '60px', 'min-width': '60px', 'max-width': '60px', 'text-align': 'center'}">Action</th>
+					<th ng-style="{'width': '60px', 'min-width': '60px', 'max-width': '60px', 'text-align': 'center'}">Operation</th>
 					<th ng-style="{'width': '60px', 'min-width': '60px', 'max-width': '35px', 'text-align': 'center'}">Applied</th>
 				</tr>
 			</thead>
@@ -280,6 +280,9 @@ Manage Advance
 							<button ng-click="confirmPost(post._id)" class="btn btn-sm btn-success">Confirm</button>
 							<button ng-click="denyPost(post._id)" class="btn btn-sm btn-danger">Deny</button>
 						</span>
+					</td>
+					<td class="text-center">
+						<a ng-href="<% detailJob(post.alias, post._id) %>" target="_blank" title="View Detail"><i class="fa fa-eye"></i></a>
 					</td>
 					<td><% post.applications.length %> / <% post.detail.quantity %>
 						<span ng-if="post.detail.quantity == null">*</span>

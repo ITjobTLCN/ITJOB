@@ -527,7 +527,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 	}
 
 	$scope.detailJob = function(alias, _id) {
-		return baseUrl + '/detai-jobs/' + alias + '/' + _id;
+		return baseUrl + '/detail-jobs/' + alias + '/' + _id;
 	}
 
 	$scope.reStorePost = function(id) {
