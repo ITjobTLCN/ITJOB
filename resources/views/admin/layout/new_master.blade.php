@@ -68,10 +68,10 @@
                 </h1>
                 <ol class="breadcrumb">
                     <li>
-                        <a href="#">
+                        <a href="admin/statistics#">
                             <i class="fa fa-dashboard"></i> Home</a>
                     </li>
-                    <li class="active">Dashboard</li>
+                    <li class="active">@yield('primary-title')</li>
                 </ol>
             </section>
 

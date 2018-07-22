@@ -393,9 +393,6 @@ class AdminController extends Controller
 
     /*------------------END USER---------------------*/
 
-
-
-
     /**----------------DASHBOARD------------------------
     * A some function in DASHBOARD, used in DashBoardController.js
     *               used with AngularJS
