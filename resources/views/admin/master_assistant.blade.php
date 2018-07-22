@@ -50,7 +50,7 @@
                             <%item.user.name%>
                         </td>
                         <td>
-                            <%item.user.role_id%>
+                            <%item.user.roles.name%>
                         </td>
                         <td>
                             <%item.employer.name%>

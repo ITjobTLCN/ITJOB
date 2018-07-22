@@ -261,7 +261,6 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 	 * Activate Master or Assistant
 	 */
 	$scope.activate = function (id, type) { //
-		debugger
 		var data = $.param({
 			id: id,
 			type: type

@@ -736,6 +736,6 @@ class AdminController extends Controller
         return Employers::where('_id', $emp_id)->first();
     }
     private function get_list_master_assistant() {
-        return Registration::with(['user', 'employer'])->orderBy('created_at','desc')->get();
+        return Registration::with(['user', 'employer', 'user.roles'])->orderBy('created_at','desc')->get();
     }
 }
