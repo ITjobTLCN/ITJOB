@@ -31,5 +31,10 @@ app.constant('Constant', {
     MODAL_EDIT_SKILL_TITLE: 'Edit Skill',
     CHART_APPLICATION: 0,
     CHART_JOB: 1,
-    CHART_ACTIVE_USER: 2
+    CHART_ACTIVE_USER: 2,
+
+    STATUS: {
+        ACTIVATE : 1,
+        DEACTIVATE : 0
+    }
 });
