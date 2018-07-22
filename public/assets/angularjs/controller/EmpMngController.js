@@ -313,6 +313,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 			}).then(function(response) {
 				console.log(response.data);
 				if (response.data.status == true) {
+					$scope.typePost = 1;
 					$scope.job = null;
 					$scope.selection = [];
 					$scope.addPost();

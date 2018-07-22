@@ -93,7 +93,7 @@ class HomeController extends Controller
                 $data = $request->only(['name', 'city_id', 'address', 'website']);
                 $id = $this->saveEmployer($data);
                 break;
-            case 1:
+            case 10:
                 $emp_id = $request->_id;
                 break;
             default:
