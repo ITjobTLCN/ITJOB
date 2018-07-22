@@ -360,7 +360,6 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 			if (type == 1) {//edit
 				$scope.titleBlock = 'Edit Post';
 				$scope.typePost = type;
-				debugger;
 				$scope.idPost = $scope.job._id;
 			}
 		}
@@ -397,10 +396,17 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 			}
 
 			var date_expired = moment.utc(_.parseInt(_.get($scope.job, 'date_expired.$date.$numberLong', '')));
-	        _.set($scope.job, 'date_expired', date_expired._d);
-			response.data.postSkills.forEach(function(value) {
-				$scope.selection.push({ _id:value._id, name:value.name });
-			});
+			_.set($scope.job, 'date_expired', date_expired._d);
+			if (_.size(response.data.postSkills) > 0) {
+				response.data.postSkills.forEach(function (value) {
+					$scope.selection.push({
+						_id: value._id,
+						name: value.name
+					});
+				});
+			} else{
+				$scope.selection = [];
+			}
 			$scope.addPost("1");
 		}, function(error) {
 			toaster.pop('error', 'ERROR', 'Can not get data from service');
@@ -408,7 +414,6 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 	}
 
 	$scope.trashPost = function(idPost) {
-		debugger;
 		if (confirm('Are you want to delete this post?')) {
 			$http.get('emp/ng-trash-post/' + idPost).then(function(response) {
 				if (response.data.status == true) {

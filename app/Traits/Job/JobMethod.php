@@ -210,7 +210,9 @@ trait JobMethod
             }
 
             $arrUpdate['skills_id'] = $skill_id;
-        }
+        } else {
+			$arrUpdate['skills_id'] = [];
+		}
 
         if ( !empty($data['date_expired'])) {
             $substr = substr($data['date_expired'], 0, strpos($data['date_expired'], "("));

@@ -326,7 +326,7 @@ class EmployerController extends Controller
     public function ngGetPost($jobId) {
         $post = Job::findOrFail($jobId);
         //post's skills
-        $postSkills = Skills::whereIn('_id', $post['skills_id'])
+        $postSkills = Skills::whereIn('_id', $post['skills_id'] ?? [])
                                 ->get();
         return response()->json(['post' => $post, 'postSkills' => $postSkills]);
     }
