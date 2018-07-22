@@ -403,29 +403,22 @@ class AdminController extends Controller
     */
 
     public function ngGetNumber(){
-        $countallusers = User::where(config('constant.STATUS'),1)->count();
-        $countadmins = User::where(config('constant.STATUS'),1)->where('role_id',2)->count();
-        $countusers = User::where(config('constant.STATUS'),1)->where('role_id',1)->count();
-        $countemployers = User::where(config('constant.STATUS'),1)->where(function($q){
-            $q->orWhere('role_id',3);
-            $q->orWhere('role_id',4);
+        $countallusers = User::count();
+        $countadmins = User::where('role_id', config('constant.roles.admin'))->count();
+        $countusers = User::where('role_id', config('constant.roles.candidate'))->count();
+        $countemployers = User::where(function($q){
+            $q->orWhere('role_id', config('constant.roles.employer'));
+            $q->orWhere('role_id', config('constant.roles.employee'));
         })->count();
-        $countmasters = User::where(config('constant.STATUS'),1)->where('role_id',3)->count();
-        $countassistants = User::where(config('constant.STATUS'),1)->where('role_id',4)->count();
+        $countmasters = User::where('role_id', config('constant.roles.employer'))->count();
+        $countassistants = User::where('role_id', config('constant.roles.employee'))->count();
 
         $countemps = Employers::count();
-        $countpendingemps = Employers::where(config('constant.STATUS'),0)->count();
-        $countapprovedemps = Employers::where(config('constant.STATUS'),1)->count();
-        $countdeniedemps = Employers::where(config('constant.STATUS'),2)->count();
 
-
-
-        //main
-        // $date = new Carbon('2017-12-05 18:06:49');
         $now = Carbon::now();
         $today = Carbon::today();
 
-        $usertoday = User::where(config('constant.STATUS'),1)->where('created_at','>',$today)->get();
+        $usertoday = User::where(config('constant.STATUS'), 1)->where('created_at','>',$today)->get();
         $countusertoday = $usertoday->count();
 
         $posttoday = Job::where(config('constant.STATUS'),1)->where('created_at','>',$today)->get();
@@ -434,25 +427,18 @@ class AdminController extends Controller
         $applitoday = Applications::where(config('constant.STATUS'),1)->where('created_at','>',$today)->get();
         $countapplitoday = $applitoday->count();
 
-        // $now = gmdate('H:i:s',$now->diffInSeconds($diff));
-
-        //POST
-        $posts = Job::with('Employer')->get();
         //count post approved and expired
-        $countposted = Job::where(function($q){
-            $q->orWhere(config('constant.STATUS'),1);
-            $q->orWhere(config('constant.STATUS'),11);
-        })->get()->count();
+        $countposted = Job::count();
 
         //APLLY
-        $countapplies = Applications::where(config('constant.STATUS'),1)->get()->count();
+        $countapplies = Applications::get()->count();
 
         /* Employers*/
-            //new approved in today
-        $newemps = Employers::join('registration','employers.id','=','registration.emp_id')->where('employers.status',1)->where('registration.status',1)->where('registration.created_at','>',$today)->select('emp_id')->get()->count();
+        $newemps = Employers::join('registration','employers.id','=','registration.emp_id')->where('registration.created_at','>',$today)->select('emp_id')->get()->count();
 
         //count online user
-        $user = User::get();$user_online = 0;
+        $user = User::get();
+        $user_online = 0;
         foreach($user as $u){
             if(Cache::has('user-is-online-'.$u->id))
                 $user_online++;
@@ -461,11 +447,8 @@ class AdminController extends Controller
         return response()->json([config('constant.STATUS')=>TRUE,'countallusers'=>$countallusers,'countadmins'=>$countadmins,
             'countusers'=>$countusers,'countemployers'=>$countemployers,'countmasters'=>$countmasters,
             'countassistants'=>$countassistants,
-            'countemps'=>$countemps, 'countpendingemps'=>$countpendingemps,
-            'countapprovedemps'=>$countapprovedemps,'countdeniedemps' => $countdeniedemps,
-            //main
-            'countusertoday' => $countusertoday,'countposttoday'=>$countposttoday,'countapplitoday'=>$countapplitoday,
-            'posts'=>$posts,'countposted'=>$countposted,'countapplies'=>$countapplies,'newemps'=>$newemps, 'user_online'=>$user_online]);
+            'countemps'=>$countemps,
+            'countposted'=>$countposted,'countapplies'=>$countapplies,'newemps'=>$newemps, 'user_online'=>$user_online]);
     }
     /*----------------END DASHBOARD------------------*/
 

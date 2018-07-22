@@ -10,11 +10,37 @@ app.controller('StatisticsController', function ($scope, $http, $timeout, Consta
     $scope.year = (new Date).getFullYear();
 
     $scope.init = function() {
+        $scope.loadDashboard();
         $scope.loadStatisticApps();
         $scope.loadStatisticJobs();
         $scope.loadStatisticUsers();
         $scope.loadStatisticEmpSkills();
+    }
 
+    $scope.loadDashboard = function () {
+        $http.get('admin/ngnumber').then(function (response) {
+            // console.log(response);
+            $scope.countallusers = response.data.countallusers;
+            $scope.countusers = response.data.countusers;
+            $scope.countadmins = response.data.countadmins;
+            $scope.countemployers = response.data.countemployers;
+            $scope.countmasters = response.data.countmasters;
+            $scope.countassistants = response.data.countassistants;
+
+            //count post approved and expired
+
+            $scope.countemps = response.data.countemps;
+            //
+            $scope.countposted = response.data.countposted;
+
+            $scope.countapplies = response.data.countapplies;
+            $scope.newemps = response.data.newemps;
+
+            //count online user
+            $scope.useronline = response.data.user_online;
+        }, function (error) {
+            alert("Can't get data!");
+        });
     }
 
     $scope.convertDate = function(date) {

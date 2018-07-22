@@ -14,6 +14,7 @@ return [
     ],
     'roles' => [
         'candidate' => '5ac85f51b9068c2384007d9c',
+        'admin' => '5ac85f51b9068c2384007d9d',
     	'employer' => '5ac85f51b9068c2384007d9e',
     	'employee' => '5ac85f51b9068c2384007d9f'
     ],
