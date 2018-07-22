@@ -27,7 +27,16 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="active treeview">
+            <li class="active">
+                <a href="admin/statistics">
+                    <i class="fa fa-dashboard"></i>
+                    <span>Statistics</span>
+                    <span class="pull-right-container">
+                        <small class="label pull-right bg-green">new</small>
+                    </span>
+                </a>
+            </li>
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i>
                     <span>Accounts &amp; Roles</span>
@@ -38,6 +47,7 @@
                 <ul class="treeview-menu">
                     <li class="active">
                         <a href="admin/users">
+                        <!-- <a href="javascript:void(0)" onclick="$('#king-content').load('admin/users');"> -->
                             <i class="fa fa-circle-o"></i> Accounts</a>
                     </li>
                     <li>

@@ -261,10 +261,15 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'prevent-back-hist
 	Route::delete('ngskill', 'AdminJobController@ngDeleteSkill');
 
 		// Statistics
-	Route::get('statistics', 'StatisticsController@loadStatistics');
+	Route::get('statistics', 'StatisticsController@loadStatistics')->name('adminStatistic');
 	Route::get('ngstatisticapps',  'StatisticsController@statisticApplication');
 	Route::get('ngstatisticjobs',  'StatisticsController@statisticJob');
 	Route::get('ngstatisticusers',  'StatisticsController@statisticUser');
+	Route::get('ngstatisticempskills',  'StatisticsController@statisticEmpSkill');
+	Route::get('ngstatisticjobskills',  'StatisticsController@statisticJobSkill');
+
+		//Test
+	Route::get('ngtest',  'StatisticsController@_get_pie_skill');
 });
 Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/

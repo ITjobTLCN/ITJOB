@@ -135,6 +135,9 @@
     <!-- Select2 -->
     <script src="assets/template/adminlte/bower_components/select2/dist/js/select2.full.min.js"></script>
 
+    <!-- My Custom -->
+    <script src="assets/js/new_admin.js"></script>
+
 
         <!-- AngularJS   -->
     <script src="assets/js/angular.min.js"></script>
