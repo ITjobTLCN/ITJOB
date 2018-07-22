@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>Dashboard | ITJOB</title>
     <base href="{{asset('')}}">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="assets/css/ui-select/select2.css">
     <link rel="stylesheet" href="assets/css/ui-select/selectize.bootstrap3.css">
     <link rel="stylesheet" href="assets/css/ui-select/select.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/toaster.css">
 
     <!-- My custom -->
     <link rel="stylesheet" href="assets/css/new_admin.css">
@@ -74,7 +75,8 @@
                     <li class="active">@yield('primary-title')</li>
                 </ol>
             </section>
-
+        <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
+    
             <!-- Main content -->
             <section class="content" id="king-content">
                 @yield('content')

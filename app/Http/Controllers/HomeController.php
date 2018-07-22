@@ -91,7 +91,12 @@ class HomeController extends Controller
             case 0:
                //create employers //NAME,CITY,ADDRESS,WEBSITE ->
                 $data = $request->only(['name', 'city_id', 'address', 'website']);
-                $id = $this->saveEmployer($data);
+                try {
+                    $id = $this->saveEmployer($data);
+                    $emp_id = strval($id['_id']['oid']);
+                } catch(\Exception $ex) {
+                    return response()->json(['status' => false, 'message' => 'Can NOT create employer']);
+                }
                 break;
             case 10:
                 $emp_id = $request->_id;

@@ -9,10 +9,22 @@ app.constant('Constant', {
     MODAL_EDIT : 'edit',
     MODAL_ADD : 'add',
     MODAL_DETAIL : 'detail',
-    MODAL_EDIT_ROLE_TITLE: 'Edit role',
-    MODAL_ADD_ROLE_TITLE: 'Add role',
-    MODAL_EDIT_USER_TITLE: 'Edit user',
-    MODAL_ADD_USER_TITLE: 'Add user',
+    MODAL_EDIT_ROLE_TITLE: {
+        title: 'Edit role',
+        class: 'fa fa-pencil'
+    },
+    MODAL_ADD_ROLE_TITLE: {
+        title: 'Add role',
+        class: 'fa fa-plus'
+    },
+    MODAL_EDIT_USER_TITLE: {
+        title: 'Edit user',
+        class: 'fa fa-pencil'
+    },
+    MODAL_ADD_USER_TITLE: {
+        title: 'Add user',
+        class: 'fa fa-plus'
+    },
     MODAL_ADD_EMPLOYER_TITLE: 'Add employer',
     MODAL_EDIT_EMPLOYER_TITLE: 'Edit employer',
     MODAL_ADD_SKILL_TITLE: 'Add skill',

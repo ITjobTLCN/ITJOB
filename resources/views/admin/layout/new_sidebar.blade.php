@@ -45,11 +45,11 @@
                     <li class="active">
                         <a href="admin/users">
                         <!-- <a href="javascript:void(0)" onclick="$('#king-content').load('admin/users');"> -->
-                            <i class="fa fa-circle-o"></i> Accounts</a>
+                            <i class="fa fa-users"></i> Accounts</a>
                     </li>
                     <li>
                         <a href="admin/roles">
-                        <i class="fa fa-circle-o"></i> Roles</a>
+                        <i class="fa fa-user-secret"></i> Roles</a>
                     </li>
                 </ul>
             </li>
@@ -83,16 +83,16 @@
                 <ul class="treeview-menu">
                     <li>
                         <a href="admin/jobs">
-                            <i class="fa fa-circle-o"></i> Jobs</a>
+                            <i class="fa fa-building"></i> Jobs</a>
                     </li>
                     <li>
                         <a href="admin/applications">
-                            <i class="fa fa-circle-o"></i> Applications</a>
+                            <i class="fa fa-file"></i> Applications</a>
                     </li>
                 </ul>
             </li>
             <li>
-                <a href="javascript:void(0">
+                <a href="{{route('commingSoon')}}">
                     <i class="fa fa-th"></i>
                     <span>Notification</span>
                 </a>

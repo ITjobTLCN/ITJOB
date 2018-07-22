@@ -148,8 +148,7 @@ trait CompanyMethod
             'status' => 0
         ];
         try {
-            $this->formatInputToSave($arrInsert);
-             return $emp->insert($arrInsert);
+            return $emp->insertGetId($this->formatInputToSave($arrInsert));
         } catch(\Exception $e) {}
     }
 

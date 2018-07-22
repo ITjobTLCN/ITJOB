@@ -24,13 +24,13 @@ app.controller('UsersController', function ($scope, $http, Constant) {
 		// Load data of roles
 		$scope.roles = $scope.load_roles();
 
-		switch(state){
+		switch(state) {
 			case Constant.MODAL_ADD:
-				$scope.user_modal_title = Constant.MODAL_ADD_USER_TITLE;
+				$scope.user_modal = Constant.MODAL_ADD_USER_TITLE;
 				break;
 			case Constant.MODAL_EDIT:
-				$scope.user_modal_title = Constant.MODAL_EDIT_USER_TITLE;
-				$scope.change =false;
+				$scope.user_modal = Constant.MODAL_EDIT_USER_TITLE;
+				$scope.change = false;
 				/*function toggle to change password-------------*/
 				$scope.toggleChange = function(){
 					$scope.change=!$scope.change;

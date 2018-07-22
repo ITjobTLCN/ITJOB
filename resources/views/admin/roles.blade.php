@@ -17,7 +17,7 @@
                     <option value="20" ng-selected="show_items == 20">20</option>
                 </select>
                 <span>entries</span>
-                <a href="javascript:void(0)" class="btn btn-flat btn-primary btn-add-new" ng-click="modal(constant.MODAL_ADD)" style="">Create role</a>
+                <a href="javascript:void(0)" class="btn btn-flat btn-primary btn-add-new" ng-click="modal(constant.MODAL_ADD)" style="">New</a>
                 <div class="input-group datatable-search">
                     <span class="input-group-addon"><i class="fa fa-search"></i></span>
                     <input type="text" class="form-control " placeholder="Search..." ng-model="search_item">
@@ -36,7 +36,7 @@
                         <th ng-click="sort('route')" style="width: 20%">Route
                             <span class="glyphicon sort-icon" ng-show="sort_type=='route'" ng-class="{'glyphicon-chevron-up':!sort_reverse,'glyphicon-chevron-down':sort_reverse}"></span>
                         </th>
-                        <th ng-click="sort('created_at')" style="width: 20%">Created
+                        <th ng-click="sort('created_at')" style="width: 20%">Created At
                             <span class="glyphicon sort-icon" ng-show="sort_type=='created_at'" ng-class="{'glyphicon-chevron-up':!sort_reverse,'glyphicon-chevron-down':sort_reverse}"></span>
                         </th>
                         <th style="width: 20%">Actions</th>
@@ -81,7 +81,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><%role_modal_title%></h4>
+                    <h4 class="modal-title"><i class="<% role_modal.class %>"></i> <%role_modal.title%></h4>
                 </div>
                 <div class="modal-body">
                     <form>

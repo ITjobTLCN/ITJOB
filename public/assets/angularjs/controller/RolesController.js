@@ -1,4 +1,4 @@
-app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
+app.controller('RolesController', function ($scope, $http, $timeout, Constant, toaster) {
     // Load default data
     $http({
         method: 'GET',
@@ -7,7 +7,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
         $scope.roles = response.data.roles;
         $scope.constant = Constant;
     }, function (error) {
-        alert(error.message);
+        toaster.pop('error', 'ERROR', error);
     });
 
     // Show modal
@@ -16,10 +16,10 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
         $scope.role = item;
         switch (state) {
             case Constant.MODAL_ADD:
-                $scope.role_modal_title = Constant.MODAL_ADD_ROLE_TITLE;
+                $scope.role_modal = Constant.MODAL_ADD_ROLE_TITLE;
                 break;
             case Constant.MODAL_EDIT:
-                $scope.role_modal_title = Constant.MODAL_EDIT_ROLE_TITLE;
+                $scope.role_modal = Constant.MODAL_EDIT_ROLE_TITLE;
                 break;
             default:
                 break;
@@ -29,9 +29,10 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
 
     // Save data
     $scope.save = function() {
+        debugger;
         $scope.errors = undefined;
         var data = {};
-        if ($scope.role != undefined) {
+        if (!_.isUndefined($scope.role)) {
             ($scope.created_at) ? delete $scope.created_at: null;
             ($scope.updated_at) ? delete $scope.updated_at: null;
             data = $.param($scope.role);
@@ -71,7 +72,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
             }
         }).then(function (response) {
             if (response.data.status == true) {
-                alert(response.data.message);
+                toaster.pop('success', 'Success', response.data.message);
                 //push role to scope user
                 $scope.roles.splice(0, 0, response.data.role);
                 $('#role_modal').modal('hide');
@@ -82,7 +83,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
                 }, 5000);
             }
         }, function (error) {
-            alert(error);
+            toaster.pop('error', 'ERROR', error);
         });
     }
 
@@ -96,7 +97,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
             }
         }).then(function (response) {
             if (response.data.status == true) {
-                alert(response.data.message);
+                toaster.pop('success', 'Success', response.data.message);
                 //load list roles
                 $scope.roles = response.data.roles;
                 $('#role_modal').modal('hide');
@@ -107,12 +108,12 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
                 }, 5000);
             }
         }, function (error) {
-            alert(error);
+            toaster.pop('error', 'ERROR', error);
         });
     }
 
     $scope.delete_role = function (data) {
-        if (!confirm("Delete this roles?")) {
+        if (!confirm("Are you sure to want to delete?")) {
             return;
         }
         $http({
@@ -124,7 +125,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
             }
         }).then(function (response) {
             if (response.data.status == true) {
-                alert(response.data.message);
+                toaster.pop('success', 'Success', response.data.message);
                 //load list roles
                 $scope.roles = response.data.roles;
                 $('#role_modal').modal('hide');
@@ -135,7 +136,7 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant) {
                 }, 5000);
             }
         }, function (error) {
-            alert(error);
+            toaster.pop('error', 'ERROR', error);
         });
     }
 
