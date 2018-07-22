@@ -93,7 +93,7 @@
                                                 <span class="company-name text-lg"><strong>{{ $job->employer['name'] }}</strong></span>
                                                 <div class="block">
                                                     <span title="Address"><i class="fa fa-home" aria-hidden="true"></i></span>
-                                                    @foreach($job->employer['address'] as $val)
+                                                    @foreach($job->employer['address'] ?? [] as $val)
                                                         <span class="employer_address">{{ $val['detail'] }}</span>
                                                     @endforeach
                                                 </div>
@@ -291,7 +291,7 @@
                             <h3 class="name">{{ $job->employer['name'] }}</h3>
                             <div class="basic-info">
                                 <div class="short">{{ $job->employer['info']['description'] }}</div>
-                                @foreach($job->employer['address'] as $key => $value)
+                                @foreach($job->employer['address'] ?? [] as $key => $value)
                                     <p><i class="fa fa-home" aria-hidden="true"></i> Chi nhánh {{ $key + 1}}: {{ $value['detail'] }}</p>
                                 @endforeach
                                 <p><i class="fa fa-cog" aria-hidden="true"></i>Product</p>

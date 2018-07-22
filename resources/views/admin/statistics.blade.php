@@ -1,6 +1,6 @@
 @extends('admin.layout.new_master')
-@section('primary-title') Statistics @endsection
-@section('secondary-title') Statistics @endsection
+@section('primary-title') Dashboard @endsection
+@section('secondary-title') Review all informations of website @endsection
 @section('content')
 <div ng-controller="StatisticsController" data-ng-init="init()">
   <div class="row">

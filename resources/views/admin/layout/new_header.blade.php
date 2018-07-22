@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="assets/template/adminlte/index2.html" class="logo">
+    <a href="#" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
             <b>IT</b>J</span>
