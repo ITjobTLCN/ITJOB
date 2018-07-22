@@ -1,12 +1,18 @@
 app.controller('EmpController', function ($scope, $http, Constant, toaster) {
+	// Init function
+	$scope.init = function () {
+		$scope.constant = Constant;
+		$scope.loadMasterAssistant();
+	}
+
 	$http.get('admin/ngemps').then(function(response){
 		console.log(response);
 		$scope.emps = response.data.emps;
-		$scope.constant = Constant;
 		$scope.resetMultiple();
 	},function(error){
 		alert('ERROR');
 	});
+
 	// Get all master & all employer (users)
 	$http.get('admin/ngusers').then(function (response) {
 		console.log(response);
@@ -14,6 +20,7 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 	}, function (error) {
 		alert('ERROR');
 	});
+
 	// Get all skills employer
 	$http.get('admin/ngskills').then(function (response) {
 		console.log(response);
@@ -21,6 +28,7 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 	}, function (error) {
 		alert('ERROR');
 	});
+
 	// Get all cities employer
 	$http.get('admin/ngcities').then(function (response) {
 		console.log(response);
@@ -235,6 +243,43 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 			}
 		}, function (error) {
 			alert("Can't confirm data");
+		});
+	}
+
+	/**
+	 * List master and Assistant
+	 */
+	$scope.loadMasterAssistant = function() {
+		$http.get('admin/ng_mas_ass').then(function (response) {
+			$scope.list_master_assis = response.data.list;
+		}, function (error) {
+			toaster.pop('error', 'Error', error);
+		});
+	}
+
+	/**
+	 * Activate Master or Assistant
+	 */
+	$scope.activate = function (id, type) { //
+		debugger
+		var data = $.param({
+			id: id,
+			type: type
+		});
+		$http({
+			method: 'put',
+			url: 'admin/ng_mas_ass',
+			data: data,
+			headers: {
+				'Content-type': 'application/x-www-form-urlencoded'
+			}
+		}).then(function (response) {
+			if (response.data.status == true) {
+				toaster.pop('success', 'Success', 'Edited success');
+				$scope.list_master_assis = response.data.list;
+			}
+		}, function (error) {
+			toaster.pop('error', 'Error', error);
 		});
 	}
 });

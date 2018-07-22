@@ -93,7 +93,7 @@ class HomeController extends Controller
                 $data = $request->only(['name', 'city_id', 'address', 'website']);
                 try {
                     $id = $this->saveEmployer($data);
-                    $emp_id = strval($id['_id']['oid']);
+                    $emp_id = strval($id);
                 } catch(\Exception $ex) {
                     return response()->json(['status' => false, 'message' => 'Can NOT create employer']);
                 }

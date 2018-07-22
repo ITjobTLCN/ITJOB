@@ -7,7 +7,7 @@
                 <div class="panel-heading">Send a notificaiton</div>
 
                 <div class="panel-body">
-                    <form action="{{route('createnotification')}}" method="POST" role="form">                    
+                    <form action="{{route('createnotification')}}" method="POST" role="form">
                         <div class="form-group">
                             <input type="text" class="form-control" name="notification" placeholder="Notification">
                         </div>
@@ -21,7 +21,7 @@
                             	<option value="4">Assistant</option>
                             </select>
                         </div>
-                        
+
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                         <button type="submit" class="btn btn-primary">Send notification</button>
                     </form>

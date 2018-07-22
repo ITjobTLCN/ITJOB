@@ -13,12 +13,12 @@ class Registration extends Eloquent
     protected $collection = 'registration';
 
     protected $primaryKey = ('user_id');
-    
+
     public function user() {
     	return $this->belongsTo('App\User','user_id','_id');
     }
-    
+
     public function employer() {
-    	return $this->belongsTo('App\Employers','emp_id','id');
+    	return $this->belongsTo('App\Employers','emp_id','_id');
     }
 }

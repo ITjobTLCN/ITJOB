@@ -586,6 +586,92 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Load page admin master and assistant
+     * @return void
+     */
+    function loadMasterAssistant() {
+        return view('admin.master_assistant');
+    }
+
+    /**
+     * Function get list master and assistant
+     * @return json
+     */
+    function ngGetMasterAssistant() {
+        $list = $this->get_list_master_assistant();
+        return response()->json(['list' => $list]);
+    }
+
+    /**
+     * Function edit Active or Deactivate registration
+     * Active: change status registration, change role user, add master into employer, change status employer
+     * @return bool
+     */
+    function ngEditMasterAssistant(Request $request) {
+        // Form validation
+        $validator = Validator::make($request->all(), [
+            'id' => 'required',
+            'type' => 'required'
+        ]);
+        // Check validation
+        if ($validator->fails()) {
+            return response()->json([config('constant.STATUS') => FALSE,
+            config('constant.ERROR') => $validator->errors()]);
+        }
+        try {
+            // Get registraion
+            // $reg = Registration::find(strval($request->id));
+            $reg = Registration::where(['_id' =>strval($request->id)])->first();
+
+            // Change status of registration
+            switch ($request->type) {
+                case config('constant.ACTIVE'):
+                    $reg->status = $request->type;
+                    $reg->save();
+
+                    // Change status employer to active
+                    $emp = Employers::find($reg->emp_id);
+                    $emp->status = $request->type;
+                    $emp->master = [$reg->user_id];
+                    $emp->save();
+
+                    // Change role user to master
+                    $user = User::find($reg->user_id);
+                    $user->role_id = config('constant.roles.employer');
+                    $user->save();
+
+                    break;
+                case config('constant.INACTIVE'):
+                    $reg->status = $request->type;
+                    $reg->save();
+
+                     // Change status of employer
+                    $emp = Employers::find($reg->emp_id);
+                    $emp->status = $request->type;
+                    $emp->save();
+
+                     // Change role to candidate
+                    $user = User::find($reg->user_id);
+                    $user->role_id = config('constant.roles.candidate');
+                    $user->save();
+
+                    break;
+                default:
+                    break;
+            }
+            // Get list master and assistant
+            $list = $this->get_list_master_assistant();
+
+            //Get list new roles
+            return response()->json(['status' => TRUE, 'list'=> $list]);
+
+        } catch (Exception $e) {
+             return response()->json(['status' => FALSE,
+            config('constant.ERROR') => $e->getMessage()]);
+        }
+    }
+
 
         /*END CONFIRM/DENY pending Employer*/
     /*----------------END EMPLOYERS-------------------*/
@@ -648,5 +734,8 @@ class AdminController extends Controller
     }
     private function get_employer_by_id($emp_id) {
         return Employers::where('_id', $emp_id)->first();
+    }
+    private function get_list_master_assistant() {
+        return Registration::with(['user', 'employer'])->orderBy('created_at','desc')->get();
     }
 }

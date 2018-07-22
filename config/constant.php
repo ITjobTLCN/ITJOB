@@ -31,7 +31,10 @@ return [
     'defaultCity' => 'Hồ Chí Minh',
 
     'statusAssistant' => [
-        10, 11, 12
+        10, 11, 12  // 10-pending, 11- approved, 12-denied
+    ],
+    'statusMaster' => [
+        0, 1, 2     // 0-pending, 1- approved, 2-denied
     ],
 
     'statusJob' => [
@@ -92,4 +95,11 @@ return [
      */
     'WEEK' => 'week',
     'YEAR' => 'year',
+
+    /**
+     * Activate or deactivate
+     */
+    'ACTIVE' => 1,
+    'INACTIVE' => 2,
+    'PENDING' => 0,
 ];

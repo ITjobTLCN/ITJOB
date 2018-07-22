@@ -234,6 +234,7 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'prevent-back-hist
 	Route::post('ngeditemp', [ 'as' => 'ngposteditemp', 'uses' => 'AdminController@ngPostEditEmp' ]);
 	Route::delete('ngdeleteemp', [ 'as' => 'nggetdeleteemp', 'uses' => 'AdminController@ngGetDeleteEmp' ]);
 	Route::put('ngconfirmemp', [ 'as' => 'nggetconfirmemp', 'uses' => 'AdminController@ngGetConfirmEmp' ]);
+	Route::put('ngconfirmemp', [ 'as' => 'nggetconfirmemp', 'uses' => 'AdminController@ngGetConfirmEmp' ]);
 	Route::get('ngdenyemp/{id}', [ 'as' => 'nggetdenyemp', 'uses' => 'AdminController@ngGetDenyEmp' ]);
 
 		//Send notification
@@ -270,6 +271,11 @@ Route::group([ 'prefix' => 'admin', 'middleware' => ['admin', 'prevent-back-hist
 
 		//Test
 	Route::get('ngtest',  'StatisticsController@_get_pie_skill');
+
+		// Admin master and assistant
+	Route::get('masters-employees', 'AdminController@loadMasterAssistant');
+	Route::get('ng_mas_ass', 'AdminController@ngGetMasterAssistant');
+	Route::put('ng_mas_ass', 'AdminController@ngEditMasterAssistant');
 });
 Route::get('ng-push-post/{id}', [ 'as' => 'ngPushPost', 'uses' => 'EmployerController@ngPushPost' ]);
 	/**--------------EMPLOYER ROUTE--------------------*/

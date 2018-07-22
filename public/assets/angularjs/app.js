@@ -35,6 +35,6 @@ app.constant('Constant', {
 
     STATUS: {
         ACTIVATE : 1,
-        DEACTIVATE : 0
+        DEACTIVATE : 2,
     }
 });
