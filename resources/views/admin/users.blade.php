@@ -30,6 +30,9 @@
 						<th ng-click="sort('name')" style="width: 15%">Name
 							<span class="glyphicon sort-icon" ng-show="sortType=='name'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
 						</th>
+						<th ng-click="sort('roles.name')">Role
+							<span class="glyphicon sort-icon" ng-show="sortType=='roles.name'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
+						</th>
 						<th ng-click="sort('created_at')" style="width: 20%">Created Date
 							<span class="glyphicon sort-icon" ng-show="sortType=='created_at'" ng-class="{'glyphicon-chevron-up':!sortReverse,'glyphicon-chevron-down':sortReverse}" >
 						</th>
@@ -51,6 +54,7 @@
 							</div>
 						</td>
 						<td><%item.name%></td>
+						<td><%item.roles.name%></td>
 						<td><%item.created_at%></td>
 						<td><%item.updated_at%></td>
 						<td><%item.lastlogin%></td>

@@ -632,7 +632,7 @@ class AdminController extends Controller
      * Order: Desc
      */
     private function get_list_users() {
-        return User::orderBy('created_at','desc')->get();
+        return User::with('roles')->orderBy('created_at','desc')->get();
     }
     private function get_list_roles() {
         return Roles::orderBy('created_at', 'desc')->get();

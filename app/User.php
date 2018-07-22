@@ -46,4 +46,8 @@ class User extends Eloquent implements Authenticatable
     public function isOnline() {
         return Cache::has('user-is-online-'.$this->id);
     }
+
+    public function roles() {
+        return $this->belongsTo('App\Roles', 'role_id', '_id');
+    }
 }
