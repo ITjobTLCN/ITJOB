@@ -60,7 +60,13 @@
             <li class="sign-in text-center"><a href="{{route('login')}}">Sign In</a>
                 @endif
             </li>
-            <li class="employer_site text-center"><a href="{{route('getEmp')}}">
+            <li class="employer_site text-center"><a href="
+                @if(Auth::check() && !in_array(Auth::user()->role_id, ['5ac85f51b9068c2384007d9d']))
+                    /emp
+                @else
+                    /admin/statistics
+                @endif
+            ">
                 @if(Auth::check() && !in_array(Auth::user()->role_id, ['5ac85f51b9068c2384007d9c']))
                 Manager Page
                 @else
