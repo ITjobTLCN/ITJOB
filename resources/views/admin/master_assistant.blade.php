@@ -90,41 +90,6 @@
 			</div>
         </div>
     </div>
-    <!-- Modal -->
-    <div class="modal fade" id="role_modal" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><%role_modal_title%></h4>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="alert alert-danger" ng-show="errors!=undefined">
-							<p><%errors%></p>
-						</div>
-                        <div class="form-group">
-                            <label for="">Role name: </label>
-                            <input type="text" class="form-control" placeholder="Enter role name" ng-model="role.name" >
-                        </div>
-                        <div class="form-group">
-                            <label for="">Detail: </label>
-                            <input type="text" class="form-control" placeholder="Enter role detail" ng-model="role.detail" >
-                        </div>
-                        <div class="form-group">
-                            <label for="">Route: </label>
-                            <input type="text" class="form-control" placeholder="Enter role route" ng-model="role.route" >
-                        </div>
-                        <div class="text-right">
-                            <button type="button" class="btn btn-primary" ng-click="save()">Save</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 @endsection
