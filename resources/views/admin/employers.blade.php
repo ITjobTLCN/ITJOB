@@ -3,7 +3,7 @@
 @section('secondary-title') List employers @endsection
 @section('content')
 <div ng-controller="EmpController">
-    <div class="box">
+    <div class="box" ng-init="init()">
         <div class="box-body">
 			<div class="datatable-above">
                 <span>Show: </span>
@@ -137,19 +137,19 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="master" class="control-label">Choose masters for employer (Maximum: 2): </label>
-									<ui-select multiple ng-model="multiple.masters" theme="bootstrap" sortable="true" ng-disabled="false" title="Choose a master">
+									<ui-select multiple ng-model="multiple.master" theme="bootstrap" sortable="true" ng-disabled="false" title="Choose a master">
 										<ui-select-match placeholder="Select master..."><%$item.name%></ui-select-match>
 										<ui-select-choices repeat="user in users | filter:$select.search">
-										<%user.name%>
+										<% user.name %>
 										</ui-select-choices>
 									</ui-select>
-									<p ng-repeat="master in multiple.masters"><%master._id%></p>
+									<p ng-repeat="master in multiple.master"><%master._id%></p>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label for="employee" class="control-label">Choose employees for employer (Maximum: 5): </label>
-									<ui-select multiple ng-model="multiple.employees" theme="bootstrap" sortable="true" ng-disabled="false" title="Choose a employee">
+									<ui-select multiple ng-model="multiple.employee" theme="bootstrap" sortable="true" ng-disabled="false" title="Choose a employee">
 										<ui-select-match placeholder="Select employee..."><%$item.name%></ui-select-match>
 										<ui-select-choices repeat="user in users | filter:$select.search">
 										<%user.name%>

@@ -512,37 +512,37 @@ class AdminController extends Controller
             'name' => $request->employer['name'],
             'alias' => $this->changToAlias($request->employer['name']),
             'info' => [
-                'website' => $request->employer['info']['website'],
-                'description' => $request->employer['info']['description'],
-                'phone' => $request->employer['info']['phone']
+                'website' => $request->employer['info']['website'] ?? '',
+                'description' => $request->employer['info']['description'] ?? '',
+                'phone' => $request->employer['info']['phone'] ?? ''
             ],
             'status' => $request->employer['status']
         ];
-        if(isset($request->multiple['masters'])) {
-            $data_update['masters'] = $request->multiple['masters'];
+        if (isset($request->multiple['master'])) {
+            $data_update['master'] = $request->multiple['master'];
         }
-        if(isset($request->multiple['employees'])) {
-            $data_update['employees'] = $request->multiple['employees'];
+        if (isset($request->multiple['employee'])) {
+            $data_update['employee'] = $request->multiple['employee'];
         }
-        if(isset($request->multiple['skills'])) {
+        if (isset($request->multiple['skills'])) {
             $data_update['skills'] = $request->multiple['skills'];
         }
-        if(isset($request->multiple['addresses'])) {
-            $data_update['addresses'] = $request->multiple['addresses'];
+        if (isset($request->multiple['address'])) {
+            $data_update['address'] = $request->multiple['address'];
         }
 
-        try{
-            $emp = Employers::findOrFail($request->employer['_id']);
+        try {
+            // $emp = Employers::findOrFail($request->employer['_id']);
             //$data_update = $this->formatInputToSave($data_update);
             // var_dump($data_update); die;
-            $emp->update($data_update);
 
+            $test = Employers::where('_id', $request->employer['_id'])->update($data_update);
             // $emp->update('name', 'updated');
             // $emp->save();
             //get all data and send to update table
             $emps = $this->get_list_employers();
             return response()->json([config('constant.STATUS')=>TRUE,config('constant.MESSAGE')=>'Edit Successfully',config('constant.EMPLOYERS')=>$emps]);
-        }catch(Exception $e){
+        } catch(Exception $e) {
             return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>'Edit failed']);
         }
     }

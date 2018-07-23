@@ -5,20 +5,23 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 		$scope.loadMasterAssistant();
 	}
 
-	$http.get('admin/ngemps').then(function(response){
+	$http.get('admin/ngemps').then(function(response) {
 		console.log(response);
 		$scope.emps = response.data.emps;
 		$scope.resetMultiple();
 	},function(error){
-		alert('ERROR');
+		toaster.pop('error', 'ERROR', error);
 	});
 
 	// Get all master & all employer (users)
 	$http.get('admin/ngusers').then(function (response) {
-		console.log(response);
-		$scope.users = response.data.users;
+		debugger;
+		$scope.users = _.filter(response.data.users, function(o) {
+			return o.role_id == Constant.ROLE_CANDIDATE;
+		});
+		console.log($scope.users);
 	}, function (error) {
-		alert('ERROR');
+		toaster.pop('error', 'ERROR', error);
 	});
 
 	// Get all skills employer
@@ -26,7 +29,7 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 		console.log(response);
 		$scope.skills = response.data.skills;
 	}, function (error) {
-		alert('ERROR');
+		toaster.pop('error', 'ERROR', error);
 	});
 
 	// Get all cities employer
@@ -34,7 +37,7 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 		console.log(response);
 		$scope.cities = response.data.cities;
 	}, function (error) {
-		alert('ERROR');
+		toaster.pop('error', 'ERROR', error);
 	});
 
 
@@ -42,25 +45,33 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 		$scope.resetMultiple();
 		$scope.state = state;
 		$scope.employer = item;
-		switch(state){
+		switch(state) {
 			case Constant.MODAL_ADD:
 				$scope.modal_title = Constant.MODAL_ADD_EMPLOYER_TITLE;
 				break;
 			case Constant.MODAL_EDIT:
 				$scope.modal_title = Constant.MODAL_EDIT_EMPLOYER_TITLE;
-				$scope.multiple.masters = item.masters;
-				$scope.multiple.employees = item.employees;
-				$scope.multiple.skills = item.skills;
-				$scope.multiple.cities = item.addresses;
+				var arr = [
+					'master', 'employee', 'skills', 'address'
+				];
+				angular.forEach(arr, function($val, $key) {
+					if ($val == 'address') {
+						$scope.multiple.cities = angular.copy(item[$val]);
+					} else {
+						_.set($scope.multiple, $val, _.isUndefined(item[$val]) ? [] : item[$val]);
+					}
+				});
 				break;
 			default:
 				break;
 		}
+
 		$('#modal-emp').modal('show');
 	}
 
-	$scope.save = function(){
+	$scope.save = function() {
 		// Get multiple
+		debugger;
 		var multiple = $scope.getMultiple();
 		var data = $.param(
 			{
@@ -91,13 +102,13 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 			}
 		}).then(function (response) {
 			if (response.data.status == true) {
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 				$scope.emps = response.data.emps;
 			} else {
-				alert(response.data.message);
+				toaster.pop('error', 'Error', response.data.message);
 			}
 		}, function (error) {
-			alert("Can't delete data");
+			toaster.pop('error', 'Error', 'Can not delete data');
 		});
 
 	}
@@ -118,7 +129,7 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 			}
 		}).then(function (response) {
 			if (response.data.status == true) {
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 				$scope.emps.splice(0, 0, response.data.emp);
 				$('#modal-emp').modal('hide');
 			} else {
@@ -126,7 +137,7 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 				$('#ng-errors-alert').fadeIn(100).delay(5000).fadeOut(100);
 			}
 		}, function (error) {
-			alert("Can't add data");
+			toaster.pop('error', 'ERROR', 'Can not add data');
 		});
 	}
 	$scope.edit_employer = function(data) {
@@ -137,7 +148,8 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 			headers: { 'Content-type': 'application/x-www-form-urlencoded' }
 		}).then(function (response) {
 			if (response.data.status == true) {
-				alert(response.data.message);
+				debugger;
+				toaster.pop('success', 'Success', response.data.message);
 				$scope.emps = response.data.emps;
 				$('#modal-emp').modal('hide');
 			} else {
@@ -145,7 +157,7 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 				$('#ng-errors-alert').fadeIn(100).delay(5000).fadeOut(100);
 			}
 		}, function (error) {
-			alert("Can't edit data");
+			toaster.pop('error', 'ERROR', 'Can not edit data');
 		});
 	}
 
@@ -176,11 +188,12 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 	 * Multiple select
 	 */
 	$scope.resetMultiple = function() {
-		$scope.multiple = {};
-		$scope.multiple.masters = [];
-		$scope.multiple.employees = [];
-		$scope.multiple.skills = [];
-		$scope.multiple.cities = [];
+		$scope.multiple = {
+			master : [],
+			employee : [],
+			skills : [],
+			cities : []
+		}
 	}
 
 
@@ -190,25 +203,25 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 		var employee_ids = [];
 		var skill_ids = [];
 		var addresses = [];
-		$.each($scope.multiple.masters, function (index, value) {
-			master_ids.push({ _id: value._id, name: value.name});
+		$.each($scope.multiple.master, function (index, value) {
+			master_ids.push(value);
 		});
-		$.each($scope.multiple.employees, function (index, value) {
-			employee_ids.push({ _id: value._id, name: value.name });
+		$.each($scope.multiple.employee, function (index, value) {
+			employee_ids.push(value);
 		});
 		$.each($scope.multiple.skills, function (index, value) {
 			skill_ids.push({ _id: value._id, name: value.name });
 		});
 		$.each($scope.multiple.cities, function (index, value) {
 			let detail = $(`#cities_detail_${value._id}`).val();
-			let address = { _id: value._id, name: value.name, detail: detail }
-			addresses.push(address);
+			let add = { _id: value._id, name: value.name, detail: detail }
+			addresses.push(add);
 		});
 		return {
-			masters: master_ids,
-			employees: employee_ids,
+			master: master_ids,
+			employee: employee_ids,
 			skills: skill_ids,
-			addresses: addresses
+			address: addresses
 		}
 	}
 
@@ -239,10 +252,10 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 				toaster.pop('success', 'Success', response.data.message);
 				$scope.emps = response.data.emps;
 			} else {
-				alert(response.data.message);
+				toaster.pop('error', 'Error', response.data.message);
 			}
 		}, function (error) {
-			alert("Can't confirm data");
+			toaster.pop('error', 'Error', 'Can not confirm data');
 		});
 	}
 

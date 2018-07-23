@@ -1,4 +1,4 @@
-app.controller('UsersController', function ($scope, $http, Constant) {
+app.controller('UsersController', function ($scope, $http, Constant, toaster) {
 	/*function load default data -- using getadminusers -- method: AdminController@getUsers*/
 	$http({
 		method:'GET',
@@ -7,7 +7,7 @@ app.controller('UsersController', function ($scope, $http, Constant) {
 		$scope.users = response.data.users;
 		$scope.constant = Constant;
 	},function(error){
-		alert(error.message);
+		toaster.pop('error', 'ERROR', error.message);
 	});
 
 
@@ -124,7 +124,7 @@ app.controller('UsersController', function ($scope, $http, Constant) {
 			}
 		}).then(function (response) {
 			if (response.data.status == true) {
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 				//push user to scope user
 				$scope.users.splice(0, 0, response.data.user);
 				//close modal
@@ -134,7 +134,7 @@ app.controller('UsersController', function ($scope, $http, Constant) {
 				$('#ng-errors-alert').fadeIn(100).delay(5000).fadeOut(100);
 			}
 		}, function (error) {
-			alert(error);
+			toaster.pop('error', 'ERROR', error);
 		});
 	}
 
@@ -148,7 +148,7 @@ app.controller('UsersController', function ($scope, $http, Constant) {
         	}
         }).then(function (response) {
         	if (response.data.status == true) {
-        		alert(response.data.message);
+        		toaster.pop('success', 'Success', response.data.message);
 
         		// Update list user
         		$scope.users = response.data.users;
@@ -159,7 +159,7 @@ app.controller('UsersController', function ($scope, $http, Constant) {
         		$('#ng-errors-alert').fadeIn(100).delay(5000).fadeOut(100);
         	}
         }, function (error) {
-        	alert(error);
+        	toaster.pop('error', 'ERROR', error);
         });
 	}
 
@@ -176,7 +176,7 @@ app.controller('UsersController', function ($scope, $http, Constant) {
 			}
 		}).then(function (response) {
 			if (response.data.status == true) {
-				alert(response.data.message);
+				toaster.pop('success', 'Success', response.data.message);
 				//delete then load list user send to scope user
 				$scope.users = response.data.users;
 			} else {
@@ -186,7 +186,7 @@ app.controller('UsersController', function ($scope, $http, Constant) {
 				}, 5000);
 			}
 		}, function (error) {
-			alert(error);
+			toaster.pop('error', 'ERROR', error);
 		});
 	}
 
@@ -199,8 +199,9 @@ app.controller('UsersController', function ($scope, $http, Constant) {
 		}).then(function (response) {
 			$scope.roles = response.data.roles;
 		}, function (error) {
-			alert('error');
+			toaster.pop('error', 'ERROR', error);
 		});
+
 		return roles;
 	}
 

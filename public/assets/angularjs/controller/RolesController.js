@@ -29,7 +29,6 @@ app.controller('RolesController', function ($scope, $http, $timeout, Constant, t
 
     // Save data
     $scope.save = function() {
-        debugger;
         $scope.errors = undefined;
         var data = {};
         if (!_.isUndefined($scope.role)) {

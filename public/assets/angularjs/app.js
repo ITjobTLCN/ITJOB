@@ -36,5 +36,6 @@ app.constant('Constant', {
     STATUS: {
         ACTIVATE : 1,
         DEACTIVATE : 2,
-    }
+    },
+    ROLE_CANDIDATE: '5ac85f51b9068c2384007d9c'
 });
