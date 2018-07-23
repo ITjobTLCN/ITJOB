@@ -265,7 +265,8 @@ class JobsController extends Controller
                         $wheres = [
                             'skills_id' => [
                                 '$in' => [$skill->_id]
-                            ]
+                            ],
+                            'status' => 1
                         ];
                         if (!empty($city)) {
                             $wheres['city'] = $city->name;
@@ -300,7 +301,8 @@ class JobsController extends Controller
                 '$text' => [
                     '$search' => $key
                 ],
-                'city' => !empty($city->name) ? $city->name : config('constant.defaultCity')
+                'city' => !empty($city->name) ? $city->name : config('constant.defaultCity'),
+                'status' => 1
             ];
 
             $jobs = Job::where($arrWheres)->get();
