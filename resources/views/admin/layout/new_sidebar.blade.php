@@ -67,7 +67,7 @@
                             <i class="fa fa-user-circle"></i> Employers</a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)">
+                        <a href="admin/masters-employees">
                         <i class="fa fa-user-circle-o"></i> Masters &amp; Employees</a>
                     </li>
                 </ul>

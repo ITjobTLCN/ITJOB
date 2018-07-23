@@ -260,25 +260,33 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 	/**
 	 * Activate Master or Assistant
 	 */
-	$scope.activate = function (id, type) { //
-		var data = $.param({
-			id: id,
-			type: type
-		});
-		$http({
-			method: 'put',
-			url: 'admin/ng_mas_ass',
-			data: data,
-			headers: {
-				'Content-type': 'application/x-www-form-urlencoded'
+	$scope.activate = function (id, type) {
+		var content = '';
+		if (type == Constant.STATUS.ACTIVATE) content = 'activate';
+		if (type == Constant.STATUS.DEACTIVATE) content = 'deactivate';
+		bootbox.confirm("Are you sure want to " + content + "?", function (result) {
+			if(result) {
+				var data = $.param({
+					id: id,
+					type: type
+				});
+				$http({
+					method: 'put',
+					url: 'admin/ng_mas_ass',
+					data: data,
+					headers: {
+						'Content-type': 'application/x-www-form-urlencoded'
+					}
+				}).then(function (response) {
+					if (response.data.status == true) {
+						toaster.pop('success', 'Success', 'Edited success');
+						$scope.list_master_assis = response.data.list;
+					}
+				}, function (error) {
+					toaster.pop('error', 'Error', error);
+				});
 			}
-		}).then(function (response) {
-			if (response.data.status == true) {
-				toaster.pop('success', 'Success', 'Edited success');
-				$scope.list_master_assis = response.data.list;
-			}
-		}, function (error) {
-			toaster.pop('error', 'Error', error);
 		});
+
 	}
 });

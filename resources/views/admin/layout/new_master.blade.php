@@ -76,7 +76,7 @@
                 </ol>
             </section>
         <toaster-container toaster-options="{'time-out': 3000}"></toaster-container>
-    
+
             <!-- Main content -->
             <section class="content" id="king-content">
                 @yield('content')
@@ -97,6 +97,8 @@
         <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
+
+
 
     <!-- jQuery 3 -->
     <script src="assets/js/jquery.js"></script>
@@ -139,6 +141,9 @@
 
     <!-- My Custom -->
     <script src="assets/js/new_admin.js"></script>
+
+    <!-- Bootbox confirm -->
+    <script src="assets/js/bootbox.js"></script>
 
 
         <!-- AngularJS   -->
