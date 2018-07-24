@@ -119,7 +119,7 @@ trait JobMethod
 			],
 			'status' => 1,
 			'skills_id' => [
-				'$in' => $job->skills_id
+				'$in' => $job->skills_id ?? []
 			]
 		];
 
