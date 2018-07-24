@@ -152,7 +152,12 @@ trait CompanyMethod
                 'hirring' => 0,
                 'deleted' => 0
             ],
-            'status' => 0
+            'status' => 0,
+            'images' => [
+                'cover' => '',
+                'avatar' => '',
+                'details' => []
+            ]
         ];
         try {
             return $emp->insertGetId($this->formatInputToSave($arrInsert));
