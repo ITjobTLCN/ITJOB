@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="row row-salary">
                                             <span class="tag-salary">Salary: <strong class="">
-        										@if(Auth::check()) {{ $job->detail['salary'] }}
+        										@if(Auth::check()) {{ $job->detail['salary'] }} $
         										@else <a href="" data-toggle="modal" data-target="#loginModal">Login to see salary</a>
         										@endif
         									</strong>
