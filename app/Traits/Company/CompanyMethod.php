@@ -18,8 +18,15 @@ trait CompanyMethod
             return;
         }
 
+        $where = [
+            '$or' => [
+                ['employee' => ['$in' => [Auth::id()]]],
+                ['master' => ['$in' => [Auth::id()]]]
+            ]
+        ];
+
         return Employers::with('city')
-                        ->whereIn($type, [Auth::id()])
+                        ->where($where)
                         ->first();
     }
 

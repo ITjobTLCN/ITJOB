@@ -165,7 +165,7 @@ $(document).ready(function() {
 				required: true,
 				email: true,
 			},
-			new_cv: {
+			cv: {
 				required: true,
 				extension: "pdf|doc|docx",
 			}
@@ -178,7 +178,7 @@ $(document).ready(function() {
 				required: "Vui lòng nhập email",
 				email: "Email không đúng định dạng",
 			},
-			new_cv: {
+			cv: {
 				required: "Vui lòng đính kèm CV",
 				extension: "Vui lòng đính kèm file .doc .docx hoặc .pdf"
 			}

@@ -51,8 +51,8 @@ $(document).ready(function() {
 			source: lstJobs.ttAdapter(),
 			limit: 20,
 			templates: {
-				empty:function(){ },
-				suggestion:function(data) {
+				empty: function() {},
+				suggestion: function(data) {
 					return '<li class="typeahead-search"><span>' + data.name +'</span></li>';
 				}
 			}

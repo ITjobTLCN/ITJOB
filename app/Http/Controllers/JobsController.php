@@ -462,7 +462,7 @@ class JobsController extends Controller
                             ->with(['message' => $checkAlreadyApply->getData()->message]);
         }
         $data = $req->only([
-            'job_id', 'fullname', 'email', 'new_cv', 'note'
+            'job_id', 'fullname', 'email', 'new_cv', 'note', 'cv'
         ]);
         $arrResponse = $this->saveApplication($data);
 

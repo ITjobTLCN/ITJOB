@@ -17,7 +17,7 @@ Application
 				<div class="wrapper-form-apply">
 					<div class="form-apply">
 						<form id="formApply" enctype="multipart/form-data" method="post" action="{{route('applyJob')}}">
-							<div class="form-group">
+							<div class="form-group" style="margin-top: 10px">
 								@if(session('message'))
 									<div class="alert alert-success alert-dismissable">
 											<a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
@@ -39,11 +39,13 @@ Application
 							</div>
 							<div class="form-group">
 								<label class="inputCV" for="pwd">Your CV:</label>
-								@if($user->cv != null)
-										<a href="uploads/user/cv/{{$user->cv}}" download>{{$user->cv}}</a>
-									@endif
-									<input type="file" class="form-control" name="new_cv" id="new_cv" placeholder="Select your CV...">
+									@if($user->cv != null)
+										<a href="cv/views/{{$user->cv}}" target="_blank"><input type="text" name="cv" id="cv" value="{{$user->cv}}" style="border: none; margin-bottom: 5px"></a>
+										<input type="file" class="form-control" name="new_cv" id="new_cv" placeholder="Select your CV...">
+									@else
+									<input type="file" class="form-control" name="cv" id="cv" placeholder="Select your CV...">
 									<span>We accept .doc .docx and .pdf files up to 1MB</span>
+									@endif
 							</div>
 							<div class="form-group">
 								<span>What skills, work projects or achievements make you a strong candidate? (Recommended)</span>

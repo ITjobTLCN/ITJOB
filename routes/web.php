@@ -86,7 +86,7 @@ Route::group([ 'prefix' => 'companies'], function() {
 		'as' => 'searchCompanies',
 		'uses' => 'CompanyController@getCompaniesReview'
 	]);
-	Route::get('search-companies-by-name', [ 'as' => 'searchCompaniesByName', 'uses' => 'CompanyController@searchCompaniesByName' ]);
+	Route::get('search', [ 'as' => 'searchCompaniesByName', 'uses' => 'CompanyController@searchCompaniesByName' ]);
 	//click to follow conpany
 	Route::get('follow-company', [ 'as' => 'followCompany', 'uses' => 'CompanyController@followCompany' ]);
 	//submit review companies

@@ -9,15 +9,40 @@ use App\Employers;
 use Hash;
 use MongoDB\BSON\UTCDateTime;
 use Auth;
+use File;
+use Storage;
 use App\Notifications\NotifyApplication;
 
 trait ApplyMethod {
 	protected function saveApplication($data) {
 		$filename = "";
-		if (!empty($data['new_cv'])) {
-            $cv = $data['new_cv'];
-            $filename = $cv->getClientOriginalName();
-            $cv->move('uploads/emp/cv/', $filename);
+		if (!empty($data['cv'])) {
+			if (!empty($data['new_cv'])) {
+				$newCV = $data['new_cv'];
+				$file_extension = File::extension($newCV->getClientOriginalName());
+				$filename = 'cv-' . $this->changToAlias(Auth::user()->name) . '.' . $file_extension;
+
+	           	$newCV->move('uploads/emp/cv/', $filename);
+			} else {
+				$cv = $data['cv'];
+				if (!file_exists(public_path() . "/uploads/user/cv/{$cv}")) {
+					$file_extension = File::extension($cv->getClientOriginalName());
+					if (Auth::check()) {
+						$filename = 'cv-' . $this->changToAlias(Auth::user()->name) . '.' . $file_extension;
+					} else {
+						$filename = 'CV' . time() . '.' . $file_extension;
+					}
+
+	            	$cv->move('uploads/emp/cv/', $filename);
+	            } else {
+	        		try {
+	        			File::copy(public_path() . "/uploads/user/cv/{$cv}", public_path() . "/uploads/emp/cv/{$cv}");
+				    	$filename = $cv;
+	        		} catch(\Exception $ex) {
+	        			return $ex->getMessages();
+	        		}
+	            }
+			}
         }
 
 		$arrData = [
@@ -34,7 +59,7 @@ trait ApplyMethod {
 			$arrData['employer_id'] = $job['employer_id'];
 		}
 		$objApplication = new Applications();
-		$id = $objApplication->insert($this->formatInputToSave($arrData));
+		$id = $objApplication->insertGetId($this->formatInputToSave($arrData));
        	if ( !empty($id)) {
        		// send notify to owners of post
        		$employer = Employers::where('_id', $job['employer_id'])->first();

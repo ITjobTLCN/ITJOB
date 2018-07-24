@@ -32,12 +32,11 @@ trait JobMethod
 
 	protected function checkUserAlreadyApply($email, $jobId) {
 		$arrWhere = [
-			'_id' => $jobId,
-			'apply_info' => [
-				'email' => $email
-			]
+			'job_id' => $jobId,
+			'email' => $email
 		];
-		$temp = Job::where($arrWhere)->first();
+
+		$temp = Applications::where($arrWhere)->first();
         if (!empty($temp)) {
         	return response()->json([
         		'error' => true,

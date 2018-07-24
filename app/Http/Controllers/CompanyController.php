@@ -184,7 +184,7 @@ class CompanyController extends Controller
                                         <div class='companies-item-info'>
                                             <a href='companies/{$emp->alias}' class='companies-title' target='_blank'>{$emp->name}</a>
                                             <div class='company text-clip'>
-                                                
+
                                             </div>
                                             <div class='description-job'>
                                                 <h3>{$emp->description}</h3>
@@ -242,9 +242,8 @@ class CompanyController extends Controller
         $output = [];
         if ($key != "") {
             $where = [
-                'name' => [
-                    '$regex' => $key,
-                    '$options' => 'i'
+                '$text' => [
+                    '$search' => $key
                 ],
                 'status' => 1
             ];
@@ -259,15 +258,18 @@ class CompanyController extends Controller
 
     public function searchCompaniesByName(Request $request) {
         $com_name = $request->q;
-        $alias = Employers::where('name', $com_name)->value('alias');
-        $match = false;
-        empty($alias) ? $match : $match = true;
-        if (!empty($alias)) {
-            return redirect()->route('getEmployers', $alias);
-        } else {
-            Session::flash('com_name', $com_name);
-            return view('layouts.companies', ['match' => false]);
-        }
+        $where = [
+            '$text' => [
+                '$search' => $com_name
+            ],
+            'status' => 1
+        ];
+        $companies = Employers::where($where)->get();
+        $match = !empty($companies);
+        Session::flash('com_name', $com_name);
+        return view('layouts.companies', ['match' => $match ,
+                                        'companies' => $companies ?? [],
+                                        'cCompanies' => count($companies) ?? 0]);
     }
 
     public function followCompany(Request $request) {
