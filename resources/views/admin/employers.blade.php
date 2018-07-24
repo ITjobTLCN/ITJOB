@@ -77,7 +77,7 @@
 							<%item.created_at%>
 						</td>
 						<td>
-							<button type="button" class="btn btn-sm btn-warning" ng-click="modal(constant.MODAL_EDIT, item)">Edit</button>
+							<button type="button" class="btn btn-sm btn-warning" ng-click="modal(constant.MODAL_EDIT, item)" ng-disabled="item.status == 1">Edit</button>
 							<button type="button" class="btn btn-sm btn-danger" ng-click="delete(item)">Delete</button>
 							<button type="button" class="btn btn-sm btn-info" ng-if="item.status==0 || item.status==2" ng-click="confirm(item._id, 1)">Activate</button>
 							<button type="button" class="btn btn-sm btn-default" ng-if="item.status==1 || item.status==2" ng-click="confirm(item._id, 0)">Deactivate</button>

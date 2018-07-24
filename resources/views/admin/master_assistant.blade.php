@@ -38,7 +38,7 @@
                         <th ng-click="sort('route')" style="width: 20%">Status
                             <span class="glyphicon sort-icon" ng-show="sort_type=='route'" ng-class="{'glyphicon-chevron-up':!sort_reverse,'glyphicon-chevron-down':sort_reverse}"></span>
                         </th>
-                        <th ng-click="sort('created_at')" style="width: 20%">Created
+                        <th ng-click="sort('created_at')" style="width: 20%">Created At
                             <span class="glyphicon sort-icon" ng-show="sort_type=='created_at'" ng-class="{'glyphicon-chevron-up':!sort_reverse,'glyphicon-chevron-down':sort_reverse}"></span>
                         </th>
                         <th style="width: 20%">Actions</th>

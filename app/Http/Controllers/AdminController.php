@@ -466,7 +466,7 @@ class AdminController extends Controller
         $emp = Employers::findOrFail($id);
         return response()->json(['emp'=>$emp]);
     }
-    public function ngPostCreateEmp(Request $request){
+    public function ngPostCreateEmp(Request $request) {
         // Validate
 
         // Prepare data insert
@@ -474,11 +474,11 @@ class AdminController extends Controller
             'name' => $request->employer['name'],
             'alias' => $this->changToAlias($request->employer['name']),
             'info' => [
-                'website' => $request->employer['info']['website'],
-                'description' => $request->employer['info']['description'],
-                'phone' => $request->employer['info']['phone']
+                'website' => $request->employer['info']['website'] ?? '',
+                'description' => $request->employer['info']['description'] ?? '',
+                'phone' => $request->employer['info']['phone'] ?? ''
             ],
-            'status' => $request->employer['status']
+            'status' => intval($request->employer['status'] ?? 1)
         );
         if(isset($request->multiple['masters'])) {
             $data_insert['masters'] = $request->multiple['masters'];
@@ -507,7 +507,7 @@ class AdminController extends Controller
                 config('constant.MESSAGE')=>config('constant.FAIL_CREATE_EMPLOYER')]);
         }
     }
-    public function ngPostEditEmp(Request $request){
+    public function ngPostEditEmp(Request $request) {
         $data_update = [
             'name' => $request->employer['name'],
             'alias' => $this->changToAlias($request->employer['name']),
@@ -516,7 +516,7 @@ class AdminController extends Controller
                 'description' => $request->employer['info']['description'] ?? '',
                 'phone' => $request->employer['info']['phone'] ?? ''
             ],
-            'status' => $request->employer['status']
+            'status' => intval($request->employer['status'] ?? 1)
         ];
         if (isset($request->multiple['master'])) {
             $data_update['master'] = $request->multiple['master'];

@@ -30,11 +30,11 @@
                             <span class="glyphicon sort-icon" ng-show="sort_type=='email'"
                                 ng-class="{'glyphicon-chevron-up':!sort_reverse,'glyphicon-chevron-down':sort_reverse}"></span>
                         </th>
-                        <th ng-click="sort('fullname')" style="width: 15%">Fullname
+                        <th ng-click="sort('fullname')" style="width: 15%">Full Name
                             <span class="glyphicon sort-icon" ng-show="sort_type=='fullname'"
                                 ng-class="{'glyphicon-chevron-up':!sort_reverse,'glyphicon-chevron-down':sort_reverse}"></span>
                         </th>
-                        <th ng-click="sort('job.name')" style="width: 10%">Job name
+                        <th ng-click="sort('job.name')" style="width: 10%">Job Name
                             <span class="glyphicon sort-icon" ng-show="sort_type=='job.name'"
                                 ng-class="{'glyphicon-chevron-up':!sort_reverse,'glyphicon-chevron-down':sort_reverse}"></span>
                         </th>
@@ -89,7 +89,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title text-center"><%application._id%></h4>
+                    <h4 class="modal-title text-center">Application For <strong><%application.job.name%></strong> At <strong><%application.employer.name%></strong></h4>
                 </div>
                 <div class="modal-body">
                     <span>
@@ -113,7 +113,7 @@
                     <hr>
                     <div>
                         <strong ><i class="fa fa-map-marker margin-r-5"></i> CV: </strong>
-                        <a href=""><span class="text-muted"><%application.cv%></span>
+                        <a href="cv/views/<% application.cv %>" target="_blank" title="View CV"><span class="text-muted"><%application.cv%></span>
                         <i class="fa fa-download" aria-hidden="true"></i></a>
                     </div>
                     <div>

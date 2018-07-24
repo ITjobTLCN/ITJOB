@@ -15,7 +15,6 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 
 	// Get all master & all employer (users)
 	$http.get('admin/ngusers').then(function (response) {
-		debugger;
 		$scope.users = _.filter(response.data.users, function(o) {
 			return o.role_id == Constant.ROLE_CANDIDATE;
 		});
@@ -71,7 +70,6 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 
 	$scope.save = function() {
 		// Get multiple
-		debugger;
 		var multiple = $scope.getMultiple();
 		var data = $.param(
 			{
@@ -148,7 +146,6 @@ app.controller('EmpController', function ($scope, $http, Constant, toaster) {
 			headers: { 'Content-type': 'application/x-www-form-urlencoded' }
 		}).then(function (response) {
 			if (response.data.status == true) {
-				debugger;
 				toaster.pop('success', 'Success', response.data.message);
 				$scope.emps = response.data.emps;
 				$('#modal-emp').modal('hide');

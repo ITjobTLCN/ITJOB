@@ -144,8 +144,8 @@
 								<label for="status" class="control-label col-md-2 label-form-horizontal">Status: </label>
 								<div class="col-md-10">
 									<select name="status" class="form-control" id="status" ng-model="user.status" required>
-										<option value="1" ng-selected="user.status==1">Active</option>
-										<option value="0" ng-selected="user.status==0">Non-active</option>
+										<option value="1" ng-selected="user.status == 1">Active</option>
+										<option value="0" ng-selected="user.status == 0">Non-active</option>
 									</select>
 									<span class="errors" ng-show="(frmCreate.status.$error.required)">
 										Choose status
