@@ -290,7 +290,7 @@
                         <div class="col-md-12 col-sm-12 employer-info">
                             <h3 class="name">{{ $job->employer['name'] }}</h3>
                             <div class="basic-info">
-                                <div class="short">{{ $job->employer['info']['description'] }}</div>
+                                <div class="short">{{ $job->employer['detail']['description'] }}</div>
                                 @foreach($job->employer['address'] ?? [] as $key => $value)
                                     <p><i class="fa fa-home" aria-hidden="true"></i> Chi nhánh {{ $key + 1}}: {{ $value['detail'] }}</p>
                                 @endforeach

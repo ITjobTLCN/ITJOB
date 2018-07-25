@@ -107,7 +107,8 @@ class EmployerController extends Controller
             //
             $user->role_id = '5ac85f51b9068c2384007d9f';
             $user->save();
-            $employee = $emp->employee;
+
+            $employee = $emp->employee ?? [];
             array_push($employee, $req->userId);
             $emp->employee = array_unique($employee);
             $emp->save();
@@ -420,7 +421,7 @@ class EmployerController extends Controller
             $post->save();
 
             //notification to user
-            $post->user->notify(new ConfirmPost($post, false, Auth::user()));
+        $post->user->notify(new ConfirmPost($post, false, Auth::user()));
 
             return response()->json(['status' => true, 'message' => 'Deny Successfully']);
         } catch(Exception $e) {

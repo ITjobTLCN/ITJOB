@@ -99,7 +99,6 @@ trait JobMethod
 		$today = Carbon::now()->startOfDay();
 		$arrWhere = [
 			'employer_id' => $empId,
-			'deleted' => false,
 			'created_at' => [
 				'$gt'  => $today->subDays(3),
 				'$lte' => $today

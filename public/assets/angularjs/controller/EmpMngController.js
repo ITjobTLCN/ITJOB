@@ -28,8 +28,8 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 				'phone' : infoEmployer.info.phone,
 				'description' : infoEmployer.info.description,
 				'schedule' : '',
-				'cover' : infoEmployer.images.cover,
-				'avatar' : infoEmployer.images.avatar
+				'cover': infoEmployer.images.cover,
+				'avatar': infoEmployer.images.avatar
 			};
 			$scope.empId = infoEmployer._id;
 			$scope.myskills = _.get(data, 'myskills', []);
