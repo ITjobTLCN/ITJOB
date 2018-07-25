@@ -579,6 +579,12 @@ class AdminController extends Controller
                 if (!empty($users)) {
                     foreach ($users as $key => $value) {
                        User::where('_id', $value['_id'])->update(['role_id' => config('constant.roles.employer')]);
+                       // update register info
+                       $where = [
+                            'user_id' => $value['_id'],
+                            'emp_id' => $emp['_id']
+                       ];
+                       Registration::where($where)->update(['status' => 1]);
                     }
                 }
             }
