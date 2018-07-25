@@ -103,15 +103,9 @@ class JobsController extends Controller
                     $info_skill = [];
                 }
                 array_push($info_skill, $skill->_id);
-                $arrWheres['$or'][]['name'] = [
-                    '$regex' => $key,
-                    '$options' => 'i'
+                $arrWheres['skills_id'] = [
+                    '$in' => [$skill->_id]
                 ];
-                $arrWheres['$or'][]['alias'] = [
-                    '$regex' => $key,
-                    '$options' => 'i'
-                ];
-                $i = 2;
             } else {
                 $arrWheres['$text'] = [
                     '$search' => $key
@@ -126,14 +120,14 @@ class JobsController extends Controller
         }
         if (!empty($info_salary)) {
             $arrSalary = explode('-', $info_salary[0]);
-            $arrWheres['$or'][$i]['$and'][]['detail.salary'] = [
+            $arrWheres['$or'][0]['$and'][]['detail.salary'] = [
                 '$gte' => intval($arrSalary[0]),
                 '$lt' => intval($arrSalary[1])
             ];
         }
 
         if (!empty($info_skill)) {
-            $arrWheres['$or'][$i]['$and'][]['skills_id'] = [
+            $arrWheres['$or'][0]['$and'][]['skills_id'] = [
                 '$in' => array_unique($info_skill)
             ];
         }
@@ -291,21 +285,31 @@ class JobsController extends Controller
 
     public function getJobFullOption($key, $cityAlias) {
         $this->clearCacheSearch();
-        $jobs = new Job();
+        $jobs = [];
         $match = true;
         $city = $this->getCityByKey($cityAlias);
         if (empty($this->getJobByKey($key)) && empty($city)) {
            $match = false;
         } else {
-            $arrWheres = [
-                '$text' => [
-                    '$search' => $key
-                ],
-                'city' => !empty($city->name) ? $city->name : config('constant.defaultCity'),
-                'status' => 1
-            ];
+            $skill = Skills::where('name', $key)->orWhere('alias', $key)->first();
 
-            $jobs = Job::where($arrWheres)->get();
+            if (!empty($skill)) {
+                $arrWheres['$or'][]['skills_id'] = [
+                    '$in' => [$skill['_id']]
+                ];
+            } else {
+                $arrWheres['$or'][] = [
+                    '$text' => [
+                        '$search' => $key
+                    ]
+                ];
+            }
+            $arrWheres['city'] = !empty($city->name) ? $city->name : config('constant.defaultCity');
+            $arrWheres['status'] = 1;
+            $jobs = Job::with('employer')
+                        ->where($arrWheres)
+                        ->orderBy('_id', 'desc')
+                        ->get();
         }
 
         Session::flash('jobname', $key);
@@ -313,7 +317,7 @@ class JobsController extends Controller
         Cache::put('city', !empty($city->name) ? $city->name : config('constant.defaultCity'), 10);
 
         return view('layouts.alljobs', ['countjob' => count($jobs),
-                                        'listJobLastest' => $jobs,
+                                        'listJobLastest' => $jobs ?? [],
                                         'match' => $match]);
     }
     //get list job by location

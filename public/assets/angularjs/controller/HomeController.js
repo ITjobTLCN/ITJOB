@@ -26,11 +26,11 @@ app.controller('HomeController', function($scope, $http, toaster) {
 		$http(req).then(function(response) {
 			if (response.data.status) {
 				toaster.pop('success', 'Success', response.data.message);
+				$scope.reset();
 			} else {
 				toaster.pop('warning', 'Warning', response.data.message);
 			}
 
-			$scope.reset();
 		}, function(error) {
 			toaster.pop('error', 'ERROR', 'cannot post data to server');
 		});

@@ -568,11 +568,21 @@ class AdminController extends Controller
         /*END CRUD Employer*/
 
         /*CONFIRM/DENY pending Employer*/
-    public function ngGetConfirmEmp(Request $request){
+    public function ngGetConfirmEmp(Request $request) {
         try{
             $emp = Employers::findOrFail($request->_id);
             // $emp->update(['status', $request->status]);
             $emp->status = intval($request->status);
+            $master = $emp['master'] ?? [];
+            if (!empty($master)) {
+                $users = User::whereIn('_id', $master)->get()->toArray();
+                if (!empty($users)) {
+                    foreach ($users as $key => $value) {
+                       User::where('_id', $value['_id'])->update(['role_id' => config('constant.roles.employer')]);
+                    }
+                }
+            }
+
             $emp->save();
 
             $emps = $this->get_list_employers();
@@ -580,9 +590,9 @@ class AdminController extends Controller
             //send notification
             // $user->notify(new ConfirmEmployer($emp,TRUE));
 
-            return response()->json([config('constant.STATUS')=>TRUE,config('constant.MESSAGE')=>'Confirm Successfully',config('constant.EMPLOYERS')=>$emps]);
-        }catch(Exception $e){
-            return response()->json([config('constant.STATUS')=>FALSE,config('constant.MESSAGE')=>'Confirm failed']);
+            return response()->json([config('constant.STATUS') => TRUE, config('constant.MESSAGE') => 'Confirm Successfully',config('constant.EMPLOYERS') => $emps]);
+        } catch (Exception $e) {
+            return response()->json([config('constant.STATUS') => FALSE, config('constant.MESSAGE') => 'Confirm failed']);
         }
     }
 

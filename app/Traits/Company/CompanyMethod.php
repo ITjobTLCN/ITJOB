@@ -154,10 +154,12 @@ trait CompanyMethod
             ],
             'status' => 0,
             'images' => [
-                'cover' => '',
-                'avatar' => '',
+                'cover' => 'house.png',
+                'avatar' => 'house.png',
                 'details' => []
-            ]
+            ],
+            'master' => [Auth::id()],
+            'employee' => []
         ];
         try {
             return $emp->insertGetId($this->formatInputToSave($arrInsert));
