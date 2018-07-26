@@ -220,9 +220,11 @@ class AdminController extends Controller
         $user->avatar = 'default.jpg';
         $user->save();
 
+        $get_user = User::with('roles')->where('_id', $user->_id)->first();
+
         return response()->json([config('constant.STATUS') => TRUE,
         config('constant.MESSAGE') => config('constant.SUCCESS_CREATE_USER'),
-            config('constant.USER') => $user]);
+            config('constant.USER') => $get_user]);
     }
 
             //----EDIT USER----
@@ -494,6 +496,15 @@ class AdminController extends Controller
         }
         // Create new employer
         try {
+            //
+            if(isset($request->multiple['masters'])) {
+                $master = $request->multiple['masters'];
+                foreach ($master as $mas) {
+                    
+                }
+            }
+
+
             $emp = new Employers();
             $data_insert = $this->formatInputToSave($data_insert);
             $emp_id = $emp->insertGetId($data_insert);

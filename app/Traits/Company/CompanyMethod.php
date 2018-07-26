@@ -143,7 +143,7 @@ trait CompanyMethod
                 ]
             ],
             'info' => [
-                'webiste' => $data['website'],
+                'website' => $data['website'],
             ],
             'quantity_user_follow' => 0,
             'rating' => "0.0",

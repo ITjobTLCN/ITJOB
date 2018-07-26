@@ -105,7 +105,7 @@
                     <hr>
 
                     <strong><i class="fa fa-book margin-r-5"></i> Description</strong>
-                    <p class="text-muted"><%job.detail.description%></p>
+                    <p class="text-muted" ><%job.detail.description%></p>
                     <hr>
 
                     <strong><i class="fa fa-map-marker margin-r-5"></i> Requirement</strong>

@@ -30,7 +30,7 @@ Manage Advance
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-md-3 form-control-label">Webiste</label>
+							<label class="col-md-3 form-control-label">Website</label>
 							<div class="col-md-9">
 								<span ng-show="!editable"><% employer['website'] %></span>
 								<input type="text" ng-show="editable" class="form-control" name="website" placeholder="Employer's website" ng-model="employer.website" required>
