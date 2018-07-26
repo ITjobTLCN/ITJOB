@@ -57,7 +57,7 @@ ITJob - Top Job IT For You
 @section('body.content')
 <div class="container">
 	<section class="top_employers">
-		<h1 class="title text-center">Top Employees</h1>
+		<h1 class="title text-center">Top Employers</h1>
 		<div class="row top-employers__list">
 			@foreach($top_emps as $top_emp)
 		    <div class="col-md-2 col-xs-6 col-sm-4 col-lg-2">

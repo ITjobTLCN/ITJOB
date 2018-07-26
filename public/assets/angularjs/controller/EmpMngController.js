@@ -436,7 +436,7 @@ app.controller('EmployerManagerController', function($http, $scope, $filter, toa
 				$http.get('emp/ng-push-post/' + idPost).then(function(response) {
 					if (response.data.status == true) {
 						//reload data
-						$('#newpost').slideToggle();
+						// $('#newpost').slideToggle();
 						$scope.loadBasic($scope.empId);
 					}
 					toaster.pop('success', 'Success', response.data.message);

@@ -330,6 +330,7 @@ class JobsController extends Controller
         if (!empty($city)) {
             $jobs = Job::where('city', $city->name)
                         ->where('status', 1)
+                        ->orderBy('_id', 'desc')
                         ->offset(0)
                         ->limit(config('constant.limit.job'))
                         ->get();
