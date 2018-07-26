@@ -153,7 +153,7 @@ class JobsController extends Controller
                                 <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
                                     <div class="job-item-info">
                                         <h3 class="bold-red">
-                                            <a href="it-job/' . $job->alias . '/' . $job->id . '" class="job-title" target="_blank" title="'. $job->name . '">' . $job->name . '</a>
+                                            <a href="detail-jobs/' . $job->alias . '/' . $job->id . '" class="job-title" target="_blank" title="'. $job->name . '">' . $job->name . '</a>
                                         </h3>
                                         <div class="company">
                                             <span class="job-search__company">' . $job->employer['name'] . ' </span>
